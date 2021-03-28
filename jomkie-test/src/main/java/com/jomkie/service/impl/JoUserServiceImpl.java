@@ -1,5 +1,6 @@
 package com.jomkie.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jomkie.common.BaseServiceImpl;
 import com.jomkie.dao.JoUserMapper;
 import com.jomkie.dto.JoUserDto;
@@ -20,7 +21,9 @@ public class JoUserServiceImpl extends BaseServiceImpl<JoUserMapper, JoUser> imp
 
     @Override
     public List<JoUserDto> getAll() {
-        List<JoUser> list = joUserMapper.getAll();
+        QueryWrapper<JoUser> queryWrapper = new QueryWrapper<>();
+
+        List<JoUser> list = joUserMapper.selectList(queryWrapper);
         return list.stream().map(bean -> {
             JoUserDto dto = new JoUserDto();
             BeanUtils.copyProperties(bean, dto);

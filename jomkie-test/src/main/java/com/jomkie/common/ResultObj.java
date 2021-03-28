@@ -4,6 +4,8 @@ package com.jomkie.common;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @author Jomkie
  * @date 2021/3/27 23:00:14
@@ -11,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ResultObj<T> {
+public class ResultObj<T> implements Serializable {
 
     private Integer code;
     private String msg;
