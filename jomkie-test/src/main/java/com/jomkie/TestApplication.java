@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author Jomkie
  * @date 2021/3/27 22:35:52
- * 测试
+ * 测试服务
  */
 @SpringBootApplication
 @MapperScan("com.jomkie.**.dao")
