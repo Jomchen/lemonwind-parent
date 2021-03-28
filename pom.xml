@@ -23,6 +23,7 @@
     <lombok.version>1.18.12</lombok.version>
     <baomidou.mybatis.plus.version>3.4.2</baomidou.mybatis.plus.version>
     <mysql.connection.version>8.0.19</mysql.connection.version>
+    <hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
   </properties>
 
   <parent>
@@ -49,6 +50,12 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connection.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate.validator.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
