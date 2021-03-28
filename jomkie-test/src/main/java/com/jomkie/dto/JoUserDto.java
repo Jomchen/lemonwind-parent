@@ -1,5 +1,10 @@
 package com.jomkie.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class JoUserDto {
 
     private Long id;

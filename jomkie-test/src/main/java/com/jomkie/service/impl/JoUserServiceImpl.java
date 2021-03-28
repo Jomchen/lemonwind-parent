@@ -5,6 +5,9 @@ import com.jomkie.dao.JoUserMapper;
 import com.jomkie.dto.JoUserDto;
 import com.jomkie.model.JoUser;
 import com.jomkie.service.JoUserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;

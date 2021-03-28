@@ -1,12 +1,16 @@
 package com.jomkie.common;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Jomkie
  * @date 2021/3/27 23:00:14
  * 请求结果封装
  */
+@Getter
+@Setter
 public class ResultObj<T> {
 
     private Integer code;
