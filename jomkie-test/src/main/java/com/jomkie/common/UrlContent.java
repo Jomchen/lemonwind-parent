@@ -8,5 +8,6 @@ package com.jomkie.common;
 public interface UrlContent {
 
     String USER_GET_ALL = "/user/get/all";
+    String USER_GET_BY_ID = "/user/get/by/{id}";
 
 }

@@ -13,4 +13,6 @@ public interface JoUserService {
 
     List<JoUserDto> getAll();
 
+    JoUserDto getById(Long id);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +35,16 @@ public class JoUserServiceImpl extends BaseServiceImpl<JoUserMapper, JoUser> imp
             BeanUtils.copyProperties(bean, dto);
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public JoUserDto getById(Long id) {
+        JoUser joUser = joUserMapper.selectById(id);
+        return Optional.ofNullable(joUser).map(bean -> {
+            JoUserDto dto = new JoUserDto();
+            BeanUtils.copyProperties(bean, dto);
+            return dto;
+        }).orElse(null);
     }
 
 }
