@@ -1,6 +1,7 @@
 package com.jomkie.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.jomkie.common.BaseServiceImpl;
 import com.jomkie.dao.JoUserMapper;
 import com.jomkie.dto.JoUserDto;
@@ -45,6 +46,27 @@ public class JoUserServiceImpl extends BaseServiceImpl<JoUserMapper, JoUser> imp
             BeanUtils.copyProperties(bean, dto);
             return dto;
         }).orElse(null);
+    }
+
+    @Override
+    public boolean save(JoUser joUser) {
+        return joUserMapper.insert(joUser) == 1;
+    }
+
+    @Override
+    public boolean saveBatch(List<JoUser> list, int batch) {
+        return false;
+    }
+
+    @Override
+    public List<JoUser> findByConditions() {
+        QueryWrapper<JoUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+                .like(true, JoUser::getEmail, "@baomidou.com")
+                .ge(JoUser::getAge, 9);
+
+        joUserMapper.selectMaps(queryWrapper);
+        return null;
     }
 
 }

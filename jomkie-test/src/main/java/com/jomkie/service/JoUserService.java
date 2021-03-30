@@ -1,6 +1,7 @@
 package com.jomkie.service;
 
 import com.jomkie.dto.JoUserDto;
+import com.jomkie.model.JoUser;
 
 import java.util.List;
 
@@ -14,5 +15,11 @@ public interface JoUserService {
     List<JoUserDto> getAll();
 
     JoUserDto getById(Long id);
+
+    boolean save(JoUser joUser);
+
+    boolean saveBatch(List<JoUser> list, int batch);
+
+    List<JoUser> findByConditions();
 
 }
