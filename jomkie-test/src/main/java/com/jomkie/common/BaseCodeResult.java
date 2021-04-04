@@ -7,7 +7,7 @@ package com.jomkie.common;
  */
 public enum BaseCodeResult implements AbsCodeMsg {
 
-    FAILE(-1, "失败"),
+    FAILE(-1, "请求失败"),
     SUCCESS(0, "成功")
     ;
 

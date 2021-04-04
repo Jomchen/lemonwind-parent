@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 @Slf4j
 @Order(1)
 public class WebAroundAop {
+
     /**
      * execution: For matching method execution join points. This is the primary pointcut designator to use when working with Spring AOP.
      *
@@ -54,7 +55,8 @@ public class WebAroundAop {
 
     @Around("testPointCut()")
     public Object aroundAop(ProceedingJoinPoint pjp) {
-        System.out.println("进入了 around 切面 Start");
+
+        /*System.out.println("进入了 around 切面 Start");
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature)signature;
         Method method = methodSignature.getMethod();
@@ -63,17 +65,15 @@ public class WebAroundAop {
 
         System.out.println(String.format("-------------->%s", methodName));
         System.out.println(String.format("-------------->%s", returnTypeName));
-        System.out.println("进入了 around 切面 End");
+        System.out.println("进入了 around 切面 End");*/
 
-        Object result;
         try {
-            result = pjp.proceed();
+            return pjp.proceed();
         } catch (Throwable throwable) {
             log.error("服务器异常", throwable);
             return ResultObj.fail();
         }
 
-        return result;
     }
 
 }

@@ -7,13 +7,14 @@ import java.lang.annotation.Target;
 
 /**
  * @author Jomkie
- * @date 2021-04-3 0:1
- * 自定义验证注解
+ * @date 2021-04-3 0:28
+ * 声明需要验证的组的注解
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JomkieAnnotation {
+public @interface RequiredValidGroup {
 
-    String value() default "";
+    /** the groups to validate */
+    Class<?>[] value() default {};
 
 }

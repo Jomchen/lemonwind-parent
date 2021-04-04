@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * @author Jomkie
- * @date 2021/3/27 22:35:52
- * 测试服务
- */
+  * @author Jomkie
+  * @date 2021-04-2 23:59
+  * 测试服务
+  */
 @SpringBootApplication
 @MapperScan("com.jomkie.**.dao")
 @EnableAspectJAutoProxy
@@ -17,7 +17,7 @@ public class TestApplication {
 
     /**
      * @author Jomkie
-     * @date 2021/3/27 22:36:10
+     * @date 2021-04-3 0:0
      * 执行主程序
      */
     public static void main(String[] args) {
