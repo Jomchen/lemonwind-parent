@@ -8,7 +8,8 @@ package com.jomkie.common;
 public enum BaseCodeResult implements AbsCodeMsg {
 
     FAILE(-1, "请求失败"),
-    SUCCESS(0, "成功")
+    SUCCESS(0, "成功"),
+    PARAM_ERROR(1, "参数不合法")
     ;
 
     Integer code;

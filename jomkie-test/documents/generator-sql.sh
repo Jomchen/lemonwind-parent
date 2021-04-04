@@ -1,5 +1,5 @@
 #!/bin/bash
-# generate a sql execute content
+# generate a sql script
 # Author: Jomkie
 
 

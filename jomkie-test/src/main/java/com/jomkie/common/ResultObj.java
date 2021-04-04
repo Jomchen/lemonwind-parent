@@ -40,6 +40,11 @@ public class ResultObj<T> implements Serializable {
         this(absCodeMsg.getcode(), absCodeMsg.getMsg(), data);
     }
 
+    public ResultObj<T> msg(String msg) {
+        this.msg = msg;
+        return this;
+    }
+
     public static <T> ResultObj<T> success(T data) {
         return new ResultObj(BaseCodeResult.SUCCESS, data);
     }
