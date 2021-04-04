@@ -1,7 +1,6 @@
 package com.jomkie.aop;
 
-import com.jomkie.annotations.RequiredValidGroup;
-import com.jomkie.common.AbsCodeMsg;
+import com.jomkie.annotations.RequiredGroup;
 import com.jomkie.common.BaseCodeResult;
 import com.jomkie.common.ResultObj;
 import lombok.extern.slf4j.Slf4j;
@@ -45,9 +44,9 @@ public class ValidatorAop {
         if (null != paramAnnotations && paramAnnotations.length > 0) {
             IntStream.range(0, paramAnnotations.length).forEach(index ->
                 Arrays.stream(paramAnnotations[index])
-                        .filter(anno -> anno.getClass().equals(RequiredValidGroup.class))
+                        .filter(anno -> anno.getClass().equals(RequiredGroup.class))
                         .findFirst()
-                        .map(anno ->  (RequiredValidGroup) anno)
+                        .map(anno ->  (RequiredGroup) anno)
                         .ifPresent(anno -> {
                             Class<?>[] validGroup = anno.value();
                             /* 验证 args[index] 的验证组信息 */

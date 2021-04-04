@@ -45,6 +45,10 @@ public class ResultObj<T> implements Serializable {
         return this;
     }
 
+    public static <T> ResultObj<T> success() {
+        return new ResultObj(BaseCodeResult.SUCCESS);
+    }
+
     public static <T> ResultObj<T> success(T data) {
         return new ResultObj(BaseCodeResult.SUCCESS, data);
     }

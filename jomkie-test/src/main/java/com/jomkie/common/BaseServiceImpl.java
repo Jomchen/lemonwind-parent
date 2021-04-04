@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -41,7 +43,22 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 
     @Override
     public T getOne(Wrapper<T> queryWrapper, boolean throwEx) {
-        return null;
+        List<T> list = mapper.selectList(queryWrapper);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+
+        T entity = list.get(0);
+
+        if (list.size() == 1) {
+            return entity;
+        }
+
+        if (throwEx) {
+            throw new RuntimeException("found amount of the entity over two.");
+        } else {
+            return entity;
+        }
     }
 
     @Override
@@ -56,7 +73,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 
     @Override
     public BaseMapper<T> getBaseMapper() {
-        return null;
+        return this.mapper;
     }
 
     @Override
