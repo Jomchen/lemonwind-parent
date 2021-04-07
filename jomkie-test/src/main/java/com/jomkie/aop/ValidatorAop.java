@@ -13,9 +13,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -33,7 +35,16 @@ import java.util.stream.IntStream;
 @Order(2)
 public class ValidatorAop {
 
-    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private Validator validator;
+
+    @PostConstruct
+    public void before() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+
+        Validation.buildDefaultValidatorFactory().getValidator();
+
+    }
 
     @Around("within(org.springframework.web.bind.annotation.RestController)")
     public Object proccess(ProceedingJoinPoint pjp) {
