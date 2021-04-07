@@ -9,12 +9,15 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -34,13 +37,8 @@ import java.util.stream.IntStream;
 @Order(2)
 public class ValidatorAop {
 
+    @Autowired
     private Validator validator;
-
-    @PostConstruct
-    public void before() {
-        /*ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();*/
-    }
 
     @Around("within(org.springframework.web.bind.annotation.RestController)")
     public Object proccess(ProceedingJoinPoint pjp) {
