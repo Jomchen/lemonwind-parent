@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
+import javax.validation.Validator;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -38,9 +38,8 @@ public class ValidatorAop {
 
     @PostConstruct
     public void before() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-
+        /*ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();*/
     }
 
     @Around("within(org.springframework.web.bind.annotation.RestController)")
@@ -63,10 +62,10 @@ public class ValidatorAop {
                         .map(anno ->  (ReqValidGroup) anno)
                         .ifPresent(anno -> {
                             Class<?>[] validGroup = anno.value();
-                            Set<ConstraintViolation<Object>> errorSet = validator.validate(args[index], validGroup);
+                            /*Set<ConstraintViolation<Object>> errorSet = validator.validate(args[index], validGroup);
                             if (!CollectionUtils.isEmpty(errorList)) {
                                 errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
-                            }
+                            }*/
 
                             /* 验证 args[index] 的验证组信息 */
                             /* 验证 args[index] 的验证组信息 */
