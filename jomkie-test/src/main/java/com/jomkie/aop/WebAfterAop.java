@@ -22,7 +22,6 @@ public class WebAfterAop {
         @After("testPointCut()")
         public void aroundAop() {
             System.out.println("进入了 after 切面 Start");
-            System.out.println("这里是 After");
             System.out.println("进入了 after 切面 End");
         }
 

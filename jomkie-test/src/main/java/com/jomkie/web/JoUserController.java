@@ -3,6 +3,7 @@ package com.jomkie.web;
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.annotations.user.UserGroup;
+import com.jomkie.common.BaseCodeResult;
 import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
 import com.jomkie.dto.JoUserDto;
@@ -92,11 +93,15 @@ public class JoUserController {
      * @date 2021-04-7 10:26
      * 用户更新
      */
-    @PostMapping(UrlContent.NET_USER_DEL)
+    @GetMapping(UrlContent.NET_USER_DEL)
     public ResultObj<String> delUser(
             @RequestBody
             @ReqValidGroup(value = UserGroup.UserDel.class)
             @PathVariable("id") Long id) {
+
+        if (null == id) {
+            return ResultObj.fail(BaseCodeResult.PARAM_ERROR);
+        }
 
         log.info("进入了方法 delUser: {}", id);
         return ResultObj.success("delUser 请求成功");
