@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequiredGroup {
+public @interface ReqValidGroup {
 
     /** the groups to validate */
     Class<?>[] value() default {};

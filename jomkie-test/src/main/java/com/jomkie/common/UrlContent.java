@@ -8,7 +8,9 @@ package com.jomkie.common;
 public interface UrlContent {
 
     String NET_USER_GET_ALL = "/net//user/get/all";
-    String NET_USER_GET_BY_ID = "/net/user/get/by/{id}";
+    String NET_USER_GET_ONE = "/net/user/getOne/{id}";
     String NET_USER_ADD = "/net/user/add";
+    String NET_USER_UPDATE = "/net/user/update";
+    String NET_USER_DEL = "/net/user/del";
 
 }

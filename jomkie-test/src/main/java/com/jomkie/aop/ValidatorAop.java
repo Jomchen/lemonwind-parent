@@ -1,6 +1,6 @@
 package com.jomkie.aop;
 
-import com.jomkie.annotations.RequiredGroup;
+import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.common.BaseCodeResult;
 import com.jomkie.common.ResultObj;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +13,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -27,8 +30,10 @@ import java.util.stream.IntStream;
 @Component
 @Aspect
 @Slf4j
-@Order(1)
+@Order(2)
 public class ValidatorAop {
+
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Around("within(org.springframework.web.bind.annotation.RestController)")
     public Object proccess(ProceedingJoinPoint pjp) {
@@ -40,15 +45,21 @@ public class ValidatorAop {
         Annotation[][] paramAnnotations = method.getParameterAnnotations();
 
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
+        log.info("进入了验证参数切面。。。。。。 Start");
         List<String> errorList = new ArrayList<>();
         if (null != paramAnnotations && paramAnnotations.length > 0) {
             IntStream.range(0, paramAnnotations.length).forEach(index ->
                 Arrays.stream(paramAnnotations[index])
-                        .filter(anno -> anno.getClass().equals(RequiredGroup.class))
+                        .filter(anno -> anno.getClass().equals(ReqValidGroup.class))
                         .findFirst()
-                        .map(anno ->  (RequiredGroup) anno)
+                        .map(anno ->  (ReqValidGroup) anno)
                         .ifPresent(anno -> {
                             Class<?>[] validGroup = anno.value();
+                            Set<ConstraintViolation<Object>> errorSet = validator.validate(args[index], validGroup);
+                            if (!CollectionUtils.isEmpty(errorList)) {
+                                errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+                            }
+
                             /* 验证 args[index] 的验证组信息 */
                             /* 验证 args[index] 的验证组信息 */
                             /* 验证 args[index] 的验证组信息 */
@@ -58,9 +69,10 @@ public class ValidatorAop {
                         })
             );
         }
+        log.info("进入了验证参数切面。。。。。。 End");
 
         // 获取参数错误信息
-        if (CollectionUtils.isEmpty(errorList)) {
+        if (!CollectionUtils.isEmpty(errorList)) {
             String errorMsg = errorList.stream().collect(Collectors.joining("，"));
             return ResultObj.fail(BaseCodeResult.PARAM_ERROR).msg(errorMsg);
         }
