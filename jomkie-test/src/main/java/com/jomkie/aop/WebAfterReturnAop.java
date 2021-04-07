@@ -1,5 +1,6 @@
 package com.jomkie.aop;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,7 +21,7 @@ public class WebAfterReturnAop {
     @AfterReturning(pointcut = "testPointCut()", returning = "result")
     public void afterReturnAop(Object result) {
         System.out.println("进入了 afterReturn 切面 Start");
-        System.out.println(String.format("-------------->%s", result.toString()));
+        System.out.println(String.format("-------------->%s", JSONObject.toJSONString(result)));
         System.out.println("进入了 afterReturn 切面 End");
     }
 

@@ -63,13 +63,6 @@ public class ValidatorAop {
                             if (!CollectionUtils.isEmpty(errorSet)) {
                                 errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
                             }
-
-                            /* 验证 args[index] 的验证组信息 */
-                            /* 验证 args[index] 的验证组信息 */
-                            /* 验证 args[index] 的验证组信息 */
-                            /* 收集错误信息 */
-                            /* 收集错误信息 */
-                            /* 收集错误信息 */
                         })
             );
         }

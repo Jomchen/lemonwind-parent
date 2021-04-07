@@ -56,18 +56,9 @@ public class WebAroundAop {
     @Around("testPointCut()")
     public Object aroundAop(ProceedingJoinPoint pjp) {
 
-        /*System.out.println("进入了 around 切面 Start");
-        Signature signature = pjp.getSignature();
-        MethodSignature methodSignature = (MethodSignature)signature;
-        Method method = methodSignature.getMethod();
-        String methodName = method.getName();
-        String returnTypeName = method.getReturnType().getName();
-
-        System.out.println(String.format("-------------->%s", methodName));
-        System.out.println(String.format("-------------->%s", returnTypeName));
-        System.out.println("进入了 around 切面 End");*/
-
         try {
+            System.out.println("进入了 aroundAop Start");
+            System.out.println("进入了 aroundAop End");
             return pjp.proceed();
         } catch (Throwable throwable) {
             log.error("服务器异常", throwable);
