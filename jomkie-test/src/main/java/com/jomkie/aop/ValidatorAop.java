@@ -41,7 +41,7 @@ public class ValidatorAop {
 
     /*@Around("@within(org.springframework.web.bind.annotation.RestController)")*/
     /*@Around("@within(org.springframework.web.bind.annotation.RestController) && @args(com.jomkie.annotations.ReqValidGroup)")*/
-    @Around("@within(org.springframework.web.bind.annotation.RestController) && execution(public * *(@com.jomkie.annotations.ReqValidGroup))")
+    @Around("@within(org.springframework.web.bind.annotation.RestController) && @args(com.jomkie.annotations.ReqValidGroup))")
     public Object proccess(ProceedingJoinPoint pjp) {
 
         Object[] args = pjp.getArgs();
@@ -51,7 +51,7 @@ public class ValidatorAop {
         Annotation[][] paramAnnotations = method.getParameterAnnotations();
 
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
-        System.out.println("进入了 Around 验证参数切面。。。。。。 Start");
+        System.out.println("进入了 Validator Around 验证参数切面。。。。。。 Start");
         List<String> errorList = new ArrayList<>();
         if (null != paramAnnotations && paramAnnotations.length > 0) {
             IntStream.range(0, paramAnnotations.length).forEach(index ->
@@ -68,7 +68,7 @@ public class ValidatorAop {
                         })
             );
         }
-        System.out.println("进入了 Around 验证参数切面。。。。。。 End");
+        System.out.println("进入了 Validator Around 验证参数切面。。。。。。 End");
 
         // 获取参数错误信息
         if (!CollectionUtils.isEmpty(errorList)) {
