@@ -1,0 +1,27 @@
+### 更新用户
+POST http://127.0.0.1:8080/net/user/add
+Content-Type: application/json
+{
+  "id": 1,
+  "name": "李寻欢2",
+  "age": 42,
+  "email": "googlemail2@gmail.com"
+}
+
+### 增加用户
+POST http://127.0.0.1:8080/net/user/update
+Content-Type: application/json
+{
+  "id": 1,
+  "name": "李寻欢",
+  "age": 40,
+  "email": "googlemail@gmail.com"
+}
+
+### 删除用户
+GET http://127.0.0.1:8080/net/user/del/{id}
+Accept: application/json
+
+### 根据用户id查询用户
+GET http://127.0.0.1:8080/net/user/getOne/{id}
+Accept: application/json
