@@ -39,7 +39,9 @@ public class ValidatorAop {
     @Autowired
     private Validator validator;
 
-    @Around("@within(org.springframework.web.bind.annotation.RestController)")
+    /*@Around("@within(org.springframework.web.bind.annotation.RestController)")*/
+    /*@Around("@within(org.springframework.web.bind.annotation.RestController) && @args(com.jomkie.annotations.ReqValidGroup)")*/
+    @Around("@within(org.springframework.web.bind.annotation.RestController) && execution(public * *(@com.jomkie.annotations.ReqValidGroup))")
     public Object proccess(ProceedingJoinPoint pjp) {
 
         Object[] args = pjp.getArgs();
