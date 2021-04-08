@@ -56,10 +56,20 @@ public class ValidatorAop {
     // After (finally) advice: Advice to be run regardless of the means by which a join point exits (normal or exceptional return).
     // Around advice: Advice that surrounds a join point such as a method invocation. This is the most powerful kind of advice. Around advice can perform custom behavior before and after the method invocation. It is also responsible for choosing whether to proceed to the join point or to shortcut the advised method execution by returning its own return value or throwing an exception.
 
+    // execution("修饰符? 返回值 类路径名？方法名(参数) 异常?")
+        // 修饰符，类路径名，异常 都是可选的，其它是必填的
+        // 类路径名可以用 * 通配符表示 | .. 表示一个或多个子路径
+        // 方法名也可以用 * 通配符表示部分或全部
+        // 参数如果填表示参数个数是零个或多个，如果填(String,..) 表示第一个参数是 String，而总体可能是唯一一个参数或多个参数
     // @args 方法的参数必须有指定的注解，这是的注解并非是方法声明时的形参上的注解，而是参数类声明时类上必须有指定注解
         // @args("xxx.xxx.xxx.MyAnnotation")
         //                           @MyAnnotation
         // public void test(A a)  -> public class A {
+        // Note that the pointcut given in this example is different from execution(* *(java.io.Serializable)).
+            // The args version matches if the argument passed at runtime is Serializable,
+            // and the execution version matches if the method signature declares a single parameter of type Serializable.
+            // 注意 execution(Result methodName(java.io.Serializable) 表示传入的参数确确实实是 Serializable 实体
+            // 注意 args(java.io.Serializable) 表示传入的参数是 Serializable 的实现类
 
     // The difference between @target and @within: https://blog.csdn.net/demon7552003/article/details/97601209
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
