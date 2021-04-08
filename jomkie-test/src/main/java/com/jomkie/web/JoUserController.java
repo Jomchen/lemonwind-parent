@@ -67,9 +67,9 @@ public class JoUserController {
     public ResultObj<String> addUser(
             @RequestBody
             @ReqValidGroup(value = UserGroup.UserAdd.class)
-                    JoUser joUser) {
+                    JoUserDto dto) {
 
-        log.info("进入了方法 addUser: {}", JSONObject.toJSONString(joUser));
+        log.info("进入了方法 addUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("addUser 请求成功");
     }
 
@@ -82,9 +82,9 @@ public class JoUserController {
     public ResultObj<String> updateUser(
             @RequestBody
             @ReqValidGroup(value = UserGroup.UserUpdate.class)
-                    JoUser joUser) {
+                    JoUserDto dto) {
 
-        log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(joUser));
+        log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("updateUser 请求成功");
     }
 
