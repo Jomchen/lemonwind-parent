@@ -22,8 +22,6 @@ public class TestApplication {
      * 执行主程序
      */
     public static void main(String[] args) {
-        /*ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();*/
         SpringApplication.run(TestApplication.class, args);
     }
 

@@ -1,6 +1,8 @@
 ### 更新用户
 POST http://127.0.0.1:8080/net/user/add
+Accept: application/json
 Content-Type: application/json
+
 {
   "id": 1,
   "name": "李寻欢2",
@@ -11,6 +13,7 @@ Content-Type: application/json
 ### 增加用户
 POST http://127.0.0.1:8080/net/user/update
 Content-Type: application/json
+
 {
   "id": 1,
   "name": "李寻欢",
@@ -19,9 +22,9 @@ Content-Type: application/json
 }
 
 ### 删除用户
-GET http://127.0.0.1:8080/net/user/del/{id}
+GET http://127.0.0.1:8080/net/user/del/1
 Accept: application/json
 
 ### 根据用户id查询用户
-GET http://127.0.0.1:8080/net/user/getOne/{id}
+GET http://127.0.0.1:8080/net/user/getOne/1
 Accept: application/json
