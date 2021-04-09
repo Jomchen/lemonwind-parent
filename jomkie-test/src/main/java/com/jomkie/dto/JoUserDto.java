@@ -1,6 +1,5 @@
 package com.jomkie.dto;
 
-import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.annotations.user.UserGroup;
 import lombok.Data;
 import lombok.NoArgsConstructor;
