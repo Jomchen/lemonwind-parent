@@ -13,4 +13,6 @@ public interface UrlContent {
     String NET_USER_UPDATE = "/net/user/update";
     String NET_USER_DEL = "/net/user/del/{id}";
 
+    String NET_REMOTE_TEST = "/net/test/remote/test";
+
 }
