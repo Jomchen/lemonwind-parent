@@ -32,12 +32,12 @@ public class ResultObj<T> implements Serializable {
         this.data = data;
     }
 
-    public ResultObj(AbsCodeMsg absCodeMsg) {
-        this(absCodeMsg.getcode(), absCodeMsg.getMsg());
+    public ResultObj(AbsResponse absResponse) {
+        this(absResponse.getcode(), absResponse.getMsg());
     }
 
-    public ResultObj(AbsCodeMsg absCodeMsg, T data) {
-        this(absCodeMsg.getcode(), absCodeMsg.getMsg(), data);
+    public ResultObj(AbsResponse absResponse, T data) {
+        this(absResponse.getcode(), absResponse.getMsg(), data);
     }
 
     public ResultObj<T> msg(String msg) {
@@ -46,19 +46,19 @@ public class ResultObj<T> implements Serializable {
     }
 
     public static <T> ResultObj<T> success() {
-        return new ResultObj(BaseCodeResult.SUCCESS);
+        return new ResultObj(BaseResponse.SUCCESS);
     }
 
     public static <T> ResultObj<T> success(T data) {
-        return new ResultObj(BaseCodeResult.SUCCESS, data);
+        return new ResultObj(BaseResponse.SUCCESS, data);
     }
 
-    public static <T> ResultObj<T> fail(AbsCodeMsg absCodeMsg) {
-        return new ResultObj(absCodeMsg.getcode(), absCodeMsg.getMsg());
+    public static <T> ResultObj<T> fail(AbsResponse absResponse) {
+        return new ResultObj(absResponse.getcode(), absResponse.getMsg());
     }
 
     public static <T> ResultObj<T> fail() {
-        return new ResultObj(BaseCodeResult.FAILE);
+        return new ResultObj(BaseResponse.FAILE);
     }
 
 }
