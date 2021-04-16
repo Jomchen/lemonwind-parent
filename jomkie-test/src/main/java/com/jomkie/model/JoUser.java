@@ -2,6 +2,7 @@ package com.jomkie.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.jomkie.annotations.user.UserGroup;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName(JoUser.TABLE_NAME)
 public class JoUser {
 

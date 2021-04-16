@@ -1,6 +1,7 @@
 package com.jomkie.dto;
 
 import com.jomkie.annotations.user.UserGroup;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class JoUserDto {
 
     @NotNull(message = "ID不能为空", groups = {UserGroup.UserUpdate.class, UserGroup.UserDel.class})
