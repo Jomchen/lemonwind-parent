@@ -99,11 +99,15 @@ public class ValidatorAop {
                         .map(anno ->  (ReqValidGroup) anno)
                         .ifPresent(anno -> {
                             Class<?>[] validGroup = anno.value();
-                            Set<ConstraintViolation<Object>> errorSet = validator.validate(args[index], validGroup);
-                            if (!CollectionUtils.isEmpty(errorSet)) {
-                                errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+                            Set<ConstraintViolation<Object>> errorSet;
+                            if (validGroup.length > 0) {
+                                errorSet = validator.validate(args[index], validGroup);
+                            } else {
+                                errorSet = validator.validate(args[index]);
                             }
-                        })
+                            errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+                        }
+                )
             );
         }
         System.out.println("进入了 Validator Around 验证参数切面。。。。。。 End");
