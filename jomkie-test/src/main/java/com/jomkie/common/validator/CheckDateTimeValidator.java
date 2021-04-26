@@ -1,7 +1,6 @@
 package com.jomkie.common.validator;
 
 import com.jomkie.annotations.DateTimeValid;
-import com.jomkie.common.LemonException;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintValidator;
