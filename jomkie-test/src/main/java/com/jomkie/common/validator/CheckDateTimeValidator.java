@@ -39,7 +39,7 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
         try {
             sdf.parse(value);
         } catch (ParseException e) {
-            log.warn("date or time parse failed.", e);
+            log.error("parse date or time failed.", e);
             return false;
         }
 
