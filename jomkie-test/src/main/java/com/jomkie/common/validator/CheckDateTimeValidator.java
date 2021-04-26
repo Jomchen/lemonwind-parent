@@ -44,64 +44,71 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
         }
 
         // 验证 大小月，闰年/平年 合法性
-        return checkMonthAndDay(format, value);
-    }
+        String errorMsg = checkMonthAndDay(format, value);
+        if (null != errorMsg) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(errorMsg)
+                    .addConstraintViolation();
+            return false;
+        }
 
+        return true;
+    }
 
     /**
      * @author Jomkie
      * @since 2021-04-26 11:0:35
-     * @param formatType
-     * @param value
-     * @return 验证 月 | 日 合法性
+     * @param formatType 日期时间枚举
+     * @param value 传参
+     * @return 错误信息
+     * 验证 大小月，二月，平年/闰年 的天数合法性
      */
-    private Boolean checkMonthAndDay(DateTimeValid.Format formatType, String value) {
+    private String checkMonthAndDay(DateTimeValid.Format formatType, String value) {
         if (null == value || value.equals("")) {
-            return true;
-        }
-        if (! formatType.equals(DateTimeValid.Format.DATE_TIME_FORMAT) || ! formatType.equals(DateTimeValid.Format.DATE_FORMAT)) {
-            return true;
+            return null;
         }
 
-        // 截取日期
-        String[] dateColumns = null;
-        if (formatType.equals(DateTimeValid.Format.DATE_TIME_FORMAT)) {
-            dateColumns = value.split(SEPARATOR)[0].split("-");
-        } else if (formatType.equals(DateTimeValid.Format.DATE_FORMAT)) {
-            dateColumns = value.split("-");
-        }
+        if (formatType.equals(DateTimeValid.Format.DATE_TIME_FORMAT) || formatType.equals(DateTimeValid.Format.DATE_FORMAT)) {
+            // 截取日期
+            String[] dateColumns = null;
+            if (formatType.equals(DateTimeValid.Format.DATE_TIME_FORMAT)) {
+                dateColumns = value.split(SEPARATOR)[0].split("-");
+            } else if (formatType.equals(DateTimeValid.Format.DATE_FORMAT)) {
+                dateColumns = value.split("-");
+            }
 
-        // 获取参数年/月/日
-        Integer year = Integer.valueOf(dateColumns[0]);
-        Integer month = Integer.valueOf(dateColumns[1]);
-        Integer dayOfMonth = Integer.valueOf(dateColumns[2]);
+            // 获取参数年/月/日
+            Integer year = Integer.valueOf(dateColumns[0]);
+            Integer month = Integer.valueOf(dateColumns[1]);
+            Integer dayOfMonth = Integer.valueOf(dateColumns[2]);
 
-        // 声明 二 月，小月
-        Integer february = 2;
-        Integer[] smallMonth = {4, 6, 9, 11};
+            // 声明 二 月，小月
+            Integer february = 2;
+            Integer[] smallMonth = {4, 6, 9, 11};
 
-        // 验证 二月，小月 天数合法性
-        Boolean isSmallMonth = Arrays.stream(smallMonth).filter(bm -> bm.equals(month)).findAny().isPresent();
-        if (month.equals(february) && dayOfMonth >= 30) {
-            return false;
-        }
-        if (isSmallMonth && dayOfMonth >= 31) {
-            return false;
-        }
+            // 验证 二月，小月 天数合法性
+            Boolean isSmallMonth = Arrays.stream(smallMonth).filter(bm -> bm.equals(month)).findAny().isPresent();
+            if (month.equals(february) && dayOfMonth >= 30) {
+                return "二月天数有误";
+            }
+            if (isSmallMonth && dayOfMonth >= 31) {
+                return "小月份天数有误";
+            }
 
-        // 验证 闰年 和 平年
-        if( ( year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-            // 闰年
-            return true;
-        } else {
-            // 平年
-            if (dayOfMonth == 29) {
-                log.warn("平年日期错误 {}", value);
-                return false;
+            // 验证 闰年 和 平年
+            if( ( year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                // 闰年
+                return null;
+            } else {
+                // 平年
+                if (dayOfMonth == 29) {
+                    log.warn("平年天数有误，original data is {}", value);
+                    return "平年天数有误";
+                }
             }
         }
 
-        return true;
+        return null;
     }
 
 }
