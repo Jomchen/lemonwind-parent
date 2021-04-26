@@ -72,13 +72,12 @@ public class ValidatorAop {
             // 注意 args(java.io.Serializable) 表示传入的参数是 Serializable 的实现类
 
     // The difference between @target and @within: https://blog.csdn.net/demon7552003/article/details/97601209
+
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void webPointCut() { }
-    @Pointcut("@args(com.jomkie.annotations.ReqValidGroup)")
+    @Pointcut("@args(com.jomkie.aop.valid.NeedValidating)")
     public void validatPointCut() { }
 
-    /*@Around("@within(org.springframework.web.bind.annotation.RestController)")*/
-    /*@Around("@within(org.springframework.web.bind.annotation.RestController) && @args(com.jomkie.annotations.ReqValidGroup)")*/
     @Around("webPointCut() && validatPointCut()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
@@ -89,7 +88,7 @@ public class ValidatorAop {
         Annotation[][] paramAnnotations = method.getParameterAnnotations();
 
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
-        System.out.println("进入了 Validator Around 验证参数切面。。。。。。 Start");
+        log.info("进入了 Validator Around ... Start");
         List<String> errorList = new ArrayList<>();
         if (null != paramAnnotations && paramAnnotations.length > 0) {
             IntStream.range(0, paramAnnotations.length).forEach(index ->
@@ -110,7 +109,7 @@ public class ValidatorAop {
                 )
             );
         }
-        System.out.println("进入了 Validator Around 验证参数切面。。。。。。 End");
+        log.info("进入了 Validator Around ... End");
 
         // 获取参数错误信息
         if (!CollectionUtils.isEmpty(errorList)) {
