@@ -12,8 +12,8 @@ public enum BaseResponse implements AbsResponse {
     PARAM_ERROR(1, "参数不合法")
     ;
 
-    Integer code;
-    String msg;
+    private Integer code;
+    private String msg;
 
     BaseResponse(Integer code, String msg) {
         this.code = code;
