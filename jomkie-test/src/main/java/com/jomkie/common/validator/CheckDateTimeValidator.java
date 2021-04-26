@@ -22,7 +22,7 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
     final public static String TIME_FORMAT = "(20|21|22|23|[0-1]\\d):[0-5]\\d:[0-5]\\d";
     final public static String DATE_TIME_FORMAT = DATE_FORMAT + SEPARATOR + TIME_FORMAT;
 
-    DateTimeValid.Format format;
+    private DateTimeValid.Format format;
 
     @Override
     public void initialize(DateTimeValid constraintAnnotation) {
@@ -86,13 +86,9 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
             Integer[] smallMonth = {4, 6, 9, 11};
 
             // 验证 二月，小月 天数合法性
-            Boolean isSmallMonth = Arrays.stream(smallMonth).filter(bm -> bm.equals(month)).findAny().isPresent();
-            if (month.equals(february) && dayOfMonth >= 30) {
-                return "二月天数有误";
-            }
-            if (isSmallMonth && dayOfMonth >= 31) {
-                return "小月份天数有误";
-            }
+            Boolean isSmallMonth = Arrays.stream(smallMonth).anyMatch(bm -> bm.equals(month));
+            if (isSmallMonth && dayOfMonth >= 31) { return "小月份天数有误"; }
+            if (month.equals(february) && dayOfMonth >= 30) { return "二月天数有误"; }
 
             // 验证 闰年 和 平年
             if( ( year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
@@ -101,8 +97,8 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
             } else {
                 // 平年
                 if (dayOfMonth == 29) {
-                    log.warn("平年天数有误，original data is {}", value);
-                    return "平年天数有误";
+                    log.warn("日期平年天数有误，original data is {}", value);
+                    return "日期平年天数有误";
                 }
             }
         }
