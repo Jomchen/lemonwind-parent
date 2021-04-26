@@ -33,12 +33,25 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (null == value) { return true; }
 
+        // 验证传参和枚举的正则匹配
         String formateStr = format.getFormatStr();
-        SimpleDateFormat sdf = new SimpleDateFormat(formateStr);
+        String regExpress = format.getRegx();
+        if ( ! value.matches(regExpress)) {
+            log.error("不匹配的日期/时间");
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("不匹配的日期/时间")
+                    .addConstraintViolation();
+            return false;
+        }
+
+        // 验证是否可以正常转日期或时间
         try {
-            sdf.parse(value);
+            new SimpleDateFormat(formateStr).parse(value);
         } catch (ParseException e) {
-            log.error("parse date or time failed.", e);
+            log.error("无效的日期/时间", e);
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("无效的日期/时间")
+                    .addConstraintViolation();
             return false;
         }
 
@@ -81,7 +94,7 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
             Integer month = Integer.valueOf(dateColumns[1]);
             Integer dayOfMonth = Integer.valueOf(dateColumns[2]);
 
-            // 声明 二 月，小月
+            // 定义 二 月，小月
             Integer february = 2;
             Integer[] smallMonth = {4, 6, 9, 11};
 

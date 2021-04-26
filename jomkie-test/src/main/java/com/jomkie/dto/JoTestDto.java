@@ -19,10 +19,10 @@ public class JoTestDto {
 
     private String id;
 
-    @DateTimeValid(value = DateTimeValid.Format.DATE_TIME_FORMAT , message = "开始时间格式有误")
+    @DateTimeValid(value = DateTimeValid.Format.DATE_FORMAT , message = "开始时间格式有误")
     private String startTime;
 
-    @DateTimeValid(value = DateTimeValid.Format.DATE_TIME_FORMAT , message = "结束时间格式有误")
+    @DateTimeValid(value = DateTimeValid.Format.DATE_FORMAT , message = "结束时间格式有误")
     private String endTime;
 
 }
