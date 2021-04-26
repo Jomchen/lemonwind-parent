@@ -61,4 +61,8 @@ public class ResultObj<T> implements Serializable {
         return new ResultObj(BaseResponse.FAILE);
     }
 
+    public static <T> ResultObj<T> fail(LemonException lemonException) {
+        return new ResultObj(lemonException.getCode(), lemonException.getMessage());
+    }
+
 }

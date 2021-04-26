@@ -2,6 +2,7 @@ package com.jomkie.aop;
 
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.common.BaseResponse;
+import com.jomkie.common.LemonException;
 import com.jomkie.common.ResultObj;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -120,6 +121,9 @@ public class ValidatorAop {
         // 正常方法执行
         try {
             return pjp.proceed();
+        } catch (LemonException lemonException) {
+            log.error(lemonException.getMessage(), lemonException);
+            return ResultObj.fail(lemonException);
         } catch (Throwable throwable) {
             log.error("系统异常", throwable);
             return ResultObj.fail();

@@ -1,10 +1,15 @@
 package com.jomkie.common;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Jomkie
  * @since 2021-04-26 11:33:55
  * 异常类
  */
+@Getter
+@Setter
 public class LemonException  extends RuntimeException {
 
     private Integer code;
@@ -12,6 +17,18 @@ public class LemonException  extends RuntimeException {
 
     public LemonException() {
         super();
+    }
+
+    public LemonException(AbsResponse baseResponse) {
+        super(baseResponse.getMsg());
+        this.code = baseResponse.getcode();
+        this.message = baseResponse.getMsg();
+    }
+
+    public LemonException(AbsResponse baseResponse, Throwable throwable) {
+        super(baseResponse.getMsg(), throwable);
+        this.code = baseResponse.getcode();
+        this.message = baseResponse.getMsg();
     }
 
     public LemonException(String message) {
