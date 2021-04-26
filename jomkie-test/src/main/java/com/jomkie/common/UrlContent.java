@@ -14,6 +14,6 @@ public interface UrlContent {
     String NET_USER_DEL = "/net/user/del/{id}";
 
     String NET_TEST_REMOTE = "/net/test/remote";
-    String NET_TEST_CUSTOMER = "/net/test/customer";
+    String NET_TEST_CUSTOMER_VALID = "/net/test/customer/valid";
 
 }
