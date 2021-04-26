@@ -32,12 +32,70 @@ public @interface DateTimeValid {
 
     @Getter
     enum Format {
-        DATE_TIME_FORMAT("yyyy-MM-dd HH:mm:ss", CheckDateTimeValidator.DATE_TIME_FORMAT),
-        DATE_FORMAT("yyyy-MM-dd", CheckDateTimeValidator.DATE_FORMAT),
-        TIME_FORMAT("HH:mm:ss", CheckDateTimeValidator.TIME_FORMAT)
-        ;
+        DATE_TIME_FORMAT("yyyy-MM-dd HH:mm:ss", CheckDateTimeValidator.DATE_TIME_FORMAT) {
+            @Override
+            public Integer getYear(String value) {
+                return Integer.valueOf(value.split(" ")[0].split("-")[0]);
+            }
 
+            @Override
+            public Integer getMonth(String value) {
+                return Integer.valueOf(value.split(" ")[0].split("-")[1]);
+            }
+
+            @Override
+            public Integer getDayOfMonth(String value) {
+                return Integer.valueOf(value.split(" ")[0].split("-")[2]);
+            }
+        },
+
+        DATE_FORMAT("yyyy-MM-dd", CheckDateTimeValidator.DATE_FORMAT) {
+            @Override
+            public Integer getYear(String value) {
+                return Integer.valueOf(value.split("-")[0]);
+            }
+
+            @Override
+            public Integer getMonth(String value) {
+                return Integer.valueOf(value.split("-")[1]);
+            }
+
+            @Override
+            public Integer getDayOfMonth(String value) {
+                return Integer.valueOf(value.split("-")[2]);
+            }
+        },
+
+        DATE_NO_SEPARATOR_FORMAT("yyyyMMdd", CheckDateTimeValidator.DATE_NO_SEPARATOR_FORMAT) {
+            @Override
+            public Integer getYear(String value) {
+                return Integer.valueOf(value.substring(0, 4));
+            }
+
+            @Override
+            public Integer getMonth(String value) {
+                return Integer.valueOf(value.substring(4, 6));
+            }
+
+            @Override
+            public Integer getDayOfMonth(String value) {
+                return Integer.valueOf(value.substring(6, 8));
+            }
+        },
+
+        TIME_FORMAT("HH:mm:ss", CheckDateTimeValidator.TIME_FORMAT) {
+            @Override
+            public Integer getYear(String value) { return null; }
+            @Override
+            public Integer getMonth(String value) { return null; }
+            @Override
+            public Integer getDayOfMonth(String value) { return null; }
+        };
+
+        /** 转换日期的格式 */
         private String formatStr;
+
+        /** 与格式匹配的正则表达式 */
         private String regx;
 
         Format(String formatStr, String regx) {
@@ -45,6 +103,29 @@ public @interface DateTimeValid {
             this.regx = regx;
         }
 
+        /**
+         * @author Jomkie
+         * @since 2021-04-26 16:15:53
+         * @param value 预转化的字符串
+         * 获取年
+         */
+        public abstract Integer getYear(String value);
+
+        /**
+         * @author Jomkie
+         * @since 2021-04-26 16:16:26
+         * @param value 预转化的字符串
+         * 获取月
+         */
+        public abstract Integer getMonth(String value);
+
+        /**
+         * @author Jomkie
+         * @since 2021-04-26 16:16:26
+         * @param value 预转化的字符串
+         * 获取天数
+         */
+        public abstract Integer getDayOfMonth(String value);
     }
 
 }
