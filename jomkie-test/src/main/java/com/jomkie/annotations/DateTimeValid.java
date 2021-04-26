@@ -32,7 +32,7 @@ public @interface DateTimeValid {
 
     @Getter
     enum Format {
-        DATE_TIME_FORMAT("yyyy-MM-dd HH:mm:ss", CheckDateTimeValidator.DATE_TIME_FORMAT) {
+        DATE_TIME_FORMAT("yyyy-MM-dd HH:mm:ss", CheckDateTimeValidator.DATE_TIME_PATTERN) {
             @Override
             public Integer getYear(String value) {
                 return Integer.valueOf(value.split(" ")[0].split("-")[0]);
@@ -49,7 +49,7 @@ public @interface DateTimeValid {
             }
         },
 
-        DATE_FORMAT("yyyy-MM-dd", CheckDateTimeValidator.DATE_FORMAT) {
+        DATE_FORMAT("yyyy-MM-dd", CheckDateTimeValidator.DATE_PATTERN) {
             @Override
             public Integer getYear(String value) {
                 return Integer.valueOf(value.split("-")[0]);
@@ -66,7 +66,7 @@ public @interface DateTimeValid {
             }
         },
 
-        DATE_NO_SEPARATOR_FORMAT("yyyyMMdd", CheckDateTimeValidator.DATE_NO_SEPARATOR_FORMAT) {
+        DATE_NO_SEPARATOR_FORMAT("yyyyMMdd", CheckDateTimeValidator.DATE_NO_SEPARATOR_PATTERN) {
             @Override
             public Integer getYear(String value) {
                 return Integer.valueOf(value.substring(0, 4));
@@ -83,7 +83,7 @@ public @interface DateTimeValid {
             }
         },
 
-        TIME_FORMAT("HH:mm:ss", CheckDateTimeValidator.TIME_FORMAT) {
+        TIME_FORMAT("HH:mm:ss", CheckDateTimeValidator.TIME_PATTERN) {
             @Override
             public Integer getYear(String value) { return null; }
             @Override

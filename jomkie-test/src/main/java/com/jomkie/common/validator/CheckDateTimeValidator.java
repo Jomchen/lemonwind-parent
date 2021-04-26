@@ -18,11 +18,11 @@ import java.util.Arrays;
 public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid, String> {
 
     final public static String SEPARATOR = " ";
-    final public static String DATE_FORMAT = "[1-9]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])";
-    final public static String DATE_NO_SEPARATOR_FORMAT = "[1-9]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])";
+    final public static String DATE_PATTERN = "[1-9]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])";
+    final public static String DATE_NO_SEPARATOR_PATTERN = "[1-9]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])";
 
-    final public static String TIME_FORMAT = "(20|21|22|23|[0-1]\\d):[0-5]\\d:[0-5]\\d";
-    final public static String DATE_TIME_FORMAT = DATE_FORMAT + SEPARATOR + TIME_FORMAT;
+    final public static String TIME_PATTERN = "(20|21|22|23|[0-1]\\d):[0-5]\\d:[0-5]\\d";
+    final public static String DATE_TIME_PATTERN = DATE_PATTERN + SEPARATOR + TIME_PATTERN;
 
     private DateTimeValid.Format format;
 
