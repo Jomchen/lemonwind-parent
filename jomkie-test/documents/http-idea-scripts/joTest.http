@@ -1,3 +1,13 @@
+### 测试验证
+POST http://127.0.0.1:8080/net/test/customer/valid
+Content-Type: application/json
+
+{
+    "id": "3",
+    "startTime": "2020-01-01 22:22:22",
+    "endTime": "xx2"
+}
+
 ### 远程测试接口
 GET http://127.0.0.1:8080/net/test/remote/test
 Accept: application/json
