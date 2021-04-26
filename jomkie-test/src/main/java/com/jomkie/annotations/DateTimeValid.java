@@ -22,7 +22,7 @@ import java.lang.annotation.Documented;
 @Constraint(validatedBy = {CheckDateTimeValidator.class})
 public @interface DateTimeValid {
 
-    String message() default "格式有误";
+    String message() default "日期格式有误";
 
     Format value();
 
