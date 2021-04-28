@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * @author Jomkie
- * @date 2021/3/27 23:00:14
+ * @since 2021/3/27 23:00:14
  * 请求结果封装
  */
 @Getter

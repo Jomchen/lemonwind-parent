@@ -8,7 +8,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
   * @author Jomkie
-  * @date 2021-04-2 23:59
+  * @since 2021-04-2 23:59
   * 测试服务
   */
 @SpringBootApplication
@@ -18,7 +18,7 @@ public class TestApplication {
 
     /**
      * @author Jomkie
-     * @date 2021-04-3 0:0
+     * @since 2021-04-3 0:0
      * 执行主程序
      */
     public static void main(String[] args) {

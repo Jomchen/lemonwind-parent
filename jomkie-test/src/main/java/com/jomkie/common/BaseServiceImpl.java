@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 /**
  * @author Jomkie
- * @date 2021/3/28 21:06:10
+ * @since 2021/3/28 21:06:10
  * 基础服务实现
  */
 public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {

@@ -2,7 +2,7 @@ package com.jomkie.annotations.user;
 
 /**
  * @author Jomkie
- * @date 2021-04-4 19:17
+ * @since 2021-04-4 19:17
  * 用户验证组
  */
 public interface UserGroup {
