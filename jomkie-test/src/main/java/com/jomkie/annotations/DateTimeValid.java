@@ -37,12 +37,10 @@ public @interface DateTimeValid {
             public Integer getYear(String value) {
                 return Integer.valueOf(value.split(" ")[0].split("-")[0]);
             }
-
             @Override
             public Integer getMonth(String value) {
                 return Integer.valueOf(value.split(" ")[0].split("-")[1]);
             }
-
             @Override
             public Integer getDayOfMonth(String value) {
                 return Integer.valueOf(value.split(" ")[0].split("-")[2]);
@@ -54,12 +52,10 @@ public @interface DateTimeValid {
             public Integer getYear(String value) {
                 return Integer.valueOf(value.split("-")[0]);
             }
-
             @Override
             public Integer getMonth(String value) {
                 return Integer.valueOf(value.split("-")[1]);
             }
-
             @Override
             public Integer getDayOfMonth(String value) {
                 return Integer.valueOf(value.split("-")[2]);
@@ -71,12 +67,10 @@ public @interface DateTimeValid {
             public Integer getYear(String value) {
                 return Integer.valueOf(value.substring(0, 4));
             }
-
             @Override
             public Integer getMonth(String value) {
                 return Integer.valueOf(value.substring(4, 6));
             }
-
             @Override
             public Integer getDayOfMonth(String value) {
                 return Integer.valueOf(value.substring(6, 8));

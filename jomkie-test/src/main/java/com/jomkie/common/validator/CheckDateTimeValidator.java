@@ -18,10 +18,13 @@ import java.util.Arrays;
 public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid, String> {
 
     final public static String SEPARATOR = " ";
+    /** yyyy-MM-dd HH:mm:ss */
     final public static String DATE_PATTERN = "[1-9]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])";
+    /** yyyyMMdd */
     final public static String DATE_NO_SEPARATOR_PATTERN = "[1-9]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])";
-
+    /** HH:mm:ss */
     final public static String TIME_PATTERN = "(20|21|22|23|[0-1]\\d):[0-5]\\d:[0-5]\\d";
+    /** yyyyMMdd HHmmss */
     final public static String DATE_TIME_PATTERN = DATE_PATTERN + SEPARATOR + TIME_PATTERN;
 
     private DateTimeValid.Format format;
@@ -79,33 +82,31 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
      */
     private String checkMonthAndDay(DateTimeValid.Format formatType, String value) {
 
-        if (formatType.equals(DateTimeValid.Format.DATE_TIME_FORMAT) || formatType.equals(DateTimeValid.Format.DATE_FORMAT)) {
+        // 获取参数 年/月/日
+        Integer year = formatType.getYear(value);
+        Integer month = formatType.getMonth(value);
+        Integer dayOfMonth = formatType.getDayOfMonth(value);
+        if (null == year || null == month || null == dayOfMonth) { return null; }
 
-            // 获取参数 年/月/日
-            Integer year = formatType.getYear(value);
-            Integer month = formatType.getMonth(value);
-            Integer dayOfMonth = formatType.getDayOfMonth(value);
+        // 定义 二 月，小月
+        Integer february = 2;
+        Integer[] smallMonth = {4, 6, 9, 11};
 
-            // 定义 二 月，小月
-            Integer february = 2;
-            Integer[] smallMonth = {4, 6, 9, 11};
+        // 验证 二月，小月 天数合法性
+        Boolean isSmallMonth = Arrays.stream(smallMonth).anyMatch(bm -> bm.equals(month));
+        if (isSmallMonth && dayOfMonth >= 31) { return "小月份天数有误"; }
+        if (month.equals(february) && dayOfMonth >= 30) { return "二月天数有误"; }
 
-            // 验证 二月，小月 天数合法性
-            Boolean isSmallMonth = Arrays.stream(smallMonth).anyMatch(bm -> bm.equals(month));
-            if (isSmallMonth && dayOfMonth >= 31) { return "小月份天数有误"; }
-            if (month.equals(february) && dayOfMonth >= 30) { return "二月天数有误"; }
+        // 验证 闰年 和 平年
+        if( ( year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+            // 闰年
+            return null;
+        }
 
-            // 验证 闰年 和 平年
-            if( ( year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-                // 闰年
-                return null;
-            } else {
-                // 平年
-                if (dayOfMonth == 29) {
-                    log.warn("日期平年天数有误，original data is {}", value);
-                    return "日期平年天数有误";
-                }
-            }
+        // 平年
+        if (dayOfMonth == 29) {
+            log.warn("日期平年天数有误，original data is {}", value);
+            return "日期平年天数有误";
         }
 
         return null;
