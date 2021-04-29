@@ -18,14 +18,19 @@ import java.util.Arrays;
 public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid, String> {
 
     final public static String SEPARATOR = " ";
-    /** yyyy-MM-dd HH:mm:ss */
+
+    /** HH:mm:ss */
+    final public static String TIME_PATTERN = "(20|21|22|23|[0-1]\\d):[0-5]\\d:[0-5]\\d";
+    /** HHmmss */
+    final public static String TIME_NO_SEPARATOR_PATTERN = "(20|21|22|23|[0-1]\\d)[0-5]\\d[0-5]\\d";
+    /** yyyy-MM-dd */
     final public static String DATE_PATTERN = "[1-9]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])";
     /** yyyyMMdd */
     final public static String DATE_NO_SEPARATOR_PATTERN = "[1-9]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])";
-    /** HH:mm:ss */
-    final public static String TIME_PATTERN = "(20|21|22|23|[0-1]\\d):[0-5]\\d:[0-5]\\d";
-    /** yyyyMMdd HHmmss */
+    /** yyyy-MM-dd HH:mm:ss */
     final public static String DATE_TIME_PATTERN = DATE_PATTERN + SEPARATOR + TIME_PATTERN;
+    /** yyyyMMddHHmmss */
+    final public static String DATE_TIME_NO_SEPARATOR_PATTERN = DATE_NO_SEPARATOR_PATTERN + TIME_NO_SEPARATOR_PATTERN;
 
     private DateTimeValid.Format format;
 
