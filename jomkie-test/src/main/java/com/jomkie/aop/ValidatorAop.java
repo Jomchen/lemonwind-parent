@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,8 @@ import java.util.stream.IntStream;
 @Slf4j
 @Order(1)
 public class ValidatorAop {
+
+    final String BUILD_PARAM_METHOD_NAME = "buildActualParam";
 
     @Autowired
     private Validator validator;
@@ -118,6 +121,9 @@ public class ValidatorAop {
             return ResultObj.fail(BaseResponse.PARAM_ERROR).msg(errorMsg);
         }
 
+        // 执行构建参数的方法
+        Arrays.stream(args).forEach(this::buildActualParam);
+
         // 正常方法执行
         try {
             return pjp.proceed();
@@ -127,6 +133,20 @@ public class ValidatorAop {
         } catch (Throwable throwable) {
             log.error("系统异常", throwable);
             return ResultObj.fail();
+        }
+    }
+
+    private void buildActualParam(Object obj) {
+        Class clazz = obj.getClass();
+        try {
+            Method method = clazz.getMethod(BUILD_PARAM_METHOD_NAME);
+            method.invoke(obj);
+        } catch (NoSuchMethodException e) {
+            log.info("have no {} method.", BUILD_PARAM_METHOD_NAME, e);
+        } catch (InvocationTargetException e) {
+            log.error("invok {} failed.", BUILD_PARAM_METHOD_NAME, e);
+        } catch (IllegalAccessException e) {
+            log.error("invok {} failed.", BUILD_PARAM_METHOD_NAME, e);
         }
     }
 

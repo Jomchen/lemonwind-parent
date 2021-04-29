@@ -106,4 +106,15 @@ public class JoUserController {
         return ResultObj.success(list);
     }
 
+    /**
+     * @author Jomkie
+     * @since 2021-04-29 16:1:31
+     * 测试 aop 拦截进行构建参数自动执行
+     */
+    @PostMapping(UrlContent.NET_USER_CHECK_BUILD_PARAM)
+    public ResultObj<Void> checkBuildParam(@RequestBody JoUserDto joUserDto) {
+        log.info("entered the method checkBuildParam, buildParam is {}", joUserDto.getTestBuildParamData());
+        return ResultObj.success();
+    }
+
 }

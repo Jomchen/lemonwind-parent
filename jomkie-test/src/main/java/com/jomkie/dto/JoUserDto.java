@@ -2,6 +2,7 @@ package com.jomkie.dto;
 
 import com.jomkie.annotations.user.UserGroup;
 import com.jomkie.aop.valid.NeedValidating;
+import com.jomkie.common.PreBuildParamDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Jomkie
@@ -20,7 +23,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @NeedValidating
-public class JoUserDto {
+public class JoUserDto implements PreBuildParamDto {
 
     @NotNull(message = "ID不能为空", groups = {UserGroup.UserUpdate.class, UserGroup.UserDel.class})
     private Long id;
@@ -34,5 +37,13 @@ public class JoUserDto {
 
     @Pattern(regexp = "^.+@.+$", message = "邮箱不合法", groups = {UserGroup.UserAdd.class, UserGroup.UserUpdate.class})
     private String email;
+
+
+    private String testBuildParamData;
+
+    @Override
+    public void buildActualParam() {
+        testBuildParamData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    }
 
 }

@@ -2,6 +2,7 @@ package com.jomkie.dto;
 
 import com.jomkie.annotations.DateTimeValid;
 import com.jomkie.aop.valid.NeedValidating;
+import com.jomkie.common.PreBuildParamDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @NeedValidating
-public class JoTestDto {
+public class JoTestDto implements PreBuildParamDto {
 
     private String id;
 
@@ -24,5 +25,8 @@ public class JoTestDto {
 
     @DateTimeValid(value = DateTimeValid.Format.DATE_FORMAT , message = "结束时间格式有误")
     private String endTime;
+
+    @Override
+    public void buildActualParam() {}
 
 }
