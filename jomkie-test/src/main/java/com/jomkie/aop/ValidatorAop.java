@@ -21,10 +21,7 @@ import javax.validation.Validator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -77,7 +74,12 @@ public class ValidatorAop {
                             } else {
                                 errorSet = validator.validate(args[index]);
                             }
-                            errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+
+                            if (anno.onlyOneError()) {
+                                errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
+                            } else {
+                                errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+                            }
                         }
                 )
             );
@@ -85,7 +87,7 @@ public class ValidatorAop {
         log.info("Entered validator around aspect ... End");
 
         // 获取参数错误信息
-        if (!CollectionUtils.isEmpty(errorList)) {
+        if ( ! CollectionUtils.isEmpty(errorList)) {
             String errorMsg = errorList.stream().collect(Collectors.joining("，"));
             return ResultObj.fail(BaseResponse.PARAM_ERROR).msg(errorMsg);
         }
@@ -105,8 +107,15 @@ public class ValidatorAop {
         }
     }
 
+    /**
+     * @author Jomkie
+     * @since 2021-05-07 22:46:38
+     * 反涉调度构建参数方法
+     */
     private void buildActualParam(Object obj) {
+        if (Objects.isNull(obj)) { return; }
         Class clazz = obj.getClass();
+
         try {
             Method method = clazz.getMethod(BUILD_PARAM_METHOD_NAME);
             method.invoke(obj);

@@ -17,4 +17,7 @@ public @interface ReqValidGroup {
     /** the groups to validate */
     Class<?>[] value() default {};
 
+    /** whether acquire one error message for your violated messages, default is true */
+    boolean onlyOneError() default true;
+
 }
