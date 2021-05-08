@@ -3,7 +3,7 @@ package com.jomkie.web;
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.annotations.user.UserGroup;
-import com.jomkie.common.BaseResponse;
+import com.jomkie.common.Responsecode;
 import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
 import com.jomkie.dto.JoUserDto;
@@ -57,7 +57,7 @@ public class JoUserController {
             @PathVariable("id") Long id) {
 
         if (null == id) {
-            return ResultObj.fail(BaseResponse.PARAM_ERROR);
+            return ResultObj.fail(Responsecode.PARAM_ERROR);
         }
 
         log.info("进入了方法 delUser: {}", id);

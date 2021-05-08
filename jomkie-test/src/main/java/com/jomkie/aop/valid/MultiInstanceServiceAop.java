@@ -1,6 +1,7 @@
 package com.jomkie.aop.valid;
 
-import com.jomkie.annotations.LogAop;
+import com.jomkie.annotations.LogRecorder;
+import com.jomkie.common.Responsecode;
 import com.jomkie.common.ResultObj;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Jomkie
@@ -31,13 +33,14 @@ public class MultiInstanceServiceAop {
     @Autowired
     ApplicationContext applicationContext;
 
-    @Pointcut("this(com.jomkie.service.AopService)")
+    @Pointcut("execution(public * com.jomkie.service.impl.*.*(..))")
     public void cutPoint() {}
 
-    @Pointcut("@annotation(com.jomkie.annotations.LogAop)")
-    public void cutPoint2() {}
-
-    /** TODO 拦截接口，反射调度两个实现类未实现，会造成递归拦截 */
+    /**
+     * @author Jomkie
+     * @since 2021-05-08 14:52:35
+     * 拦截 com.jomkie.service.impl 包及其所有子包的公共方法，并反射调用日志记录
+     */
     @Around("cutPoint()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
@@ -45,62 +48,51 @@ public class MultiInstanceServiceAop {
         Object targetProxy = pjp.getTarget();
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
-        Method proxyMethod = methodSignature.getMethod();
 
+        Method proxyMethod = methodSignature.getMethod();
         Object[] parameters = pjp.getArgs();
         String methodName = proxyMethod.getName();
         Class[] parameterTypes = proxyMethod.getParameterTypes();
 
         Class<?> superInterface = Arrays.stream(targetProxy.getClass().getInterfaces())
-                .filter(i -> Arrays.stream(i.getAnnotations()).filter(anno -> anno instanceof LogAop).findAny().isPresent())
+                .filter(i -> Arrays.stream(i.getAnnotations()).filter(anno -> anno instanceof LogRecorder).findAny().isPresent())
                 .findFirst()
                 .orElse(null);
-        log.info("targetProxy is : " + targetProxy.getClass().getName());
-        if (null != superInterface) {
-            log.info("superInterface's name is : " + superInterface.getName());
-            log.info("superInterface's simepleName is : " + superInterface.getSimpleName());
-            log.info("superInterface's typeName is : " + superInterface.getTypeName());
-            log.info("superInterface's canonicalName is : " + superInterface.getCanonicalName());
-        }
+        if (Objects.nonNull(superInterface)) {
+            Map<String, Object> map = applicationContext.getBeansOfType((Class<Object>) superInterface);
+            Object logTarget = map.entrySet().stream()
+                    .filter(entry -> entry.getKey()
+                    .endsWith("Log"))
+                    .map(Map.Entry::getValue)
+                    .findFirst()
+                    .orElse(null);
+            if (Objects.nonNull(logTarget)) {
+                Method logMethod;
+                try {
+                    logMethod = logTarget.getClass().getDeclaredMethod(methodName, parameterTypes);
+                } catch (NoSuchMethodException e) {
+                    log.error("没有找到日志记录的方法", e);
+                    return ResultObj.fail(Responsecode.FAILE).msg("没有找到日志记录的方法");
+                }
 
-        Map<String, Object> map = applicationContext.getBeansOfType((Class<Object>) superInterface);
-        Object finalResult = null;
-
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String instanceName = entry.getKey();
-            Object targetObj = entry.getValue();
-            log.info("instanceName is {}", instanceName);
-
-            Method method = null;
-            try {
-                method = targetObj.getClass().getMethod(methodName, parameterTypes);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-
-            Object result = null;
-            try {
-                result = method.invoke(targetObj, parameters);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-
-            if (instanceName.endsWith("Impl")) {
-                finalResult = result;
+                try {
+                    logMethod.invoke(logTarget, parameters);
+                } catch (IllegalAccessException e) {
+                    log.error("调用日志记录方法失败", e);
+                    return ResultObj.fail(Responsecode.FAILE).msg("调用日志记录方法失败");
+                } catch (InvocationTargetException e) {
+                    log.error("调用日志记录方法失败", e);
+                    return ResultObj.fail(Responsecode.FAILE).msg("调用日志记录方法失败");
+                }
             }
         }
 
-
-
-        return finalResult;
-        /*try {
+        try {
             return pjp.proceed();
         } catch (Throwable throwable) {
             log.error("系统异常", throwable);
             return ResultObj.fail();
-        }*/
+        }
     }
 
 }

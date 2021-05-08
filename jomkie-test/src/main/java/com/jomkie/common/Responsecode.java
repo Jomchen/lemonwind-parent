@@ -5,7 +5,7 @@ package com.jomkie.common;
  * @since 2021/3/27 22:56:00
  * 请求结果信息码
  */
-public enum BaseResponse implements AbsResponse {
+public enum Responsecode implements AbsResponse {
 
     FAILE(-1, "请求失败"),
     SUCCESS(0, "成功"),
@@ -15,7 +15,7 @@ public enum BaseResponse implements AbsResponse {
     private Integer code;
     private String msg;
 
-    BaseResponse(Integer code, String msg) {
+    Responsecode(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

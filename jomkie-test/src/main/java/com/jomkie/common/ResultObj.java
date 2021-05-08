@@ -46,11 +46,11 @@ public class ResultObj<T> implements Serializable {
     }
 
     public static <T> ResultObj<T> success() {
-        return new ResultObj(BaseResponse.SUCCESS);
+        return new ResultObj(Responsecode.SUCCESS);
     }
 
     public static <T> ResultObj<T> success(T data) {
-        return new ResultObj(BaseResponse.SUCCESS, data);
+        return new ResultObj(Responsecode.SUCCESS, data);
     }
 
     public static <T> ResultObj<T> fail(AbsResponse absResponse) {
@@ -58,7 +58,7 @@ public class ResultObj<T> implements Serializable {
     }
 
     public static <T> ResultObj<T> fail() {
-        return new ResultObj(BaseResponse.FAILE);
+        return new ResultObj(Responsecode.FAILE);
     }
 
     public static <T> ResultObj<T> fail(LemonException lemonException) {

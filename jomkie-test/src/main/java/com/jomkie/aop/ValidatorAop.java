@@ -1,7 +1,7 @@
 package com.jomkie.aop;
 
 import com.jomkie.annotations.ReqValidGroup;
-import com.jomkie.common.BaseResponse;
+import com.jomkie.common.Responsecode;
 import com.jomkie.common.LemonException;
 import com.jomkie.common.ResultObj;
 import lombok.extern.slf4j.Slf4j;
@@ -89,7 +89,7 @@ public class ValidatorAop {
         // 获取参数错误信息
         if ( ! CollectionUtils.isEmpty(errorList)) {
             String errorMsg = errorList.stream().collect(Collectors.joining("，"));
-            return ResultObj.fail(BaseResponse.PARAM_ERROR).msg(errorMsg);
+            return ResultObj.fail(Responsecode.PARAM_ERROR).msg(errorMsg);
         }
 
         // 执行构建参数的方法
