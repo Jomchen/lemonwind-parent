@@ -17,4 +17,6 @@ public interface UrlContent {
     String NET_TEST_REMOTE = "/net/test/remote";
     String NET_TEST_CUSTOMER_VALID = "/net/test/customer/valid";
 
+    String NET_AOP_TEST_AOP_SERVER_AND_LOG = "/net/aop/test/aop/server/and/log";
+
 }

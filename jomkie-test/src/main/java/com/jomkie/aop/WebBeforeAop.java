@@ -18,8 +18,7 @@ public class WebBeforeAop {
 
     @Before("testPointCut()")
     public void aroundAop() {
-        System.out.println("进入了 before 切面 Start");
-        System.out.println("进入了 before 切面 End");
+        log.info("进入了 before 切面");
     }
 
 }

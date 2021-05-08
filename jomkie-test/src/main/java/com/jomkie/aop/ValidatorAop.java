@@ -58,7 +58,7 @@ public class ValidatorAop {
         Annotation[][] paramAnnotations = method.getParameterAnnotations();
 
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
-        log.info("Entered validator around aspect ... Start");
+        log.info("进入了 validator around aspect ... Start");
         List<String> errorList = new ArrayList<>();
         if (null != paramAnnotations && paramAnnotations.length > 0) {
             IntStream.range(0, paramAnnotations.length).forEach(index ->
@@ -84,7 +84,7 @@ public class ValidatorAop {
                 )
             );
         }
-        log.info("Entered validator around aspect ... End");
+        log.info("进入了 validator around aspect ... End");
 
         // 获取参数错误信息
         if ( ! CollectionUtils.isEmpty(errorList)) {

@@ -20,9 +20,7 @@ public class WebAfterReturnAop {
 
     @AfterReturning(pointcut = "testPointCut()", returning = "result")
     public void afterReturnAop(Object result) {
-        System.out.println("进入了 afterReturn 切面 Start");
-        System.out.println(String.format("-------------->%s", JSONObject.toJSONString(result)));
-        System.out.println("进入了 afterReturn 切面 End");
+        log.info("进入了 afterReturn 切面");
     }
 
 }

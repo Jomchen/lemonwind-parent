@@ -18,8 +18,7 @@ public class WebAfterThrowingAop {
 
     @AfterThrowing("testPointCut()")
     public void afterThrowing() {
-        System.out.println("进入了 afterThrowing 切面 Start");
-        System.out.println("进入了 afterThrowing 切面 End");
+        log.info("进入了 afterThrowing 切面");
     }
 
 }
