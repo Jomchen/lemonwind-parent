@@ -38,10 +38,7 @@ public class JoTestController {
      */
     @PostMapping(UrlContent.NET_TEST_CUSTOMER_VALID)
     @ReqValidGroup()
-    public ResultObj<String> customerValid(
-            @Valid
-            @RequestBody
-                    JoTestDto dto) {
+    public ResultObj<String> customerValid(@RequestBody JoTestDto dto) {
         log.info(JSONObject.toJSONString(dto));
         return ResultObj.success("customerTest 成功");
     }
@@ -49,7 +46,6 @@ public class JoTestController {
     @GetMapping(UrlContent.NET_TEST_PATH_ID)
     @ReqValidGroup
     public ResultObj<String> pathId(
-            @Pattern(regexp = "\\d+", message = "id不合法")
             @PathVariable("id")
             String id) {
 

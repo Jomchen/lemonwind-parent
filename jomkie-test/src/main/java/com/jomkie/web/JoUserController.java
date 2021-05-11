@@ -58,7 +58,7 @@ public class JoUserController {
     @ReqValidGroup(value = UserGroup.UserDel.class)
     public ResultObj<String> delUser(
             @RequestBody
-            @NotNull(message = "id不能为空", groups = UserGroup.UserDel.class)
+            /*@NotNull(message = "id不能为空", groups = UserGroup.UserDel.class)*/
             @PathVariable("id") Long id) {
 
         log.info("进入了方法 delUser: {}", id);
@@ -73,9 +73,7 @@ public class JoUserController {
     @PostMapping(UrlContent.NET_USER_UPDATE)
     @ReqValidGroup(value = UserGroup.UserUpdate.class)
     public ResultObj<String> updateUser(
-            @RequestBody
-            @Valid
-                    JoUserDto dto) {
+            @RequestBody JoUserDto dto) {
 
         log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("updateUser 请求成功");
@@ -89,7 +87,6 @@ public class JoUserController {
     @GetMapping(UrlContent.NET_USER_GET_ONE)
     @ReqValidGroup()
     public ResultObj<JoUserDto> getById(
-            @NotNull(message = "id不能为空")
             @PathVariable("id") Long id) {
 
         log.info("进入了方法 getById");

@@ -38,44 +38,38 @@ import java.util.stream.IntStream;
 @Order(1)
 public class ValidatorAop {
 
-    final String BUILD_PARAM_METHOD_NAME = "buildActualParam";
+    private final String BUILD_PARAM_METHOD_NAME = "buildActualParam";
 
-    private ExecutableValidator validator = Validation.buildDefaultValidatorFactory().getValidator().forExecutables();
+    /** 此处选择对象验证，如果选择方法验证则错误信息会在 springValidator 的参数序列化注入后即验证，不会走 aop */
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void webPointCut() {}
-    @Pointcut("args(com.jomkie.common.PreBuildParamDto)")
-    public void preBuildParamCut() {}
     @Pointcut("@annotation(com.jomkie.annotations.ReqValidGroup)")
     public void reqValidGroup() {}
 
     @Around("webPointCut() && reqValidGroup()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
-        // TODO JoTestController  中自定义验证会被 spring 替代，因而不能进入 aop
-
-        Object target = pjp.getTarget();
         Object[] args = pjp.getArgs();
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
-        Annotation[][] paramAnnotations = method.getParameterAnnotations();
 
         ReqValidGroup reqValidGroup = method.getAnnotation(ReqValidGroup.class);
         List<String> errorList = new ArrayList<>();
-        Set<ConstraintViolation<Object>> errorSet;
-        if (reqValidGroup.value().length > 0) {
+        IntStream.range(0, args.length).forEach(index -> {
+            Set<ConstraintViolation<Object>> errorSet;
             Class<?>[] validateGroups = reqValidGroup.value();
-            errorSet = validator.validateParameters(target, method, args, validateGroups);
-        } else {
-            errorSet = validator.validateParameters(target, method, args);
-        }
+            errorSet = reqValidGroup.value().length > 0 ? validator.validate(args[index], validateGroups) : validator.validate(args[index]);
 
-        if (reqValidGroup.onlyOneError()) {
-            errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
-        } else {
-            errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
-        }
+            if (reqValidGroup.onlyOneError()) {
+                errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
+            } else {
+                errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+            }
+        });
+
 
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
         log.info("进入了 validator around aspect ... Start");
