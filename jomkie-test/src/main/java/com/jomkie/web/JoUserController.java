@@ -3,7 +3,6 @@ package com.jomkie.web;
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.annotations.user.UserGroup;
-import com.jomkie.common.Responsecode;
 import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
 import com.jomkie.dto.JoUserDto;
@@ -13,9 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -40,10 +36,7 @@ public class JoUserController {
      */
     @PostMapping(UrlContent.NET_USER_ADD)
     @ReqValidGroup(value = UserGroup.UserAdd.class)
-    public ResultObj<String> addUser(
-            @Valid
-            @RequestBody
-                    JoUserDto dto) {
+    public ResultObj<String> addUser(@RequestBody JoUserDto dto) {
 
         log.info("进入了方法 addUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("addUser 请求成功");
@@ -58,7 +51,6 @@ public class JoUserController {
     @ReqValidGroup(value = UserGroup.UserDel.class)
     public ResultObj<String> delUser(
             @RequestBody
-            /*@NotNull(message = "id不能为空", groups = UserGroup.UserDel.class)*/
             @PathVariable("id") Long id) {
 
         log.info("进入了方法 delUser: {}", id);
@@ -72,8 +64,7 @@ public class JoUserController {
      */
     @PostMapping(UrlContent.NET_USER_UPDATE)
     @ReqValidGroup(value = UserGroup.UserUpdate.class)
-    public ResultObj<String> updateUser(
-            @RequestBody JoUserDto dto) {
+    public ResultObj<String> updateUser(@RequestBody JoUserDto dto) {
 
         log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("updateUser 请求成功");
@@ -86,8 +77,7 @@ public class JoUserController {
      */
     @GetMapping(UrlContent.NET_USER_GET_ONE)
     @ReqValidGroup()
-    public ResultObj<JoUserDto> getById(
-            @PathVariable("id") Long id) {
+    public ResultObj<JoUserDto> getById(@PathVariable("id") Long id) {
 
         log.info("进入了方法 getById");
 

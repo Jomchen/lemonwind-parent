@@ -9,9 +9,6 @@ import com.jomkie.dto.JoTestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-
 /**
  * @author Jomkie
  * @since 2021-04-15 22:31:27
