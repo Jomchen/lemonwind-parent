@@ -7,10 +7,9 @@ import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
 import com.jomkie.dto.JoTestDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Pattern;
 
 /**
  * @author Jomkie
@@ -41,6 +40,17 @@ public class JoTestController {
     public ResultObj<String> customerValid(@RequestBody JoTestDto dto) {
         log.info(JSONObject.toJSONString(dto));
         return ResultObj.success("customerTest 成功");
+    }
+
+    @GetMapping(UrlContent.NET_TEST_PATH_ID)
+    @ReqValidGroup
+    public ResultObj<String> pathId(
+            @Pattern(regexp = "\\d+", message = "id不合法")
+            @PathVariable("id")
+            String id) {
+
+        log.info("pathId 的 传入id 为 {}", id);
+        return ResultObj.success("pathId 成功");
     }
 
 }
