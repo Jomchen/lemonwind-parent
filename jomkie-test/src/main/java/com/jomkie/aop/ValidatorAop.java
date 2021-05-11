@@ -52,6 +52,8 @@ public class ValidatorAop {
     @Around("webPointCut() && reqValidGroup()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
+        // TODO JoTestController  中自定义验证失效
+
         Object target = pjp.getTarget();
         Object[] args = pjp.getArgs();
         Signature signature = pjp.getSignature();
