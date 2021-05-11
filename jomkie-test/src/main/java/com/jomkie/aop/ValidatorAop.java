@@ -47,9 +47,9 @@ public class ValidatorAop {
     @Pointcut("args(com.jomkie.common.PreBuildParamDto)")
     public void preBuildParamCut() {}
     @Pointcut("@annotation(com.jomkie.annotations.ReqValidGroup)")
-    public void needValidateGroups() {}
+    public void reqValidGroup() {}
 
-    @Around("webPointCut() && needValidateGroups()")
+    @Around("webPointCut() && reqValidGroup()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
         Object target = pjp.getTarget();
