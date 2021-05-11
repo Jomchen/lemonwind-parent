@@ -1,7 +1,6 @@
 package com.jomkie.dto;
 
 import com.jomkie.annotations.user.UserGroup;
-import com.jomkie.aop.valid.NeedValidating;
 import com.jomkie.common.PreBuildParamDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +21,6 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NeedValidating
 public class JoUserDto implements PreBuildParamDto {
 
     @NotNull(message = "ID不能为空", groups = {UserGroup.UserUpdate.class, UserGroup.UserDel.class})

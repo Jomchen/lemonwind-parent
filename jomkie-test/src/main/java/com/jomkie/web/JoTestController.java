@@ -37,7 +37,8 @@ public class JoTestController {
      * 测试dto
      */
     @PostMapping(UrlContent.NET_TEST_CUSTOMER_VALID)
-    public ResultObj<String> customerValid(@RequestBody @ReqValidGroup() JoTestDto dto) {
+    @ReqValidGroup()
+    public ResultObj<String> customerValid(@RequestBody JoTestDto dto) {
         log.info(JSONObject.toJSONString(dto));
         return ResultObj.success("customerTest 成功");
     }

@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -36,9 +39,10 @@ public class JoUserController {
      * 用户添加
      */
     @PostMapping(UrlContent.NET_USER_ADD)
+    @ReqValidGroup(value = UserGroup.UserAdd.class)
     public ResultObj<String> addUser(
+            @Valid
             @RequestBody
-            @ReqValidGroup(value = UserGroup.UserAdd.class)
                     JoUserDto dto) {
 
         log.info("进入了方法 addUser: {}", JSONObject.toJSONString(dto));
@@ -51,14 +55,11 @@ public class JoUserController {
      * 用户更新
      */
     @GetMapping(UrlContent.NET_USER_DEL)
+    @ReqValidGroup(value = UserGroup.UserDel.class)
     public ResultObj<String> delUser(
             @RequestBody
-            @ReqValidGroup(value = UserGroup.UserDel.class)
+            @NotNull(message = "id不能为空", groups = UserGroup.UserDel.class)
             @PathVariable("id") Long id) {
-
-        if (null == id) {
-            return ResultObj.fail(Responsecode.PARAM_ERROR);
-        }
 
         log.info("进入了方法 delUser: {}", id);
         return ResultObj.success("delUser 请求成功");
@@ -70,9 +71,10 @@ public class JoUserController {
      * 用户更新
      */
     @PostMapping(UrlContent.NET_USER_UPDATE)
+    @ReqValidGroup(value = UserGroup.UserUpdate.class)
     public ResultObj<String> updateUser(
             @RequestBody
-            @ReqValidGroup(value = UserGroup.UserUpdate.class)
+            @Valid
                     JoUserDto dto) {
 
         log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
@@ -85,7 +87,11 @@ public class JoUserController {
      * 通过id查询用户
      */
     @GetMapping(UrlContent.NET_USER_GET_ONE)
-    public ResultObj<JoUserDto> getById(@PathVariable("id") Long id) {
+    @ReqValidGroup()
+    public ResultObj<JoUserDto> getById(
+            @NotNull(message = "id不能为空")
+            @PathVariable("id") Long id) {
+
         log.info("进入了方法 getById");
 
         JoUserDto dto = joUserService.getById(id);

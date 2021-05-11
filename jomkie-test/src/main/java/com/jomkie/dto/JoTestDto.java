@@ -1,7 +1,6 @@
 package com.jomkie.dto;
 
 import com.jomkie.annotations.DateTimeValid;
-import com.jomkie.aop.valid.NeedValidating;
 import com.jomkie.common.PreBuildParamDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@NeedValidating
 public class JoTestDto implements PreBuildParamDto {
 
     private String id;

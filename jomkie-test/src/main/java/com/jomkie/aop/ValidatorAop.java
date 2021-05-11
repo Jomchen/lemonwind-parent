@@ -17,7 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.executable.ExecutableValidator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,28 +40,44 @@ public class ValidatorAop {
 
     final String BUILD_PARAM_METHOD_NAME = "buildActualParam";
 
-    @Autowired
-    private Validator validator;
+    private ExecutableValidator validator = Validation.buildDefaultValidatorFactory().getValidator().forExecutables();
 
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void webPointCut() {}
-    @Pointcut("@args(com.jomkie.aop.valid.NeedValidating)")
-    public void validatPointCut() {}
     @Pointcut("args(com.jomkie.common.PreBuildParamDto)")
     public void preBuildParamCut() {}
+    @Pointcut("@annotation(com.jomkie.annotations.ReqValidGroup)")
+    public void needValidateGroups() {}
 
-    @Around("webPointCut() && validatPointCut() && preBuildParamCut()")
+    @Around("webPointCut() && needValidateGroups()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
+        Object target = pjp.getTarget();
         Object[] args = pjp.getArgs();
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
         Annotation[][] paramAnnotations = method.getParameterAnnotations();
 
+        ReqValidGroup reqValidGroup = method.getAnnotation(ReqValidGroup.class);
+        List<String> errorList = new ArrayList<>();
+        Set<ConstraintViolation<Object>> errorSet;
+        if (reqValidGroup.value().length > 0) {
+            Class<?>[] validateGroups = reqValidGroup.value();
+            errorSet = validator.validateParameters(target, method, args, validateGroups);
+        } else {
+            errorSet = validator.validateParameters(target, method, args);
+        }
+
+        if (reqValidGroup.onlyOneError()) {
+            errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
+        } else {
+            errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+        }
+
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
         log.info("进入了 validator around aspect ... Start");
-        List<String> errorList = new ArrayList<>();
+        /*List<String> errorList = new ArrayList<>();
         if (null != paramAnnotations && paramAnnotations.length > 0) {
             IntStream.range(0, paramAnnotations.length).forEach(index ->
                 Arrays.stream(paramAnnotations[index])
@@ -83,7 +101,7 @@ public class ValidatorAop {
                         }
                 )
             );
-        }
+        }*/
         log.info("进入了 validator around aspect ... End");
 
         // 获取参数错误信息
@@ -93,7 +111,7 @@ public class ValidatorAop {
         }
 
         // 执行构建参数的方法
-        Arrays.stream(args).forEach(this::buildActualParam);
+        /*Arrays.stream(args).forEach(this::buildActualParam);*/
 
         // 正常方法执行
         try {

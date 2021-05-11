@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @since 2021-04-3 0:28
  * 声明需要验证的组的注解
  */
-@Target({ElementType.PARAMETER})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReqValidGroup {
 
