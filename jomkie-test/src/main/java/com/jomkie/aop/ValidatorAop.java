@@ -52,7 +52,7 @@ public class ValidatorAop {
     @Around("webPointCut() && reqValidGroup()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
-        // TODO JoTestController  中自定义验证失效
+        // TODO JoTestController  中自定义验证会被 spring 替代，因而不能进入 aop
 
         Object target = pjp.getTarget();
         Object[] args = pjp.getArgs();

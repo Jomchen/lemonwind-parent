@@ -9,6 +9,7 @@ import com.jomkie.dto.JoTestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -37,7 +38,10 @@ public class JoTestController {
      */
     @PostMapping(UrlContent.NET_TEST_CUSTOMER_VALID)
     @ReqValidGroup()
-    public ResultObj<String> customerValid(@RequestBody JoTestDto dto) {
+    public ResultObj<String> customerValid(
+            @Valid
+            @RequestBody
+                    JoTestDto dto) {
         log.info(JSONObject.toJSONString(dto));
         return ResultObj.success("customerTest 成功");
     }
