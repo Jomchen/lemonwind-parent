@@ -41,7 +41,7 @@ public class JoUserController {
     /**
      * @author Jomkie
      * @since 2021-04-07 10:26
-     * 用户更新
+     * 删除用户
      */
     @GetMapping(UrlContent.NET_USER_DEL)
     @ReqValidGroup(value = UserGroup.UserDel.class)
