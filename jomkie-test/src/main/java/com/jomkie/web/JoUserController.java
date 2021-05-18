@@ -33,7 +33,6 @@ public class JoUserController {
     @PostMapping(UrlContent.NET_USER_ADD)
     @ReqValidGroup(value = UserGroup.UserAdd.class)
     public ResultObj<String> addUser(@RequestBody JoUserDto dto) {
-
         log.info("进入了方法 addUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("addUser 请求成功");
     }
@@ -48,7 +47,6 @@ public class JoUserController {
     public ResultObj<String> delUser(
             @RequestBody
             @PathVariable("id") Long id) {
-
         log.info("进入了方法 delUser: {}", id);
         return ResultObj.success("delUser 请求成功");
     }
@@ -61,7 +59,6 @@ public class JoUserController {
     @PostMapping(UrlContent.NET_USER_UPDATE)
     @ReqValidGroup(value = UserGroup.UserUpdate.class)
     public ResultObj<String> updateUser(@RequestBody JoUserDto dto) {
-
         log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
         return ResultObj.success("updateUser 请求成功");
     }
@@ -74,9 +71,7 @@ public class JoUserController {
     @GetMapping(UrlContent.NET_USER_GET_ONE)
     @ReqValidGroup()
     public ResultObj<JoUserDto> getById(@PathVariable("id") Long id) {
-
         log.info("进入了方法 getById");
-
         JoUserDto dto = joUserService.getById(id);
         return ResultObj.success(dto);
     }
@@ -89,7 +84,6 @@ public class JoUserController {
     @GetMapping(UrlContent.NET_USER_GET_ALL)
     public ResultObj<List<JoUserDto>> getAll() {
         log.info("进入了方法 getAll");
-
         List<JoUserDto> list = joUserService.getAll();
         return ResultObj.success(list);
     }
@@ -103,6 +97,17 @@ public class JoUserController {
     public ResultObj<Void> checkBuildParam(@RequestBody JoUserDto joUserDto) {
         log.info("entered the method checkBuildParam, buildParam is {}", joUserDto.getTestBuildParamData());
         return ResultObj.success();
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-18 20:39:51
+     * 测试用户
+     */
+    @GetMapping(UrlContent.NET_USER_TEST_JOUSER)
+    public ResultObj<String> testJoUser() {
+        log.info("you entered the method testJoUser.");
+        return ResultObj.success("testJoUser");
     }
 
 }

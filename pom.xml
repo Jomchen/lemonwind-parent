@@ -25,6 +25,7 @@
     <mysql.connection.version>8.0.19</mysql.connection.version>
     <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
     <fastjson.version>1.2.75</fastjson.version>
+    <org.springframework.boot.spring-boot-starter-security>2.2.1.RELEASE</org.springframework.boot.spring-boot-starter-security>
   </properties>
 
   <parent>
@@ -45,6 +46,7 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-security</artifactId>
+        <!--<version>${org.springframework.boot.spring-boot-starter-security}</version>-->
       </dependency>
 
       <dependency>
