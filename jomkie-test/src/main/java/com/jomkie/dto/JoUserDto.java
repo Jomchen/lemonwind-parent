@@ -1,5 +1,6 @@
 package com.jomkie.dto;
 
+import com.jomkie.annotations.DateTimeValid;
 import com.jomkie.annotations.user.UserGroup;
 import com.jomkie.common.PreBuildParamDto;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,9 @@ public class JoUserDto implements PreBuildParamDto {
     @Pattern(regexp = "^.+@.+$", message = "邮箱不合法", groups = {UserGroup.UserAdd.class, UserGroup.UserUpdate.class})
     private String email;
 
+    @DateTimeValid(value = DateTimeValid.Format.DATE_FORMAT , message = "时间格式有误")
+    @NotNull(message = "时间不能为空")
+    private String dateTime;
 
     private String testBuildParamData;
 

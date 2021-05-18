@@ -1,4 +1,4 @@
-package com.jomkie.aop.valid;
+package com.jomkie.aop;
 
 import com.jomkie.annotations.LogRecorder;
 import com.jomkie.common.Responsecode;

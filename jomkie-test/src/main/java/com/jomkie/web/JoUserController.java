@@ -7,7 +7,6 @@ import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
 import com.jomkie.dto.JoUserDto;
 import com.jomkie.service.JoUserService;
-import com.jomkie.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +24,6 @@ public class JoUserController {
 
     @Autowired
     private JoUserService joUserService;
-
-    @Autowired
-    private TestService testService;
 
     /**
      * @author Jomkie
@@ -95,7 +91,6 @@ public class JoUserController {
         log.info("进入了方法 getAll");
 
         List<JoUserDto> list = joUserService.getAll();
-        testService.test();
         return ResultObj.success(list);
     }
 

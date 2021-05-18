@@ -1,4 +1,4 @@
-package com.jomkie.aop;
+package com.jomkie.aop.valid;
 
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.common.LemonException;
