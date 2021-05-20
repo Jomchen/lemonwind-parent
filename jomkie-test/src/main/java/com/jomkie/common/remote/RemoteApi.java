@@ -6,4 +6,5 @@ package com.jomkie.common.remote;
  * 远程请求api
  */
 public class RemoteApi {
+
 }
