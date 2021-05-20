@@ -2,6 +2,7 @@ package com.jomkie.common.remote;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.RequestObj;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,7 @@ import java.util.Map;
  * 远程请求工具
  */
 @Component
+@Slf4j
 public class RemoteApi {
 
     @Autowired
@@ -39,7 +41,9 @@ public class RemoteApi {
 
         HttpEntity<JSONObject> requestEntity = new HttpEntity<>(requestDataJsonObj, requestHeaders);
         Object result = restTemplate.postForObject(url, requestEntity, Object.class);
-        return JSONObject.toJSONString(result);
+        String resultJsonStr = JSONObject.toJSONString(result);
+        log.info("微信请求结果值为：{}", resultJsonStr);
+        return JSONObject.toJSONString(resultJsonStr);
     }
 
 }

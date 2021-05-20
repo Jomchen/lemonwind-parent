@@ -38,8 +38,20 @@ public class TestController {
      * 普通测试
      */
     @GetMapping(UrlContent.NET_TEST_NORMAL)
-    public ResultObj<String> testNormal() {
+    public ResultObj<String> normal() {
         String result = testService.testNormal();
+        log.info("我接收到的信息是：{}", result);
+        return ResultObj.success("normal successful");
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-20 15:39:36
+     * 测试微信支付接口
+     */
+    @GetMapping(UrlContent.NET_TEST_WECHAT_PAY)
+    public ResultObj<String> wecahtPay() {
+        String result = testService.testWechatPay();
         log.info("我接收到的信息是：{}", result);
         return ResultObj.success("testNormal successful");
     }

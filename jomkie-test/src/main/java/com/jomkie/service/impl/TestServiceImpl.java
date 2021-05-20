@@ -1,11 +1,15 @@
 package com.jomkie.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.jomkie.common.pay.wechat.WeChatRequestParam;
 import com.jomkie.common.remote.RemoteApi;
 import com.jomkie.common.remote.RemoteRequestObj;
 import com.jomkie.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +28,35 @@ public class TestServiceImpl implements TestService {
         String result = remoteApi.postRequest(RemoteRequestObj.build(
                 "http://127.0.0.1:8088/take/stock/find/page/status/list",
                 map)
+        );
+        return result;
+    }
+
+    @Override
+    public String testWechatPay() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = sdf.format(new Date());
+
+        String appid = null;
+        String mchid = null;
+        String description = "测试商品" + timestamp;
+        String outTradeNo = "订单id" + timestamp;
+        String notifyUrl = WeChatRequestParam.WECHAT_PAY_URL;
+        int amountMoneyTotal = 1;
+        String amountMoneyCurrency = "CNY";
+
+        JSONObject jsonObject = WeChatRequestParam.buildParam(
+                appid,
+                mchid,
+                description,
+                outTradeNo,
+                notifyUrl,
+                amountMoneyTotal,
+                amountMoneyCurrency
+        ).getRequestObj();
+        String result = remoteApi.postRequest(RemoteRequestObj.build(
+                "http://127.0.0.1:8088/take/stock/find/page/status/list",
+                jsonObject)
         );
         return result;
     }

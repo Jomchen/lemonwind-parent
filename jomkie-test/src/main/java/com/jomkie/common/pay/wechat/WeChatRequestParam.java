@@ -1,6 +1,9 @@
 package com.jomkie.common.pay.wechat;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,12 +17,14 @@ import java.util.Objects;
  *
  *
  */
+@NoArgsConstructor
+@Data
 public class WeChatRequestParam {
 
     private JSONObject requestObj;
 
-    final String wechatPayScanningUrl = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
-    final String requestType = "POST";
+    public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
+    public static final String REQUEST_TYPE = "POST";
 
     final String APPID = "appid";
     final String MCHID = "mchid";
@@ -52,9 +57,35 @@ public class WeChatRequestParam {
     final String SETTLE_INFO = "settle_info";
         final String PROFIT_SHARING = "profit_sharing";
 
-        public WeChatRequestParam buildParam() {
-            this.requestObj = new JSONObject();
-            return this;
+        /**
+         * @author Jomkie
+         * @since 2021-05-20 15:43:38
+         * @param appid 应用ID
+         * @param mchid 直连商户的商户号
+         * @param description 商品描述
+         * @param outTradeNo 商户系统内部订单号
+         * @param notifyUrl 回调地址
+         * @param moneyTotal 订单总金额
+         * @param moneyCurrency 货币类型
+         */
+        public static WeChatRequestParam buildParam(
+                String appid,
+                String mchid,
+                String description,
+                String outTradeNo,
+                String notifyUrl,
+                int moneyTotal,
+                String moneyCurrency) {
+
+            WeChatRequestParam weChatRequestParam = new WeChatRequestParam()
+                    .setAppid(appid)
+                    .setMchid(mchid)
+                    .setDescription(description)
+                    .setOutTradeNo(outTradeNo)
+                    .setNotifyUrl(notifyUrl)
+                    .setAmount(moneyTotal, moneyCurrency);
+
+            return weChatRequestParam;
         }
 
         /**
@@ -191,6 +222,7 @@ public class WeChatRequestParam {
             JSONObject goodsDetail = new JSONObject()
                     .fluentPut(MERCHANT_GOODS_ID, merchantGoodsId)
                     .fluentPut(WECHATPAY_GOODS_ID, wechatPayGoodsId)
+                    .fluentPut(GOODS_NAME, goodsName)
                     .fluentPut(GOODS_QUANTITY, quantity)
                     .fluentPut(GOODS_UNIT_PRICE, unitPrice);
             return goodsDetail;
