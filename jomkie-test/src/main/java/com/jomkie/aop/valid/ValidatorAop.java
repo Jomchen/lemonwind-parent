@@ -70,35 +70,8 @@ public class ValidatorAop {
             }
         });
 
-
         // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
-        log.info("进入了 validator around aspect ... Start");
-        /*List<String> errorList = new ArrayList<>();
-        if (null != paramAnnotations && paramAnnotations.length > 0) {
-            IntStream.range(0, paramAnnotations.length).forEach(index ->
-                Arrays.stream(paramAnnotations[index])
-                        .filter(anno -> anno instanceof ReqValidGroup)
-                        .findFirst()
-                        .map(anno ->  (ReqValidGroup) anno)
-                        .ifPresent(anno -> {
-                            Class<?>[] validGroup = anno.value();
-                            Set<ConstraintViolation<Object>> errorSet;
-                            if (validGroup.length > 0) {
-                                errorSet = validator.validate(args[index], validGroup);
-                            } else {
-                                errorSet = validator.validate(args[index]);
-                            }
-
-                            if (anno.onlyOneError()) {
-                                errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
-                            } else {
-                                errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
-                            }
-                        }
-                )
-            );
-        }*/
-        log.info("进入了 validator around aspect ... End");
+        log.info("You have entered validator around aspect ...");
 
         // 获取参数错误信息
         if ( ! CollectionUtils.isEmpty(errorList)) {
@@ -109,16 +82,18 @@ public class ValidatorAop {
         // 执行构建参数的方法
         /*Arrays.stream(args).forEach(this::buildActualParam);*/
 
-        // 正常方法执行
+        ResultObj<String> errorResult;
         try {
             return pjp.proceed();
         } catch (LemonException lemonException) {
             log.error(lemonException.getMessage(), lemonException);
-            return ResultObj.fail(lemonException);
+            errorResult = ResultObj.fail(lemonException);
         } catch (Throwable throwable) {
-            log.error("系统异常", throwable);
-            return ResultObj.fail();
+            log.error(Responsecode.SYSTEM_ERROR.getMsg(), throwable);
+            errorResult = ResultObj.fail(Responsecode.SYSTEM_ERROR);
         }
+
+        return errorResult;
     }
 
     /**

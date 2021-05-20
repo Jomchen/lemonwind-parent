@@ -1,6 +1,8 @@
 package com.jomkie.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jomkie.common.LemonException;
+import com.jomkie.common.Responsecode;
 import com.jomkie.common.pay.wechat.WeChatRequestParam;
 import com.jomkie.common.remote.RemoteApi;
 import com.jomkie.common.remote.RemoteRequestObj;
@@ -9,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TestServiceImpl implements TestService {
@@ -45,7 +45,7 @@ public class TestServiceImpl implements TestService {
         int amountMoneyTotal = 1;
         String amountMoneyCurrency = "CNY";
 
-        Map<Object, Object> requestMap = WeChatRequestParam.buildParam(
+        /*Map<Object, Object> requestMap = WeChatRequestParam.buildParam(
                 appid,
                 mchid,
                 description,
@@ -55,7 +55,7 @@ public class TestServiceImpl implements TestService {
                 amountMoneyCurrency
         ).getRequestMap();
         RemoteRequestObj<Map<Object, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatRequestParam.WECHAT_PAY_URL, requestMap);
-        String result = remoteApi.postRequest(remoteRequestObj);
+        String result = remoteApi.postRequest(remoteRequestObj);*/
 
         /*Map<String, String> map = new HashMap<>();
         map.put("takeStockCode", "takeStockCode");
@@ -64,7 +64,9 @@ public class TestServiceImpl implements TestService {
                 "http://127.0.0.1:8088/take/stock/find/page/status/list",
                 map)
         );*/
-        return result;
+
+        String result = null;
+        return Optional.ofNullable(result).filter(Objects::nonNull).orElseThrow(() -> new LemonException(Responsecode.FAILE));
     }
 
 }

@@ -1,0 +1,6 @@
+### 测试微信支付接口
+GET http://localhost:8080/net/test/wechat/pay
+Content-Type: application/json
+
+
+### 其它

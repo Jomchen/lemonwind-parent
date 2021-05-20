@@ -2,6 +2,7 @@ package com.jomkie.common.remote;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
+import com.jomkie.common.Responsecode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -38,16 +39,19 @@ public class RemoteApi {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> requestEntity = new HttpEntity<>(data, headers);
 
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        if (Objects.isNull(responseEntity)) { throw new LemonException("远程请求微信异常"); }
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        } catch (Exception e) {
+            throw new LemonException(Responsecode.REMOTE_ERROR, e);
+        }
+        if (Objects.isNull(responseEntity)) { throw new LemonException(Responsecode.REMOTE_NO_RESPONSE); }
         if ( ! Objects.equals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value())) {
-            throw new LemonException("请求不成功，异常码为：{}" + responseEntity.getStatusCodeValue());
+            log.warn(Responsecode.REMOTE_FAIL.getMsg() + "，异常码为：{}", responseEntity.getStatusCodeValue());
+            throw new LemonException(Responsecode.REMOTE_FAIL);
         }
 
         Object result = responseEntity.getBody();
-        if (Objects.isNull(result)) { throw new LemonException("远程请求没有返回值"); }
-        log.info("微信请求未反序列化结果值为：{}", result);
-
         return result.toString();
     }
 
