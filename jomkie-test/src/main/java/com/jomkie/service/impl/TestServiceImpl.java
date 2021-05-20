@@ -1,5 +1,6 @@
 package com.jomkie.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
 import com.jomkie.common.Responsecode;
 import com.jomkie.common.pay.wechat.WeChatRequestParam;
@@ -44,7 +45,7 @@ public class TestServiceImpl implements TestService {
         String amountMoneyCurrency = "CNY";
 
         // 请求微信的过程
-        Map<String, Object> requestMap = WeChatRequestParam.buildParam(
+        JSONObject requestData = WeChatRequestParam.buildParam(
                 appid,
                 mchid,
                 description,
@@ -52,8 +53,8 @@ public class TestServiceImpl implements TestService {
                 notifyUrl,
                 amountMoneyTotal,
                 amountMoneyCurrency
-        ).getRequestMap();
-        RemoteRequestObj<Map<String, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatRequestParam.WECHAT_PAY_URL, requestMap);
+        ).getRequestObj();
+        RemoteRequestObj<JSONObject> remoteRequestObj = RemoteRequestObj.build(WeChatRequestParam.WECHAT_PAY_URL, requestData);
         String result = remoteApi.postRequest(remoteRequestObj, String.class);
 
         // 请求内部接口的过程

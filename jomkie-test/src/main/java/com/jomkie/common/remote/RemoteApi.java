@@ -36,25 +36,8 @@ public class RemoteApi {
     public <T, R> R postRequest(RemoteRequestObj<T> obj, Class<R> responseClass) {
         String url = obj.getUrl();
         T data = obj.getData();
-        String dataJsonStr = JSONObject.toJSONString(data);
-        JSONObject dataJsonObj = JSONObject.parseObject(dataJsonStr);
+        String dataJsonStr = data instanceof JSONObject ? ((JSONObject) data).toJSONString() : JSONObject.toJSONString(data);
         log.info("remote parameter is：{}", dataJsonStr);
-
-        /*HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> requestEntity = new HttpEntity<>(data, headers);
-
-        ResponseEntity<String> responseEntity;
-        try {
-            responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        } catch (Exception e) {
-            throw new LemonException(Responsecode.REMOTE_ERROR, e);
-        }
-        if (Objects.isNull(responseEntity)) { throw new LemonException(Responsecode.REMOTE_NO_RESPONSE); }
-        if ( ! Objects.equals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value())) {
-            log.warn(Responsecode.REMOTE_FAIL.getMsg() + "，异常码为：{}", responseEntity.getStatusCodeValue());
-            throw new LemonException(Responsecode.REMOTE_FAIL);
-        }*/
 
         // 封装请求头
         HttpHeaders headers = new HttpHeaders();
@@ -63,7 +46,7 @@ public class RemoteApi {
         headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));
 
         // 封装请求体
-        HttpEntity<T> httpEntity = new HttpEntity<>(data, headers);
+        HttpEntity<String> httpEntity = new HttpEntity<>(dataJsonStr, headers);
         ResponseEntity<R> responseEntity;
         try {
             responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, responseClass);
