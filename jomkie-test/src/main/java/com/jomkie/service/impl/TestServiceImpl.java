@@ -45,7 +45,7 @@ public class TestServiceImpl implements TestService {
         int amountMoneyTotal = 1;
         String amountMoneyCurrency = "CNY";
 
-        /*JSONObject jsonObject = WeChatRequestParam.buildParam(
+        Map<Object, Object> requestMap = WeChatRequestParam.buildParam(
                 appid,
                 mchid,
                 description,
@@ -53,19 +53,19 @@ public class TestServiceImpl implements TestService {
                 notifyUrl,
                 amountMoneyTotal,
                 amountMoneyCurrency
-        ).getRequestObj();
+        ).getRequestMap();
         String result = remoteApi.postRequest(RemoteRequestObj.build(
                 WeChatRequestParam.WECHAT_PAY_URL,
-                jsonObject)
-        );*/
+                requestMap)
+        );
 
-        Map<String, String> map = new HashMap<>();
+        /*Map<String, String> map = new HashMap<>();
         map.put("takeStockCode", "takeStockCode");
         map.put("takeStockName", "takeStockName");
         String result = remoteApi.postRequest(RemoteRequestObj.build(
                 "http://127.0.0.1:8088/take/stock/find/page/status/list",
                 map)
-        );
+        );*/
         return result;
     }
 

@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -21,6 +23,7 @@ import java.util.Objects;
 public class WeChatRequestParam {
 
     private JSONObject requestObj;
+    private Map<Object, Object> requestMap;
 
     public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
     public static final String REQUEST_TYPE = "POST";
@@ -59,10 +62,7 @@ public class WeChatRequestParam {
 
     WeChatRequestParam() {
         this.requestObj = new JSONObject();
-    }
-
-    WeChatRequestParam(JSONObject requestObj) {
-        this.requestObj = requestObj;
+        this.requestMap = new HashMap<>();
     }
 
     /**
@@ -103,6 +103,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setAppid(String appid) {
         this.requestObj.put(APPID, appid);
+        this.requestMap.put(APPID, appid);
         return this;
     }
 
@@ -113,6 +114,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setMchid(String mchid) {
         this.requestObj.put(MCHID, mchid);
+        this.requestMap.put(MCHID, mchid);
         return this;
     }
 
@@ -123,6 +125,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setDescription(String description) {
         this.requestObj.put(DESCRIPTION, description);
+        this.requestMap.put(DESCRIPTION, description);
         return this;
     }
 
@@ -133,6 +136,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setOutTradeNo(String outTradeNo) {
         this.requestObj.put(OUT_TRADE_NO, outTradeNo);
+        this.requestMap.put(OUT_TRADE_NO, outTradeNo);
         return this;
     }
 
@@ -143,6 +147,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setTimeExpire(String timeExpire) {
         this.requestObj.put(TIME_EXPIRE, timeExpire);
+        this.requestMap.put(TIME_EXPIRE, timeExpire);
         return this;
     }
 
@@ -153,6 +158,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setAttach(String attach) {
         this.requestObj.put(ATTACH, attach);
+        this.requestMap.put(ATTACH, attach);
         return this;
     }
 
@@ -163,6 +169,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setNotifyUrl(String notifyUrl) {
         this.requestObj.put(NOTIFY_URL, notifyUrl);
+        this.requestMap.put(NOTIFY_URL, notifyUrl);
         return this;
     }
 
@@ -173,6 +180,7 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setGoodsTag(String goodsTag) {
         this.requestObj.put(GOODS_TAG, goodsTag);
+        this.requestMap.put(GOODS_TAG, goodsTag);
         return this;
     }
 
@@ -186,11 +194,17 @@ public class WeChatRequestParam {
      */
     public WeChatRequestParam setAmount(int total, String currency) {
         currency = Objects.isNull(currency) ? "CNY" : currency;
+
         JSONObject amount = new JSONObject()
                 .fluentPut(TOTAL, total)
                 .fluentPut(CURRENCY, currency);
 
+        Map<Object, Object> amoutMap = new HashMap<>();
+        amoutMap.put(TOTAL, total);
+        amoutMap.put(CURRENCY, currency);
+
         this.requestObj.put(AMOUNT, amount);
+        this.requestMap.put(AMOUNT, amoutMap);
         return this;
     }
 
@@ -205,15 +219,22 @@ public class WeChatRequestParam {
      *
      * 优惠功能
      */
-    public WeChatRequestParam setDetail(int costPrice, String invoiceId, List<JSONObject> goodsDetail) {
+    public WeChatRequestParam setDetail(int costPrice, String invoiceId, List<JSONObject> goodsDetail, Map<Object, Object> goodsDetailMap) {
         JSONObject detail = new JSONObject();
         detail.fluentPut(COST_PRICE, costPrice)
                 .fluentPut(INVOICE_ID, invoiceId)
                 .fluentPut(GOODS_DETAIL, goodsDetail);
-
         this.requestObj.put(DETAIL, detail);
+
+        Map<Object, Object> detailMap = new HashMap<>();
+        detailMap.put(COST_PRICE, costPrice);
+        detailMap.put(INVOICE_ID, invoiceId);
+        detailMap.put(GOODS_DETAIL, goodsDetailMap);
+        this.requestMap.put(DETAIL, detailMap);
+
         return this;
     }
+
 
     /**
      * @author Jomkie
@@ -234,6 +255,15 @@ public class WeChatRequestParam {
                 .fluentPut(GOODS_QUANTITY, quantity)
                 .fluentPut(GOODS_UNIT_PRICE, unitPrice);
         return goodsDetail;
+    }
+    public Map<Object, Object> buildGoodsDetailMap(String merchantGoodsId, String wechatPayGoodsId, String goodsName, int quantity, int unitPrice) {
+        Map<Object, Object> goodsDetailMap = new HashMap<>();
+        goodsDetailMap.put(MERCHANT_GOODS_ID, merchantGoodsId);
+        goodsDetailMap.put(WECHATPAY_GOODS_ID, wechatPayGoodsId);
+        goodsDetailMap.put(GOODS_NAME, goodsName);
+        goodsDetailMap.put(GOODS_QUANTITY, quantity);
+        goodsDetailMap.put(GOODS_UNIT_PRICE, unitPrice);
+        return goodsDetailMap;
     }
 
     /**
@@ -260,6 +290,17 @@ public class WeChatRequestParam {
                 .fluentPut(DEVICE_ID, deviceId)
                 .fluentPut(STORE_INFO, storeInfo);
 
+        Map<Object, Object> storeInfoMap = new HashMap<>();
+        storeInfoMap.put(STORE_ID, storeId);
+        storeInfoMap.put(STORE_NAME, name);
+        storeInfoMap.put(STORE_AREA_CODE, areaCode);
+        storeInfoMap.put(STORE_ADDRESS, address);
+
+        Map<Object, Object> sceneInfoMap = new HashMap<>();
+        sceneInfoMap.put(PAYER_CLIENT_IP, payerClientIp);
+        sceneInfoMap.put(DEVICE_ID, deviceId);
+        sceneInfoMap.put(STORE_INFO, storeInfoMap);
+
         this.requestObj.put(SCENE_INFO, sceneInfo);
         return this;
     }
@@ -274,6 +315,11 @@ public class WeChatRequestParam {
     public WeChatRequestParam setSettleInfo(boolean profitSharing) {
         JSONObject settleInfo = new JSONObject().fluentPut(PROFIT_SHARING, profitSharing);
         this.requestObj.put(SETTLE_INFO, settleInfo);
+
+        Map<Object, Object> settleInfoMap = new HashMap<>();
+        settleInfoMap.put(PROFIT_SHARING, profitSharing);
+        this.requestMap.put(SETTLE_INFO, settleInfoMap);
+
         return this;
     }
 

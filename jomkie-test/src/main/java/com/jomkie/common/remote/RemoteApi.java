@@ -34,15 +34,14 @@ public class RemoteApi {
     public <T> String postRequest(RemoteRequestObj<T> obj) {
         String url = obj.getUrl();
         T data = obj.getData();
-        String requestDataJonsStr = JSONObject.toJSONString(data);
-        JSONObject requestDataJsonObj = JSONObject.parseObject(requestDataJonsStr);
-        log.info("远程请求微信参数为：{}", requestDataJonsStr);
+        String dataJsonStr = JSONObject.toJSONString(data);
+        JSONObject dataJsonObj = JSONObject.parseObject(dataJsonStr);
+        log.info("远程请求微信参数为：{}", dataJsonStr);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> requestEntity = new HttpEntity<>(requestDataJsonObj, headers);
+        HttpEntity<Object> requestEntity = new HttpEntity<>(obj, headers);
 
-        /*ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestEntity, Object.class);*/
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         if (Objects.isNull(responseEntity)) { throw new LemonException("远程请求微信异常"); }
         if ( ! Objects.equals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value())) {
