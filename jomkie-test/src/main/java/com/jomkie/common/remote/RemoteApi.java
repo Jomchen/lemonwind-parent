@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.FormSubmitEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -37,17 +38,19 @@ public class RemoteApi {
         JSONObject requestDataJsonObj = JSONObject.parseObject(requestDataJonsStr);
         log.info("远程请求微信参数为：{}", requestDataJonsStr);
 
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-        HttpEntity<JSONObject> requestEntity = new HttpEntity<>(requestDataJsonObj, requestHeaders);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Object> requestEntity = new HttpEntity<>(requestDataJsonObj, headers);
 
-        ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestEntity, Object.class);
+        /*ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestEntity, Object.class);*/
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         if (Objects.isNull(responseEntity)) { throw new LemonException("远程请求微信异常"); }
         if ( ! Objects.equals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value())) {
             throw new LemonException("请求不成功，异常码为：{}" + responseEntity.getStatusCodeValue());
         }
 
         Object result = responseEntity.getBody();
+        if (Objects.isNull(result)) { throw new LemonException("远程请求没有返回值"); }
         String resultJsonStr = JSONObject.toJSONString(result);
         log.info("微信请求结果值为：{}", resultJsonStr);
 
