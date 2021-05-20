@@ -51,10 +51,9 @@ public class RemoteApi {
 
         Object result = responseEntity.getBody();
         if (Objects.isNull(result)) { throw new LemonException("远程请求没有返回值"); }
-        String resultJsonStr = JSONObject.toJSONString(result);
-        log.info("微信请求结果值为：{}", resultJsonStr);
+        log.info("微信请求未反序列化结果值为：{}", result);
 
-        return JSONObject.toJSONString(resultJsonStr);
+        return result.toString();
     }
 
 }

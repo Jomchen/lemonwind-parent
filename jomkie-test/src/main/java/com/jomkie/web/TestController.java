@@ -52,8 +52,8 @@ public class TestController {
     @GetMapping(UrlContent.NET_TEST_WECHAT_PAY)
     public ResultObj<String> wecahtPay() {
         String result = testService.testWechatPay();
-        log.info("我接收到的信息是：{}", result);
-        return ResultObj.success("testNormal successful");
+        log.info("我接口层拿到数据是：{}", result);
+        return ResultObj.success(result);
     }
 
 }
