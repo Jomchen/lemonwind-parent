@@ -38,7 +38,7 @@ public class RemoteApi {
         T data = obj.getData();
         String dataJsonStr = JSONObject.toJSONString(data);
         JSONObject dataJsonObj = JSONObject.parseObject(dataJsonStr);
-        log.info("远程请求微信参数为：{}", dataJsonStr);
+        log.info("remote parameter is：{}", dataJsonStr);
 
         /*HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -72,7 +72,7 @@ public class RemoteApi {
         }
         if (Objects.isNull(responseEntity)) { throw new LemonException(Responsecode.REMOTE_NO_RESPONSE); }
         if ( ! Objects.equals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value())) {
-            log.warn(Responsecode.REMOTE_FAIL.getMsg() + "，异常码为：{}", responseEntity.getStatusCodeValue());
+            log.warn("remote failed code and message is: {} <--> {}", responseEntity.getStatusCodeValue(), Responsecode.REMOTE_FAIL.getMsg());
             throw new LemonException(Responsecode.REMOTE_FAIL);
         }
 
