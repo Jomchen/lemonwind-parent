@@ -37,8 +37,8 @@ public class TestServiceImpl implements TestService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = sdf.format(new Date());
 
-        String appid = null;
-        String mchid = null;
+        String appid = "appid";
+        String mchid = "mchid";
         String description = "测试商品" + timestamp;
         String outTradeNo = "订单id" + timestamp;
         String notifyUrl = "http://www.jomchen.top/net/test/remote";
