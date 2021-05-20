@@ -18,8 +18,8 @@ public class WeChatRequestParam {
 
     private JSONObject requestObj;
 
-    String wechatPayScanningUrl = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
-    String requestType = "POST";
+    final String wechatPayScanningUrl = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
+    final String requestType = "POST";
 
     final String APPID = "appid";
     final String MCHID = "mchid";
