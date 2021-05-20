@@ -2,6 +2,7 @@ package com.jomkie.common;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -13,13 +14,12 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class ResultObj<T> implements Serializable {
 
     private Integer code;
     private String msg;
     private T data;
-
-    public ResultObj() {}
 
     public ResultObj(Integer code, String msg) {
         this.code = code;

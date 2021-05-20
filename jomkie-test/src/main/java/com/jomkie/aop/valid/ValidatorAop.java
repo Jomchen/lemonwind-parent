@@ -82,7 +82,7 @@ public class ValidatorAop {
         // 执行构建参数的方法
         /*Arrays.stream(args).forEach(this::buildActualParam);*/
 
-        ResultObj<String> errorResult;
+        Object errorResult;
         try {
             return pjp.proceed();
         } catch (LemonException lemonException) {
