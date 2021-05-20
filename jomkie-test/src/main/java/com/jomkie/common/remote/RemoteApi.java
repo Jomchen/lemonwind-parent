@@ -2,16 +2,12 @@ package com.jomkie.common.remote;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
-import com.jomkie.common.RequestObj;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.html.FormSubmitEvent;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
