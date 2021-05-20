@@ -35,6 +35,7 @@ public class RemoteApi {
         T data = obj.getData();
         String requestDataJonsStr = JSONObject.toJSONString(data);
         JSONObject requestDataJsonObj = JSONObject.parseObject(requestDataJonsStr);
+        log.info("远程请求微信参数为：{}", requestDataJonsStr);
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
