@@ -14,6 +14,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,25 +29,27 @@ public class RemoteConfiguration {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
-        RestTemplate restTemplate = restTemplateBuilder
+        /*RestTemplate restTemplate = restTemplateBuilder
                 .setConnectTimeout(Duration.ofMillis(5000L))
                 .setReadTimeout(Duration.ofMillis(30000L))
-                .build();
+                .build();*/
 
-        /*RestTemplate restTemplate = new RestTemplate(getFactory());*/
+        RestTemplate restTemplate = new RestTemplate(getFactory());
         restTemplate.setMessageConverters(getConverts());
         return restTemplate;
     }
 
     private SimpleClientHttpRequestFactory getFactory() {
         SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
-        simpleClientHttpRequestFactory.setConnectTimeout(5000);
+        simpleClientHttpRequestFactory.setConnectTimeout(10000);
         simpleClientHttpRequestFactory.setReadTimeout(30000);
         return simpleClientHttpRequestFactory;
     }
 
     private List<HttpMessageConverter<?>> getConverts() {
         // 因为不作这个处理会产生 401 Unauthorized: [no body] 异常，解决方案： https://www.cnblogs.com/gqymy/p/13362579.html
+        // https://www.bianchengquan.com/article/218114.html
+        // https://blog.csdn.net/qq_17798343/article/details/108052312
 
         List<MediaType> mediaTypes = Arrays.asList(MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.APPLICATION_JSON);
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
@@ -54,21 +57,21 @@ public class RemoteConfiguration {
         //添加响应数据格式，不匹配会报401
 
         // fastjson 转换器
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        /*FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         fastJsonConfig.setCharset(StandardCharsets.UTF_8);
         fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect);
 
         FastJsonHttpMessageConverter fastConvert = new FastJsonHttpMessageConverter();
         fastConvert.setFastJsonConfig(fastJsonConfig);
-        fastConvert.setSupportedMediaTypes(mediaTypes);
+        fastConvert.setSupportedMediaTypes(mediaTypes);*/
 
 
         // String转换器
         StringHttpMessageConverter stringConvert = new StringHttpMessageConverter();
         stringConvert.setSupportedMediaTypes(mediaTypes);
         messageConverters.add(stringConvert);
-        messageConverters.add(fastConvert);
+        /*messageConverters.add(fastConvert);*/
         return messageConverters;
     }
 
