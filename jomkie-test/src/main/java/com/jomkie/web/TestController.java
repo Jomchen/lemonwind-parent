@@ -24,7 +24,11 @@ public class TestController {
      */
     @PostMapping(UrlContent.NET_TEST_REMOTE)
     public ResultObj<String> testRemote(@RequestBody String notifyData) {
-        log.info(notifyData);
+        log.info("微信的回调信息为：{}", notifyData);
+        log.info("微信的回调信息为：{}", notifyData);
+        log.info("微信的回调信息为：{}", notifyData);
+        log.info("微信的回调信息为：{}", notifyData);
+        log.info("微信的回调信息为：{}", notifyData);
         return ResultObj.success("remote successful.");
     }
 
