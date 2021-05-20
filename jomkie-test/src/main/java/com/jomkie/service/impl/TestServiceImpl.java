@@ -41,7 +41,7 @@ public class TestServiceImpl implements TestService {
         String mchid = null;
         String description = "测试商品" + timestamp;
         String outTradeNo = "订单id" + timestamp;
-        String notifyUrl = WeChatRequestParam.WECHAT_PAY_URL;
+        String notifyUrl = "http://www.jomchen.top/net/test/remote";
         int amountMoneyTotal = 1;
         String amountMoneyCurrency = "CNY";
 
@@ -55,7 +55,7 @@ public class TestServiceImpl implements TestService {
                 amountMoneyCurrency
         ).getRequestObj();
         String result = remoteApi.postRequest(RemoteRequestObj.build(
-                "http://127.0.0.1:8088/take/stock/find/page/status/list",
+                WeChatRequestParam.WECHAT_PAY_URL,
                 jsonObject)
         );
         return result;
