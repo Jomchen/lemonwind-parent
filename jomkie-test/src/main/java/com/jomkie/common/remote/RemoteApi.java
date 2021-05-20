@@ -40,7 +40,7 @@ public class RemoteApi {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Object> requestEntity = new HttpEntity<>(obj, headers);
+        HttpEntity<Object> requestEntity = new HttpEntity<>(data, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         if (Objects.isNull(responseEntity)) { throw new LemonException("远程请求微信异常"); }

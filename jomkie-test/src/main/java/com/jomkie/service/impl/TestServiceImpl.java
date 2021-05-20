@@ -54,10 +54,8 @@ public class TestServiceImpl implements TestService {
                 amountMoneyTotal,
                 amountMoneyCurrency
         ).getRequestMap();
-        String result = remoteApi.postRequest(RemoteRequestObj.build(
-                WeChatRequestParam.WECHAT_PAY_URL,
-                requestMap)
-        );
+        RemoteRequestObj<Map<Object, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatRequestParam.WECHAT_PAY_URL, requestMap);
+        String result = remoteApi.postRequest(remoteRequestObj);
 
         /*Map<String, String> map = new HashMap<>();
         map.put("takeStockCode", "takeStockCode");
