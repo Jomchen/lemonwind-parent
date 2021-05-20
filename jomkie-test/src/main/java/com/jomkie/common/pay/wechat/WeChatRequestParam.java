@@ -23,7 +23,7 @@ import java.util.Objects;
 public class WeChatRequestParam {
 
     private JSONObject requestObj;
-    private Map<Object, Object> requestMap;
+    private Map<String, Object> requestMap;
 
     public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
     public static final String REQUEST_TYPE = "POST";

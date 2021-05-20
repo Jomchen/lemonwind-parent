@@ -1,6 +1,5 @@
 package com.jomkie.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
 import com.jomkie.common.Responsecode;
 import com.jomkie.common.pay.wechat.WeChatRequestParam;
@@ -25,11 +24,10 @@ public class TestServiceImpl implements TestService {
         map.put("takeStockCode", "takeStockCode");
         map.put("takeStockName", "takeStockName");
 
-        String result = remoteApi.postRequest(RemoteRequestObj.build(
-                "http://127.0.0.1:8088/take/stock/find/page/status/list",
-                map)
+        return remoteApi.postRequest(
+                RemoteRequestObj.build("http://127.0.0.1:8088/take/stock/find/page/status/list", map),
+                String.class
         );
-        return result;
     }
 
     @Override
@@ -45,7 +43,8 @@ public class TestServiceImpl implements TestService {
         int amountMoneyTotal = 1;
         String amountMoneyCurrency = "CNY";
 
-        /*Map<Object, Object> requestMap = WeChatRequestParam.buildParam(
+        // 请求微信的过程
+        Map<String, Object> requestMap = WeChatRequestParam.buildParam(
                 appid,
                 mchid,
                 description,
@@ -54,9 +53,10 @@ public class TestServiceImpl implements TestService {
                 amountMoneyTotal,
                 amountMoneyCurrency
         ).getRequestMap();
-        RemoteRequestObj<Map<Object, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatRequestParam.WECHAT_PAY_URL, requestMap);
-        String result = remoteApi.postRequest(remoteRequestObj);*/
+        RemoteRequestObj<Map<String, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatRequestParam.WECHAT_PAY_URL, requestMap);
+        String result = remoteApi.postRequest(remoteRequestObj, String.class);
 
+        // 请求内部接口的过程
         /*Map<String, String> map = new HashMap<>();
         map.put("takeStockCode", "takeStockCode");
         map.put("takeStockName", "takeStockName");
@@ -65,7 +65,6 @@ public class TestServiceImpl implements TestService {
                 map)
         );*/
 
-        String result = null;
         return Optional.ofNullable(result).filter(Objects::nonNull).orElseThrow(() -> new LemonException(Responsecode.FAILE));
     }
 
