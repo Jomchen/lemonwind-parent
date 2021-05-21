@@ -26,10 +26,7 @@ public class TestController {
     @ReqValidGroup()
     @PostMapping(UrlContent.NET_TEST_REMOTE_POST)
     public ResultObj<String> testRemotePost(@RequestBody String body) {
-        log.info("testRemotePost：{}", body);
-        log.info("testRemotePost：{}", body);
-        log.info("testRemotePost：{}", body);
-        log.info("testRemotePost：{}", body);
+        log.warn("testRemotePost 请求过来的数据为：{}", body);
         return ResultObj.success("testRemotePost successful.");
     }
 
@@ -41,10 +38,7 @@ public class TestController {
     @ReqValidGroup()
     @GetMapping(UrlContent.NET_TEST_REMOTE_GET)
     public ResultObj<String> testRemoteGet(@RequestBody String body) {
-        log.info("testRemoteGet：{}", body);
-        log.info("testRemoteGet：{}", body);
-        log.info("testRemoteGet：{}", body);
-        log.info("testRemoteGet：{}", body);
+        log.warn("testRemoteGet 请求过来的数据为：{}", body);
         return ResultObj.success("testRemoteGet successful.");
     }
 
