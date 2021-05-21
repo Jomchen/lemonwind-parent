@@ -39,7 +39,7 @@ public class TestController {
      * 测试get远程请求
      */
     @ReqValidGroup()
-    @PostMapping(UrlContent.NET_TEST_REMOTE_GET)
+    @GetMapping(UrlContent.NET_TEST_REMOTE_GET)
     public ResultObj<String> testRemoteGet(@RequestBody String body) {
         log.info("testRemoteGet：{}", body);
         log.info("testRemoteGet：{}", body);
