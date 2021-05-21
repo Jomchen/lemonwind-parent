@@ -25,12 +25,12 @@ public class TestController {
      */
     @ReqValidGroup()
     @PostMapping(UrlContent.NET_TEST_REMOTE)
-    public ResultObj<String> testRemote(@RequestBody String notifyData) {
-        log.info("微信的回调信息为：{}", notifyData);
-        log.info("微信的回调信息为：{}", notifyData);
-        log.info("微信的回调信息为：{}", notifyData);
-        log.info("微信的回调信息为：{}", notifyData);
-        log.info("微信的回调信息为：{}", notifyData);
+    public ResultObj<String> testRemote(@RequestBody String body) {
+        log.info("微信的回调信息为：{}", body);
+        log.info("微信的回调信息为：{}", body);
+        log.info("微信的回调信息为：{}", body);
+        log.info("微信的回调信息为：{}", body);
+        log.info("微信的回调信息为：{}", body);
         return ResultObj.success("remote successful.");
     }
 
