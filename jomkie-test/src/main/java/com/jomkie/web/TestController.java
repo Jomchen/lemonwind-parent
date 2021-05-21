@@ -21,17 +21,31 @@ public class TestController {
     /**
      * @author Jomkie
      * @since 2021-05-20 11:14:49
-     * 测试远程通信
+     * 测试post远程请求
      */
     @ReqValidGroup()
-    @PostMapping(UrlContent.NET_TEST_REMOTE)
-    public ResultObj<String> testRemote(@RequestBody String body) {
-        log.info("微信的回调信息为：{}", body);
-        log.info("微信的回调信息为：{}", body);
-        log.info("微信的回调信息为：{}", body);
-        log.info("微信的回调信息为：{}", body);
-        log.info("微信的回调信息为：{}", body);
-        return ResultObj.success("remote successful.");
+    @PostMapping(UrlContent.NET_TEST_REMOTE_POST)
+    public ResultObj<String> testRemotePost(@RequestBody String body) {
+        log.info("testRemotePost：{}", body);
+        log.info("testRemotePost：{}", body);
+        log.info("testRemotePost：{}", body);
+        log.info("testRemotePost：{}", body);
+        return ResultObj.success("testRemotePost successful.");
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-21 22:11:52
+     * 测试get远程请求
+     */
+    @ReqValidGroup()
+    @PostMapping(UrlContent.NET_TEST_REMOTE_GET)
+    public ResultObj<String> testRemoteGet(@RequestBody String body) {
+        log.info("testRemoteGet：{}", body);
+        log.info("testRemoteGet：{}", body);
+        log.info("testRemoteGet：{}", body);
+        log.info("testRemoteGet：{}", body);
+        return ResultObj.success("testRemoteGet successful.");
     }
 
     /**

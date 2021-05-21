@@ -15,7 +15,8 @@ public interface UrlContent {
     String NET_USER_CHECK_BUILD_PARAM = "/net/user/check/build/param";
     String NET_USER_TEST_JOUSER = "/net/user/test/jouser";
 
-    String NET_TEST_REMOTE = "/net/test/remote";
+    String NET_TEST_REMOTE_POST = "/net/test/remote/post";
+    String NET_TEST_REMOTE_GET = "/net/test/remote/get";
     String NET_TEST_NORMAL = "/net/test/normal";
     String NET_TEST_WECHAT_PAY = "/net/test/wechat/pay";
 
