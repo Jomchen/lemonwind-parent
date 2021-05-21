@@ -6,10 +6,7 @@ import com.jomkie.common.UrlContent;
 import com.jomkie.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -37,8 +34,8 @@ public class TestController {
      */
     @ReqValidGroup()
     @GetMapping(UrlContent.NET_TEST_REMOTE_GET)
-    public ResultObj<String> testRemoteGet(@RequestBody String body) {
-        log.warn("testRemoteGet 请求过来的数据为：{}", body);
+    public ResultObj<String> testRemoteGet(@PathVariable("data") String data) {
+        log.warn("testRemoteGet 请求过来的数据为：{}", data);
         return ResultObj.success("testRemoteGet successful.");
     }
 

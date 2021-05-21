@@ -1,5 +1,5 @@
 ### 测试 GET 远程请求
-GET http://www.jomchen.top/net/test/remote/get
+GET http://www.jomchen.top/net/test/remote/get/Linux
 Accept: application/json
 
 ### 测试 POST 远程请求
