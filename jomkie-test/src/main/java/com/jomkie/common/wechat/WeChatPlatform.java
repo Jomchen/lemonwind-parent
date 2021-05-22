@@ -33,6 +33,16 @@ public class WeChatPlatform {
      * @since 2021-05-23 0:36:47
      * @param nonceStr 随机字符串
      * @param date 当前日期，作为时间戳作为签名
+     *
+     * 频率说明：
+     *     在启用新的平台证书前，微信支付会提前24小时把新证书加入到平台证书列表中
+     *     接口的频率限制: 单个商户号1000 次/s，
+     *
+     * 如果自行实现验证平台签名逻辑的话，需要注意：
+     *     1. 程序实现定期更新平台证书的逻辑
+     *     2. 定期调用该接口，间隔时间小于12 小时
+     *     3. 加密请求消息中的敏感信息时，使用最新的平台证书（即：证书启用时间较晚的证书）
+     *
      * 获取平台证书列表
      */
     public String getPlatformList(String nonceStr, Date date) {
@@ -42,7 +52,20 @@ public class WeChatPlatform {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         /*headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));*/
-        headers.set("User-Agent", "https://zh.wikipedia.org/wiki/User_agent"); // TODO 这里应该填什么
+
+        /*String userAgent = String.format(
+                "WeChatPay-IJPay-HttpClient/%s (%s) Java/%s",
+                getClass().getPackage().getImplementationVersion(),
+                OS,
+                VERSION == null ? "Unknown" : VERSION
+        );*/
+        String VERSION = "5.12.5";
+        String userAgent = String.format(
+                "WeChatPay-test%s%s",
+                "Linux",
+                VERSION == null ? "Unknown" : VERSION
+        );
+        headers.set("User-Agent", userAgent); // TODO 这里应该填什么
         headers.set("Authorization", authorization);
 
         RemoteRequestObj<Void> remoteRequestObj = new RemoteRequestObj<>(WECHAT_REQUEST_URL, null);
