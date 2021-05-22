@@ -26,7 +26,6 @@ public class WeChatAuthentication {
     public static final String MERCHANTID = "merchantId";
     /** 请求模式 */
     public static final String SCHEMA = "WECHATPAY2-SHA256-RSA2048";
-
     /** 商户证书序列号 */
     public static final String CERTIFICATESERIAL_NO = "serial_no";
     /** 商户私钥文件路径 */
@@ -54,11 +53,19 @@ public class WeChatAuthentication {
         String message = buildMessage(method, httpUrl, timestamp, nonceStr, body);
         String signature = sign(message.getBytes(StandardCharsets.UTF_8));
 
-        return "mchid=\"" + MERCHANTID + "\","
+        return new StringBuilder()
+                .append("mchid=\"").append(MERCHANTID).append("\",")
+                .append("nonce_str=\"").append(nonceStr).append("\",")
+                .append("timestamp=\"").append(timestamp).append("\",")
+                .append("serial_no=\"").append(CERTIFICATESERIAL_NO).append("\",")
+                .append("signature=\"").append(signature).append("\"")
+                .toString();
+
+        /*return "mchid=\"" + MERCHANTID + "\","
                 + "nonce_str=\"" + nonceStr + "\","
                 + "timestamp=\"" + timestamp + "\","
                 + "serial_no=\"" + CERTIFICATESERIAL_NO + "\","
-                + "signature=\"" + signature + "\"";
+                + "signature=\"" + signature + "\"";*/
     }
 
     String sign(byte[] message) {
@@ -97,11 +104,20 @@ public class WeChatAuthentication {
         }
 
         if (Strings.isEmpty(body)) { body = ""; } // TODO GET请求或没有请求体时，微信文档未表明清楚：是 空格 还是 空字符串，此处暂时表示空字符串
-        return method + "\n"
+
+        return new StringBuilder()
+                .append(method).append("\n")
+                .append(canonicalUrl).append("\n")
+                .append(timestamp).append("\n")
+                .append(nonceStr).append("\n")
+                .append(body).append("\n")
+                .toString();
+
+        /*return method + "\n"
                 + canonicalUrl + "\n"
                 + timestamp + "\n"
                 + nonceStr + "\n"
-                + body + "\n";
+                + body + "\n";*/
     }
 
     PrivateKey getPrivateKey(String privateKeyPath) {
