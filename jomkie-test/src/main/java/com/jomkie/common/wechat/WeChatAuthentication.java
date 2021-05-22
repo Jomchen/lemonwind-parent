@@ -39,20 +39,20 @@ public class WeChatAuthentication {
      * @author Jomkie
      * @since 2021-05-22 23:45:48
      * @param nonceStr 随机字符串
-     * @param date 时间戳，会被处理成秒作为签名条件
+     * @param currentDate 时间戳，会被处理成秒作为签名条件
      * @param httpMethod 方法类型：例如：POST, GET
      * @param requestUrl 请求地址
      * @param body 请求体的 JSON 字符串
      *  获取 authentication
      */
-    public String getAuthorization(String nonceStr, Date date, HttpMethod httpMethod, String requestUrl, String body) {
-        String token = getToken(nonceStr, date, httpMethod.name(), requestUrl, body);
+    public String getAuthorization(String nonceStr, Date currentDate, HttpMethod httpMethod, String requestUrl, String body) {
+        String token = getToken(nonceStr, currentDate, httpMethod.name(), requestUrl, body);
         return new StringBuilder().append(SCHEMA).append(" ").append(token).toString(); // TODO 这里也有疑问，官方给的是换行还是空格还是空字符串
     }
 
-    public String getToken(String nonceStr, Date date, String method, String requestUrl, String body) {
+    public String getToken(String nonceStr, Date currentDate, String method, String requestUrl, String body) {
         HttpUrl httpUrl = HttpUrl.parse(requestUrl);
-        long timestamp = date.getTime() / 1000;
+        long timestamp = currentDate.getTime() / 1000;
         String message = buildMessage(method, httpUrl, timestamp, nonceStr, body);
         String signature = sign(message.getBytes(StandardCharsets.UTF_8));
         String serialNo = getCertificateNumber();
