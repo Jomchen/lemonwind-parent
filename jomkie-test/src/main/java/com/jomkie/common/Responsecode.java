@@ -12,7 +12,7 @@ public enum Responsecode implements AbsResponse {
     PARAM_ERROR(1, "参数不合法"),
     REMOTE_ERROR(2, "远程请求异常"),
     REMOTE_FAIL(2, "远程请求失败"),
-    REMOTE_NO_RESPONSE(3, "远程请求没有获取到返回值"),
+    REMOTE_NO_RESPONSE(3, "远程请求无响应"),
     SYSTEM_ERROR(500, "系统异常"),
 
     ;

@@ -7,12 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Jomkie
@@ -31,22 +30,17 @@ public class RemoteApi {
      * @author Jomkie
      * @since 2021-05-20 21:52:27
      * @param obj 请求封装对象
+     * @param headers 请求头
      * @param responseClass 返回对象类
      */
-    public <T, R> R postRequest(RemoteRequestObj<T> obj, Class<R> responseClass) {
+    public <T, R> R postRequest(HttpHeaders headers, RemoteRequestObj<T> obj, Class<R> responseClass) {
         String url = obj.getUrl();
         T data = obj.getData();
         String dataJsonStr = data instanceof JSONObject ? ((JSONObject) data).toJSONString() : JSONObject.toJSONString(data);
-        log.info("remote parameter is：{}", dataJsonStr);
-
-        // 封装请求头
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));
+        log.info("The request parameter is：{}", dataJsonStr);
 
         // 封装请求体
-        HttpEntity<String> httpEntity = new HttpEntity<>(dataJsonStr, headers);
+        HttpEntity<T> httpEntity = new HttpEntity<>(data, headers);
         ResponseEntity<R> responseEntity;
         try {
             responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, responseClass);
@@ -54,13 +48,34 @@ public class RemoteApi {
             throw new LemonException(Responsecode.REMOTE_ERROR, e);
         }
         if (Objects.isNull(responseEntity)) { throw new LemonException(Responsecode.REMOTE_NO_RESPONSE); }
-        if ( ! Objects.equals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value())) {
-            log.warn("remote failed code and message is: {} <--> {}", responseEntity.getStatusCodeValue(), Responsecode.REMOTE_FAIL.getMsg());
+        HttpStatus resultStatus = verifySuccessful(responseEntity.getStatusCodeValue(), null);
+        if (Objects.isNull(resultStatus)) {
             throw new LemonException(Responsecode.REMOTE_FAIL);
         }
 
+        log.warn("The statusCode of remote  code and message is: {} <--> {}", responseEntity.getStatusCodeValue(), Responsecode.REMOTE_FAIL.getMsg());
         R result = responseEntity.getBody();
         return result;
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-22 11:40:38
+     * @param statusCode 返回的状态码
+     * @param statusList 状态码所属枚举
+     * 获取成功的状态，如果有指定状态集则在状态集中寻找
+     */
+    private HttpStatus verifySuccessful(int statusCode, List<HttpStatus> statusList) {
+        if ( ! CollectionUtils.isEmpty(statusList)) {
+            return statusList.stream().filter(e -> Objects.equals(statusCode, e.value())).findAny().orElse(null);
+        }
+
+        return Arrays.asList(
+                HttpStatus.OK, HttpStatus.CREATED,
+                HttpStatus.ACCEPTED, HttpStatus.NON_AUTHORITATIVE_INFORMATION,
+                HttpStatus.NO_CONTENT, HttpStatus.RESET_CONTENT, HttpStatus.PARTIAL_CONTENT,
+                HttpStatus.MULTI_STATUS, HttpStatus.ALREADY_REPORTED, HttpStatus.IM_USED
+        ).stream().filter(e -> Objects.equals(statusCode, e.value())).findAny().orElse(null);
     }
 
 }
