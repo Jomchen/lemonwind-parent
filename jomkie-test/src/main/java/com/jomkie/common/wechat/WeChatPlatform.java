@@ -61,7 +61,7 @@ public class WeChatPlatform {
         );*/
         String VERSION = "5.12.5";
         String userAgent = String.format(
-                "WeChatPay-test%s%s",
+                "WeChatPay-Jomkie-%s%s",
                 "Linux",
                 VERSION == null ? "Unknown" : VERSION
         );
