@@ -30,23 +30,26 @@ public class RemoteApi {
     /**
      * @author Jomkie
      * @since 2021-05-20 21:52:27
-     * @param obj 请求封装对象
-     * @param headers 请求头
+     * @param remoteObj 请求封装对象
      * @param responseClass 返回对象类
      */
-    public <T, R> R postRequest(HttpHeaders headers, HttpMethod httpMethod, RemoteRequestObj<T> obj, Class<R> responseClass) {
-        String url = obj.getUrl();
-        T data = obj.getData();
+    public <T, R> RemoteRequestObj<R> postRequest(RemoteRequestObj<T> remoteObj, Class<R> responseClass) {
+        String url = remoteObj.getUrl();
+        HttpMethod httpMethod = remoteObj.getHttpMethod();
+        HttpHeaders requestHeaders = remoteObj.getHttpHeaders();
+        T data = remoteObj.getData();
         String dataJsonStr = data instanceof JSONObject ? ((JSONObject) data).toJSONString() : JSONObject.toJSONString(data);
         log.info("The request parameter is：{}", dataJsonStr);
 
         // 封装请求体
         HttpEntity<T> httpEntity;
         if (httpMethod == HttpMethod.GET) {
-            httpEntity = new HttpEntity<>(headers);
+            httpEntity = new HttpEntity<>(requestHeaders);
         } else {
-            httpEntity = new HttpEntity<>(data, headers);
+            httpEntity = new HttpEntity<>(data, requestHeaders);
         }
+
+        // 远程请求
         ResponseEntity<R> responseEntity;
         try {
             responseEntity = restTemplate.exchange(url, httpMethod, httpEntity, responseClass);
@@ -58,10 +61,12 @@ public class RemoteApi {
         if (Objects.isNull(resultStatus)) {
             throw new LemonException(Responsecode.REMOTE_FAIL);
         }
+        HttpHeaders resultHeaders = responseEntity.getHeaders();
 
+        // 请求结果
         log.warn("The statusCode of remote  code and message is: {} <--> {}", responseEntity.getStatusCodeValue(), Responsecode.REMOTE_FAIL.getMsg());
-        R result = responseEntity.getBody();
-        return result;
+        R resultData = responseEntity.getBody();
+        return RemoteRequestObj.build(remoteObj.getUrl(), httpMethod, resultHeaders, resultData);
     }
 
     /**

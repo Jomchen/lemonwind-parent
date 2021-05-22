@@ -59,18 +59,17 @@ public class WeChatPlatform {
                 OS,
                 VERSION == null ? "Unknown" : VERSION
         );*/
-        String VERSION = "5.12.5";
+        String version = "5.12.5";
         String userAgent = String.format(
                 "WeChatPay-Jomkie-%s%s",
                 "Linux",
-                VERSION == null ? "Unknown" : VERSION
+                version == null ? "Unknown" : version
         );
         headers.set("User-Agent", userAgent); // TODO 这里应该填什么
         headers.set("Authorization", authorization);
 
-        RemoteRequestObj<Void> remoteRequestObj = new RemoteRequestObj<>(WECHAT_REQUEST_URL, null);
-        String result = remoteApi.postRequest(headers, httpMethod, remoteRequestObj, String.class);
-        return result;
+        RemoteRequestObj<Void> remoteRequestObj = new RemoteRequestObj<>(WECHAT_REQUEST_URL, httpMethod, headers, null);
+        return remoteApi.postRequest(remoteRequestObj, String.class).getData();
     }
 
 }

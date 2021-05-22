@@ -2,6 +2,8 @@ package com.jomkie.common.remote;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 
 /**
  * @author Jomkie
@@ -13,15 +15,20 @@ import lombok.NoArgsConstructor;
 public class RemoteRequestObj <T> {
 
     private String url;
+    private HttpMethod httpMethod;
+    private HttpHeaders httpHeaders;
     private T data;
 
-    public RemoteRequestObj(String url, T data) {
+    public RemoteRequestObj(String url, HttpMethod httpMethod, HttpHeaders httpHeaders, T data) {
         this.url = url;
+        this.httpMethod = httpMethod;
+        this.httpHeaders = httpHeaders;
         this.data = data;
     }
 
-    public static <T> RemoteRequestObj<T> build(String url, T data) {
-        return new RemoteRequestObj<>(url, data);
+
+    public static <T> RemoteRequestObj<T> build(String url, HttpMethod httpMethod, HttpHeaders httpHeaders, T data) {
+        return new RemoteRequestObj<>(url, httpMethod, httpHeaders, data);
     }
 
 }

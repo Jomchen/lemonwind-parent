@@ -41,17 +41,15 @@ public class TestServiceImpl implements TestService {
         map.put("takeStockName", "takeStockName");
 
         return remoteApi.postRequest(
-                headers,
-                HttpMethod.POST,
-                RemoteRequestObj.build("http://127.0.0.1:8088/take/stock/find/page/status/list", map),
+                RemoteRequestObj.build("http://127.0.0.1:8088/take/stock/find/page/status/list", HttpMethod.POST, headers, map),
                 String.class
-        );
+        ).getData();
 
         /*return remoteApi.postRequest(
-                headers,
-                RemoteRequestObj.build("http://127.0.0.1:8088/take/stock/find/page/status/list",map),
+                HttpMethod.POST,
+                RemoteRequestObj.build("http://127.0.0.1:8088/take/stock/find/page/status/list/list", headers, map),
                 String.class
-        );*/
+        ).getData();*/
     }
 
     @Override
@@ -93,10 +91,10 @@ public class TestServiceImpl implements TestService {
         headers.set("Authorization", authorization);
 
         // 执行请求
-        RemoteRequestObj<Map<String, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatPayBuild.WECHAT_PAY_URL, requestData);
-        String result = remoteApi.postRequest(headers, HttpMethod.POST, remoteRequestObj, String.class);
-        return Optional.ofNullable(result).filter(Objects::nonNull).orElseThrow(() -> new LemonException(Responsecode.REMOTE_FAIL));
-
+        RemoteRequestObj<Map<String, Object>> remoteRequestObj = RemoteRequestObj.build(WeChatPayBuild.WECHAT_PAY_URL, HttpMethod.POST, headers, requestData);
+        RemoteRequestObj<String> result = remoteApi.postRequest(remoteRequestObj, String.class);
+        String resultData = result.getData();
+        return Optional.ofNullable(resultData).filter(Objects::nonNull).orElseThrow(() -> new LemonException(Responsecode.REMOTE_FAIL));
     }
 
 }
