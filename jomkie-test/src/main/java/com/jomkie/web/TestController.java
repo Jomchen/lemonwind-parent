@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * @author Jomkie
@@ -32,7 +33,9 @@ public class TestController {
      * 测试生成二维码
      */
     @GetMapping(UrlContent.GENERATE_QRCODE_IMAGE)
-    public void generateQrcodeImage() {
+    public void generateQrcodeImage(@PathVariable("data") String data) {
+
+        data = Objects.isNull(data) ? "Linux" : data;
         OutputStream outputStream = null;
         try {
             outputStream = response.getOutputStream();
@@ -42,7 +45,7 @@ public class TestController {
 
         try {
             // 源码中可知晓使用完输出流后会关闭流
-            QrcodeImageTool.generateQRCodeImage("Linux", 350, 350, outputStream);
+            QrcodeImageTool.generateQRCodeImage(data, 350, 350, outputStream);
         } catch (IOException e) {
             throw new LemonException(Responsecode.GENERATED_QDIMAGE_FAIL, e);
         } catch (Exception e) {
