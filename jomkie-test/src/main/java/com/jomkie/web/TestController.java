@@ -56,7 +56,7 @@ public class TestController {
     /**
      * @author Jomkie
      * @since 2021-05-20 11:14:49
-     * 测试post远程请求
+     * 测试post远程回调请求
      */
     @ReqValidGroup()
     @PostMapping(UrlContent.NET_TEST_REMOTE_POST)
@@ -68,12 +68,12 @@ public class TestController {
     /**
      * @author Jomkie
      * @since 2021-05-21 22:11:52
-     * 测试get远程请求
+     * 测试get远程回调请求
      */
     @ReqValidGroup()
     @GetMapping(UrlContent.NET_TEST_REMOTE_GET)
-    public ResultObj<String> testRemoteGet(@PathVariable("data") String data) {
-        log.warn("testRemoteGet 请求过来的数据为：{}", data);
+    public ResultObj<String> testRemoteGet(@PathVariable("data") String body) {
+        log.warn("testRemoteGet 请求过来的数据为：{}", body);
         return ResultObj.success("testRemoteGet successful.");
     }
 

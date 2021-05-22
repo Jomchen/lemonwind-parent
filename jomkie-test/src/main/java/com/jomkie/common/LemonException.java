@@ -31,13 +31,21 @@ public class LemonException  extends RuntimeException {
         this.message = baseResponse.getMsg();
     }
 
+    public LemonException(AbsResponse baseResponse, String message, Throwable throwable) {
+        super(baseResponse.getMsg(), throwable);
+        this.code = baseResponse.getcode();
+        this.message = message;
+    }
+
     public LemonException(String message) {
         super(message);
+        this.code = Responsecode.SYSTEM_ERROR.getcode();
         this.message = message;
     }
 
     public LemonException(String message, Throwable throwable) {
         super(message, throwable);
+        this.code = Responsecode.SYSTEM_ERROR.getcode();
         this.message = message;
     }
 

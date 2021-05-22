@@ -2,8 +2,6 @@ package com.jomkie.common.pay.wechat;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,20 +11,18 @@ import java.util.Objects;
 /**
  * @author Jomkie
  * @since 2021-05-20 12:23:49
- * 微信请求基础信息
+ * 微信支付请求基础构建类
  * 引用于微信文档 https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_4_1.shtml
  *    2021-1 版本，官方文档更新于 2020.05.26
- *
- *
  */
 @Data
-public class WeChatRequestParam {
+public class WeChatPayBuild {
 
     private JSONObject requestObj;
     private Map<String, Object> requestMap;
 
+    /** 微信 Native 支付请求地址 */
     public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
-    public static final String REQUEST_TYPE = "POST";
 
     final String APPID = "appid";
     final String MCHID = "mchid";
@@ -60,7 +56,7 @@ public class WeChatRequestParam {
         final String PROFIT_SHARING = "profit_sharing";
 
 
-    WeChatRequestParam() {
+    WeChatPayBuild() {
         this.requestObj = new JSONObject();
         this.requestMap = new HashMap<>();
     }
@@ -76,7 +72,7 @@ public class WeChatRequestParam {
      * @param moneyTotal 订单总金额
      * @param moneyCurrency 货币类型
      */
-    public static WeChatRequestParam buildParam(
+    public static WeChatPayBuild buildParam(
             String appid,
             String mchid,
             String description,
@@ -85,7 +81,7 @@ public class WeChatRequestParam {
             int moneyTotal,
             String moneyCurrency) {
 
-        WeChatRequestParam weChatRequestParam = new WeChatRequestParam()
+        WeChatPayBuild weChatPayBuild = new WeChatPayBuild()
                 .setAppid(appid)
                 .setMchid(mchid)
                 .setDescription(description)
@@ -93,7 +89,7 @@ public class WeChatRequestParam {
                 .setNotifyUrl(notifyUrl)
                 .setAmount(moneyTotal, moneyCurrency);
 
-        return weChatRequestParam;
+        return weChatPayBuild;
     }
 
     /**
@@ -101,7 +97,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 13:56:52
      * @param appid 微信生成的应用 ID，公众号场景下，需使用应用属性为公众号的 APPID
      */
-    public WeChatRequestParam setAppid(String appid) {
+    public WeChatPayBuild setAppid(String appid) {
         this.requestObj.put(APPID, appid);
         this.requestMap.put(APPID, appid);
         return this;
@@ -112,7 +108,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 13:57:43
      * @param mchid 直连商户的商户号
      */
-    public WeChatRequestParam setMchid(String mchid) {
+    public WeChatPayBuild setMchid(String mchid) {
         this.requestObj.put(MCHID, mchid);
         this.requestMap.put(MCHID, mchid);
         return this;
@@ -123,7 +119,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 13:58:45
      * @param description 商品描述
      */
-    public WeChatRequestParam setDescription(String description) {
+    public WeChatPayBuild setDescription(String description) {
         this.requestObj.put(DESCRIPTION, description);
         this.requestMap.put(DESCRIPTION, description);
         return this;
@@ -134,7 +130,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 13:59:20
      * @param outTradeNo 商户订单号
      */
-    public WeChatRequestParam setOutTradeNo(String outTradeNo) {
+    public WeChatPayBuild setOutTradeNo(String outTradeNo) {
         this.requestObj.put(OUT_TRADE_NO, outTradeNo);
         this.requestMap.put(OUT_TRADE_NO, outTradeNo);
         return this;
@@ -145,7 +141,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 14:0:31
      * @param timeExpire 订单失效时间，格式为 yyyy-MM-ddTHH:mm:ss，例如 2020-01-01T10:24:00
      */
-    public WeChatRequestParam setTimeExpire(String timeExpire) {
+    public WeChatPayBuild setTimeExpire(String timeExpire) {
         this.requestObj.put(TIME_EXPIRE, timeExpire);
         this.requestMap.put(TIME_EXPIRE, timeExpire);
         return this;
@@ -156,7 +152,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 14:2:26
      * @param attach 附加数据
      */
-    public WeChatRequestParam setAttach(String attach) {
+    public WeChatPayBuild setAttach(String attach) {
         this.requestObj.put(ATTACH, attach);
         this.requestMap.put(ATTACH, attach);
         return this;
@@ -167,7 +163,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 14:3:13
      * @param notifyUrl 回调地址
      */
-    public WeChatRequestParam setNotifyUrl(String notifyUrl) {
+    public WeChatPayBuild setNotifyUrl(String notifyUrl) {
         this.requestObj.put(NOTIFY_URL, notifyUrl);
         this.requestMap.put(NOTIFY_URL, notifyUrl);
         return this;
@@ -178,7 +174,7 @@ public class WeChatRequestParam {
      * @since 2021-05-20 14:3:53
      * @param goodsTag 订单优惠标记
      */
-    public WeChatRequestParam setGoodsTag(String goodsTag) {
+    public WeChatPayBuild setGoodsTag(String goodsTag) {
         this.requestObj.put(GOODS_TAG, goodsTag);
         this.requestMap.put(GOODS_TAG, goodsTag);
         return this;
@@ -192,7 +188,7 @@ public class WeChatRequestParam {
      *
      * 订单金额
      */
-    public WeChatRequestParam setAmount(int total, String currency) {
+    public WeChatPayBuild setAmount(int total, String currency) {
         currency = Objects.isNull(currency) ? "CNY" : currency;
 
         JSONObject amount = new JSONObject()
@@ -219,7 +215,7 @@ public class WeChatRequestParam {
      *
      * 优惠功能
      */
-    public WeChatRequestParam setDetail(int costPrice, String invoiceId, List<JSONObject> goodsDetail, Map<Object, Object> goodsDetailMap) {
+    public WeChatPayBuild setDetail(int costPrice, String invoiceId, List<JSONObject> goodsDetail, Map<Object, Object> goodsDetailMap) {
         JSONObject detail = new JSONObject();
         detail.fluentPut(COST_PRICE, costPrice)
                 .fluentPut(INVOICE_ID, invoiceId)
@@ -278,7 +274,7 @@ public class WeChatRequestParam {
      *
      * 场景信息
      */
-    public WeChatRequestParam setSceneInfo(String payerClientIp, String deviceId, String storeId, String name, String areaCode, String address) {
+    public WeChatPayBuild setSceneInfo(String payerClientIp, String deviceId, String storeId, String name, String areaCode, String address) {
         JSONObject storeInfo = new JSONObject()
                 .fluentPut(STORE_ID, storeId)
                 .fluentPut(STORE_NAME, name)
@@ -312,7 +308,7 @@ public class WeChatRequestParam {
      *
      * 结算信息
      */
-    public WeChatRequestParam setSettleInfo(boolean profitSharing) {
+    public WeChatPayBuild setSettleInfo(boolean profitSharing) {
         JSONObject settleInfo = new JSONObject().fluentPut(PROFIT_SHARING, profitSharing);
         this.requestObj.put(SETTLE_INFO, settleInfo);
 
