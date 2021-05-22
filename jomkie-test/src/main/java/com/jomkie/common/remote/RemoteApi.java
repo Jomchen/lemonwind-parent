@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Jomkie
@@ -33,7 +34,7 @@ public class RemoteApi {
      * @param headers 请求头
      * @param responseClass 返回对象类
      */
-    public <T, R> R postRequest(HttpHeaders headers, RemoteRequestObj<T> obj, Class<R> responseClass) {
+    public <T, R> R postRequest(HttpHeaders headers, HttpMethod httpMethod, RemoteRequestObj<T> obj, Class<R> responseClass) {
         String url = obj.getUrl();
         T data = obj.getData();
         String dataJsonStr = data instanceof JSONObject ? ((JSONObject) data).toJSONString() : JSONObject.toJSONString(data);
@@ -43,7 +44,7 @@ public class RemoteApi {
         HttpEntity<T> httpEntity = new HttpEntity<>(data, headers);
         ResponseEntity<R> responseEntity;
         try {
-            responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, responseClass);
+            responseEntity = restTemplate.exchange(url, httpMethod, httpEntity, responseClass);
         } catch (Exception e) {
             throw new LemonException(Responsecode.REMOTE_ERROR, e);
         }

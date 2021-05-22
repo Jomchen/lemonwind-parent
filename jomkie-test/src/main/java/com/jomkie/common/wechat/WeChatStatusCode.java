@@ -1,4 +1,4 @@
-package com.jomkie.common.pay.wechat;
+package com.jomkie.common.wechat;
 
 import lombok.Getter;
 
