@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
+import java.security.cert.X509Certificate;
 import java.util.Base64;
 import java.util.Date;
 
@@ -27,9 +28,11 @@ public class WeChatAuthentication {
     /** 请求模式 */
     public static final String SCHEMA = "WECHATPAY2-SHA256-RSA2048";
     /** 商户证书序列号 */
-    public static final String CERTIFICATESERIAL_NO = "serial_no";
+    /*public static final String CERTIFICATESERIAL_NO = "serial_no";*/
+    /** 商户证书文件路径 */
+    public static final String CERTIFICATION_PATH = "/home/jomkie/work/apiclient_cert.pem";
     /** 商户私钥文件路径 */
-    public static final String PRIVATEKEY_PATH = "";
+    public static final String PRIVATEKEY_PATH = "/home/jomkie/work/apiclient_key.pem";
 
 
     /**
@@ -52,19 +55,20 @@ public class WeChatAuthentication {
         long timestamp = date.getTime() / 1000;
         String message = buildMessage(method, httpUrl, timestamp, nonceStr, body);
         String signature = sign(message.getBytes(StandardCharsets.UTF_8));
+        String serialNo = getCertificateNumber();
 
         return new StringBuilder()
                 .append("mchid=\"").append(MERCHANTID).append("\",")
                 .append("nonce_str=\"").append(nonceStr).append("\",")
                 .append("timestamp=\"").append(timestamp).append("\",")
-                .append("serial_no=\"").append(CERTIFICATESERIAL_NO).append("\",")
+                .append("serial_no=\"").append(serialNo).append("\",")
                 .append("signature=\"").append(signature).append("\"")
                 .toString();
 
         /*return "mchid=\"" + MERCHANTID + "\","
                 + "nonce_str=\"" + nonceStr + "\","
                 + "timestamp=\"" + timestamp + "\","
-                + "serial_no=\"" + CERTIFICATESERIAL_NO + "\","
+                + "serial_no=\"" + serialNo + "\","
                 + "signature=\"" + signature + "\"";*/
     }
 
@@ -120,6 +124,11 @@ public class WeChatAuthentication {
                 + body + "\n";*/
     }
 
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 2:11:43
+     * 获取商户私钥
+     */
     PrivateKey getPrivateKey() {
         InputStream inputStream;
         try {
@@ -135,6 +144,47 @@ public class WeChatAuthentication {
             log.error("关闭流失败", e);
         }
         return privateKey;
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 2:11:14
+     * 获取商户证书序列号
+     */
+    String getCertificateNumber() {
+        return getCertificate().getSerialNumber().toString(16);
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 2:11:32
+     * 商户证书
+     */
+    X509Certificate getCertificate() {
+        InputStream inputStream;
+        try {
+            inputStream = new FileInputStream(CERTIFICATION_PATH);
+        } catch (FileNotFoundException e) {
+            throw new LemonException("加载商户证书失败", e);
+        }
+        X509Certificate certificate = PemUtil.loadCertificate(inputStream);
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            log.error("关闭流失败", e);
+        }
+
+        log.warn("输出证书信息：{}\n", certificate);
+        log.warn("证书序列号：{}\n", certificate.getSerialNumber().toString(16));
+        log.warn("版本号：{}\n", certificate.getVersion());
+        log.warn("签发者：{}\n", certificate.getIssuerDN());
+        log.warn("有效起始日期：{}\n", certificate.getNotBefore());
+        log.warn("有效终止日期：{}\n", certificate.getNotAfter());
+        log.warn("主体名：{}\n", certificate.getSubjectDN());
+        log.warn("签名算法：{}\n", certificate.getSigAlgName());
+        log.warn("签名：{}\n", certificate.getSignature().toString());
+
+        return certificate;
     }
 
 }
