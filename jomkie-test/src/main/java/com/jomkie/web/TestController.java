@@ -1,19 +1,54 @@
 package com.jomkie.web;
 
 import com.jomkie.annotations.ReqValidGroup;
-import com.jomkie.common.ResultObj;
-import com.jomkie.common.UrlContent;
+import com.jomkie.common.*;
 import com.jomkie.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+
+/**
+ * @author Jomkie
+ * @since 2021-05-22 15:30:43
+ * 测试 api
+ */
 @Slf4j
 @RestController
 public class TestController {
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private HttpServletResponse response;
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-22 15:17:38
+     * 测试生成二维码
+     */
+    @GetMapping(UrlContent.GENERATE_QRCODE_IMAGE)
+    public void generateQrcodeImage() {
+        OutputStream outputStream = null;
+        try {
+            outputStream = response.getOutputStream();
+        } catch (IOException e) {
+            log.error("获取输出流失败", e);
+        }
+
+        try {
+            // 源码中可知晓使用完输出流后会关闭流
+            QrcodeImageTool.generateQRCodeImage("Linux", 350, 350, outputStream);
+        } catch (IOException e) {
+            throw new LemonException(Responsecode.GENERATED_QDIMAGE_FAIL, e);
+        } catch (Exception e) {
+            throw new LemonException(Responsecode.GENERATED_QDIMAGE_FAIL, e);
+        }
+    }
 
     /**
      * @author Jomkie

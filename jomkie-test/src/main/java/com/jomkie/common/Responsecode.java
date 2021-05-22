@@ -13,6 +13,7 @@ public enum Responsecode implements AbsResponse {
     REMOTE_ERROR(2, "远程请求异常"),
     REMOTE_FAIL(2, "远程请求失败"),
     REMOTE_NO_RESPONSE(3, "远程请求无响应"),
+    GENERATED_QDIMAGE_FAIL(4, "生成二维码失败"),
     SYSTEM_ERROR(500, "系统异常"),
 
     ;
