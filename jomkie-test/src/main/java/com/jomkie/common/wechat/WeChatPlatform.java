@@ -30,16 +30,12 @@ public class WeChatPlatform {
 
     /**
      * @author Jomkie
-     * @since 2021-05-23 0:24:34
-     * 获取平台证书
-     */
-    /**
-     * @author Jomkie
      * @since 2021-05-23 0:36:47
      * @param nonceStr 随机字符串
      * @param date 当前日期，作为时间戳作为签名
+     * 获取平台证书列表
      */
-    public String getPlatform(String nonceStr, Date date) {
+    public String getPlatformList(String nonceStr, Date date) {
         HttpMethod httpMethod = HttpMethod.GET;
         String authorization = weChatAuthentication.getAuthorization(nonceStr, date, httpMethod, WECHAT_REQUEST_URL, null);
 
