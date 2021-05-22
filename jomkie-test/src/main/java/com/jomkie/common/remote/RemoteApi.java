@@ -41,7 +41,12 @@ public class RemoteApi {
         log.info("The request parameter is：{}", dataJsonStr);
 
         // 封装请求体
-        HttpEntity<T> httpEntity = new HttpEntity<>(data, headers);
+        HttpEntity<T> httpEntity;
+        if (httpMethod == HttpMethod.GET) {
+            httpEntity = new HttpEntity<>(headers);
+        } else {
+            httpEntity = new HttpEntity<>(data, headers);
+        }
         ResponseEntity<R> responseEntity;
         try {
             responseEntity = restTemplate.exchange(url, httpMethod, httpEntity, responseClass);

@@ -79,7 +79,7 @@ public class TestServiceImpl implements TestService {
         // 封装请求头
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));
+        /*headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));*/
         headers.setContentType(MediaType.APPLICATION_JSON);
         String nonceStr = UUID.randomUUID().toString().replace("-", "");
         String requestBodyJson = JSONObject.toJSONString(requestData);
