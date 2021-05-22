@@ -76,7 +76,7 @@ public class WeChatAuthentication {
             throw new LemonException("SHA256withRSA签名失败", e);
         }
 
-        PrivateKey privateKey = getPrivateKey(PRIVATEKEY_PATH);
+        PrivateKey privateKey = getPrivateKey();
         try {
             sign.initSign(privateKey);
         } catch (InvalidKeyException e) {
@@ -120,10 +120,10 @@ public class WeChatAuthentication {
                 + body + "\n";*/
     }
 
-    PrivateKey getPrivateKey(String privateKeyPath) {
+    PrivateKey getPrivateKey() {
         InputStream inputStream;
         try {
-            inputStream = new FileInputStream(privateKeyPath);
+            inputStream = new FileInputStream(PRIVATEKEY_PATH);
         } catch (FileNotFoundException e) {
             throw new LemonException("获取商户私钥失败", e);
         }
