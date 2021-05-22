@@ -26,20 +26,22 @@ public class RemoteApi {
     @Autowired
     private RestTemplate restTemplate;
 
-
     /**
      * @author Jomkie
-     * @since 2021-05-20 21:52:27
-     * @param responseClass 返回对象类
+     * @since 2021-05-23 2:50:58
+     * @param requestUrl 请求地址
+     * @param requestMethod 请求方法
+     * @param requestHeaders 请求头
+     * @param requestBody 请求体
+     * @param responseClass 响应实体类
      */
-    public <T, R> RemoteRequestObj<R> postRequest(String requestUrl, HttpMethod httpMethod, HttpHeaders requestHeaders, T requestBody, Class<R> responseClass) {
-    /*public <T, R> RemoteRequestObj<R> postRequest(RemoteRequestObj<T> remoteObj, Class<R> responseClass) {*/
+    public <T, R> RemoteRequestObj<R> postRequest(String requestUrl, HttpMethod requestMethod, HttpHeaders requestHeaders, T requestBody, Class<R> responseClass) {
         String dataJsonStr = requestBody instanceof JSONObject ? ((JSONObject) requestBody).toJSONString() : JSONObject.toJSONString(requestBody);
         log.info("The request parameter is：{}", dataJsonStr);
 
         // 封装请求体
         HttpEntity<T> httpEntity;
-        if (httpMethod == HttpMethod.GET) {
+        if (requestMethod == HttpMethod.GET) {
             httpEntity = new HttpEntity<>(requestHeaders);
         } else {
             httpEntity = new HttpEntity<>(requestBody, requestHeaders);
@@ -48,21 +50,21 @@ public class RemoteApi {
         // 远程请求
         ResponseEntity<R> responseEntity;
         try {
-            responseEntity = restTemplate.exchange(requestUrl, httpMethod, httpEntity, responseClass);
+            responseEntity = restTemplate.exchange(requestUrl, requestMethod, httpEntity, responseClass);
         } catch (Exception e) {
             throw new LemonException(Responsecode.REMOTE_ERROR, e);
         }
         if (Objects.isNull(responseEntity)) { throw new LemonException(Responsecode.REMOTE_NO_RESPONSE); }
-        HttpStatus resultStatus = verifySuccessful(responseEntity.getStatusCodeValue(), null);
-        if (Objects.isNull(resultStatus)) {
+        HttpStatus responseStatus = verifySuccessful(responseEntity.getStatusCodeValue(), null);
+        if (Objects.isNull(responseStatus)) {
             throw new LemonException(Responsecode.REMOTE_FAIL);
         }
-        HttpHeaders resultHeaders = responseEntity.getHeaders();
+        HttpHeaders responseHeaders = responseEntity.getHeaders();
 
         // 请求结果
         log.warn("The statusCode of remote  code and message is: {} <--> {}", responseEntity.getStatusCodeValue(), Responsecode.REMOTE_FAIL.getMsg());
-        R resultData = responseEntity.getBody();
-        return RemoteRequestObj.build(requestUrl, httpMethod, resultHeaders, resultData);
+        R responseData = responseEntity.getBody();
+        return RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
     }
 
     /**
