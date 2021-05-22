@@ -67,9 +67,7 @@ public class WeChatPlatform {
         );
         headers.set("User-Agent", userAgent); // TODO 这里应该填什么
         headers.set("Authorization", authorization);
-
-        RemoteRequestObj<Void> remoteRequestObj = new RemoteRequestObj<>(WECHAT_REQUEST_URL, httpMethod, headers, null);
-        return remoteApi.postRequest(remoteRequestObj, String.class).getData();
+        return remoteApi.postRequest(WECHAT_REQUEST_URL, httpMethod, headers, null, String.class).getData();
     }
 
 }
