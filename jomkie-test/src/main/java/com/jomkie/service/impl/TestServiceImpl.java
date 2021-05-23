@@ -108,7 +108,7 @@ public class TestServiceImpl implements TestService {
     public String getWechatPlatform() {
         String nonceStr = UUID.randomUUID().toString().replace("-", "");
         String platform = weChatPlatform.getPlatformList(nonceStr, new Date());
-        return null;
+        return platform;
     }
 
 }
