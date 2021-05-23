@@ -95,7 +95,7 @@ public class TestController {
     @GetMapping(UrlContent.NET_TEST_REDIS_GET)
     public ResultObj<String> testRedisGet(@PathVariable("redisKey") String redisKey) {
         String value = strRedisTemplate.opsForValue().get(redisKey);
-        return ResultObj.success(value);
+        return Optional.ofNullable(value).map(v -> ResultObj.success(v)).orElse(ResultObj.fail(Responsecode.FAILE, "未找到相应的值"));
     }
 
     /**
@@ -106,8 +106,13 @@ public class TestController {
      */
     @GetMapping(UrlContent.NET_TEST_REDIS_DELETE)
     public ResultObj<Void> testRedisDel(@PathVariable("redisKey") String redisKey) {
-        strRedisTemplate.delete(redisKey);
-        return ResultObj.success();
+        String value = strRedisTemplate.opsForValue().get(redisKey);
+        if (Objects.isNull(value)) {
+            return ResultObj.fail(Responsecode.FAILE, "未找到相应的值");
+        } else {
+            strRedisTemplate.delete(redisKey);
+            return ResultObj.success();
+        }
     }
 
     /**

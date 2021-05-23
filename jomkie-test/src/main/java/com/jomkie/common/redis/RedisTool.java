@@ -13,18 +13,18 @@ import java.util.concurrent.TimeUnit;
 public class RedisTool {
 
     @Autowired
-    private RedisTemplate<String, String> stringRedisTemplate;
+    private RedisTemplate<String, String> strRedisTemplate;
 
     public String get(String key) {
-        return stringRedisTemplate.opsForValue().get(key);
+        return strRedisTemplate.opsForValue().get(key);
     }
 
     public void set(String key, String value) {
-        stringRedisTemplate.opsForValue().set(key, value);
+        strRedisTemplate.opsForValue().set(key, value);
     }
 
     public void set(String key, String value, long timeLength, TimeUnit timeUnit) {
-        stringRedisTemplate.opsForValue().set(key, value, timeLength, timeUnit);
+        strRedisTemplate.opsForValue().set(key, value, timeLength, timeUnit);
     }
 
     /**
@@ -35,7 +35,7 @@ public class RedisTool {
      * 查询一个对象
      */
     public <T> T get(String key, TypeReference<T> typeReference) {
-        String valueJson = stringRedisTemplate.opsForValue().get(key);
+        String valueJson = strRedisTemplate.opsForValue().get(key);
         T resultData = Optional.ofNullable(valueJson)
                 .map(v -> JSONObject.parseObject(valueJson, typeReference))
                 .orElse(null);
@@ -50,7 +50,7 @@ public class RedisTool {
      */
     public <T> void set(String key, T data) {
         String valueJson = JSONObject.toJSONString(data);
-        stringRedisTemplate.opsForValue().set(key, valueJson);
+        strRedisTemplate.opsForValue().set(key, valueJson);
     }
 
     /**
@@ -63,7 +63,7 @@ public class RedisTool {
      */
     public <T> void set(String key, T data, long timeLength, TimeUnit timeUnit) {
         String valueJson = JSONObject.toJSONString(data);
-        stringRedisTemplate.opsForValue().set(key, valueJson, timeLength, timeUnit);
+        strRedisTemplate.opsForValue().set(key, valueJson, timeLength, timeUnit);
     }
 
 }

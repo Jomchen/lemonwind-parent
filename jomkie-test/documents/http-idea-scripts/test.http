@@ -12,7 +12,7 @@ GET http://127.0.0.1:8080/net/test/redis/get/jomkieRedisKey
 Accept: application/json
 
 ### 删除 Redis 信息
-GET http://127.0.0.1:8080/net/test/redis/delete/jomieRedisKey
+GET http://127.0.0.1:8080/net/test/redis/delete/jomkieRedisKey
 Accept: application/json
 
 ### 测试 GET 回调

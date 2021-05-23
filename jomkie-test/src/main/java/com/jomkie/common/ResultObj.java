@@ -57,6 +57,10 @@ public class ResultObj<T> implements Serializable {
         return new ResultObj(absResponse.getcode(), absResponse.getMsg());
     }
 
+    public static <T> ResultObj<T> fail(AbsResponse absResponse, String message) {
+        return new ResultObj(absResponse.getcode(), message);
+    }
+
     public static <T> ResultObj<T> fail() {
         return new ResultObj(Responsecode.FAILE);
     }
