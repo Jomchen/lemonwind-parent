@@ -1,3 +1,17 @@
+### 存储 Redis 信息
+POST http://127.0.0.1:8080/net/test/redis/save/api/item
+Content-Type: application/json
+
+{
+  "redisKey": "jomkieRedisKey",
+  "redisValue": "Jomkie love Linux."
+}
+
+
+### 获取 Redis 信息
+GET http://127.0.0.1:8080/net/test/redis/get/jomkieRedisKey
+Accept: application/json
+
 ### 测试 GET 远程请求
 GET http://www.jomchen.top/net/test/remote/get/Linux
 Accept: application/json
@@ -10,5 +24,5 @@ Content-Type: application/json
 
 
 ### 测试微信支付接口
-GET http://localhost:8080/net/test/wechat/pay
+GET http://127.0.0.1:8080/net/test/wechat/pay
 Content-Type: application/json

@@ -7,3 +7,12 @@ spring:
     url: jdbc:mysql://192.168.10.190:3306/test?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8
     username: root
     password: root
+
+# redis 配置
+redis:
+  config:
+    jomkie:
+      database: database
+      hostname: 127.0.0.1
+      password: 123456
+      port: 6379

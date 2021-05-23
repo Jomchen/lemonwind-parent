@@ -6,6 +6,7 @@ import com.jomkie.common.*;
 import com.jomkie.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,9 @@ public class TestController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private RedisTemplate<String, String> stringRedisTemplate;
 
     /**
      * @author Jomkie
@@ -78,7 +82,7 @@ public class TestController {
                 .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
 
         // 保存数据逻辑未实现
-
+        stringRedisTemplate.opsForValue().set(redisKey, redisValue);
         return ResultObj.success();
     }
 
@@ -90,8 +94,8 @@ public class TestController {
      */
     @GetMapping(UrlContent.NET_TEST_REDIS_REDISKEY)
     public ResultObj<String> testRedisGet(@PathVariable("redisKey") String redisKey) {
-
-        return ResultObj.success();
+        String value = stringRedisTemplate.opsForValue().get(redisKey);
+        return ResultObj.success(value);
     }
 
     /**
