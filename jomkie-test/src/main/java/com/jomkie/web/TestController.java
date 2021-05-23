@@ -47,7 +47,7 @@ public class TestController {
     public void generateQrcodeImage(@PathVariable("redisKey") String redisKey) {
 
         String value = strRedisTemplate.opsForValue().get(redisKey);
-        Optional.ofNullable(value).orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
+        Optional.ofNullable(value).orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_TARGET_FAIL));
         OutputStream outputStream = null;
         try {
             outputStream = response.getOutputStream();
@@ -76,11 +76,11 @@ public class TestController {
         JSONObject jsonObject = JSONObject.parseObject(body);
         String redisKey = Optional.ofNullable(jsonObject.get("redisKey")).filter(Objects::nonNull)
                 .map(Object::toString)
-                .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
+                .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_TARGET_FAIL));
 
         String redisValue = Optional.ofNullable(jsonObject.get("redisValue")).filter(Objects::nonNull)
                 .map(Object::toString)
-                .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
+                .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_TARGET_FAIL));
 
         // 保存数据逻辑未实现
         strRedisTemplate.opsForValue().set(redisKey, redisValue);
