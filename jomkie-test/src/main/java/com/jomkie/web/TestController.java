@@ -1,5 +1,6 @@
 package com.jomkie.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.common.*;
 import com.jomkie.service.TestService;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Jomkie
@@ -32,7 +34,7 @@ public class TestController {
      * @since 2021-05-22 15:17:38
      * 测试生成二维码
      */
-    @GetMapping(UrlContent.GENERATE_QRCODE_IMAGE)
+    @GetMapping(UrlContent.NET_GENERATE_QRCODE_IMAGE)
     public void generateQrcodeImage(@PathVariable("data") String data) {
 
         data = Objects.isNull(data) ? "Linux" : data;
@@ -51,6 +53,40 @@ public class TestController {
         } catch (Exception e) {
             throw new LemonException(Responsecode.GENERATED_QDIMAGE_FAIL, e);
         }
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 10:9:6
+     * @param body 包含要存储的key和value
+     * 存储 redis 数据
+     */
+    @PostMapping(UrlContent.NET_TEST_REDIS_SAVE)
+    public ResultObj<String> testRedisSave(@RequestBody String body) {
+        JSONObject jsonObject = JSONObject.parseObject(body);
+        String redisKey = Optional.ofNullable(jsonObject.get("redisKey")).filter(Objects::nonNull)
+                .map(Object::toString)
+                .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
+
+        String redisValue = Optional.ofNullable(jsonObject.get("redisValue")).filter(Objects::nonNull)
+                .map(Object::toString)
+                .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
+
+        // 保存数据逻辑未实现
+
+        return ResultObj.success();
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 10:8:52
+     * @param redisKey 主键
+     * 查询 redis 数据
+     */
+    @GetMapping(UrlContent.NET_TEST_REDIS_REDISKEY)
+    public ResultObj<String> testRedisGet(@PathVariable("redisKey") String redisKey) {
+
+        return ResultObj.success();
     }
 
     /**
