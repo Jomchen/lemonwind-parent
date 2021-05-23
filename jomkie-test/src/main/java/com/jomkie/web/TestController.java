@@ -8,9 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Enumeration;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,6 +30,9 @@ public class TestController {
 
     @Autowired
     private HttpServletResponse response;
+
+    @Autowired
+    private HttpServletRequest request;
 
     /**
      * @author Jomkie
@@ -97,7 +102,17 @@ public class TestController {
     @ReqValidGroup()
     @PostMapping(UrlContent.NET_TEST_REMOTE_POST)
     public ResultObj<String> testRemotePost(@RequestBody String body) {
-        log.warn("testRemotePost 请求过来的数据为：{}", body);
+
+        // 收集请求头部信息
+        StringBuilder headersBuilder = new StringBuilder();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            headersBuilder.append(headerName).append(": ").append(headerValue).append("\n");
+        }
+
+        log.warn("testRemotePost 请求头数据为：\n{} \ntestRemotePost 请求体为：{}", headersBuilder, body);
         return ResultObj.success("testRemotePost successful.");
     }
 
