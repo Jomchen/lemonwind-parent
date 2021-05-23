@@ -46,6 +46,7 @@ public class RemoteConfiguration {
         return simpleClientHttpRequestFactory;
     }
 
+
     private List<HttpMessageConverter<?>> getConverts() {
         // 因为不作这个处理会产生 401 Unauthorized: [no body] 异常，解决方案： https://www.cnblogs.com/gqymy/p/13362579.html
         // https://www.bianchengquan.com/article/218114.html
@@ -54,25 +55,23 @@ public class RemoteConfiguration {
         List<MediaType> mediaTypes = Arrays.asList(MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.APPLICATION_JSON);
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 
-        //添加响应数据格式，不匹配会报401
 
         // fastjson 转换器
-        /*FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         fastJsonConfig.setCharset(StandardCharsets.UTF_8);
         fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect);
 
         FastJsonHttpMessageConverter fastConvert = new FastJsonHttpMessageConverter();
         fastConvert.setFastJsonConfig(fastJsonConfig);
-        fastConvert.setSupportedMediaTypes(mediaTypes);*/
+        fastConvert.setSupportedMediaTypes(mediaTypes);
 
 
         // String转换器
-        StringHttpMessageConverter stringConvert = new StringHttpMessageConverter();
-        stringConvert.setSupportedMediaTypes(mediaTypes);
-        messageConverters.add(stringConvert);
-        /*messageConverters.add(fastConvert);*/
+        messageConverters.add(fastConvert);
         return messageConverters;
     }
+
+
 
 }
