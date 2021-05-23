@@ -1,6 +1,7 @@
 package com.jomkie.common.wechat;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jomkie.common.UrlContent;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class WeChatPayBuild {
     /** 微信 Native 支付请求地址 */
     public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
     /** 请求后的回调地址 */
-    public static final String WECHAT_NOTIFY_URL = "http://www.jomchen.top/net/test/remote";
+    public static final String WECHAT_NOTIFY_URL = "http://www.jomchen.top" + UrlContent.NET_TEST_REMOTE_POST;
 
     final String APPID = "appid";
     final String MCHID = "mchid";
