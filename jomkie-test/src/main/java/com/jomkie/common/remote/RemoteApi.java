@@ -65,13 +65,13 @@ public class RemoteApi {
 
         // 请求结果处理
         R responseData = responseEntity.getBody();
-        RemoteRequestObj<R> result = RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
+        RemoteRequestObj<R> resultDetials = RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
         log.warn(
-                "-------------------\n The statusCode and detials of a request is: \nstatusCode: {} \ndetials: \n{} \n-------------------\n",
+                "-------------------\n The statusCode and detials of a request is: \nstatusCode: {} \nresultDetials: \n{} \n-------------------\n",
                 responseEntity.getStatusCodeValue(),
-                result
+                resultDetials
         );
-        return result;
+        return resultDetials;
     }
 
     /**
