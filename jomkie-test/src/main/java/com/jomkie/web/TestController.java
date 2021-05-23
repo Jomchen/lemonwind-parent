@@ -44,9 +44,10 @@ public class TestController {
      * 测试生成二维码
      */
     @GetMapping(UrlContent.NET_GENERATE_QRCODE_IMAGE)
-    public void generateQrcodeImage(@PathVariable("data") String data) {
+    public void generateQrcodeImage(@PathVariable("redisKey") String redisKey) {
 
-        data = Objects.isNull(data) ? "Linux" : data;
+        String value = strRedisTemplate.opsForValue().get(redisKey);
+        Optional.ofNullable(value).orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
         OutputStream outputStream = null;
         try {
             outputStream = response.getOutputStream();
@@ -56,7 +57,7 @@ public class TestController {
 
         try {
             // 源码中可知晓使用完输出流后会关闭流
-            QrcodeImageTool.generateQRCodeImage(data, 350, 350, outputStream);
+            QrcodeImageTool.generateQRCodeImage(value, 350, 350, outputStream);
         } catch (IOException e) {
             throw new LemonException(Responsecode.GENERATED_QDIMAGE_FAIL, e);
         } catch (Exception e) {
