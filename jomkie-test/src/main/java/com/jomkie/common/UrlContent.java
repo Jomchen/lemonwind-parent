@@ -23,6 +23,7 @@ public interface UrlContent {
     String NET_TEST_REMOTE_GET = "/net/test/remote/get/{data}";
     String NET_TEST_NORMAL = "/net/test/normal";
     String NET_TEST_WECHAT_PAY = "/net/test/wechat/pay";
+    String NET_TEST_GET_WECHAT_PLATFORM = "/net/test/get/wechat/platform";
 
     String NET_AOP_TEST_AOP_SERVER_AND_LOG = "/net/aop/test/aop/server/and/log";
 

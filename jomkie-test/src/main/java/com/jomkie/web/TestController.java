@@ -176,4 +176,15 @@ public class TestController {
         return ResultObj.success(result);
     }
 
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 22:22:55
+     * 测试获取微信支付平台证书
+     */
+    @GetMapping(UrlContent.NET_TEST_GET_WECHAT_PLATFORM)
+    public ResultObj<String> getWechatPlatform() {
+        String result = testService.getWechatPlatform();
+        return ResultObj.success(result);
+    }
+
 }

@@ -6,4 +6,6 @@ public interface TestService {
 
     String testWechatPay();
 
+    String getWechatPlatform();
+
 }

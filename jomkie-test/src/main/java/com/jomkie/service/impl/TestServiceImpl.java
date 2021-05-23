@@ -7,6 +7,7 @@ import com.jomkie.common.remote.RemoteApi;
 import com.jomkie.common.remote.RemoteRequestObj;
 import com.jomkie.common.wechat.WeChatAuthentication;
 import com.jomkie.common.wechat.WeChatPayBuild;
+import com.jomkie.common.wechat.WeChatPlatform;
 import com.jomkie.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import java.util.*;
 @Service
 @Slf4j
 public class TestServiceImpl implements TestService {
+
+    @Autowired
+    private WeChatPlatform weChatPlatform;
 
     @Autowired
     private WeChatAuthentication weChatAuthentication;
@@ -98,6 +102,13 @@ public class TestServiceImpl implements TestService {
         RemoteRequestObj<String> result = remoteApi.postRequest(WeChatPayBuild.WECHAT_PAY_URL, HttpMethod.POST, headers, requestData, String.class);
         String resultData = result.getData();
         return Optional.ofNullable(resultData).filter(Objects::nonNull).orElseThrow(() -> new LemonException(Responsecode.REMOTE_FAIL));
+    }
+
+    @Override
+    public String getWechatPlatform() {
+        String nonceStr = UUID.randomUUID().toString().replace("-", "");
+        String platform = weChatPlatform.getPlatformList(nonceStr, new Date());
+        return null;
     }
 
 }
