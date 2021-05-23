@@ -67,9 +67,8 @@ public class RemoteApi {
         R responseData = responseEntity.getBody();
         RemoteRequestObj<R> result = RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
         log.warn(
-                "The statusCode, message and detials of a request is: \nstatusCode: {} \nmessage: {} \ndetials: \n{}",
+                "-------------------\n The statusCode and detials of a request is: \nstatusCode: {} \ndetials: \n{} \n-------------------\n",
                 responseEntity.getStatusCodeValue(),
-                Responsecode.REMOTE_FAIL.getMsg(),
                 result
         );
         return result;
