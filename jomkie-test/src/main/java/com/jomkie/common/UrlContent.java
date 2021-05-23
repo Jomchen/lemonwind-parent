@@ -18,7 +18,7 @@ public interface UrlContent {
     String NET_GENERATE_QRCODE_IMAGE = "/net/test/generate/qrcode/image/{data}";
     String NET_TEST_REDIS_SAVE = "/net/test/redis/save";
     String NET_TEST_REDIS_GET = "/net/test/redis/get/{redisKey}";
-    String NET_TEST_REDIS_DELETE = "/net/test/redis/get/delete";
+    String NET_TEST_REDIS_DELETE = "/net/test/redis/get/delete/{redisKey}";
     String NET_TEST_REMOTE_POST = "/net/test/remote/post";
     String NET_TEST_REMOTE_GET = "/net/test/remote/get/{data}";
     String NET_TEST_NORMAL = "/net/test/normal";
