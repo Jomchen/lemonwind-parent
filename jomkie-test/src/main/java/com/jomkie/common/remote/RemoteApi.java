@@ -1,6 +1,5 @@
 package com.jomkie.common.remote;
 
-import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
 import com.jomkie.common.Responsecode;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +28,17 @@ public class RemoteApi {
     /**
      * @author Jomkie
      * @since 2021-05-23 2:50:58
+     * <T> 你请求的数据类型
+     * <R> 你想返回的数据类型
      * @param requestUrl 请求地址
      * @param requestMethod 请求方法
      * @param requestHeaders 请求头
      * @param requestBody 请求体
      * @param responseClass 响应实体类
      */
+
     public <T, R> RemoteRequestObj<R> postRequest(String requestUrl, HttpMethod requestMethod, HttpHeaders requestHeaders, T requestBody, Class<R> responseClass) {
-        String dataJsonStr = requestBody instanceof JSONObject ? ((JSONObject) requestBody).toJSONString() : JSONObject.toJSONString(requestBody);
+        String dataJsonStr = RemoteRequestObj.dataToJsonStr(requestBody);
         log.info("The request parameter is：{}", dataJsonStr);
 
         // 封装请求体
@@ -61,10 +63,16 @@ public class RemoteApi {
         }
         HttpHeaders responseHeaders = responseEntity.getHeaders();
 
-        // 请求结果
-        log.warn("The statusCode of remote  code and message is: {} <--> {}", responseEntity.getStatusCodeValue(), Responsecode.REMOTE_FAIL.getMsg());
+        // 请求结果处理
         R responseData = responseEntity.getBody();
-        return RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
+        RemoteRequestObj<R> result = RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
+        log.warn(
+                "The statusCode, message and detials of a request is: \nstatusCode: {} \nmessage: {} \ndetials: \n{}",
+                responseEntity.getStatusCodeValue(),
+                Responsecode.REMOTE_FAIL.getMsg(),
+                result
+        );
+        return result;
     }
 
     /**

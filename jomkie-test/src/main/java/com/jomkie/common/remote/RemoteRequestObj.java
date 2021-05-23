@@ -1,9 +1,14 @@
 package com.jomkie.common.remote;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Jomkie
@@ -19,6 +24,15 @@ public class RemoteRequestObj <T> {
     private HttpHeaders httpHeaders;
     private T data;
 
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 12:50:8
+     * @param obj 将对象输出为 json 字符串
+     */
+    public static String dataToJsonStr(Object obj) {
+        return Objects.isNull(obj) ? null : obj instanceof JSONObject ? ((JSONObject) obj).toJSONString() : JSONObject.toJSONString(obj);
+    }
+
     public RemoteRequestObj(String url, HttpMethod httpMethod, HttpHeaders httpHeaders, T data) {
         this.url = url;
         this.httpMethod = httpMethod;
@@ -26,9 +40,37 @@ public class RemoteRequestObj <T> {
         this.data = data;
     }
 
-
     public static <T> RemoteRequestObj<T> build(String url, HttpMethod httpMethod, HttpHeaders httpHeaders, T data) {
         return new RemoteRequestObj<>(url, httpMethod, httpHeaders, data);
+    }
+
+    @Override
+    public String toString() {
+        final String NO_DATA = "<no data>";
+
+        String toStringUrl = Objects.isNull(url) ? NO_DATA : url;
+
+        String methodName = Objects.isNull(httpMethod) ? NO_DATA : httpMethod.name();
+
+        String httpHeadersStr = Optional.ofNullable(httpHeaders)
+                .filter(mapObj -> mapObj.size() > 0)
+                .map(header -> {
+                    StringBuilder temporaryBuilder = new StringBuilder();
+                    Map<String, String> headersMap = header.toSingleValueMap();
+                    headersMap.entrySet().stream().forEach(
+                            entry -> temporaryBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n")
+                    );
+                    return temporaryBuilder.toString();
+                }).orElse(NO_DATA);
+
+        String dataJsonStr = Optional.ofNullable(data).map(RemoteRequestObj::dataToJsonStr).orElse(NO_DATA);
+
+        return new StringBuilder()
+                .append("url -> ").append(toStringUrl).append("\n")
+                .append("methodName -> ").append(methodName).append("\n")
+                .append("httpHeadersStr -> ").append(httpHeadersStr).append("\n")
+                .append("data ->").append(dataJsonStr).append("\n")
+                .toString();
     }
 
 }
