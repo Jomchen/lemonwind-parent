@@ -7,17 +7,20 @@ Content-Type: application/json
   "redisValue": "Jomkie love Linux."
 }
 
+### 删除 Redis 信息
+GET http://127.0.0.1:8080/net/test/redis/delete/jomieRedisKey
+Accept: application/json
 
 ### 获取 Redis 信息
 GET http://127.0.0.1:8080/net/test/redis/get/jomkieRedisKey
 Accept: application/json
 
-### 测试 GET 远程请求
-GET http://www.jomchen.top/net/test/remote/get/Linux
+### 测试 GET 回调
+GET http://www.xxx.xxx/net/test/remote/get/Linux
 Accept: application/json
 
-### 测试 POST 远程请求
-POST http://www.jomchen.top/net/test/remote/post
+### 测试 POST 回调
+POST http://www.xxx.xxx/net/test/remote/post
 Content-Type: application/json
 
 {"username":  "Jomkie", "age":  27}
