@@ -1,5 +1,5 @@
 ### 存储 Redis 信息
-POST http://127.0.0.1:8080/net/test/redis/save/api/item
+POST http://127.0.0.1:8080/net/test/redis/save
 Content-Type: application/json
 
 {

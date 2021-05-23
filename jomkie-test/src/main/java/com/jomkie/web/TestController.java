@@ -36,7 +36,7 @@ public class TestController {
     private HttpServletRequest request;
 
     @Autowired
-    private RedisTemplate<String, String> stringRedisTemplate;
+    private RedisTemplate<String, String> strRedisTemplate;
 
     /**
      * @author Jomkie
@@ -82,7 +82,7 @@ public class TestController {
                 .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_FAIL));
 
         // 保存数据逻辑未实现
-        stringRedisTemplate.opsForValue().set(redisKey, redisValue);
+        strRedisTemplate.opsForValue().set(redisKey, redisValue);
         return ResultObj.success();
     }
 
@@ -92,10 +92,22 @@ public class TestController {
      * @param redisKey 主键
      * 查询 redis 数据
      */
-    @GetMapping(UrlContent.NET_TEST_REDIS_REDISKEY)
+    @GetMapping(UrlContent.NET_TEST_REDIS_GET)
     public ResultObj<String> testRedisGet(@PathVariable("redisKey") String redisKey) {
-        String value = stringRedisTemplate.opsForValue().get(redisKey);
+        String value = strRedisTemplate.opsForValue().get(redisKey);
         return ResultObj.success(value);
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-23 21:30:37
+     * @param redisKey 主键
+     * 删除 redis 数据
+     */
+    @GetMapping(UrlContent.NET_TEST_REDIS_DELETE)
+    public ResultObj<Void> testRedisDel(@PathVariable("redisKey") String redisKey) {
+        strRedisTemplate.delete(redisKey);
+        return ResultObj.success();
     }
 
     /**

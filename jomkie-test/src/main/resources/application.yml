@@ -1,6 +1,7 @@
 server:
   port: 8080
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #url: jdbc:mysql://127.0.0.1:3306/test?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8
@@ -8,11 +9,10 @@ spring:
     username: root
     password: root
 
-# redis 配置
-redis:
-  config:
-    jomkie:
-      database: database
-      hostname: 127.0.0.1
-      password: 123456
-      port: 6379
+  redis:
+    host: 127.0.0.1
+    password: 123456
+    port: 6379
+    database: 0
+    connect-timeout: 2000
+    timeout: 15000
