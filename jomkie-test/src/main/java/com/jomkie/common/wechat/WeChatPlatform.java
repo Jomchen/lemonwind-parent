@@ -53,12 +53,6 @@ public class WeChatPlatform {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         /*headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));*/
 
-        /*String userAgent = String.format(
-                "WeChatPay-IJPay-HttpClient/%s (%s) Java/%s",
-                getClass().getPackage().getImplementationVersion(),
-                OS,
-                VERSION == null ? "Unknown" : VERSION
-        );*/
         String version = "5.12.5";
         String userAgent = String.format(
                 "WeChatPay-Jomkie-%s%s",
