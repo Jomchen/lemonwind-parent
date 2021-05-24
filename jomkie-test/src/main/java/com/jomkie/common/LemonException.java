@@ -37,6 +37,12 @@ public class LemonException  extends RuntimeException {
         this.message = message;
     }
 
+    public LemonException(AbsResponse baseResponse, String message) {
+        super();
+        this.code = baseResponse.getcode();
+        this.message = message;
+    }
+
     public LemonException(String message) {
         super(message);
         this.code = Responsecode.SYSTEM_ERROR.getcode();
