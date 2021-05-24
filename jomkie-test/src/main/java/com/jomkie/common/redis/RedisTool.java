@@ -48,9 +48,10 @@ public class RedisTool {
      * @param key  存储的 key
      * @param data 存储的对象
      */
-    public <T> void set(String key, T data) {
-        String valueJson = JSONObject.toJSONString(data);
+    public <T> T setObj(String key, T data) {
+        String valueJson = data instanceof String ? (String) data : JSONObject.toJSONString(data);
         strRedisTemplate.opsForValue().set(key, valueJson);
+        return data;
     }
 
     /**
@@ -61,8 +62,8 @@ public class RedisTool {
      * @param timeLength 时间长度
      * @param timeUnit 时间单位
      */
-    public <T> void set(String key, T data, long timeLength, TimeUnit timeUnit) {
-        String valueJson = JSONObject.toJSONString(data);
+    public <T> void setObj(String key, T data, long timeLength, TimeUnit timeUnit) {
+        String valueJson = data instanceof String ? (String) data : JSONObject.toJSONString(data);
         strRedisTemplate.opsForValue().set(key, valueJson, timeLength, timeUnit);
     }
 

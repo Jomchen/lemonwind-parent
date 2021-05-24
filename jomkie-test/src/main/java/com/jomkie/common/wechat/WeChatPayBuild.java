@@ -27,36 +27,36 @@ public class WeChatPayBuild {
     /** 请求后的回调地址 */
     public static final String WECHAT_NOTIFY_URL = "http://www.jomchen.top" + UrlContent.NET_TEST_REMOTE_POST;
 
-    final String APPID = "appid";
-    final String MCHID = "mchid";
-    final String DESCRIPTION = "description";
-    final String OUT_TRADE_NO = "out_trade_no";
-    final String TIME_EXPIRE = "time_expire";
-    final String ATTACH = "attach";
-    final String NOTIFY_URL = "notify_url";
-    final String GOODS_TAG = "goods_tag";
-    final String AMOUNT = "amount";
-        final String TOTAL = "total";
-        final String CURRENCY = "currency";
-    final String DETAIL = "detail";
-        final String COST_PRICE = "cost_price";
-        final String INVOICE_ID = "invoice_id";
-        final String GOODS_DETAIL = "goods_detail";
-            final String MERCHANT_GOODS_ID = "merchant_goods_id";
-            final String WECHATPAY_GOODS_ID = "wechatpay_goods_id";
-            final String GOODS_NAME = "goods_name";
-            final String GOODS_QUANTITY = "quantity";
-            final String GOODS_UNIT_PRICE = "unit_price";
-    final String SCENE_INFO = "scene_info";
-        final String PAYER_CLIENT_IP = "payer_client_ip";
-        final String DEVICE_ID = "device_id";
-        final String STORE_INFO = "store_info";
-            final String STORE_ID = "id";
-            final String STORE_NAME = "name";
-            final String STORE_AREA_CODE = "area_code";
-            final String STORE_ADDRESS = "address";
-    final String SETTLE_INFO = "settle_info";
-        final String PROFIT_SHARING = "profit_sharing";
+    public static final String APPID = "appid";
+    public static final String MCHID = "mchid";
+    public static final String DESCRIPTION = "description";
+    public static final String OUT_TRADE_NO = "out_trade_no";
+    public static final String TIME_EXPIRE = "time_expire";
+    public static final String ATTACH = "attach";
+    public static final String NOTIFY_URL = "notify_url";
+    public static final String GOODS_TAG = "goods_tag";
+    public static final String AMOUNT = "amount";
+        public static final String TOTAL = "total";
+        public static final String CURRENCY = "currency";
+    public static final String DETAIL = "detail";
+        public static final String COST_PRICE = "cost_price";
+        public static final String INVOICE_ID = "invoice_id";
+        public static final String GOODS_DETAIL = "goods_detail";
+            public static final String MERCHANT_GOODS_ID = "merchant_goods_id";
+            public static final String WECHATPAY_GOODS_ID = "wechatpay_goods_id";
+            public static final String GOODS_NAME = "goods_name";
+            public static final String GOODS_QUANTITY = "quantity";
+            public static final String GOODS_UNIT_PRICE = "unit_price";
+    public final static String SCENE_INFO = "scene_info";
+        public final static String PAYER_CLIENT_IP = "payer_client_ip";
+        public final static String DEVICE_ID = "device_id";
+        public final static String STORE_INFO = "store_info";
+            public final static String STORE_ID = "id";
+            public final static String STORE_NAME = "name";
+            public final static String STORE_AREA_CODE = "area_code";
+            public final static String STORE_ADDRESS = "address";
+    public final static String SETTLE_INFO = "settle_info";
+        public final static String PROFIT_SHARING = "profit_sharing";
 
 
     WeChatPayBuild() {

@@ -44,7 +44,7 @@ public class TestServiceImpl implements TestService {
         map.put("takeStockCode", "takeStockCode");
         map.put("takeStockName", "takeStockName");
 
-        return remoteApi.postRequest(
+        return remoteApi.execute(
                 "http://127.0.0.1:8088/take/stock/find/page/status/list",
                 HttpMethod.POST,
                 headers,
@@ -52,7 +52,7 @@ public class TestServiceImpl implements TestService {
                 String.class
         ).getData();
 
-        /*return remoteApi.postRequest(
+        /*return remoteApi.execute(
                 "http://127.0.0.1:8088/take/stock/find/page/status/list/list",
                 HttpMethod.POST,
                 headers,
@@ -68,7 +68,7 @@ public class TestServiceImpl implements TestService {
         String currentDateFormat = sdf.format(currentDate);
 
         String description = "测试商品" + currentDateFormat;
-        String outTradeNo = "订单id" + currentDateFormat;
+        String outTradeNo = "orderId" + currentDateFormat;
         int amountMoneyTotal = 1;
         String amountMoneyCurrency = "CNY";
 
@@ -99,7 +99,7 @@ public class TestServiceImpl implements TestService {
         headers.set("Authorization", authorization);
 
         // 执行请求
-        RemoteRequestObj<String> result = remoteApi.postRequest(WeChatPayBuild.WECHAT_PAY_URL, HttpMethod.POST, headers, requestData, String.class);
+        RemoteRequestObj<String> result = remoteApi.execute(WeChatPayBuild.WECHAT_PAY_URL, HttpMethod.POST, headers, requestData, String.class);
         String resultData = result.getData();
         return Optional.ofNullable(resultData).filter(Objects::nonNull).orElseThrow(() -> new LemonException(Responsecode.REMOTE_FAIL));
     }

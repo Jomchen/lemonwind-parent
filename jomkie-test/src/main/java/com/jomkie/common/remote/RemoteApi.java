@@ -41,7 +41,7 @@ public class RemoteApi {
      * @param requestBody 请求体
      * @param responseClass 响应实体类
      */
-    public <T, R> RemoteRequestObj<R> postRequest(
+    public <T, R> RemoteRequestObj<R> execute(
             String requestUrl, HttpMethod requestMethod,
             HttpHeaders requestHeaders, T requestBody, Class<R> responseClass) {
 

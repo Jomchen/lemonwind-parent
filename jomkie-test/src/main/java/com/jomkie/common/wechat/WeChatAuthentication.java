@@ -27,8 +27,6 @@ public class WeChatAuthentication {
     public static final String MERCHANTID = "merchantId";
     /** 请求模式 */
     public static final String SCHEMA = "WECHATPAY2-SHA256-RSA2048";
-    /** 商户证书序列号 */
-    /*public static final String CERTIFICATESERIAL_NO = "serial_no";*/
     /** 商户证书文件路径 */
     public static final String CERTIFICATION_PATH = "/home/jomkie/work/apiclient_cert.pem";
     /** 商户私钥文件路径 */

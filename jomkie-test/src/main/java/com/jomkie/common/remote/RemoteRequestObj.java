@@ -19,9 +19,13 @@ import java.util.Optional;
 @NoArgsConstructor
 public class RemoteRequestObj <T> {
 
+    /** 请求地址 */
     private String url;
+    /** 请求方法 */
     private HttpMethod httpMethod;
+    /** 请求头/响应头 */
     private HttpHeaders httpHeaders;
+    /** 请求体/响应体 */
     private T data;
 
     /**
