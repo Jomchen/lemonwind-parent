@@ -3,11 +3,15 @@ package com.jomkie.web;
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.common.*;
+import com.jomkie.common.redis.RedisTool;
 import com.jomkie.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +40,7 @@ public class TestController {
     private HttpServletRequest request;
 
     @Autowired
-    private RedisTemplate<String, String> strRedisTemplate;
+    private RedisTool redisTool;
 
     /**
      * @author Jomkie
@@ -46,7 +50,7 @@ public class TestController {
     @GetMapping(UrlContent.NET_GENERATE_QRCODE_IMAGE)
     public void generateQrcodeImage(@PathVariable("redisKey") String redisKey) {
 
-        String value = strRedisTemplate.opsForValue().get(redisKey);
+        String value = redisTool.get(redisKey);
         Optional.ofNullable(value).orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_TARGET_FAIL));
         OutputStream outputStream = null;
         try {
@@ -83,7 +87,7 @@ public class TestController {
                 .orElseThrow(() -> new LemonException(Responsecode.ACQUIRE_TARGET_FAIL));
 
         // 保存数据逻辑未实现
-        strRedisTemplate.opsForValue().set(redisKey, redisValue);
+        redisTool.set(redisKey, redisValue);
         return ResultObj.success();
     }
 
@@ -95,7 +99,7 @@ public class TestController {
      */
     @GetMapping(UrlContent.NET_TEST_REDIS_GET)
     public ResultObj<String> testRedisGet(@PathVariable("redisKey") String redisKey) {
-        String value = strRedisTemplate.opsForValue().get(redisKey);
+        String value = redisTool.get(redisKey);
         return Optional.ofNullable(value).map(v -> ResultObj.success(v)).orElse(ResultObj.fail(Responsecode.FAILE, "未找到相应的值"));
     }
 
@@ -107,11 +111,11 @@ public class TestController {
      */
     @GetMapping(UrlContent.NET_TEST_REDIS_DELETE)
     public ResultObj<Void> testRedisDel(@PathVariable("redisKey") String redisKey) {
-        String value = strRedisTemplate.opsForValue().get(redisKey);
+        String value = redisTool.get(redisKey);
         if (Objects.isNull(value)) {
             return ResultObj.fail(Responsecode.FAILE, "未找到相应的值");
         } else {
-            strRedisTemplate.delete(redisKey);
+            redisTool.delete(redisKey);
             return ResultObj.success();
         }
     }

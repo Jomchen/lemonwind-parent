@@ -34,7 +34,7 @@ public class RedisTool {
      * @param typeReference 转换引用
      * 查询一个对象
      */
-    public <T> T get(String key, TypeReference<T> typeReference) {
+    public <T> T getObj(String key, TypeReference<T> typeReference) {
         String valueJson = strRedisTemplate.opsForValue().get(key);
         T resultData = Optional.ofNullable(valueJson)
                 .map(v -> JSONObject.parseObject(valueJson, typeReference))
@@ -65,6 +65,16 @@ public class RedisTool {
     public <T> void setObj(String key, T data, long timeLength, TimeUnit timeUnit) {
         String valueJson = data instanceof String ? (String) data : JSONObject.toJSONString(data);
         strRedisTemplate.opsForValue().set(key, valueJson, timeLength, timeUnit);
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-24 23:44:54
+     * @param key
+     * 删除
+     */
+    public boolean delete(String key) {
+        return strRedisTemplate.delete(key);
     }
 
 }
