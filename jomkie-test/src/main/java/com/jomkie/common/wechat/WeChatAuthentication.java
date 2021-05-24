@@ -2,6 +2,7 @@ package com.jomkie.common.wechat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
+import com.jomkie.common.remote.RemoteRequestObj;
 import com.jomkie.common.wechat.action.WeChatPlatformCertification;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
@@ -21,6 +22,7 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -99,6 +101,29 @@ public class WeChatAuthentication {
     public String getAuthorization(String nonceStr, Date currentDate, HttpMethod httpMethod, String requestUrl, String body) {
         String token = getToken(nonceStr, currentDate, httpMethod.name(), requestUrl, body);
         return new StringBuilder().append(SCHEMA).append(" ").append(token).toString(); // TODO 这里也有疑问，官方给的是换行还是空格还是空字符串
+    }
+
+    public boolean verifySignature(RemoteRequestObj<String> remoteRequestObj) {
+        HttpHeaders httpHeaders = remoteRequestObj.getHttpHeaders();
+        Map<String, String> headerMap = httpHeaders.toSingleValueMap();
+        String serial = headerMap.get("Wechatpay-Serial");
+
+        String signature = headerMap.get("Wechatpay-Signature");
+        String timestampStr = headerMap.get("Wechatpay-Timestamp");
+        String nonceStr = headerMap.get("Wechatpay-Nonce ");
+        String body = remoteRequestObj.getData();
+
+        if (Strings.isEmpty(body)) { body = ""; } // TODO GET请求或没有请求体时，微信文档未表明清楚：是 空格 还是 空字符串，此处暂时表示空字符串
+        String preSignatureStr = new StringBuilder()
+                .append(timestampStr).append("\n")
+                .append(nonceStr).append("\n")
+                .append(body).append("\n")
+                .toString();
+        byte[] decodeSignatureByte = Base64.getDecoder().decode(signature);
+        String responseSignature = new String(decodeSignatureByte); // 编码？
+
+        // TODO 逻辑未完成
+        return true;
     }
 
     public String getToken(String nonceStr, Date currentDate, String method, String requestUrl, String body) {
