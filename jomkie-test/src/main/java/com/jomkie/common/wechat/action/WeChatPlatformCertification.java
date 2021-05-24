@@ -1,7 +1,8 @@
-package com.jomkie.common.wechat;
+package com.jomkie.common.wechat.action;
 
 import com.jomkie.common.remote.RemoteApi;
 import com.jomkie.common.remote.RemoteRequestObj;
+import com.jomkie.common.wechat.WeChatAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,7 +18,7 @@ import java.util.Date;
  * 微信平台证书类
  */
 @Component
-public class WeChatPlatform {
+public class WeChatPlatformCertification {
 
     @Autowired
     private WeChatAuthentication weChatAuthentication;
@@ -46,22 +47,14 @@ public class WeChatPlatform {
      * 获取平台证书列表
      */
     public String getPlatformList(String nonceStr, Date date) {
-        HttpMethod httpMethod = HttpMethod.GET;
-        String authorization = weChatAuthentication.getAuthorization(nonceStr, date, httpMethod, WECHAT_REQUEST_URL, null);
+        HttpHeaders headers = weChatAuthentication.getPlatformCertificationsHeaders(nonceStr, date);
+        RemoteRequestObj<String> result = remoteApi.execute(WECHAT_REQUEST_URL, HttpMethod.GET, headers, null, String.class);
+        postHandler(result);
+        return result.getData();
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        /*headers.setAcceptCharset(Arrays.asList(StandardCharsets.UTF_8));*/
-
-        String version = "5.12.5";
-        String userAgent = String.format(
-                "WeChatPay-Jomkie-%s%s",
-                "Linux",
-                version == null ? "Unknown" : version
-        );
-        headers.set("User-Agent", userAgent); // TODO 这里应该填什么
-        headers.set("Authorization", authorization);
-        return remoteApi.execute(WECHAT_REQUEST_URL, httpMethod, headers, null, String.class).getData();
+    private void postHandler(RemoteRequestObj<String> resultObj) {
+        // TODO 请求结果验证 和 平台证书缓存
     }
 
 }

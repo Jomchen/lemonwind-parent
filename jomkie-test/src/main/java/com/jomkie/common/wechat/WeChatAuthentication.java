@@ -1,10 +1,14 @@
 package com.jomkie.common.wechat;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jomkie.common.LemonException;
+import com.jomkie.common.wechat.action.WeChatPlatformCertification;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
@@ -14,6 +18,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 
@@ -31,6 +36,54 @@ public class WeChatAuthentication {
     public static final String CERTIFICATION_PATH = "/home/jomkie/work/apiclient_cert.pem";
     /** 商户私钥文件路径 */
     public static final String PRIVATEKEY_PATH = "/home/jomkie/work/apiclient_key.pem";
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-24 22:58:17
+     * @param currentDate 请求时间（会作为签名的条件）
+     * @param requestData 请求体
+     * @param httpMethod 请求方式
+     * @param requestUrl 请求地址
+     * @param nonceStr 随机字符串
+     * 获取基本的请求头
+     */
+    public HttpHeaders getBaseHttpHeaders(Date currentDate, Object requestData, HttpMethod httpMethod, String requestUrl, String nonceStr) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String requestBodyJson = JSONObject.toJSONString(requestData);
+        String authorization = getAuthorization(
+                nonceStr,
+                currentDate,
+                httpMethod,
+                requestUrl,
+                requestBodyJson
+        );
+        headers.set("Authorization", authorization);
+
+        return headers;
+    }
+
+    /**
+     * @author Jomkie
+     * @since 2021-05-24 23:11:19
+     * @param nonceStr 随机字符串
+     * @param date 请求时间（会作为签名的条件）
+     * 获取平台支付证书
+     */
+    public HttpHeaders getPlatformCertificationsHeaders(String nonceStr, Date date) {
+        HttpMethod httpMethod = HttpMethod.GET;
+        String authorization = getAuthorization(nonceStr, date, httpMethod, WeChatPlatformCertification.WECHAT_REQUEST_URL, null);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        String userAgent = String.format("WeChatPay-Jomkie-%s", "Linux");
+        headers.set("User-Agent", userAgent);
+        headers.set("Authorization", authorization);
+
+        return headers;
+    }
+
 
 
     /**

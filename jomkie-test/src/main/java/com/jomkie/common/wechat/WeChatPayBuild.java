@@ -22,10 +22,7 @@ public class WeChatPayBuild {
     private JSONObject requestObj;
     private Map<String, Object> requestMap;
 
-    /** 微信 Native 支付请求地址 */
-    public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
-    /** 请求后的回调地址 */
-    public static final String WECHAT_NOTIFY_URL = "http://www.jomchen.top" + UrlContent.NET_TEST_REMOTE_POST;
+
 
     public static final String APPID = "appid";
     public static final String MCHID = "mchid";
