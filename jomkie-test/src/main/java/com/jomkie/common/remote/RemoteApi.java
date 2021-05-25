@@ -71,9 +71,9 @@ public class RemoteApi {
                     .append(responseStatus.value()).toString();
             throw new LemonException(Responsecode.REMOTE_FAIL, msg);
         }
-        HttpHeaders responseHeaders = responseEntity.getHeaders();
 
         // 请求结果处理
+        HttpHeaders responseHeaders = responseEntity.getHeaders();
         R responseData = responseEntity.getBody();
         RemoteRequestObj<R> resultDetials = RemoteRequestObj.build(requestUrl, requestMethod, responseHeaders, responseData);
         log.warn(
