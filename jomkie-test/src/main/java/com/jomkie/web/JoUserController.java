@@ -48,7 +48,7 @@ public class JoUserController {
     @ReqValidGroup(value = UserGroup.UserDel.class)
     public ResultObj<String> delUser(
             @RequestBody
-            @Valid
+            @NotNull(message = "ID不能为空")
             @PathVariable("id") Long id) {
         log.info("进入了方法 delUser: {}", id);
         return ResultObj.success("delUser 请求成功");
