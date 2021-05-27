@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.assertj.core.util.Arrays;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -18,14 +19,14 @@ import org.springframework.util.CollectionUtils;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.executable.ExecutableValidator;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author Jomkie
@@ -41,7 +42,10 @@ public class ValidatorAop {
     private final String BUILD_PARAM_METHOD_NAME = "buildActualParam";
 
     /** 此处选择对象验证，如果选择方法验证则错误信息会在 springValidator 的参数序列化注入后即验证，不会走 aop */
-    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    /*private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();*/
+
+    /** 如果使用了对某种类型的自定义验证，则如果验证不通过，请求会变为 400 */
+    private ExecutableValidator executableValidator = Validation.buildDefaultValidatorFactory().getValidator().forExecutables();
 
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void webPointCut() {}
@@ -51,27 +55,29 @@ public class ValidatorAop {
     @Around("webPointCut() && reqValidGroup()")
     public Object proccess(ProceedingJoinPoint pjp) {
 
+        log.info("进入了参数验证 Aop ...");
+
         Object[] args = pjp.getArgs();
+        Object target = pjp.getTarget();
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
 
         ReqValidGroup reqValidGroup = method.getAnnotation(ReqValidGroup.class);
-        List<String> errorList = new ArrayList<>();
-        IntStream.range(0, args.length).forEach(index -> {
-            Set<ConstraintViolation<Object>> errorSet;
-            Class<?>[] validateGroups = reqValidGroup.value();
-            errorSet = reqValidGroup.value().length > 0 ? validator.validate(args[index], validateGroups) : validator.validate(args[index]);
+        Class<?>[] groupsPreValidated = reqValidGroup.value();
+        Set<ConstraintViolation<Object>> errorSet;
+        if (Arrays.isNullOrEmpty(groupsPreValidated)) {
+            errorSet = executableValidator.validateParameters(target, method, args);
+        } else {
+            errorSet = executableValidator.validateParameters(target, method, args, groupsPreValidated);
+        }
 
-            if (reqValidGroup.onlyOneError()) {
-                errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
-            } else {
-                errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
-            }
-        });
-
-        // 一个参数只能有一个 RequiredValidGroup 注解，否则只获取对应参数的第一个 RequiredValidGroup 注解
-        log.info("You have entered validator around aspect ...");
+        List<String> errorList = new LinkedList<>();
+        if (reqValidGroup.onlyOneError()) {
+            errorSet.stream().findFirst().map(ConstraintViolation::getMessage).ifPresent(errorList::add);
+        } else {
+            errorSet.stream().map(ConstraintViolation::getMessage).forEach(errorList::add);
+        }
 
         // 获取参数错误信息
         if ( ! CollectionUtils.isEmpty(errorList)) {
