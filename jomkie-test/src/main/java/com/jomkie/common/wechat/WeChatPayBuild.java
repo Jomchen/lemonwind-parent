@@ -297,6 +297,7 @@ public class WeChatPayBuild {
         sceneInfoMap.put(DEVICE_ID, deviceId);
         sceneInfoMap.put(STORE_INFO, storeInfoMap);
 
+        // TODO 这里是否有对 requestMap 添加参数的遗漏？
         this.requestObj.put(SCENE_INFO, sceneInfo);
         return this;
     }
