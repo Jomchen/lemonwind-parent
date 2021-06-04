@@ -1,7 +1,5 @@
 package com.jomkie.util;
 
-import com.humi.cloud.common.exception.HumiRuntimeException;
-import com.humi.cloud.common.model.ResponseCode;
 import com.jomkie.common.LemonException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
