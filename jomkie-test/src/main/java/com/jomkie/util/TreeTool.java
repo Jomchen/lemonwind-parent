@@ -12,21 +12,21 @@ import java.util.function.Function;
 /**
  * @author Jomkie
  * @since 2021-06-01 16:44:0
- * <Obj> 一个树的元素
- * <Identifier> 元素自己的唯一标识
+ * <Obj> 一个树的节点类型
+ * <Identifier> 节点的唯一标识
  * 获取目录树
  */
 @NoArgsConstructor
 @Data
 public class TreeTool<Obj, Identifier> {
 
-    /** 通过对象获取自己的唯一标识 */
+    /** 通过节点获取自己的唯一标识 */
     Function<Obj, Identifier> acquireIdentifierOfItSelfFunction;
 
-    /** 通过父级标识获取对应的子级对象集合 */
+    /** 通过父级标识获取直接子级节点集合 */
     Function<Identifier, List<Obj>> acquireChildrenByParentIdentifierFunction;
 
-    /** 为对象设置子级对象 */
+    /** 为对象设置子级节点集合 */
     BiConsumer<Obj, List<Obj>> setChildrenFunction;
 
     public TreeTool(Function<Obj, Identifier> acquireIdentifierOfItSelfFunction,
@@ -41,8 +41,8 @@ public class TreeTool<Obj, Identifier> {
      * @author Jomkie
      * @since 2021-06-01 16:45:12
      * @param depth 树的深度，最少为 1
-     * @param originalRootList 树的顶级元素集合
-     * 层序遍历获取树
+     * @param originalRootList 树的顶级节点集合
+     * 层序遍历获取指定深度的树
      */
     public List<Obj> getTree(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(acquireIdentifierOfItSelfFunction)
@@ -87,8 +87,8 @@ public class TreeTool<Obj, Identifier> {
      * @author Jomkie
      * @since 2021-06-02 11:50:56
      * @param depth 树的深度，至少为 1
-     * @param originalRootList 树的顶级元素集合
-     * 在树中查找指定层的元素集合
+     * @param originalRootList 树的顶级节点集合
+     * 获取树中指定层的节点集合
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(acquireIdentifierOfItSelfFunction) || Objects.isNull(acquireChildrenByParentIdentifierFunction)) {
