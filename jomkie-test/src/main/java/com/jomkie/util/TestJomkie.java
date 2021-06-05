@@ -40,7 +40,7 @@ public class TestJomkie {
                 TestJoUser child3_2_2 = new TestJoUser("3_2_2", "3_2", "子3_2_2");
         /* ---------- 构建对象 ----------  End */
 
-        /* ---------- 构建对象树 ----------  Start */
+        /* ---------- 构建源数据 ----------  Start */
         database.add(root1);
             database.add(child1_1);
                 database.add(child1_1_1);
@@ -64,16 +64,15 @@ public class TestJomkie {
             database.add(child3_2);
                 database.add(child3_2_1);
                 database.add(child3_2_2);
-        /* ---------- 构建对象树 ----------  End */
+        /* ---------- 构建源数据 ----------  End */
 
         /* ---------- 封装查询工具 ----------  Start */
         Function<TestJoUser, String> acquireIdentifierOfItSelfFunction = TestJoUser::getId;
-        Function<String, List<TestJoUser>> acquireChildrenByParentIdentifierFunction = parentId -> database.stream().filter(obj -> parentId.equals(obj.getParentId())).collect(Collectors.toList());
+        Function<String, List<TestJoUser>> acquireChildrenByParentIdentifierFunction = parentId -> database.stream()
+                .filter(obj -> parentId.equals(obj.getParentId()))
+                .collect(Collectors.toList());
         BiConsumer<TestJoUser, List<TestJoUser>> setChildFunction = (obj, children) -> {
-            if (obj.getChildren() == null) {
-                obj.setChildren(new ArrayList<>());
-            }
-
+            if (obj.getChildren() == null) { obj.setChildren(new ArrayList<>()); }
             obj.getChildren().addAll(children);
         };
 
@@ -84,13 +83,14 @@ public class TestJomkie {
         );
         /* ---------- 封装查询工具 ----------  End */
 
+        /* ---------- 构建根级数据 ---------- Start */
         List<TestJoUser> rootList = new ArrayList<>();
         rootList.add(root1);
         rootList.add(root2);
         rootList.add(root3);
+        /* ---------- 构建根级数据 ---------- End */
 
         // rootList 只能有顶级，元素对象内不能挂下级元素，否则结果不正确
-        // getTree 和 getObjListOfSpecificLayer 之间的传参需要隔离，否则结果不正确
 
         // 获取树结构
         String treeJson = JSONObject.toJSONString(treeTool.getTree(3, rootList));

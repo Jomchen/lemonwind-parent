@@ -48,7 +48,7 @@ public class TreeTool<Obj, Identifier> {
         if (Objects.isNull(acquireIdentifierOfItSelfFunction)
                 || Objects.isNull(acquireChildrenByParentIdentifierFunction)
                 || Objects.isNull(setChildrenFunction)) {
-            throw new LemonException("Building conditions is not complete.");
+            throw new LemonException("Building conditions are not complete.");
         }
         if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
         if (CollectionUtils.isEmpty(originalRootList)) { throw new LemonException("Root element must be not empty."); }
@@ -92,7 +92,7 @@ public class TreeTool<Obj, Identifier> {
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(acquireIdentifierOfItSelfFunction) || Objects.isNull(acquireChildrenByParentIdentifierFunction)) {
-            throw new LemonException("Building conditions is not complete.");
+            throw new LemonException("Building conditions are not complete.");
         }
         if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
         if (CollectionUtils.isEmpty(originalRootList)) { throw new LemonException("Root element must be not empty."); }
