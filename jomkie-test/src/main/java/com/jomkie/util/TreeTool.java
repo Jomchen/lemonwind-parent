@@ -27,14 +27,14 @@ public class TreeTool<Obj, Identifier> {
     Function<Identifier, List<Obj>> getChildrenByParentIdentifierFun;
 
     /** 为对象设置子级节点集合 */
-    BiConsumer<Obj, List<Obj>> setChildrenFunction;
+    BiConsumer<Obj, List<Obj>> setChildrenFun;
 
     public TreeTool(Function<Obj, Identifier> getIdentifierOfItSelfFun,
                     Function<Identifier, List<Obj>> getChildrenByParentIdentifierFun,
-                    BiConsumer<Obj, List<Obj>> setChildrenFunction) {
+                    BiConsumer<Obj, List<Obj>> setChildrenFun) {
         this.getIdentifierOfItSelfFun = getIdentifierOfItSelfFun;
         this.getChildrenByParentIdentifierFun = getChildrenByParentIdentifierFun;
-        this.setChildrenFunction = setChildrenFunction;
+        this.setChildrenFun = setChildrenFun;
     }
 
     /**
@@ -47,7 +47,7 @@ public class TreeTool<Obj, Identifier> {
     public List<Obj> getTree(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(getIdentifierOfItSelfFun)
                 || Objects.isNull(getChildrenByParentIdentifierFun)
-                || Objects.isNull(setChildrenFunction)) {
+                || Objects.isNull(setChildrenFun)) {
             throw new LemonException("Building conditions are not complete.");
         }
         if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
@@ -70,7 +70,7 @@ public class TreeTool<Obj, Identifier> {
             List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
             if ( ! CollectionUtils.isEmpty(children)) {
                 children.forEach(queue::add);
-                setChildrenFunction.accept(currentObj, children);
+                setChildrenFun.accept(currentObj, children);
             }
 
             -- numbersForCurrentLayer;
