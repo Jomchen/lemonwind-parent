@@ -19,6 +19,18 @@ public class ExcelFactory {
 
     private static Logger log = LoggerFactory.getLogger(ExcelFactory.class);
 
+    // Note that sheet name is Excel must not exceed 31 characters
+    // and must not contain any of the any of the following characters:
+    // 0x0000
+    // 0x0003
+    // colon (:)
+    // backslash (\)
+    // asterisk (*)
+    // question mark (?)
+    // forward slash (/)
+    // opening square bracket ([)
+    // closing square bracket (])
+
     public static Workbook createHSSFWorkbook() {
         /* xls */
         return new HSSFWorkbook();
