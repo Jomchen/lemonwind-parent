@@ -27,6 +27,7 @@
     <fastjson.version>1.2.75</fastjson.version>
     <org.springframework.boot.spring-boot-starter-security>2.2.1.RELEASE</org.springframework.boot.spring-boot-starter-security>
     <com.squareup.okhttp3.okhttp.version>3.3.0</com.squareup.okhttp3.okhttp.version>
+    <org.apache.poi.about>4.1.2</org.apache.poi.about>
   </properties>
 
   <parent>
@@ -110,6 +111,17 @@
         <groupId>com.squareup.okhttp3</groupId>
         <artifactId>okhttp</artifactId>
         <version>${com.squareup.okhttp3.okhttp.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>${org.apache.poi.about}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>${org.apache.poi.about}</version>
       </dependency>
 
       <!-- 快速重启 -->
