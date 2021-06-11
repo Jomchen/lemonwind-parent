@@ -62,7 +62,7 @@ public class ExcelFactory {
             log.error("流写入失败", e);
         }
 
-        try {
+        /*try {
             outputStream.flush();
         } catch (IOException e) {
             log.error("流刷新失败", e);
@@ -72,6 +72,12 @@ public class ExcelFactory {
             outputStream.close();
         } catch (IOException e) {
             log.error("关闭流失败", e);
+        }*/
+
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

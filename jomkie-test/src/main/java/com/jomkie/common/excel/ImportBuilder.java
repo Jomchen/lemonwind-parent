@@ -43,10 +43,12 @@ public class ImportBuilder extends ExcelBuilder<List<TestUser>, List<TestUser>, 
         Sheet sheet = workbook.createSheet("Jomkie测试sheet");
         CreationHelper createHelper = workbook.getCreationHelper();
 
-        createHelper.createRichTextString("这是文本");
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy-MM-dd HH:mm:ss"));
+        cellStyle.setAlignment(HorizontalAlignment.LEFT);
 
         IntStream.range(0, result.size()).forEach(index -> {
-            TestUser bean = result.get(0);
+            TestUser bean = result.get(index);
             Row row = sheet.createRow(index);
             Cell cell0 = row.createCell(0); // ID Long
             Cell cell1 = row.createCell(1); // name String
@@ -57,6 +59,7 @@ public class ImportBuilder extends ExcelBuilder<List<TestUser>, List<TestUser>, 
             cell1.setCellValue(bean.getName());
             cell2.setCellValue(bean.getAge());
             cell3.setCellValue(bean.getEmail());
+            cell4.setCellStyle(cellStyle);
             cell4.setCellValue(bean.getBirthday());
         });
 
