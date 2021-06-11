@@ -1,21 +1,20 @@
 package com.jomkie.common.excel;
 
-import org.apache.poi.ss.usermodel.Workbook;
+import com.jomkie.model.TestUser;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ExcelTest {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        String XLS_PATH = "~/mydata/workbook.xls";
-        String XLSX_PATH = "~/mydata/workbook.xlsx";
-        Workbook workbook = ExcelFactory.createSXSSFWorkbook();
-        OutputStream outputStream = new FileOutputStream(XLSX_PATH);
-
-
-        ExcelFactory.write(workbook, outputStream);
+    public static void main(String[] args) {
+        List<TestUser> testUsers = IntStream.rangeClosed(0, 30).mapToObj(i ->
+            new TestUser((long)i, "李寻欢" + i, i, (100 + i) + "mail@qq.com", new Date())
+        ).collect(Collectors.toList());
+        ImportTestUserHandler importTestUserHandler = new ImportTestUserHandler(new ImportBuilder());
+        importTestUserHandler.createTestUserList(testUsers);
     }
 
 }
