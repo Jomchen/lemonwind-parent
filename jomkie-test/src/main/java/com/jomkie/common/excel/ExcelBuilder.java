@@ -1,31 +1,31 @@
 package com.jomkie.common.excel;
 
 /**
- * 导入构造d
+ * Excel处理
  * @author Jomkie
  * @since 2021-06-11 9:38:16
  */
-public abstract class ExcelBuilder<T, R, F> {
+public abstract class ExcelBuilder<S, T, U, V, W, X> {
 
     /**
-     * 预前检验
+     * 预前处理
      * @author Jomkie
      * @since 2021-06-11 9:39:40
      */
-    public abstract void preVerify(T param);
+    public abstract T preHandle(S param);
 
     /**
-     * 逻辑处理
+     * 中段处理
      * @author Jomkie
      * @since 2021-06-11 9:39:56
      */
-    public abstract R handle(T param);
+    public abstract V handle(U param);
 
     /**
      * 后置处理
      * @author Jomkie
      * @since 2021-06-11 9:40:3
      */
-    public abstract  F postHandle(R result);
+    public abstract  X postHandle(W result);
 
 }

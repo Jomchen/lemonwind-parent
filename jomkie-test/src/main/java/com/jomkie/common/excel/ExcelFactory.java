@@ -1,6 +1,9 @@
 package com.jomkie.common.excel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -8,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -45,6 +49,61 @@ public class ExcelFactory {
 
     public static Workbook createSXSSFWorkbook() {
         /* xlsx */
+        return new SXSSFWorkbook();
+    }
+
+    public static Workbook createHSSFWorkbook(InputStream inputStream) {
+        /* xls */
+        POIFSFileSystem fs;
+        try {
+            fs = new POIFSFileSystem(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("创建POIFSFileSystem失败");
+            return null;
+        }
+
+        HSSFWorkbook wb;
+        try {
+            wb = new HSSFWorkbook(fs.getRoot(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("创建工作簿失败");
+            return null;
+        }
+        return wb;
+    }
+
+    public static Workbook createXSSFWorkbook(InputStream inputStream) {
+        /* xlsx */
+        OPCPackage pkg;
+        try {
+            pkg = OPCPackage.open(inputStream);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+            System.out.println("无效的OPCPackage格式");
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("打开OPCPackage失败");
+            return null;
+        }
+
+        XSSFWorkbook xssfWorkbook;
+        try {
+            xssfWorkbook = new XSSFWorkbook(pkg);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("创建工作簿失败");
+            return null;
+        }
+
+        return xssfWorkbook;
+    }
+
+    public static Workbook createSXSSFWorkbook(InputStream inputStream) {
+        /* xlsx */
+        // 这个构造方法没有输入流的构造方法
         return new SXSSFWorkbook();
     }
 
