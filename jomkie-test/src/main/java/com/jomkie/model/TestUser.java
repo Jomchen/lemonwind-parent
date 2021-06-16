@@ -16,14 +16,19 @@ import java.util.Date;
 @AllArgsConstructor
 public class TestUser {
 
+    /** ID */
     private Long id;
 
+    /** 姓名 */
     private String name;
 
+    /** 年龄 */
     private Integer age;
 
+    /** 邮箱 */
     private String email;
 
+    /** 生日 */
     private Date birthday;
 
 }
