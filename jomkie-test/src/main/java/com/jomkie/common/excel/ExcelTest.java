@@ -2,6 +2,7 @@ package com.jomkie.common.excel;
 
 import com.jomkie.model.TestUser;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,7 +13,7 @@ import java.util.stream.IntStream;
 public class ExcelTest {
 
     public static void main(String[] args) {
-
+        importTest();
     }
 
     /**
@@ -29,15 +30,26 @@ public class ExcelTest {
         );
     }
 
+    /**
+     * 测试输入 excel
+     * @author Jomkie
+     * @since 2021-06-16 9:54:39
+     */
     public static void importTest() {
+        String FILE_PATH = "/home/jomkie/mydata/joUser-excel.xlsx";
+        int index = FILE_PATH.lastIndexOf(".");
+        String suffix = FILE_PATH.substring(index + 1);
+        FileInputStream inputStream;
         try {
-            FileInputStream inputStream = new FileInputStream("/home/jomkie/mydata/joUser-excel.xlsx");
+            inputStream = new FileInputStream(FILE_PATH);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("构建输入流失败");
             return;
         }
 
+        ImportTestUserHandler importTestUserHandler = new ImportTestUserHandler(new ImportBuilder());
+        importTestUserHandler.importTestUserList(suffix, inputStream);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.jomkie.common.excel;
 
+import com.jomkie.common.LemonException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * @author Jomkie
@@ -105,6 +107,29 @@ public class ExcelFactory {
         /* xlsx */
         // 这个构造方法没有输入流的构造方法
         return new SXSSFWorkbook();
+    }
+
+    public static Workbook createWorkbookBySuffix(String suffix, InputStream inputStream) {
+        if (null == suffix || "".equals(suffix) || null == inputStream) {
+            throw new LemonException("The building conditions are not complete");
+        }
+
+        Workbook workbook = null;
+        switch (suffix) {
+            case "xls":
+                workbook = createHSSFWorkbook(inputStream);
+                break;
+            case "xlsx":
+                workbook = createXSSFWorkbook(inputStream);
+                break;
+            default:
+                break;
+        }
+
+        if (Objects.isNull(workbook)) {
+            throw new LemonException("未找适用的工作簿");
+        }
+        return workbook;
     }
 
     /**

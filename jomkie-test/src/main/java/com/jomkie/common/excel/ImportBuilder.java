@@ -1,8 +1,8 @@
 package com.jomkie.common.excel;
 
 import com.jomkie.model.TestUser;
+import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,10 +11,10 @@ import java.util.List;
  * @author Jomkie
  * @since 2021-06-16 9:30:25
  */
-public class ImportBuilder  extends ExcelBuilder<InputStream, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>> {
+public class ImportBuilder  extends ExcelBuilder<Workbook, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>> {
 
     @Override
-    public List<TestUser> preHandle(InputStream inputStream) {
+    public List<TestUser> preHandle(Workbook workbook) {
         // 这里生成 List<TestUser>
         return new LinkedList<>();
     }
