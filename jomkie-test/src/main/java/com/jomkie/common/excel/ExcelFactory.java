@@ -60,8 +60,7 @@ public class ExcelFactory {
         try {
             fs = new POIFSFileSystem(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("创建POIFSFileSystem失败");
+            log.error("创建POIFSFileSystem失败", e);
             return null;
         }
 
@@ -69,8 +68,7 @@ public class ExcelFactory {
         try {
             wb = new HSSFWorkbook(fs.getRoot(), true);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("创建工作簿失败");
+            log.error("创建工作簿失败", e);
             return null;
         }
         return wb;
@@ -82,12 +80,10 @@ public class ExcelFactory {
         try {
             pkg = OPCPackage.open(inputStream);
         } catch (InvalidFormatException e) {
-            e.printStackTrace();
-            System.out.println("无效的OPCPackage格式");
+            log.error("无效的OPCPackage格式", e);
             return null;
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("打开OPCPackage失败");
+            log.error("打开OPCPackage失败", e);
             return null;
         }
 
@@ -95,8 +91,7 @@ public class ExcelFactory {
         try {
             xssfWorkbook = new XSSFWorkbook(pkg);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("创建工作簿失败");
+            log.error("创建工作簿失败", e);
             return null;
         }
 
@@ -126,9 +121,7 @@ public class ExcelFactory {
                 break;
         }
 
-        if (Objects.isNull(workbook)) {
-            throw new LemonException("未找适用的工作簿");
-        }
+        if (Objects.isNull(workbook)) { throw new LemonException("未成功构建工作簿"); }
         return workbook;
     }
 
@@ -161,7 +154,7 @@ public class ExcelFactory {
         try {
             workbook.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("关闭流失败", e);
         }
     }
 
