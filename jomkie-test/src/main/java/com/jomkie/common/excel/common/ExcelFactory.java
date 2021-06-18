@@ -134,7 +134,7 @@ public class ExcelFactory {
                 break;
         }
 
-        if (Objects.isNull(workbook)) { throw new LemonException("未成功构建工作簿"); }
+        if (Objects.isNull(workbook)) { throw new LemonException("不合法的文件类型"); }
         return workbook;
     }
 

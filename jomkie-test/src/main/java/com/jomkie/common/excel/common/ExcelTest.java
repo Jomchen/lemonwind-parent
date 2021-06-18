@@ -1,9 +1,6 @@
 package com.jomkie.common.excel.common;
 
-import com.jomkie.common.excel.ExportTestUserBuilder;
-import com.jomkie.common.excel.ExportTestUserHandler;
-import com.jomkie.common.excel.ImportTestUserBuilder;
-import com.jomkie.common.excel.ImportTestUserHandler;
+import com.jomkie.common.excel.*;
 import com.jomkie.model.TestUser;
 
 import java.io.FileInputStream;
@@ -15,7 +12,8 @@ import java.util.stream.IntStream;
 public class ExcelTest {
 
     public static void main(String[] args) {
-        importTest();
+        // 测试
+        testTemplate();
     }
 
     /**
@@ -52,6 +50,11 @@ public class ExcelTest {
 
         ImportTestUserHandler importTestUserHandler = new ImportTestUserHandler(new ImportTestUserBuilder());
         importTestUserHandler.importTestUserList(suffix, inputStream);
+    }
+
+    public static void testTemplate() {
+        TemplateTestUserHandler templateTestUserHandler = new TemplateTestUserHandler(new TemplateTestUserBuilder());
+        templateTestUserHandler.getImportTemplate(null);
     }
 
 }
