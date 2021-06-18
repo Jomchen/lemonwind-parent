@@ -98,10 +98,23 @@ public class ExcelFactory {
         return xssfWorkbook;
     }
 
+    /**
+     * @author Jomkie
+     * @since 2021-06-18 09:17:44
+     * @param inputStream
+     * @return
+     * @deprecated
+     */
     public static Workbook createSXSSFWorkbook(InputStream inputStream) {
         /* xlsx */
-        // 这个构造方法没有输入流的构造方法
-        return new SXSSFWorkbook();
+        XSSFWorkbook xssfWorkbook;
+        try {
+            xssfWorkbook = new XSSFWorkbook(inputStream);
+        } catch (IOException e) {
+            log.error("构建工作簿失败", e);
+            return null;
+        }
+        return new SXSSFWorkbook(xssfWorkbook);
     }
 
     public static Workbook createWorkbookBySuffix(String suffix, InputStream inputStream) {
