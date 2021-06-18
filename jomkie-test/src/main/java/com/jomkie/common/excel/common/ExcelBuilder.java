@@ -1,4 +1,4 @@
-package com.jomkie.common.excel;
+package com.jomkie.common.excel.common;
 
 /**
  * Excel处理

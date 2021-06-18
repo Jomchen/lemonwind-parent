@@ -1,4 +1,4 @@
-package com.jomkie.common.excel;
+package com.jomkie.common.excel.common;
 
 import com.jomkie.common.LemonException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

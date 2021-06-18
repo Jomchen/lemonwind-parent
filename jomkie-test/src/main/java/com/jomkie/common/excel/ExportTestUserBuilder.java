@@ -1,5 +1,7 @@
 package com.jomkie.common.excel;
 
+import com.jomkie.common.excel.common.ExcelBuilder;
+import com.jomkie.common.excel.common.ExcelFactory;
 import com.jomkie.model.TestUser;
 import org.apache.poi.ss.usermodel.*;
 
@@ -16,7 +18,7 @@ import java.util.stream.IntStream;
  * @author Jomkie
  * @since 2021-06-11 9:44:12
  */
-public class ExportBuilder extends ExcelBuilder<List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>> {
+public class ExportTestUserBuilder extends ExcelBuilder<List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>> {
 
     @Override
     public List<TestUser> preHandle(List<TestUser> param) {

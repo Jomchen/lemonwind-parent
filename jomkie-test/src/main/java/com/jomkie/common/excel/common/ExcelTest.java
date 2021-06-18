@@ -1,8 +1,10 @@
-package com.jomkie.common.excel;
+package com.jomkie.common.excel.common;
 
+import com.jomkie.common.excel.ExportTestUserBuilder;
+import com.jomkie.common.excel.ExportTestUserHandler;
+import com.jomkie.common.excel.ImportTestUserBuilder;
+import com.jomkie.common.excel.ImportTestUserHandler;
 import com.jomkie.model.TestUser;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +24,7 @@ public class ExcelTest {
      * @since 2021-06-16 9:17:30
      */
     public static void exportTest() {
-        ExportTestUserHandler exportTestUserHandler = new ExportTestUserHandler(new ExportBuilder());
+        ExportTestUserHandler exportTestUserHandler = new ExportTestUserHandler(new ExportTestUserBuilder());
         exportTestUserHandler.createTestUserList(
             IntStream.rangeClosed(0, 100).mapToObj(i ->
                 new TestUser((long)i, "李寻欢" + i, i, (100 + i) + "mail@qq.com", new Date())
@@ -48,7 +50,7 @@ public class ExcelTest {
             return;
         }
 
-        ImportTestUserHandler importTestUserHandler = new ImportTestUserHandler(new ImportBuilder());
+        ImportTestUserHandler importTestUserHandler = new ImportTestUserHandler(new ImportTestUserBuilder());
         importTestUserHandler.importTestUserList(suffix, inputStream);
     }
 

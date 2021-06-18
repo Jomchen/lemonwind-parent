@@ -1,6 +1,7 @@
 package com.jomkie.common.excel;
 
 import com.jomkie.common.LemonException;
+import com.jomkie.common.excel.common.ExcelBuilder;
 import com.jomkie.model.TestUser;
 import org.apache.poi.ss.usermodel.*;
 
@@ -18,7 +19,7 @@ import java.util.stream.IntStream;
  * @author Jomkie
  * @since 2021-06-16 9:30:25
  */
-public class ImportBuilder  extends ExcelBuilder<Workbook, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>> {
+public class ImportTestUserBuilder extends ExcelBuilder<Workbook, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>, List<TestUser>> {
 
     private static SimpleDateFormat SDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
