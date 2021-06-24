@@ -10,7 +10,7 @@ CREATE TABLE jo_user
 ) charset=utf8;
 
 DELETE FROM jo_user WHERE 1=1;
-INSERT INTO jo_user (id, name, age, email) VALUES
+INSERT INTO jo_user (id, name, age, sex, email) VALUES
 (0, 'Jomkie0', 0, 0, 'test0@baomidou.com'),
 (1, 'Jomkie1', 1, 0, 'test1@baomidou.com'),
 (2, 'Jomkie2', 2, 0, 'test2@baomidou.com'),
