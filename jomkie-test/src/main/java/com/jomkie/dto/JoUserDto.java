@@ -34,6 +34,10 @@ public class JoUserDto implements PreBuildParamDto {
     @Range(min = 0, max = 200, message = "年龄范围必须在 {min} - {max} 之间", groups = {UserGroup.UserAdd.class, UserGroup.UserUpdate.class, UserGroup.UserDel.class})
     private Integer age;
 
+    @NotNull(message = "性别不能为空", groups = {UserGroup.UserAdd.class, UserGroup.UserUpdate.class})
+    @Range(min = 0, max = 1, message = "性别传值为 {min} 或 {max}")
+    private Short sex;
+
     @Pattern(regexp = "^.+@.+$", message = "邮箱不合法", groups = {UserGroup.UserAdd.class, UserGroup.UserUpdate.class})
     private String email;
 

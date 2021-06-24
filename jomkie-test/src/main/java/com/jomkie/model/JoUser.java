@@ -24,6 +24,8 @@ public class JoUser {
 
     private Integer age;
 
+    private Short sex;
+
     private String email;
 
 }

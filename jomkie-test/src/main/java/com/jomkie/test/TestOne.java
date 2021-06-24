@@ -5,6 +5,7 @@ import com.jomkie.model.JoUser;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalField;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -70,6 +71,8 @@ public class TestOne {
 
         System.out.println(zonedDateTime.format(dtf));
         System.out.println(ldt3.format(dtf));
+        LocalDateTime lll = LocalDateTime.now().with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
+        System.out.println(lll.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
 }
