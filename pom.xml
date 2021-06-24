@@ -128,7 +128,8 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-devtools</artifactId>
-        <optional>true</optional>
+        <!-- 可选项设置为true可保证 devtools 被传递地应用于使用此项目的其它模块 -->
+        <!--<optional>true</optional>-->
       </dependency>
 
     </dependencies>
