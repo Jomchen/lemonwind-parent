@@ -20,7 +20,7 @@ public class TestOne {
     public void test00() {
         List<JoUser> list = IntStream.range(0, 21)
                 .mapToObj(i ->
-                        new JoUser(Long.valueOf(i), "李寻欢" + i, i % 5, "明朝" + i)
+                        new JoUser(Long.valueOf(i), "李寻欢" + i, i % 5, (short)1, "明朝" + i)
                 ).collect(Collectors.toList());
 
         Map<Integer, JoUser> map = list.stream().collect(Collectors.toMap(JoUser::getAge, v -> v, (x, y) -> x));

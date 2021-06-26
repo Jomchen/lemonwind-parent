@@ -1,6 +1,9 @@
 server:
   port: 8080
 spring:
+  devtools:
+    restart:
+      trigger-file: ".reloadtrigger"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8

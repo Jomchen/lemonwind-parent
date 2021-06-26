@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * @author Jomkie
@@ -43,9 +44,26 @@ public class TestController {
     private RedisTool redisTool;
 
     /**
+     * 测试热交换
+     * @author Jomkie
+     * @since 2021-06-25 23:51:24
+     * @param
+     * @return com.jomkie.common.ResultObj<java.lang.String>
+     */
+    @GetMapping(UrlContent.NET_TEST_HOT_SWAP)
+    public ResultObj<String> testHotSwap() {
+        //String theData = String.valueOf(System.currentTimeMillis());
+        String theData = "Linux";
+        /*StringBuilder stringBuilder = new StringBuilder();
+        IntStream.range(0, 10).boxed().forEach(stringBuilder::append);
+        theData = stringBuilder.toString();*/
+        return ResultObj.success(theData);
+    }
+
+    /**
+     * 测试生成二维码
      * @author Jomkie
      * @since 2021-05-22 15:17:38
-     * 测试生成二维码
      */
     @GetMapping(UrlContent.NET_GENERATE_QRCODE_IMAGE)
     public void generateQrcodeImage(@PathVariable("redisKey") String redisKey) {
@@ -70,10 +88,10 @@ public class TestController {
     }
 
     /**
+     * 存储 redis 数据
      * @author Jomkie
      * @since 2021-05-23 10:9:6
      * @param body 包含要存储的key和value
-     * 存储 redis 数据
      */
     @PostMapping(UrlContent.NET_TEST_REDIS_SAVE)
     public ResultObj<String> testRedisSave(@RequestBody String body) {
@@ -92,10 +110,10 @@ public class TestController {
     }
 
     /**
+     * 查询 redis 数据
      * @author Jomkie
      * @since 2021-05-23 10:8:52
      * @param redisKey 主键
-     * 查询 redis 数据
      */
     @GetMapping(UrlContent.NET_TEST_REDIS_GET)
     public ResultObj<String> testRedisGet(@PathVariable("redisKey") String redisKey) {
@@ -104,10 +122,10 @@ public class TestController {
     }
 
     /**
+     * 删除 redis 数据
      * @author Jomkie
      * @since 2021-05-23 21:30:37
      * @param redisKey 主键
-     * 删除 redis 数据
      */
     @GetMapping(UrlContent.NET_TEST_REDIS_DELETE)
     public ResultObj<Void> testRedisDel(@PathVariable("redisKey") String redisKey) {
@@ -121,9 +139,9 @@ public class TestController {
     }
 
     /**
+     * 测试post远程回调请求
      * @author Jomkie
      * @since 2021-05-20 11:14:49
-     * 测试post远程回调请求
      */
     @ReqValidGroup()
     @PostMapping(UrlContent.NET_TEST_REMOTE_POST)
@@ -143,9 +161,9 @@ public class TestController {
     }
 
     /**
+     * 测试get远程回调请求
      * @author Jomkie
      * @since 2021-05-21 22:11:52
-     * 测试get远程回调请求
      */
     @ReqValidGroup()
     @GetMapping(UrlContent.NET_TEST_REMOTE_GET)
@@ -155,9 +173,9 @@ public class TestController {
     }
 
     /**
+     * 普通测试
      * @author Jomkie
      * @since 2021-05-20 15:19:59
-     * 普通测试
      */
     @ReqValidGroup()
     @GetMapping(UrlContent.NET_TEST_NORMAL)
@@ -168,9 +186,9 @@ public class TestController {
     }
 
     /**
+     * 测试微信支付接口
      * @author Jomkie
      * @since 2021-05-20 15:39:36
-     * 测试微信支付接口
      */
     @ReqValidGroup()
     @GetMapping(UrlContent.NET_TEST_WECHAT_PAY)
@@ -181,9 +199,9 @@ public class TestController {
     }
 
     /**
+     * 测试获取微信支付平台证书
      * @author Jomkie
      * @since 2021-05-23 22:22:55
-     * 测试获取微信支付平台证书
      */
     @GetMapping(UrlContent.NET_TEST_GET_WECHAT_PLATFORM)
     public ResultObj<String> getWechatPlatform() {

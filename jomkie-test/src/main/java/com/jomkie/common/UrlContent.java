@@ -15,6 +15,7 @@ public interface UrlContent {
     String NET_USER_CHECK_BUILD_PARAM = "/net/user/check/build/param";
     String NET_USER_TEST_JOUSER = "/net/user/test/jouser";
 
+    String NET_TEST_HOT_SWAP = "/net/test/hot/swap";
     String NET_GENERATE_QRCODE_IMAGE = "/net/test/generate/qrcode/image/{redisKey}";
     String NET_TEST_REDIS_SAVE = "/net/test/redis/save";
     String NET_TEST_REDIS_GET = "/net/test/redis/get/{redisKey}";
