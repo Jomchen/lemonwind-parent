@@ -13,6 +13,7 @@
 
   <modules>
     <module>jomkie-test</module>
+      <module>data-structure</module>
   </modules>
 
   <properties>
