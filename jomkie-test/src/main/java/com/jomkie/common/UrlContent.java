@@ -25,6 +25,8 @@ public interface UrlContent {
     String NET_TEST_NORMAL = "/net/test/normal";
     String NET_TEST_WECHAT_PAY = "/net/test/wechat/pay";
     String NET_TEST_GET_WECHAT_PLATFORM = "/net/test/get/wechat/platform";
+    String NET_TEST_PUT_LIST_FOR_REDIS = "/net/test/put/list/for/redis/{redisKey}";
+    String NET_TEST_GET_LIST_FOR_REDIS = "/net/test/get/list/for/redis/{redisKey}";
 
     String NET_AOP_TEST_AOP_SERVER_AND_LOG = "/net/aop/test/aop/server/and/log";
 

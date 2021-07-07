@@ -209,4 +209,28 @@ public class TestController {
         return ResultObj.success(result);
     }
 
+    /**
+     * 测试 redis 放入 list
+     * @author Jomkie
+     * @since 2021-07-07 20:49:30
+     */
+    @GetMapping(UrlContent.NET_TEST_PUT_LIST_FOR_REDIS)
+    public ResultObj<String> putListForRedis(@PathVariable("redisKey") String redisKey) {
+        String result = testService.putListForRedis(redisKey);
+        return ResultObj.success(result);
+    }
+
+    /**
+     * 测试 redis 获取 list
+     * @author Jomkie
+     * @since 2021-07-07 20:52:48
+     */
+    @GetMapping(UrlContent.NET_TEST_GET_LIST_FOR_REDIS)
+    public ResultObj<String> getListForRedis(@PathVariable("redisKey") String redisKey) {
+        String result = testService.getListForRedis(redisKey);
+        return ResultObj.success(result);
+    }
+
+
+
 }

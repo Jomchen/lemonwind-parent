@@ -23,4 +23,21 @@ public interface TestService {
      */
     String getWechatPlatform();
 
+    /**
+     * 测试 redis 放入 list
+     * @author Jomkie
+     * @since 2021-07-07 20:51:56
+     * @param redisKey
+     * @return void
+     */
+    String putListForRedis(String redisKey);
+
+    /**
+     * 测试 redis 获取 list
+     * @author Jomkie
+     * @since 2021-07-07 20:52:29
+     * @param redisKey
+     */
+    String getListForRedis(String redisKey);
+
 }

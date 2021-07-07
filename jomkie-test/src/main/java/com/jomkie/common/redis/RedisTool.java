@@ -2,6 +2,8 @@ package com.jomkie.common.redis;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Getter
+@Setter
 public class RedisTool {
 
     @Autowired
