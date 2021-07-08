@@ -71,7 +71,7 @@ public class TestServiceImpl implements TestService {
     @Override
     public String putListForRedis(String redisKey) {
         // leftPush 相当于压入栈，rightPush 相当于加入队尾
-        // range 相当于从栈顶开始拿数据，从队头拿数据，第一个数据索引都是0
+        // range 或其它有起始和结束范围的方法 都是基于栈顶或队头取元素，第一个元素索引是 0
         ListOperations<String, String> listOperations = redisTool.getStrRedisTemplate().opsForList();
         IntStream.range(0, 10).boxed().forEach(index -> {
             listOperations.rightPush(redisKey, String.valueOf(index));
@@ -105,6 +105,14 @@ public class TestServiceImpl implements TestService {
             log.info("------------------------------------------------------");
         }
 
+        return "执行完成";
+    }
+
+    @Override
+    public String trimRedis(String redisKey) {
+        // 删除除索引范围外的数据
+        ListOperations<String, String> listOperations = redisTool.getStrRedisTemplate().opsForList();
+        listOperations.trim(redisKey, 0, 5);
         return "执行完成";
     }
 

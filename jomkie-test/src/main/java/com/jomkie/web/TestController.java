@@ -243,4 +243,16 @@ public class TestController {
         return ResultObj.success(result);
     }
 
+    /**
+     * 测试 trim 方法
+     * @author Jomkie
+     * @since 2021-07-08 15:40:44
+     * @param redisKey
+     */
+    @GetMapping(UrlContent.NET_TEST_TRIM_REDIS)
+    public ResultObj<String> trimRedis(@PathVariable("redisKey") String redisKey) {
+        String result = testService.trimRedis(redisKey);
+        return ResultObj.success(result);
+    }
+
 }

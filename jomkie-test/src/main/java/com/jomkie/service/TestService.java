@@ -49,4 +49,13 @@ public interface TestService {
      */
     String loopGetListForRedis(String redisKey);
 
+    /**
+     * 测试 trim 方法
+     * @author Jomkie
+     * @since 2021-07-08 15:36:51
+     * @param redisKey
+     * @return
+     */
+    String trimRedis(String redisKey);
+
 }

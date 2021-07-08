@@ -50,3 +50,7 @@ Accept: application/json
 GET http://127.0.0.1:8080/net/loop/get/list/for/redis/redisKey
 Accept: application/json
 
+### 测试 trim 方法
+GET http://127.0.0.1:8080/net/trim/redis/redisKey
+Accept: application/json
+
