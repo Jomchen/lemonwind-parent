@@ -37,3 +37,11 @@ Content-Type: application/json
 ### 获取微信支付平台证书
 GET http://127.0.0.1:8080/net/test/get/wechat/platform
 Accept: application/json
+
+### 测试 redis 放入 list
+GET http://127.0.0.1:8080/net/test/put/list/for/redis/redisKey
+Accept: application/json
+
+### 测试 redis 获取 list
+GET http://127.0.0.1:8080/net/test/get/list/for/redis/redisKey
+Accept: application/json

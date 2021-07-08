@@ -70,9 +70,12 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public String putListForRedis(String redisKey) {
+        // leftPush 相当于压入栈，rightPush 相当于加入队尾
+        // range 相当于从栈顶开始拿数据，从队头拿数据，第一个数据索引都是0
         ListOperations<String, String> listOperations = redisTool.getStrRedisTemplate().opsForList();
         IntStream.range(0, 10).boxed().forEach(index -> {
-            listOperations.leftPush(redisKey, String.valueOf(index));
+            // listOperations.leftPush(redisKey, String.valueOf(index));
+            listOperations.rightPush(redisKey, String.valueOf(index));
         });
         return "成功";
     }
