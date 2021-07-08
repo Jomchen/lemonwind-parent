@@ -231,6 +231,16 @@ public class TestController {
         return ResultObj.success(result);
     }
 
-
+    /**
+     * 循环拿 list 的数据
+     * @author Jomkie
+     * @since 2021-07-08 14:57:41
+     * @param redisKey
+     */
+    @GetMapping(UrlContent.NET_TEST_LOOP_GET_LIST_FOR_REDIS)
+    public ResultObj<String> loopGetListForRedis(@PathVariable("redisKey") String redisKey) {
+        String result = testService.loopGetListForRedis(redisKey);
+        return ResultObj.success(result);
+    }
 
 }

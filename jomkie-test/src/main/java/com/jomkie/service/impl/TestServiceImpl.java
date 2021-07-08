@@ -74,7 +74,6 @@ public class TestServiceImpl implements TestService {
         // range 相当于从栈顶开始拿数据，从队头拿数据，第一个数据索引都是0
         ListOperations<String, String> listOperations = redisTool.getStrRedisTemplate().opsForList();
         IntStream.range(0, 10).boxed().forEach(index -> {
-            // listOperations.leftPush(redisKey, String.valueOf(index));
             listOperations.rightPush(redisKey, String.valueOf(index));
         });
         return "成功";
@@ -85,6 +84,28 @@ public class TestServiceImpl implements TestService {
         ListOperations<String, String> listOperations = redisTool.getStrRedisTemplate().opsForList();
         List<String> list = listOperations.range(redisKey, 0, 4);
         return list.stream().collect(Collectors.joining(","));
+    }
+
+    @Override
+    public String loopGetListForRedis(String redisKey) {
+        ListOperations<String, String> listOperations = redisTool.getStrRedisTemplate().opsForList();
+        Long size = listOperations.size(redisKey);
+        if (null == size && size <= 0) {
+            log.warn("redisKey 为 {} 查询没有信息", redisKey);
+        }
+
+        final int width = 3;
+        int startIndex = 0;
+        int endIndex = startIndex + width - 1;
+        while (startIndex <= size) {
+            List<String> list = listOperations.range(redisKey, startIndex, endIndex);
+            list.stream().forEach(log::info);
+            startIndex += width;
+            endIndex = startIndex + width - 1;
+            log.info("------------------------------------------------------");
+        }
+
+        return "执行完成";
     }
 
 }

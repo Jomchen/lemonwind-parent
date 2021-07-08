@@ -45,3 +45,8 @@ Accept: application/json
 ### 测试 redis 获取 list
 GET http://127.0.0.1:8080/net/test/get/list/for/redis/redisKey
 Accept: application/json
+
+### 循环拿 list 的数据
+GET http://127.0.0.1:8080/net/loop/get/list/for/redis/redisKey
+Accept: application/json
+

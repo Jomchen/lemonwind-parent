@@ -40,4 +40,13 @@ public interface TestService {
      */
     String getListForRedis(String redisKey);
 
+    /**
+     * 循环拿 list 的数据
+     * @author Jomkie
+     * @since 2021-07-08 14:57:28
+     * @param redisKey
+     * @return
+     */
+    String loopGetListForRedis(String redisKey);
+
 }
