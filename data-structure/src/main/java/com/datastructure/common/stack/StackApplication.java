@@ -64,7 +64,25 @@ public class StackApplication {
         return str.isEmpty();
     }
 
+    /**
+     * 检验字符串符号合法性
+     * @author Jomkie
+     * @since 2021-07-11 21:25:17
+     * @param str 字符串
+     * @return boolean
+     */
     public static boolean test02(String str) {
+        /*
+          遍历字符串每个字符
+          如果是左括号则入栈
+          如果是右括号则出栈进行比对是否配对
+              如果栈为空，则字符串不合法
+              如果栈不为空，不配对则字符串不合法
+          遍历完后如果栈不为空，则有多余左括号，则字符串不合法
+
+          此题原理是一个右括号对应的左括号一定是离自己最近的左括号
+         */
+
         Map<Character, Character> map = new HashMap<>();
         map.put('(', ')');
         map.put('[', ']');
