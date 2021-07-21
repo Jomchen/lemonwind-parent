@@ -1,3 +1,8 @@
+### 任何测试
+GET http://127.0.0.1:8080/net/test/any/Linux
+Accept: application/json
+
+###
 ### 测试热交换
 GET http://127.0.0.1:8080/net/test/hot/swap
 Accept: application/json
