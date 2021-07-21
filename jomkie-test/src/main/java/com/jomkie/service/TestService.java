@@ -58,4 +58,12 @@ public interface TestService {
      */
     String trimRedis(String redisKey);
 
+    /**
+     * 任何测试
+     * @author Jomkie
+     * @since 2021-07-21 11:15:54
+     * @param anyData 任何数据
+     */
+    String anyTest(String anyData);
+
 }

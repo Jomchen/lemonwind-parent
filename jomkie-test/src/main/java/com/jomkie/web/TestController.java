@@ -255,4 +255,16 @@ public class TestController {
         return ResultObj.success(result);
     }
 
+    /**
+     * 任何测试
+     * @author Jomkie
+     * @since 2021-07-21 11:17:16
+     * @param anyData 任何数据
+     */
+    @GetMapping(UrlContent.NET_TEST_ANY)
+    public ResultObj<String> anyTest(@PathVariable("anyData") String anyData) {
+        String result = testService.anyTest(anyData);
+        return ResultObj.success(result);
+    }
+
 }

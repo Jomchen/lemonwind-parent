@@ -116,4 +116,9 @@ public class TestServiceImpl implements TestService {
         return "执行完成";
     }
 
+    @Override
+    public String anyTest(String anyData) {
+        return System.currentTimeMillis() + anyData;
+    }
+
 }
