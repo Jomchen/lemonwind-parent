@@ -1,6 +1,6 @@
 package com.datastructure.common.chain;
 
-import com.datastructure.common.model.DataNode;
+import com.datastructure.common.model.chain.DataNode;
 
 public class ChainApplication {
 

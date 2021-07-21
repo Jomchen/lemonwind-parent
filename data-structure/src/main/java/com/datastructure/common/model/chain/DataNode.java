@@ -1,7 +1,6 @@
-package com.datastructure.common.model;
+package com.datastructure.common.model.chain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
