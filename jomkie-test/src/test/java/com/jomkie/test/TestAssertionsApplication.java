@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import java.time.Duration;
 import java.util.Random;
 
@@ -14,7 +15,7 @@ import java.util.Random;
 /*@DisplayName("Jomkie")*/
 /*@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)*/
 @IndicativeSentencesGeneration(separator = "#", generator = DisplayNameGenerator.ReplaceUnderscores.class)
-public class TestTestApplication {
+public class TestAssertionsApplication {
 
     @BeforeAll
     static void beforeAll() {
