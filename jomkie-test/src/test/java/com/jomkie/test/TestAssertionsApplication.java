@@ -87,9 +87,28 @@ public class TestAssertionsApplication {
         );
     }
 
-    /** 断言会抛出的异常 */
     @Test
     void test05() {
+        assertAll(
+                "testGroup",
+                () -> {
+                    String firstName = "0";
+                    assertAll(() -> {
+                        assertTrue(firstName.equals("0"));
+                    });
+                },
+                () -> {
+                    String lastName = "0";
+                    assertAll(() -> {
+                        assertTrue(lastName.equals("0"));
+                    });
+                }
+        );
+    }
+
+    /** 断言会抛出的异常 */
+    @Test
+    void test06() {
         LemonException lemonException = assertThrows(LemonException.class, () -> {
             if (3 > 2) {
                 throw new LemonException(Responsecode.FAILE, "柠檬异常");
@@ -100,7 +119,7 @@ public class TestAssertionsApplication {
 
     /** 测试超时 */
     @Test
-    void test06() {
+    void test07() {
         assertTimeout(Duration.ofSeconds(3), () -> {
             log.info("executing a long time task...");
             Thread.sleep(4000);
@@ -109,7 +128,7 @@ public class TestAssertionsApplication {
 
     /** 测试超时抢先终止 */
     @Test
-    void test07() {
+    void test08() {
         assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {
             log.info("executing a long time task2...");
             Thread.sleep(5000);
