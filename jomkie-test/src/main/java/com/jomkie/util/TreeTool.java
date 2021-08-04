@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -28,6 +29,12 @@ public class TreeTool<Obj, Identifier> {
 
     /** 为对象设置子级节点集合 */
     BiConsumer<Obj, List<Obj>> setChildrenFun;
+
+    /** 获取父级对象 */
+    private Function<Obj, Obj> getParentObjFun;
+
+    /** 对一个元素逻辑处理 */
+    private Consumer<Obj> consumer;
 
     public TreeTool(Function<Obj, Identifier> getIdentifierOfItSelfFun,
                     Function<Identifier, List<Obj>> getChildrenByParentIdentifierFun,
@@ -134,6 +141,37 @@ public class TreeTool<Obj, Identifier> {
         return new ArrayList<>(queue);
     }
 
+
+    /**
+     * 通过一个元素，获取到顶级元素形成的链
+     *       A
+     *      /\
+     *    B  C
+     *   /
+     *  D
+     *  method(D)，那么执行结果为：[D,B,A]
+     * @author Jomkie
+     * @since 2021-06-09 11:47:59
+     * @param obj 一个元素
+     */
+    public List<Obj> getForefatherChain(Obj obj) {
+        if (Objects.isNull(getParentObjFun)) {
+            throw new LemonException("The condition with  <getParentObjFun> must be not null");
+        }
+        if (Objects.isNull(obj)) {
+            throw new LemonException("The element must be not null");
+        }
+
+        Obj temporary = obj;
+        List<Obj> queue = new LinkedList<>();
+        while (Objects.nonNull(temporary)) {
+            queue.add(temporary);
+            temporary = getParentObjFun.apply(temporary);
+        }
+
+        return queue;
+    }
+
     /**
      * 通过父级元素集合获取指定深度内的后代元素
      *           A
@@ -181,6 +219,33 @@ public class TreeTool<Obj, Identifier> {
         }
 
         return resultList;
+    }
+
+    /**
+     * 从父级元素开始到所有的后代元素进行逻辑处理
+     * @author Jomkie
+     * @since 2021-08-04 11:34:21
+     * @param originalList 父级元素
+     */
+    public void consumeEachObj(List<Obj> originalList) {
+        if (Objects.isNull(getIdentifierOfItSelfFun)
+                || Objects.isNull(getChildrenByParentIdentifierFun)
+                || Objects.isNull(consumer)) {
+            throw new LemonException("Building conditions are not complete");
+        }
+
+        if (CollectionUtils.isEmpty(originalList)) { return; }
+        Queue<Obj> queue = new LinkedList<>(originalList);
+        while ( ! queue.isEmpty()) {
+            Obj currentObj = queue.poll();
+            consumer.accept(currentObj);
+
+            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
+            List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
+            if ( ! CollectionUtils.isEmpty(children)) {
+                queue.addAll(children);
+            }
+        }
     }
 
 }
