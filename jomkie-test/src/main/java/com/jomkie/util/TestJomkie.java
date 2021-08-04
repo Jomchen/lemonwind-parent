@@ -9,6 +9,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * 目录树工具（此功能适用于森林和二叉树）
+ * 元素不要出现相互依赖的情况，否则会无限循环
+ * <Obj> 组成树的元素
+ * <Identifier> 元素自己的唯一标识
+ * @author Jomkie
+ * @since 2021-06-01 16:44:0
+ */
 public class TestJomkie {
 
     public static void main(String[] args) {
@@ -83,22 +91,29 @@ public class TestJomkie {
         );
         /* ---------- 封装查询工具 ----------  End */
 
-        /* ---------- 构建根级数据 ---------- Start */
+        /* ---------------------------
+            构建根级数据
+            rootList 只能有顶级，元素对象内不能挂下级元素，否则结果不正确
+        --------------------- */
         List<TestJoUser> rootList = new ArrayList<>();
         rootList.add(root1);
         rootList.add(root2);
         rootList.add(root3);
-        /* ---------- 构建根级数据 ---------- End */
-
-        // rootList 只能有顶级，元素对象内不能挂下级元素，否则结果不正确
 
         // 获取树结构
         String treeJson = JSONObject.toJSONString(treeTool.getTree(3, rootList));
+        System.out.println("一棵树：");
         System.out.println(treeJson);
 
         // 获取某一层的数据
-        /*String layerJson = JSONObject.toJSONString(treeTool.getObjListOfSpecificLayer(3, rootList));
-        System.out.println(layerJson);*/
+        String layerJson = JSONObject.toJSONString(treeTool.getObjListOfSpecificLayer(3, rootList));
+        System.out.println("指定层的数据：");
+        System.out.println(layerJson);
+
+        // 获取根到某一层内的所有元素集合
+        String allObjSpecificDepthJson = JSONObject.toJSONString(treeTool.getAllObjForSpecificDepth(3, rootList));
+        System.out.println("根到指定层内的所有元素集合：");
+        System.out.println(allObjSpecificDepthJson);
     }
 
 }

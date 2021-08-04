@@ -38,11 +38,17 @@ public class TreeTool<Obj, Identifier> {
     }
 
     /**
+     * 获取拥有指定层数的完整树
+     *           A
+     *         /   \
+     *       B     C
+     *     / \    / \
+     *  D   E  F  G
+     *  如果 originalRootList  中只有A，method(3, originalRootList) 那么执行结果为图示的整棵树
      * @author Jomkie
      * @since 2021-06-01 16:45:12
      * @param depth 树的深度，最少为 1
      * @param originalRootList 树的顶级节点集合
-     * 层序遍历获取指定深度的树
      */
     public List<Obj> getTree(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(getIdentifierOfItSelfFun)
@@ -84,11 +90,17 @@ public class TreeTool<Obj, Identifier> {
     }
 
     /**
+     *  获取树中某一层的元素集合
+     *           A
+     *         /   \
+     *       B     C
+     *     / \    / \
+     *  D   E  F  G
+     *  如果 originalRootList  中只有A，method(3, originalRootList) 那么执行结果为 [D,E,F,G]
      * @author Jomkie
      * @since 2021-06-02 11:50:56
      * @param depth 树的深度，至少为 1
      * @param originalRootList 树的顶级节点集合
-     * 获取树中指定层的节点集合
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(getIdentifierOfItSelfFun) || Objects.isNull(getChildrenByParentIdentifierFun)) {
@@ -120,6 +132,55 @@ public class TreeTool<Obj, Identifier> {
         }
 
         return new ArrayList<>(queue);
+    }
+
+    /**
+     * 通过父级元素集合获取指定深度内的后代元素
+     *           A
+     *         /   \
+     *       B     C
+     *     / \    / \
+     *  D   E  F  G
+     *  如果 parentList  中只有A，method(3, parentList) 那么执行结果为 [A,B,C,D,E,F,G]
+     * @author Jomkie
+     * @since 2021-08-04 09:38:02
+     * @param depth 深度
+     * @param parentList 父集元素集合
+     */
+    public List<Obj> getAllObjForSpecificDepth(int depth, List<Obj> parentList) {
+        if (CollectionUtils.isEmpty(parentList)) { return Collections.EMPTY_LIST; }
+        if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
+        if (Objects.isNull(getChildrenByParentIdentifierFun)
+                || Objects.isNull(getIdentifierOfItSelfFun)) {
+            throw new LemonException("Building conditions are not complete");
+        }
+
+        List<Obj> resultList = new LinkedList<>(parentList);
+        Queue<Obj> queue = new LinkedList<>(parentList);
+        int currentDepth = 1;
+        int numbersForCurrentLayer = queue.size();
+
+        while ( ! queue.isEmpty()) {
+            if (currentDepth >= depth) {
+                return resultList;
+            }
+
+            Obj currentObj = queue.poll();
+            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
+            List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
+            if ( ! CollectionUtils.isEmpty(children)) {
+                resultList.addAll(children);
+                queue.addAll(children);
+            }
+
+            -- numbersForCurrentLayer;
+            if (numbersForCurrentLayer <= 0) {
+                currentDepth ++;
+                numbersForCurrentLayer = queue.size();
+            }
+        }
+
+        return resultList;
     }
 
 }
