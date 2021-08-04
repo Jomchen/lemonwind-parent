@@ -11,11 +11,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
+ * 目录树工具（此功能适用于森林和二叉树）
+ * 注意元素不要出现 相互层级关系，否则会无限循环
+ * <Obj> 组成树的元素
+ * <Identifier> 元素自己的唯一标识
  * @author Jomkie
  * @since 2021-06-01 16:44:0
- * <Obj> 一个树的节点类型
- * <Identifier> 节点的唯一标识
- * 获取目录树
  */
 @NoArgsConstructor
 @Data
