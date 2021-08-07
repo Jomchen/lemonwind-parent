@@ -1,11 +1,10 @@
 package com.jomkie.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.jomkie.common.BaseServiceImpl;
 import com.jomkie.dao.JoUserMapper;
 import com.jomkie.dto.JoUserDto;
-import com.jomkie.model.JoUser;
+import com.jomkie.datastructure.model.JoUser;
 import com.jomkie.service.JoUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

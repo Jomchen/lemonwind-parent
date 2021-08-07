@@ -1,7 +1,7 @@
 package com.jomkie.common.excel.common;
 
 import com.jomkie.common.excel.*;
-import com.jomkie.model.TestUser;
+import com.jomkie.datastructure.model.TestUser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

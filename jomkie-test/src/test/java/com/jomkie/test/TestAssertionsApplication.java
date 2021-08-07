@@ -2,7 +2,7 @@ package com.jomkie.test;
 
 import com.jomkie.common.LemonException;
 import com.jomkie.common.Responsecode;
-import com.jomkie.model.JoUser;
+import com.jomkie.datastructure.model.JoUser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;

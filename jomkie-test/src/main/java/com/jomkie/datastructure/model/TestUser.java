@@ -1,4 +1,4 @@
-package com.jomkie.model;
+package com.jomkie.datastructure.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

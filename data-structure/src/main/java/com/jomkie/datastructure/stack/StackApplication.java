@@ -1,4 +1,4 @@
-package com.datastructure.common.stack;
+package com.jomkie.datastructure.stack;
 
 import java.util.HashMap;
 import java.util.Map;

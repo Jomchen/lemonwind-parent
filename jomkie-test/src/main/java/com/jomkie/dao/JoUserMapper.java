@@ -1,7 +1,7 @@
 package com.jomkie.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jomkie.model.JoUser;
+import com.jomkie.datastructure.model.JoUser;
 
 /**
  * @author Jomkie

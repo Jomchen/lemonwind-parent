@@ -1,7 +1,7 @@
 package com.jomkie.service;
 
 import com.jomkie.dto.JoUserDto;
-import com.jomkie.model.JoUser;
+import com.jomkie.datastructure.model.JoUser;
 
 import java.util.List;
 

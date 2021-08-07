@@ -1,12 +1,10 @@
 package com.jomkie.test;
 
-import com.jomkie.model.JoUser;
+import com.jomkie.datastructure.model.JoUser;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalField;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

@@ -1,4 +1,4 @@
-package com.jomkie.model;
+package com.jomkie.datastructure.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.datastructure.common.model.chain;
+package com.jomkie.datastructure.model.chain;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

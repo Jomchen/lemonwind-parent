@@ -1,9 +1,7 @@
-package com.jomkie.util;
+package com.jomkie.common.util;
 
-import com.jomkie.common.LemonException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -62,10 +60,10 @@ public class TreeTool<Obj, Identifier> {
         if (Objects.isNull(getIdentifierOfItSelfFun)
                 || Objects.isNull(getChildrenByParentIdentifierFun)
                 || Objects.isNull(setChildrenFun)) {
-            throw new LemonException("Building conditions are not complete.");
+            throw new RuntimeException("Building conditions are not complete.");
         }
-        if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
-        if (CollectionUtils.isEmpty(originalRootList)) { throw new LemonException("Root element must be not empty."); }
+        if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
+        if (isEmpty(originalRootList)) { throw new RuntimeException("Root element must be not empty."); }
 
         List<Obj> rootList = new LinkedList<>();
         Queue<Obj> queue = new LinkedList<>();
@@ -76,13 +74,13 @@ public class TreeTool<Obj, Identifier> {
 
         int currentDepth = 1;
         int numbersForCurrentLayer = rootList.size();
-        while ( ! CollectionUtils.isEmpty(queue)) {
+        while ( ! isEmpty(queue)) {
             if (currentDepth >= depth) { return rootList; }
 
             Obj currentObj = queue.poll();
             Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
             List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! CollectionUtils.isEmpty(children)) {
+            if ( ! isEmpty(children)) {
                 children.forEach(queue::add);
                 setChildrenFun.accept(currentObj, children);
             }
@@ -112,23 +110,23 @@ public class TreeTool<Obj, Identifier> {
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(getIdentifierOfItSelfFun) || Objects.isNull(getChildrenByParentIdentifierFun)) {
-            throw new LemonException("Building conditions are not complete.");
+            throw new RuntimeException("Building conditions are not complete.");
         }
-        if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
-        if (CollectionUtils.isEmpty(originalRootList)) { throw new LemonException("Root element must be not empty."); }
+        if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
+        if (isEmpty(originalRootList)) { throw new RuntimeException("Root element must be not empty."); }
 
         Queue<Obj> queue = new LinkedList<>();
         originalRootList.forEach(queue::add);
 
         int currentDepth = 1;
         int numbersForCurrentLayer = queue.size();
-        while ( ! CollectionUtils.isEmpty(queue)) {
+        while ( ! isEmpty(queue)) {
             if (currentDepth >= depth) { return new ArrayList<>(queue); }
 
             Obj currentObj = queue.poll();
             Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
             List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! CollectionUtils.isEmpty(children)) {
+            if ( ! isEmpty(children)) {
                 children.forEach(queue::add);
             }
 
@@ -157,10 +155,10 @@ public class TreeTool<Obj, Identifier> {
      */
     public List<Obj> getForefatherChain(Obj obj) {
         if (Objects.isNull(getParentObjFun)) {
-            throw new LemonException("The condition with  <getParentObjFun> must be not null");
+            throw new RuntimeException("The condition with  <getParentObjFun> must be not null");
         }
         if (Objects.isNull(obj)) {
-            throw new LemonException("The element must be not null");
+            throw new RuntimeException("The element must be not null");
         }
 
         Obj temporary = obj;
@@ -187,11 +185,11 @@ public class TreeTool<Obj, Identifier> {
      * @param parentList 父集元素集合
      */
     public List<Obj> getAllObjForSpecificDepth(int depth, List<Obj> parentList) {
-        if (CollectionUtils.isEmpty(parentList)) { return Collections.EMPTY_LIST; }
-        if (depth <= 0) { throw new LemonException("The depth of tree is at least 1"); }
+        if (isEmpty(parentList)) { return Collections.EMPTY_LIST; }
+        if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
         if (Objects.isNull(getChildrenByParentIdentifierFun)
                 || Objects.isNull(getIdentifierOfItSelfFun)) {
-            throw new LemonException("Building conditions are not complete");
+            throw new RuntimeException("Building conditions are not complete");
         }
 
         List<Obj> resultList = new LinkedList<>(parentList);
@@ -207,7 +205,7 @@ public class TreeTool<Obj, Identifier> {
             Obj currentObj = queue.poll();
             Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
             List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! CollectionUtils.isEmpty(children)) {
+            if ( ! isEmpty(children)) {
                 resultList.addAll(children);
                 queue.addAll(children);
             }
@@ -232,10 +230,10 @@ public class TreeTool<Obj, Identifier> {
         if (Objects.isNull(getIdentifierOfItSelfFun)
                 || Objects.isNull(getChildrenByParentIdentifierFun)
                 || Objects.isNull(consumer)) {
-            throw new LemonException("Building conditions are not complete");
+            throw new RuntimeException("Building conditions are not complete");
         }
 
-        if (CollectionUtils.isEmpty(originalList)) { return; }
+        if (isEmpty(originalList)) { return; }
         Queue<Obj> queue = new LinkedList<>(originalList);
         while ( ! queue.isEmpty()) {
             Obj currentObj = queue.poll();
@@ -243,10 +241,14 @@ public class TreeTool<Obj, Identifier> {
 
             Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
             List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! CollectionUtils.isEmpty(children)) {
+            if ( ! isEmpty(children)) {
                 queue.addAll(children);
             }
         }
+    }
+
+    private boolean isEmpty(Collection<?> collection) {
+        return null == collection || collection.isEmpty();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.datastructure.common;
+package com.jomkie;
 
 public class DataStructureApplication {
 

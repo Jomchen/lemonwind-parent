@@ -1,6 +1,6 @@
-package com.datastructure.common.chain;
+package com.jomkie.datastructure.chain;
 
-import com.datastructure.common.model.chain.DataNode;
+import com.jomkie.datastructure.model.chain.DataNode;
 
 public class ChainApplication {
 

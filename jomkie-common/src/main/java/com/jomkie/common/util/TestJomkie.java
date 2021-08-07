@@ -1,4 +1,4 @@
-package com.jomkie.util;
+package com.jomkie.common.util;
 
 import com.alibaba.fastjson.JSONObject;
 

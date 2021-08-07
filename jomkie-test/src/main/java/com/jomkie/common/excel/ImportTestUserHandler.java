@@ -2,7 +2,7 @@ package com.jomkie.common.excel;
 
 import com.jomkie.common.excel.common.ExcelBuilder;
 import com.jomkie.common.excel.common.ExcelFactory;
-import com.jomkie.model.TestUser;
+import com.jomkie.datastructure.model.TestUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
