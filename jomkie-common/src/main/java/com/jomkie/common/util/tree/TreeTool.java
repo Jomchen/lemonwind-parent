@@ -1,4 +1,4 @@
-package com.jomkie.common.util;
+package com.jomkie.common.util.tree;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

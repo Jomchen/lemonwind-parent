@@ -1,4 +1,4 @@
-package com.jomkie.common.util;
+package com.jomkie.common.util.tree;
 
 import java.io.Serializable;
 import java.util.List;

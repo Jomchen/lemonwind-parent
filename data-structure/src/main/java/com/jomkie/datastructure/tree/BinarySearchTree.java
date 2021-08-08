@@ -31,8 +31,9 @@ public class BinarySearchTree<E> {
     }
 
     void clear() {
-
+        root = null;
     }
+
     void add(E element) {
         elementNotNullCheck(element);
         if (null == root) {
@@ -74,7 +75,11 @@ public class BinarySearchTree<E> {
         return false;
     }
 
-    /** 返回值大于0表示 e1 > e2，如果小于0表示 e1 < e2，否则 e1 = e2 */
+    /**
+     * 返回值大于0表示 e1 > e2，
+     * 如果小于0表示 e1 < e2，
+     * 否则 e1 = e2
+     * */
     private int compare(E e1, E e2) {
         if (null == comparator) {
             return ((Comparable<E>) e1).compareTo(e2);
