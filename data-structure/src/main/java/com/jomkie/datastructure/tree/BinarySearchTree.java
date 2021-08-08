@@ -1,5 +1,6 @@
 package com.jomkie.datastructure.tree;
 
+import com.jomkie.common.util.treeprint.BinaryTreeInfo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,8 @@ import java.util.Comparator;
 @Data
 @Getter
 @Setter
-public class BinarySearchTree<E> {
+@SuppressWarnings("unused")
+public class BinarySearchTree<E> implements BinaryTreeInfo {
 
     private int size;
     private Node<E> root;
@@ -94,11 +96,43 @@ public class BinarySearchTree<E> {
         }
     }
 
+    @Override
+    public Object root() {
+        return root;
+    }
+
+    @Override
+    public Object left(Object node) {
+        return ((Node<E>) node).left;
+    }
+
+    @Override
+    public Object right(Object node) {
+        return ((Node<E>) node).right;
+    }
+
+    @Override
+    public Object string(Object node) {
+        Node<E> wrapNode = ((Node<E>) node);
+        StringBuilder resultBuilder = new StringBuilder();
+        resultBuilder.append(wrapNode.element)
+                .append("_p(");
+        if (null == wrapNode.parent) {
+            resultBuilder.append("null");
+        } else {
+            resultBuilder.append(wrapNode.parent.element);
+        }
+        resultBuilder.append(")");
+
+        return resultBuilder.toString();
+    }
+
     private static class Node<E> {
         E element;
-        private Node<E> parent;
         private Node<E> left;
         private Node<E> right;
+        @SuppressWarnings("unused")
+        private Node<E> parent;
 
         public Node(E element, Node<E> parent) {
             this.element = element;

@@ -1,6 +1,5 @@
 package com.jomkie.common.util.tree;
 
-import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -101,19 +100,16 @@ public class TestJomkie {
         rootList.add(root3);
 
         // 获取树结构
-        String treeJson = JSONObject.toJSONString(treeTool.getTree(3, rootList));
+        treeTool.getTree(3, rootList);
         System.out.println("一棵树：");
-        System.out.println(treeJson);
 
         // 获取某一层的数据
-        String layerJson = JSONObject.toJSONString(treeTool.getObjListOfSpecificLayer(3, rootList));
+        treeTool.getObjListOfSpecificLayer(3, rootList);
         System.out.println("指定层的数据：");
-        System.out.println(layerJson);
 
         // 获取根到某一层内的所有元素集合
-        String allObjSpecificDepthJson = JSONObject.toJSONString(treeTool.getAllObjForSpecificDepth(3, rootList));
+        treeTool.getAllObjForSpecificDepth(3, rootList);
         System.out.println("根到指定层内的所有元素集合：");
-        System.out.println(allObjSpecificDepthJson);
     }
 
 }
