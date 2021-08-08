@@ -17,6 +17,11 @@ public class TestBinarySearchTree {
         List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
         dataList.forEach(bst::add);
         BinaryTrees.println(bst);
+
+        //bst.preorderTraversal(System.out::println);
+        //bst.inorderTraversal(System.out::println);
+        //bst.postorderTraversal(System.out::println);
+        bst.levelOrderTraversal(5, System.out::println);
     }
 
 }

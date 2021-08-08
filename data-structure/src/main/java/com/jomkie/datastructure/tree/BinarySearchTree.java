@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.function.Consumer;
 
 @Data
 @Getter
@@ -55,6 +58,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             } else if (cmp < 0) {
                 node = node.left;
             } else {
+                node.element = element;
                 return;
             }
         }
@@ -75,6 +79,70 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
     }
     boolean contains(E element) {
         return false;
+    }
+
+    /** 前序遍历 Preorder Traversal */
+    public void preorderTraversal(Consumer<E> consumer) {
+        preorderTraversalTool(root, consumer);
+    }
+    private void preorderTraversalTool(Node<E> node, Consumer<E> consumer) {
+        if (null == node) { return; }
+        consumer.accept(node.element);
+        preorderTraversalTool(node.left, consumer);
+        preorderTraversalTool(node.right, consumer);
+    }
+
+    /**
+     * 中序遍历 Inorder Traversal
+     * 二叉搜索树的中序遍历是，升序或降序
+     */
+    public void inorderTraversal(Consumer<E> consumer) {
+        inorderTraversalTool(root, consumer);
+    }
+    private void inorderTraversalTool(Node<E> node, Consumer<E> consumer) {
+        if (null == node) { return; }
+        inorderTraversalTool(node.left, consumer);
+        consumer.accept(node.element);
+        inorderTraversalTool(node.right, consumer);
+    }
+
+    /** 后序遍历 Postorder Traversal */
+    public void postorderTraversal(Consumer<E> consumer) {
+        postorderTraversalTool(root, consumer);
+    }
+    private void postorderTraversalTool(Node<E> node, Consumer<E> consumer) {
+        if (null == node) { return; }
+        postorderTraversalTool(node.left, consumer);
+        postorderTraversalTool(node.right, consumer);
+        consumer.accept(node.element);
+    }
+
+    /** 层序遍历 Level Order Traversal */
+    public void levelOrderTraversal(int depth, Consumer<E> consumer) {
+        Queue<Node<E>> queue = new LinkedList<>();
+
+        int currentDepth = 1;
+        queue.add(root);
+        int numbersOfCurrentLayer = queue.size();
+        int endDepth = depth + 1;
+
+        while ( ! queue.isEmpty()) {
+            if (currentDepth >= endDepth) { return; }
+            Node<E> node = queue.poll();
+            consumer.accept(node.element);
+
+            Node<E> leftNode = node.left;
+            Node<E> rightNode = node.right;
+            if (null != leftNode) { queue.add(leftNode); }
+            if (null != rightNode) { queue.add(rightNode); }
+
+            -- numbersOfCurrentLayer;
+            if (numbersOfCurrentLayer <= 0) {
+                currentDepth ++;
+                numbersOfCurrentLayer = queue.size();
+            }
+        }
+
     }
 
     /**
