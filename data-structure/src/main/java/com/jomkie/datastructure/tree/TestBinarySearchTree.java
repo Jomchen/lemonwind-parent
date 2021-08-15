@@ -10,7 +10,8 @@ public class TestBinarySearchTree {
     public static void main(String[] args) {
         //test00();
         //test01();
-        test02();
+        //test02();
+        test03();
     }
 
     /** 测试二叉树打印 */
@@ -54,6 +55,14 @@ public class TestBinarySearchTree {
         dataList.forEach(bst::add);
         BinaryTrees.println(bst);
         bst.invertTree();
+        BinaryTrees.println(bst);
+    }
+
+    /** 前驱节点 或 后继节点 */
+    public static void test03() {
+        BinarySearchTree bst = new BinarySearchTree();
+        List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5);
+        dataList.forEach(bst::add);
         BinaryTrees.println(bst);
     }
 

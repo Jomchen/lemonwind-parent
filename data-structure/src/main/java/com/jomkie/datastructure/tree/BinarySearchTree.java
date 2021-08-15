@@ -27,19 +27,19 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         this.comparator = comparator;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return size == 0;
     }
 
-    void clear() {
+    public void clear() {
         root = null;
     }
 
-    void add(E element) {
+    public void add(E element) {
         elementNotNullCheck(element);
         if (null == root) {
             root = new Node<>(element, null);
@@ -74,11 +74,10 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 
         size ++;
     }
-    void remove(E element) {
 
-    }
-    boolean contains(E element) {
-        return false;
+
+    public boolean contains(E element) {
+        return node(element) != null;
     }
 
     public int height() {
@@ -254,6 +253,105 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             }
         }
 
+    }
+
+
+    /**
+     * 前驱节点
+     * @author Jomkie
+     * @since 2021-08-11 21:40:52
+     * @param node
+     * @return com.jomkie.datastructure.tree.BinarySearchTree.Node<E>
+     */
+    private Node<E> predecessor(Node<E> node) {
+        if (null == node) { return null; }
+        if (null != node.left) {
+            Node<E> temporary = node.left;
+            while (null != temporary.right) {
+                temporary = temporary.right;
+            }
+            return temporary;
+        }
+
+        while (null != node.parent && node == node.parent.left) {
+                node = node.parent;
+        }
+
+        // node.parent == null
+        // node.parent.right == node
+        return node.parent;
+    }
+
+    private Node<E> postDecessor(Node<E> node) {
+        if (null == node) { return null; }
+        if (null != node.right) {
+            Node<E> temporary = node.left;
+            while (null != temporary.left) {
+                temporary = node.left;
+            }
+            return temporary;
+        }
+
+        while (null != node.parent && node == node.parent.right) {
+            node = node.parent;
+        }
+
+        return node;
+    }
+
+    public void remove(E element) {
+        remove(node(element));
+    }
+
+    public void remove(Node<E> node) {
+        if (null == node) { return; }
+        Node<E> preNode;
+        if (node.hasTwoChildren()) {
+            preNode = predecessor(node);
+            node.element = preNode.element;
+        } else {
+            preNode = node;
+        }
+
+        Node<E> childe = (preNode.left == null ? preNode.right : preNode.left);
+        Node<E> parent = preNode.parent;
+        if (null == preNode.left && null == preNode.right) {
+            if (root == preNode) {
+                root = null;
+            } else {
+                if (parent.left == preNode) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
+            }
+        } else {
+            if (parent.left == preNode) {
+                parent.left = childe;
+            } else {
+                parent.right = childe;
+            }
+        }
+
+        size --;
+    }
+
+    private Node<E> node(E e) {
+        if (null == e || null == root) { return null; }
+
+        Node<E> node = root;
+        while (null != node) {
+            int cmp = compare(e, node.element);
+            if (cmp < 0) {
+                node = node.left;
+            } else if (cmp > 0) {
+                node = node.right;
+            } else {
+                return node;
+            }
+        }
+
+        return null;
     }
 
     /**
