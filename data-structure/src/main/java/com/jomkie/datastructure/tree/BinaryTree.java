@@ -1,83 +1,30 @@
 package com.jomkie.datastructure.tree;
 
 import com.jomkie.common.util.treeprint.BinaryTreeInfo;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
-@Data
-@Getter
-@Setter
-@SuppressWarnings("unused")
-public class BinarySearchTree<E> implements BinaryTreeInfo {
+/**
+ * 二叉树
+ * @author Jomkie
+ * @since 2021-08-15 23:20:48
+ */
+public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
-    private int size;
-    private Node<E> root;
-    private Comparator<E> comparator;
-
-    public BinarySearchTree() {
-        this(null);
-    }
-    public BinarySearchTree(Comparator<E> comparator) {
-        this.comparator = comparator;
-    }
+    protected Node<E> root;
+    protected int size;
 
     public int size() {
         return size;
     }
-
     public boolean isEmpty() {
         return size == 0;
     }
-
     public void clear() {
+        size = 0;
         root = null;
-    }
-
-    public void add(E element) {
-        elementNotNullCheck(element);
-        if (null == root) {
-            root = new Node<>(element, null);
-            size ++;
-            return;
-        }
-
-        Node<E> parent = root;
-        Node<E> node = root;
-        int cmp = 0;
-        while (node != null) {
-            cmp = compare(element, node.element);
-            parent = node;
-            if (cmp > 0) {
-                node = node.right;
-            } else if (cmp < 0) {
-                node = node.left;
-            } else {
-                node.element = element;
-                return;
-            }
-        }
-
-        Node<E> newNode = new Node(element, parent);
-        if (cmp > 0) {
-            parent.right = newNode;
-        } else if (cmp < 0) {
-            parent.left = newNode;
-        } else {
-            return;
-        }
-
-        size ++;
-    }
-
-
-    public boolean contains(E element) {
-        return node(element) != null;
     }
 
     public int height() {
@@ -255,7 +202,6 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 
     }
 
-
     /**
      * 前驱节点
      * @author Jomkie
@@ -263,7 +209,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
      * @param node
      * @return com.jomkie.datastructure.tree.BinarySearchTree.Node<E>
      */
-    private Node<E> predecessor(Node<E> node) {
+    protected Node<E> predecessor(Node<E> node) {
         if (null == node) { return null; }
         if (null != node.left) {
             Node<E> temporary = node.left;
@@ -274,7 +220,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         }
 
         while (null != node.parent && node == node.parent.left) {
-                node = node.parent;
+            node = node.parent;
         }
 
         // node.parent == null
@@ -282,12 +228,19 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         return node.parent;
     }
 
-    private Node<E> postDecessor(Node<E> node) {
+    /**
+     * 后继节点
+     * @author Jomkie
+     * @since 2021-08-11 21:40:52
+     * @param node
+     * @return com.jomkie.datastructure.tree.BinarySearchTree.Node<E>
+     */
+    protected Node<E> successor(Node<E> node) {
         if (null == node) { return null; }
         if (null != node.right) {
-            Node<E> temporary = node.left;
+            Node<E> temporary = node.right;
             while (null != temporary.left) {
-                temporary = node.left;
+                temporary = temporary.left;
             }
             return temporary;
         }
@@ -296,82 +249,10 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
             node = node.parent;
         }
 
-        return node;
+        return node.parent;
     }
 
-    public void remove(E element) {
-        remove(node(element));
-    }
 
-    public void remove(Node<E> node) {
-        if (null == node) { return; }
-        Node<E> preNode;
-        if (node.hasTwoChildren()) {
-            preNode = predecessor(node);
-            node.element = preNode.element;
-        } else {
-            preNode = node;
-        }
-
-        Node<E> childe = (preNode.left == null ? preNode.right : preNode.left);
-        Node<E> parent = preNode.parent;
-        if (null == preNode.left && null == preNode.right) {
-            if (root == preNode) {
-                root = null;
-            } else {
-                if (parent.left == preNode) {
-                    parent.left = null;
-                } else {
-                    parent.right = null;
-                }
-            }
-        } else {
-            if (parent.left == preNode) {
-                parent.left = childe;
-            } else {
-                parent.right = childe;
-            }
-        }
-
-        size --;
-    }
-
-    private Node<E> node(E e) {
-        if (null == e || null == root) { return null; }
-
-        Node<E> node = root;
-        while (null != node) {
-            int cmp = compare(e, node.element);
-            if (cmp < 0) {
-                node = node.left;
-            } else if (cmp > 0) {
-                node = node.right;
-            } else {
-                return node;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * 返回值大于0表示 e1 > e2，
-     * 如果小于0表示 e1 < e2，
-     * 否则 e1 = e2
-     * */
-    private int compare(E e1, E e2) {
-        if (null == comparator) {
-            return ((Comparable<E>) e1).compareTo(e2);
-        } else {
-            return comparator.compare(e1, e2);
-        }
-    }
-
-    private void elementNotNullCheck(E element) {
-        if (null == element) {
-            throw new RuntimeException("element must be not null");
-        }
-    }
 
     @Override
     public Object root() {
@@ -404,12 +285,11 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
         return resultBuilder.toString();
     }
 
-    private static class Node<E> {
+    protected static class Node<E> {
         E element;
-        private Node<E> left;
-        private Node<E> right;
-        @SuppressWarnings("unused")
-        private Node<E> parent;
+        Node<E> left;
+        Node<E> right;
+        Node<E> parent;
 
         public Node(E element, Node<E> parent) {
             this.element = element;

@@ -16,7 +16,7 @@ public class TestBinarySearchTree {
 
     /** 测试二叉树打印 */
     public static void test00() {
-        BinarySearchTree bst = new BinarySearchTree();
+        Bst bst = new Bst();
         List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
         dataList.forEach(bst::add);
         BinaryTrees.println(bst);
@@ -31,7 +31,7 @@ public class TestBinarySearchTree {
 
     /** 测试是否是完全二叉树 */
     public static void test01() {
-        BinarySearchTree bst = new BinarySearchTree();
+        Bst bst = new Bst();
         // false
         //List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 1, 3, 10, 12);
 
@@ -50,7 +50,7 @@ public class TestBinarySearchTree {
 
     /** 翻转二叉树 */
     public static void test02() {
-        BinarySearchTree bst = new BinarySearchTree();
+        Bst bst = new Bst();
         List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5);
         dataList.forEach(bst::add);
         BinaryTrees.println(bst);
@@ -60,9 +60,12 @@ public class TestBinarySearchTree {
 
     /** 前驱节点 或 后继节点 */
     public static void test03() {
-        BinarySearchTree bst = new BinarySearchTree();
-        List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5);
+        Bst bst = new Bst();
+        List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
         dataList.forEach(bst::add);
+        BinaryTrees.println(bst);
+        bst.remove(9);
+        /*bst.remove(7);*/
         BinaryTrees.println(bst);
     }
 
