@@ -289,6 +289,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         Node<E> left;
         Node<E> right;
         Node<E> parent;
+        int height;
 
         public Node(E element, Node<E> parent) {
             this.element = element;
