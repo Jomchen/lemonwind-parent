@@ -5,6 +5,7 @@ import java.util.Comparator;
 
 /**
  * 二叉搜索树
+ * 二叉搜索树的时间复杂度为 O(h) = O(logn)
  * @author Jomkie
  * @since 2021-08-15 23:25:35
  */

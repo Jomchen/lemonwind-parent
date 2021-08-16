@@ -62,7 +62,6 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     public boolean isComplete() {
         if (null == root) { return false; }
-        boolean result = false;
         Queue<Node<E>> queue = new LinkedList<>();
         queue.add(root);
 
