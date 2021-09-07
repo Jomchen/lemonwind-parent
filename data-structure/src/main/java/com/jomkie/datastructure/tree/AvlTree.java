@@ -14,6 +14,29 @@ public class AvlTree<E> extends Bst<E> {
         super(comparator);
     }
 
+    private void ll(Node<E> node) {
+        Node<E> parent = node.parent;
+    }
 
+    private void rr(Node<E> node) {
+
+    }
+
+    private void lr(Node<E> node) {
+
+    }
+
+    private void rl(Node<E> node) {
+
+    }
+
+
+    private static class AVLNode<E> extends Node<E> {
+        int height;
+
+        public AVLNode(E element, Node<E> parent) {
+            super(element, parent);
+        }
+    }
 
 }

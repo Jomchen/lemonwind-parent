@@ -98,8 +98,6 @@ public class Bst<E> extends BinaryTree<E> {
         return node(element) != null;
     }
 
-
-
     private Node<E> node(E e) {
         if (null == e || null == root) { return null; }
 

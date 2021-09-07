@@ -251,6 +251,9 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         return node.parent;
     }
 
+    protected Node<E> createNode(E element, Node<E> parent) {
+        return new Node<>(element, parent);
+    }
 
 
     @Override
@@ -289,7 +292,6 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         Node<E> left;
         Node<E> right;
         Node<E> parent;
-        int height;
 
         public Node(E element, Node<E> parent) {
             this.element = element;
