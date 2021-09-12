@@ -23,8 +23,10 @@ public class Bst<E> extends BinaryTree<E> {
     public void add(E element) {
         elementNotNullCheck(element);
         if (null == root) {
-            root = new Node<>(element, null);
+            root = createNode(element, null);
             size ++;
+            
+            afterAdd(root);
             return;
         }
 
@@ -44,7 +46,7 @@ public class Bst<E> extends BinaryTree<E> {
             }
         }
 
-        Node<E> newNode = new Node(element, parent);
+        Node<E> newNode = createNode(element, parent);
         if (cmp > 0) {
             parent.right = newNode;
         } else if (cmp < 0) {
@@ -54,6 +56,7 @@ public class Bst<E> extends BinaryTree<E> {
         }
 
         size ++;
+        afterAdd(newNode);
     }
 
     public void remove(E element) {
@@ -116,6 +119,12 @@ public class Bst<E> extends BinaryTree<E> {
         return null;
     }
 
+    /**
+     * 添加后的处理
+     * @param node
+     */
+    protected void afterAdd(Node<E> node) {}
+    
     /**
      * 返回值大于0表示 e1 > e2，
      * 如果小于0表示 e1 < e2，

@@ -59,6 +59,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
         return currentHeight;
     }
+    
 
     public boolean isComplete() {
         if (null == root) { return false; }

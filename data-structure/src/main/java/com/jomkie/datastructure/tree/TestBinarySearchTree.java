@@ -68,5 +68,10 @@ public class TestBinarySearchTree {
         /*bst.remove(7);*/
         BinaryTrees.println(bst);
     }
+    
+    /** 测试平衡二叉树的添加 */
+    public static void test04() {
+    	List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
+    }
 
 }
