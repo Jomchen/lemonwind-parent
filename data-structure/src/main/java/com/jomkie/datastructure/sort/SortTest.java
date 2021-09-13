@@ -42,17 +42,17 @@ public class SortTest {
 		/* 上一个的代码如果在数据量很多的情况，有序的可能性很小。所以运行效率不一定比没有优化的好 */
 		/* 再经过优化，如果序列尾部已经局部有序，可以记录最后一次交换的位置，减少比较次数 */
 		for (int end = source.length - 1; end > 0; end --) {
-			boolean sorted = true;
-			for (int begin = 1; begin < end + 1; begin ++) {
+			int sortedIndex = 0;
+			for (int begin = 1; begin <= end; begin ++) {
 				if (source[begin] < source[begin - 1]) {
 					int tmp = source[begin];
 					source[begin] = source[begin - 1];
 					source[begin - 1] = tmp;
-					sorted = false;
+					
+					sortedIndex = begin;
 				}
 			}
-			
-			if (sorted) { break; }
+			end = sortedIndex;
 		}
 	}
 
