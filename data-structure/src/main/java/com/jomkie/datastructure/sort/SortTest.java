@@ -14,9 +14,14 @@ public class SortTest {
 	
 	public static void main(String[] args) {
 		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
+		int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
 		printer(source);
-		heapSort(source);
+		insertionSort(source);
 		printer(source);
+		
+//		printer(source2);
+//		heapSort(source2);
+//		printer(source2);
 	}
 
 	/**
@@ -100,25 +105,36 @@ public class SortTest {
 	
 	/**
 	 * 插入排序
+	 * 最坏，平均时间复杂度 O(n^2)
+	 * 最好时间复杂度 O(n)
+	 * 空间复杂度 O(1)
+	 * 属于稳定排序
 	 * @param source
 	 */
-	public static void charu(int[] source) {
-		 for (int end = 1; end < source.length; end ++) { 
-			 int index = end;
-			 while (index > 0 && cmp(source, index - 1, index) > 0) {
-				 index --;
-			 }
-			 
-			 int tmp = source[end];
-			 
-			 // 移动数据未实现
-			 for (int i = end - 1; i >= index; i --) {
-				 source[i + 1] = source[i];
-			 }
-			 
-			 source[index] = tmp;
-		 }
+	public static void insertionSort(int[] source) {
+//		 for (int begin = 1; begin < source.length; begin ++) { 
+//			 int index = begin;
+//			 // 如果这里的 com 大于等于0 就不稳定了
+//			 while (index > 0 && cmp(source, index - 1, index) > 0) {
+//				 swap(source, index - 1, index);
+//				 index --;
+//			 }
+//		 }
+		
+		// 优化，仍然有问题
+		for (int begin = 1; begin < source.length; begin ++) {
+			int insertIndex = search(source, begin);
+			int tmp = source[insertIndex];
+//			for (int i = begin - 1; i >= insertIndex; i --) {
+//				
+//			}
+			for (int i = begin; i > insertIndex; i --) {
+				source[i] = source[i - 1];
+			}
+			source[insertIndex] = tmp;
+		}
 	}
+	
 	
 	/**
 	 * 堆排序
@@ -257,6 +273,54 @@ public class SortTest {
 		int tmp = source[i1];
 		source[i1] = source[i2];
 		source[i2] = tmp;
+	}
+	
+	/**
+	 * 二分查找法
+	 * 以后编程建议使用左闭右开的原则
+	 * 二分搜索的目标如果在数组中有重复值，则返回的哪个是不确定的
+	 * @param source
+	 * @param v
+	 * @return
+	 */
+	public static int binarySearch(int[] source, int v) {
+		if (null == source || source.length == 1) { return -1; }
+		int begin = 0;
+		int end = source.length;
+		while (begin < end) {
+			int mid = (begin + end) >> 1;
+			if (v < source[mid]) {
+				end = mid;
+			} else if (v > source[mid]) {
+				begin = mid + 1;
+			} else {
+				return mid;
+			}
+		}
+			
+		return -1;
+	}
+	
+	/**
+	 * 在一个升序数组中，从左到右查找第一个大于目标值的索引
+	 * @param source 源数组
+	 * @param index 目标值的索引
+	 * @return
+	 */
+	public static int search(int[] source, int index) {
+		if (null == source || source.length == 0) { return -1; }
+		
+		int begin = 0;
+		int end = index;
+		while (begin < end) {
+			int mid = (begin + end) >> 1;
+			if (source[index] < source[mid]) {
+				end = mid;
+			} else {
+				begin = mid + 1;
+			}
+		}
+		return begin;
 	}
 	
 }
