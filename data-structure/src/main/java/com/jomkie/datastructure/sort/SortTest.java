@@ -14,7 +14,7 @@ public class SortTest {
 	
 	public static void main(String[] args) {
 		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
-		int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
+		//int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
 		printer(source);
 		insertionSort(source);
 		printer(source);
@@ -195,10 +195,10 @@ public class SortTest {
 	}
 	
 	/**
-	 * 分治排序
+	 * 归并排序
 	 * @param source
 	 */
-	public static void guibing(int[] source) {
+	public static void mergeSort(int[] source) {
 		
 	}
 	
@@ -207,7 +207,7 @@ public class SortTest {
 	 * 希尔排序
 	 * @param source
 	 */
-	public static void xier(int[] source) {
+	public static void shellSort(int[] source) {
 		
 	}
 	
