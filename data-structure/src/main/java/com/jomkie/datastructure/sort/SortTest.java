@@ -9,15 +9,16 @@ package com.jomkie.datastructure.sort;
  * 冒泡算法属于 In-place
  * @author jomkie
  *
+ * 进度 P2
  */
 public class SortTest {
 	
 	public static void main(String[] args) {
 		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
 		//int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
-		printer(source);
-		insertionSort(source);
-		printer(source);
+		printer(source, "排序前");
+		mergeSort(source);
+		printer(source, "排序后");
 		
 //		printer(source2);
 //		heapSort(source2);
@@ -121,13 +122,21 @@ public class SortTest {
 //			 }
 //		 }
 		
-		// 优化，仍然有问题
+		// 优化1
+//		for (int begin = 1; begin < source.length; begin ++) {
+//			int cur = begin;
+//			int v = source[cur];
+//			while (cur > 0 && (v - source[cur - 1]) < 0) {
+//				source[cur] = source[cur - 1];
+//				cur --;
+//			}
+//			source[cur] = v;
+//		}
+		
+		// 优化2
 		for (int begin = 1; begin < source.length; begin ++) {
 			int insertIndex = search(source, begin);
-			int tmp = source[insertIndex];
-//			for (int i = begin - 1; i >= insertIndex; i --) {
-//				
-//			}
+			int tmp = source[begin];
 			for (int i = begin; i > insertIndex; i --) {
 				source[i] = source[i - 1];
 			}
@@ -199,7 +208,55 @@ public class SortTest {
 	 * @param source
 	 */
 	public static void mergeSort(int[] source) {
+		int[] tmp = new int[source.length];
+		mergeSortTool(source, 0, source.length, tmp);
+	}
+	private static void mergeSortTool(int[] source, int begin, int end, int[] tmp) {
+		if ((end - begin) < 2) { return; }
+		int mid = (end + begin) >> 1;
+		mergeSortTool(source, begin, mid, tmp);
+		mergeSortTool(source, mid, end, tmp);
+		merge(source, begin, mid, end, tmp);
+	}
+	private static  void merge(int[] source, int begin, int mid, int end, int[] tmp) {
+		int firstIndex = begin;
+		int secondIndex = mid;
+		int tmpIndex = begin;
 		
+		// 对比两块数据排序
+		while (true) {
+			if (firstIndex < mid && secondIndex < end) {
+				if (cmp(source, firstIndex, secondIndex) <= 0) {
+					tmp[tmpIndex] = source[firstIndex];
+					firstIndex ++;
+					tmpIndex ++;
+					continue;
+				} else {
+					tmp[tmpIndex] = source[secondIndex];
+					secondIndex ++;
+					tmpIndex ++;
+					continue;
+				}
+			}
+			
+			while (firstIndex < mid) {
+				tmp[tmpIndex] = source[firstIndex];
+				firstIndex ++;
+				tmpIndex ++;
+			}
+			while (secondIndex < end) {
+				tmp[tmpIndex] = source[secondIndex];
+				secondIndex ++;
+				tmpIndex ++;
+			}
+
+			break;
+		}
+		
+		// 将排序结果赋给源数组
+		for (int i = begin; i < end; i ++) {
+			source[i] = tmp[i];
+		}
 	}
 	
 	
@@ -239,14 +296,15 @@ public class SortTest {
 	 * 打印器
 	 * @param source
 	 */
-	public static void printer(int[] source) {
+	public static void printer(int[] source, String msg) {
+		System.out.println(msg + "**华丽的分割线--------------------------------------------------------------");
 		if (null == source || source.length <= 0) { return; }
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < source.length; i ++) {
 			sb.append(source[i]).append("_");
 		}
 		System.out.print(sb);
-		System.out.println("华丽的分割线--------------------------------------------------------------");
+		System.out.println();
 	}
 	
 	/**
