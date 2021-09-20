@@ -17,7 +17,7 @@ public class SortTest {
 		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
 		//int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
 		printer(source, "排序前");
-		mergeSort(source);
+		quickSort(source);
 		printer(source, "排序后");
 		
 //		printer(source2);
@@ -205,6 +205,7 @@ public class SortTest {
 	
 	/**
 	 * 归并排序
+	 * 稳定排序
 	 * @param source
 	 */
 	public static void mergeSort(int[] source) {
@@ -219,6 +220,11 @@ public class SortTest {
 		merge(source, begin, mid, end, tmp);
 	}
 	private static  void merge(int[] source, int begin, int mid, int end, int[] tmp) {
+		// 其实 tmp 可以用源数组的一半长度作为代替
+		// 假设 A和B两段数据，只需将A复制一份为C
+		// 由 B 和 C 进行头部比较，依次放入 A和B形成的数组位置
+		// 如果C先处理完则此合并结束，如果B先结束则把C依次放到剩余位置
+		
 		int firstIndex = begin;
 		int secondIndex = mid;
 		int tmpIndex = begin;
@@ -272,15 +278,48 @@ public class SortTest {
 	 * 快排序
 	 * @param source
 	 */
-	public static void kuai(int[] source) {
+	public static void quickSort(int[] source) {
+		quickSortTool(source, 0, source.length);
+	}
+	private static void quickSortTool(int[] source, int begin, int end) {
+		if ((end - begin) < 2) { return; }
+		int index = quickSortTool2(source, begin, end);
+		quickSortTool(source, begin, index);
+		quickSortTool(source, index + 1, end);
+	}
+	private static int quickSortTool2(int[] source, int begin, int end) {
+		int tmp = source[begin];
+		end--;
 		
+		while (begin < end) {
+			while (begin < end) {
+				if (cmp(tmp, source[end]) < 0) {
+					end --;
+				} else {
+					source[begin++] = source[end];
+					break;
+				}
+			}
+
+			while (begin < end) {
+				if (cmp(tmp, source[begin]) > 0) {
+					begin++;
+				} else {
+					source[end--] = source[begin];
+					break;
+				}
+			}
+		}
+		
+		source[begin] = tmp;
+		return begin;
 	}
 	
 	/**
 	 * 桶排序
 	 * @param source
 	 */
-	public static void tong(int[] source) {
+	public static void bucketSort(int[] source) {
 		
 	}
 	
@@ -288,7 +327,14 @@ public class SortTest {
 	 * 基数排序
 	 * @param source
 	 */
-	public static void jishu(int[] source) {
+	public static void RadixSort(int[] source) {
+		
+	}
+	
+	/**
+	 * 计数排序
+	 */
+	public void countingSort(int [] source) {
 		
 	}
 	
@@ -319,6 +365,16 @@ public class SortTest {
 	 */
 	public static int cmp(int[] source, int i1, int i2) {
 		return source[i1] - source[i2];
+	}
+	
+	/**
+	 * 比较两个值的大小
+	 * @param i1
+	 * @param i2
+	 * @return
+	 */
+	public static int cmp(int i1, int i2) {
+		return i1 - i2;
 	}
 	
 	/**
