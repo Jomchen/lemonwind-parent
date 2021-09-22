@@ -1,5 +1,8 @@
 package com.jomkie.datastructure.sort;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 算法法
  * 原地算法（In-place Algorithm）
@@ -268,14 +271,31 @@ public class SortTest {
 	
 	/**
 	 * 希尔排序
+	 * 希尔本人给出的步长序列为n/2^k，比如n为16时，步长序列为 {1,2,4,8}
 	 * @param source
 	 */
 	public static void shellSort(int[] source) {
+		List<Integer> stepList = shellStepSequence(source.length);
+		for (Integer step : stepList) {
+			shellSortTool(source, step);
+		}
+	}
+	public static void shellSortTool(int[] source, int step) {
+	}
+	private static List<Integer> shellStepSequence(int length) {
+		List<Integer> result = new ArrayList<>();
+		int step = length;
+		while ((step >>= 1) > 0) {
+			result.add(step);
+		}
 		
+		return result;
 	}
 	
 	/**
 	 * 快排序
+	 * 不稳定排序
+	 * O(nlogn)
 	 * @param source
 	 */
 	public static void quickSort(int[] source) {
@@ -288,10 +308,19 @@ public class SortTest {
 		quickSortTool(source, index + 1, end);
 	}
 	private static int quickSortTool2(int[] source, int begin, int end) {
+		/* ---
+		这一段代码为优化，需要优化则放开 
+		int random = (int)Math.random() * (end - begin);
+		swap(source, begin, begin + random);
+		--- */
+		
 		int tmp = source[begin];
 		end--;
 		
 		while (begin < end) {
+			// 以下的两个和零的判断，之所以没有用等于 0作减减或加加
+			// 是因为这样在遇到相同值的时候可以均匀的分为两部分，可以尽量避免最坏时间复杂度
+			
 			while (begin < end) {
 				if (cmp(tmp, source[end]) < 0) {
 					end --;
@@ -355,13 +384,13 @@ public class SortTest {
 	
 	/**
 	 * 比较两个索引位置元素比较结果
+	 *   等于0表示source[i1] == source[i2]
+	 *   小于0表示source[i1] < source[i2]
+	 *   大于0表示source[i1] > source[i2]
 	 * @param source 源数组
 	 * @param i1 索引1
 	 * @param i2 索引2
 	 * @return 
-	 *   等于0表示source[i1] == source[i2]
-     *   小于0表示source[i1] < source[i2]
-     *   大于0表示source[i1] > source[i2]
 	 */
 	public static int cmp(int[] source, int i1, int i2) {
 		return source[i1] - source[i2];
