@@ -20,7 +20,7 @@ public class SortTest {
 		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
 		//int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
 		printer(source, "排序前");
-		quickSort(source);
+		shellSort(source);
 		printer(source, "排序后");
 		
 //		printer(source2);
@@ -270,7 +270,16 @@ public class SortTest {
 	
 	
 	/**
-	 * 希尔排序
+	 * 希尔排序（升级版的插入排序）
+	 * 最坏时间复杂度是O(n^2)
+	 * 
+	 * 希尔排序把序列看作是一个矩阵，分成m列，逐列进行排序
+	 * m 从某个整数逐渐减为1（是以 m/2^k，逐渐减小）
+	 * 当 m 为1时，整个序列将完全有序
+	 * 
+	 * 比如，如果步长序列为{1,5,19,41,109,...}，就代表依次分为...109,41,19,5,1列
+	 * 不同的步长序列，执行效率也不同
+	 * 
 	 * 希尔本人给出的步长序列为n/2^k，比如n为16时，步长序列为 {1,2,4,8}
 	 * @param source
 	 */
@@ -281,6 +290,15 @@ public class SortTest {
 		}
 	}
 	public static void shellSortTool(int[] source, int step) {
+		for (int col = 0; col < step; col++) {
+			for (int begin = col + step; begin < source.length; begin += step) {
+				int cur = begin;
+				while (cur > col && cmp(source, cur, cur - step) < 0) {
+					swap(source, cur, cur - step);
+					cur -= step;
+				}
+			}
+		}
 	}
 	private static List<Integer> shellStepSequence(int length) {
 		List<Integer> result = new ArrayList<>();
