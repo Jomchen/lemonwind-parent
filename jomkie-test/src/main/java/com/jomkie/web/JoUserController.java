@@ -74,6 +74,7 @@ public class JoUserController {
     @ReqValidGroup(value = UserGroup.UserUpdate.class)
     public ResultObj<String> updateUser(@RequestBody @Valid JoUserDto dto) {
         log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
+        joUserServiceImpl.updateEntity(dto);
         return ResultObj.success("updateUser 请求成功");
     }
 
