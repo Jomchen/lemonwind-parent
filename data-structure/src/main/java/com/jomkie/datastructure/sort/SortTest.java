@@ -17,10 +17,12 @@ import java.util.List;
 public class SortTest {
 	
 	public static void main(String[] args) {
+		// 0,1,2,3,4,5,6,7,8,9
 		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
-		//int[] source2 = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
+		// 0,1,2,2,3,3,4,4,5,5
+		//int[] source = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
 		printer(source, "排序前");
-		shellSort(source);
+		countingSort(source);
 		printer(source, "排序后");
 		
 //		printer(source2);
@@ -272,6 +274,7 @@ public class SortTest {
 	/**
 	 * 希尔排序（升级版的插入排序）
 	 * 最坏时间复杂度是O(n^2)
+	 * 非稳定排序
 	 * 
 	 * 希尔排序把序列看作是一个矩阵，分成m列，逐列进行排序
 	 * m 从某个整数逐渐减为1（是以 m/2^k，逐渐减小）
@@ -364,6 +367,7 @@ public class SortTest {
 	
 	/**
 	 * 桶排序
+	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
 	 * @param source
 	 */
 	public static void bucketSort(int[] source) {
@@ -372,6 +376,7 @@ public class SortTest {
 	
 	/**
 	 * 基数排序
+	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
 	 * @param source
 	 */
 	public static void RadixSort(int[] source) {
@@ -380,8 +385,41 @@ public class SortTest {
 	
 	/**
 	 * 计数排序
+	 * 不稳定排序
+	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
 	 */
-	public void countingSort(int [] source) {
+	public static void countingSort(int [] source) {
+		// 获取数组中最大的值
+		int max = source[0];
+		for (int i = 1; i < source.length; i++) {
+			if (source[i] > max) {
+				max = source[i];
+			}
+		}
+		
+		// 通过最大的值建立那个值长度的数组
+		// 再遍历数组，将源数组中元素的值作为新数组索引，并记录源数组中元素出现的次数
+		int[] counts = new int[max + 1];
+		for (int i = 0; i < source.length; i++) {
+			counts[source[i]]++;
+		}
+		
+		// 根据整数出现的次数进行排序
+		int index = 0;
+		for (int i = 0; i < counts.length; i++) {
+			if (counts[i] == 0) { continue; }
+			
+			while (counts[i]-- > 0) {
+				source[index++] = i;
+			}
+		}
+	}
+	/**
+	 * 计数排序2
+	 * 第一种算法不能计算负数，而且极其浪费空间
+	 * @param source
+	 */
+	public void countingSort2(int[] source) {
 		
 	}
 	
