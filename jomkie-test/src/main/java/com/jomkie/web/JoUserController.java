@@ -6,7 +6,8 @@ import com.jomkie.annotations.user.UserGroup;
 import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
 import com.jomkie.dto.JoUserDto;
-import com.jomkie.service.JoUserService;
+import com.jomkie.service.impl.JoUserServiceImpl;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,18 @@ import java.util.List;
 public class JoUserController {
 
     @Autowired
-    private JoUserService joUserService;
+    private JoUserServiceImpl joUserServiceImpl;
 
+    /**
+     * 测试分页处理
+     * @return
+     */
+    @GetMapping(UrlContent.NET_USER_HANDLE_PAGE_JOUSER)
+    public ResultObj<String> handlePage() {
+    	joUserServiceImpl.handlePage(1, 5);
+        return ResultObj.success("testJoUser");
+    }
+    
     /**
      * @author Jomkie
      * @since 2021-04-07 10:26
@@ -78,7 +89,7 @@ public class JoUserController {
             @PathVariable("id")
                 Long id) {
         log.info("进入了方法 getById");
-        JoUserDto dto = joUserService.getById(id);
+        JoUserDto dto = joUserServiceImpl.getById(id);
         return ResultObj.success(dto);
     }
 
@@ -90,7 +101,7 @@ public class JoUserController {
     @GetMapping(UrlContent.NET_USER_GET_ALL)
     public ResultObj<List<JoUserDto>> getAll() {
         log.info("进入了方法 getAll");
-        List<JoUserDto> list = joUserService.getAll();
+        List<JoUserDto> list = joUserServiceImpl.getAll();
         return ResultObj.success(list);
     }
 

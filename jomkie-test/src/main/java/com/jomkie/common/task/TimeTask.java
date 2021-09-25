@@ -1,16 +1,12 @@
 package com.jomkie.common.task;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jomkie.datastructure.model.JoUser;
 import com.jomkie.service.impl.JoUserServiceImpl;
 
@@ -32,7 +28,7 @@ public class TimeTask {
 	/**
 	 * 五秒执行一次
 	 */
-	@Scheduled(cron = "*/5 * * * * ?")
+	//@Scheduled(cron = "*/5 * * * * ?")
 	private void testTimeTask() {
 		if (allCount == 0) {
 			allCount = joUserServiceImpl.count();
@@ -45,15 +41,10 @@ public class TimeTask {
 		}
 		
 		System.out.println(currentPage +"--------" + 5);
-		IPage<JoUser> page = new Page<>(currentPage, 5);
-		joUserServiceImpl.page(page, Wrappers.<JoUser>lambdaQuery().orderByAsc(JoUser::getAge));
-		List<JoUser> record = page.getRecords();
+		List<JoUser> record  = joUserServiceImpl.handlePage(currentPage, 5);
 		
 		currentPage += 1;
 		currentCount += record.size();
-		
-		String printData = record.stream().map(JoUser::getAge).map(String::valueOf).collect(Collectors.joining(","));
-		System.out.println(record.size() + "条数据：" + printData);
 		
 	}
 	

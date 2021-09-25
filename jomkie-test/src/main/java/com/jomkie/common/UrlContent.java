@@ -14,6 +14,7 @@ public interface UrlContent {
     String NET_USER_DEL = "/net/user/del/{id}";
     String NET_USER_CHECK_BUILD_PARAM = "/net/user/check/build/param";
     String NET_USER_TEST_JOUSER = "/net/user/test/jouser";
+    String NET_USER_HANDLE_PAGE_JOUSER = "/net/user/handle/page/jouser";
 
     String NET_TEST_HOT_SWAP = "/net/test/hot/swap";
     String NET_GENERATE_QRCODE_IMAGE = "/net/test/generate/qrcode/image/{redisKey}";

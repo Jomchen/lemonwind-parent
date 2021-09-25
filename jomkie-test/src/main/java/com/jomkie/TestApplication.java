@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @MapperScan("com.jomkie.**.dao")
 @EnableAspectJAutoProxy
+@EnableTransactionManagement
 public class TestApplication {
 
     /**

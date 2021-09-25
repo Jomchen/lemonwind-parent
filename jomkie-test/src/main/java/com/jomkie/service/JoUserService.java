@@ -16,9 +16,11 @@ public interface JoUserService {
 
     JoUserDto getById(Long id);
 
-    boolean save(JoUser joUser);
+    boolean saveEntity(JoUser joUser);
+    
+    void updateBatchEnity(List<JoUser> list);
 
-    boolean saveBatch(List<JoUser> list, int batch);
+    boolean saveBatchEntity(List<JoUser> list, int batch);
 
     List<JoUser> findByConditions();
 
