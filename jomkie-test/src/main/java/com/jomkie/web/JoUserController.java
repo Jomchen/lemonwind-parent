@@ -5,6 +5,7 @@ import com.jomkie.annotations.ReqValidGroup;
 import com.jomkie.annotations.user.UserGroup;
 import com.jomkie.common.ResultObj;
 import com.jomkie.common.UrlContent;
+import com.jomkie.datastructure.model.JoUser;
 import com.jomkie.dto.JoUserDto;
 import com.jomkie.service.impl.JoUserServiceImpl;
 
@@ -72,10 +73,11 @@ public class JoUserController {
      */
     @PostMapping(UrlContent.NET_USER_UPDATE)
     @ReqValidGroup(value = UserGroup.UserUpdate.class)
-    public ResultObj<String> updateUser(@RequestBody @Valid JoUserDto dto) {
+    public ResultObj<List<JoUser>> updateUser(@RequestBody @Valid JoUserDto dto) {
         log.info("进入了方法 updateUser: {}", JSONObject.toJSONString(dto));
-        joUserServiceImpl.updateEntity(dto);
-        return ResultObj.success("updateUser 请求成功");
+        //joUserServiceImpl.updateEntity(dto);
+        //return ResultObj.success("updateUser 请求成功");
+        return ResultObj.success(joUserServiceImpl.handlePage(1, 5));
     }
 
     /**

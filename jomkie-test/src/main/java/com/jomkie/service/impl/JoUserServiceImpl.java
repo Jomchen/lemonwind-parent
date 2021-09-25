@@ -81,13 +81,16 @@ public class JoUserServiceImpl extends BaseServiceImpl<JoUserMapper, JoUser> imp
 		return true;
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
 	public List<JoUser> handlePage(int currentPage, int pageSize) {
-		IPage<JoUser> page = new Page<>(currentPage, pageSize);
-		page(page, Wrappers.<JoUser>lambdaQuery().orderByAsc(JoUser::getAge));
-		List<JoUser> record = page.getRecords();
-		record.forEach(e -> e.setAge(22));
-		updateBatchById(record);
+//		IPage<JoUser> page = new Page<>(currentPage, pageSize);
+//		page(page, Wrappers.<JoUser>lambdaQuery().orderByAsc(JoUser::getAge));
+//		List<JoUser> record = page.getRecords();
+//		record.stream().forEach(e -> System.out.println(e.getAge()));
+		
+		List<JoUser> record = list(Wrappers.<JoUser>lambdaQuery().last("LIMIT 5"));
+		record.forEach(e -> e.setAge(5));
+		record.stream().forEach(System.out::println);
+		updateBatchById(record, 5);
 		return record;
 	}
 	
