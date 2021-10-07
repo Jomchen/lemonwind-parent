@@ -1,10 +1,15 @@
 package com.jomkie.service.impl;
 
+import com.jomkie.common.entity.dto.JoKongfuDTO;
+import com.jomkie.common.entity.dto.JoUserDTO;
+import com.jomkie.common.entity.vo.JoKongfuVO;
 import com.jomkie.common.redis.RedisTool;
 import com.jomkie.common.remote.RemoteApi;
 import com.jomkie.common.wechat.action.WeChatNativePay;
 import com.jomkie.common.wechat.action.WeChatPlatformCertification;
 import com.jomkie.service.TestService;
+import com.jomkie.test.mapstruct.JoKongfuConverter;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
@@ -13,6 +18,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,6 +28,10 @@ import java.util.stream.IntStream;
 @Slf4j
 public class TestServiceImpl implements TestService {
 
+	// 问题未解决
+	//@Autowired
+	//private JoKongfuConverter joKongfuConverer;
+	
     @Autowired
     private WeChatPlatformCertification weChatPlatformCertification;
 
@@ -118,6 +128,34 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public String anyTest(String anyData) {
+//		List<JoUserDTO> list = IntStream.range(0, 10).boxed().map(index -> {
+//			JoUserDTO user = new JoUserDTO();
+//			user.setId(index);
+//			user.setAge(20 + index);
+//			user.setName("队员" + index);
+//			user.setAddress("集体" + index);
+//			user.setBirthday(new Date());	
+//			return user;
+//		}).collect(Collectors.toList());
+//		
+//		JoUserDTO user = new JoUserDTO();
+//		user.setId(1);
+//		user.setAge(20);
+//		user.setName("李寻欢");
+//		user.setAddress("京城");
+//		user.setBirthday(new Date());
+//		
+//		JoKongfuDTO kongfu = new JoKongfuDTO();
+//		kongfu.setUserId(1);
+//		kongfu.setPower(new BigDecimal(99));
+//		kongfu.setLevel(10);
+//		kongfu.setCreateTime(new Date());
+//		kongfu.setJoUserDTO(user);
+//		kongfu.setJoUserList(list);
+//		
+//		//JoKongfuConverter joKongfuConverer = JoKongfuConverter.INSTANCE;
+//		JoKongfuVO vo = joKongfuConverer.dtoToVo(kongfu);
+//		System.out.println(vo);
         return System.currentTimeMillis() + anyData;
     }
 

@@ -22,7 +22,7 @@ public class SortTest {
 		// 0,1,2,2,3,3,4,4,5,5
 		//int[] source = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
 		printer(source, "排序前");
-		countingSort(source);
+		countingSort2(source);
 		printer(source, "排序后");
 		
 //		printer(source2);
@@ -419,8 +419,28 @@ public class SortTest {
 	 * 第一种算法不能计算负数，而且极其浪费空间
 	 * @param source
 	 */
-	public void countingSort2(int[] source) {
+	public static void countingSort2(int[] source) {
+		int min = source[0];
+		int max = source[0];
+		for (int i = 1; i < source.length; i++) {
+			if (source[i] < min) {
+				min = source[i];
+			} else if (source[i] > max) {
+				max = source[i];
+			}
+		}
 		
+		int[] array = new int[max - min + 1];
+		for (int i = 0; i < source.length; i++) {
+			array[source[i] - min]++;
+		}
+		
+		int index = 0;
+		for (int i = 0; i < array.length; i++) {
+			while (array[i]-- > 0) {
+				source[index++] = i;
+			}
+		}
 	}
 	
 	/**
