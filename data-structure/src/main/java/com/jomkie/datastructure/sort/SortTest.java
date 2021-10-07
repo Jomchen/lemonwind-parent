@@ -1,6 +1,7 @@
 package com.jomkie.datastructure.sort;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -423,23 +424,28 @@ public class SortTest {
 		int min = source[0];
 		int max = source[0];
 		for (int i = 1; i < source.length; i++) {
+			// 之所以这里没有用 else if 是因为可能最大和最小都是同一个值
 			if (source[i] < min) {
 				min = source[i];
-			} else if (source[i] > max) {
+			}
+			if (source[i] > max) {
 				max = source[i];
 			}
 		}
-		
-		int[] array = new int[max - min + 1];
+
+		// 先统计元素出现的次数，再累加次数
+		int[] counts = new int[max - min + 1];
 		for (int i = 0; i < source.length; i++) {
-			array[source[i] - min]++;
+			counts[source[i] - min]++;
+		}
+		for (int i = 1; i < source.length; i++) {
+			counts[i] += counts[i - 1];
 		}
 		
-		int index = 0;
-		for (int i = 0; i < array.length; i++) {
-			while (array[i]-- > 0) {
-				source[index++] = i;
-			}
+		// 从后面遍历是为了排序的稳定性
+		int[] temporary = Arrays.copyOf(source, source.length);
+		for (int i = temporary.length - 1; i >=0; i--) {
+			source[--counts[temporary[i] - min]] = temporary[i];
 		}
 	}
 	
