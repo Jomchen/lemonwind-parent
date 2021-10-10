@@ -19,9 +19,11 @@ public class SortTest {
 	
 	public static void main(String[] args) {
 		// 0,1,2,3,4,5,6,7,8,9
-		int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
+		//int[] source = new int[] { 3, 2, 7, 5, 8, 9, 0, 1, 4, 6 };
 		// 0,1,2,2,3,3,4,4,5,5
 		//int[] source = new int[] { 3, 2, 3, 5, 2, 4, 0, 1, 4, 5 };
+		// 6,9,11,20,35,332,440,520,1120
+		int[] source = new int[] {1120, 332, 9, 440, 6, 35, 20, 11, 520};
 		printer(source, "排序前");
 		countingSort2(source);
 		printer(source, "排序后");
@@ -377,11 +379,26 @@ public class SortTest {
 	
 	/**
 	 * 基数排序
+	 * 非常适合整数据排序，尤其是非负整数
+	 * 依次对个数，十位，百位，....进行排序（从低位到高位）
 	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
 	 * @param source
 	 */
 	public static void RadixSort(int[] source) {
+		int max = source[0];
+		for (int i = 0; i < source.length; i++) {
+			if (cmp(source[i], max) > 0) {
+				max = source[i];
+			}
+		}
 		
+		// 个位数：5932 / 1 % 10 = 2
+		// 十位数：5932 / 10 % 10 = 3
+		// 百位数：5932 / 100 % 10 = 9
+		// 千位数：5932 / 1000 % 10 = 5
+		for (int divider = 1; divider <= max; divider *= 10) {
+			
+		}
 	}
 	
 	/**
@@ -438,7 +455,7 @@ public class SortTest {
 		for (int i = 0; i < source.length; i++) {
 			counts[source[i] - min]++;
 		}
-		for (int i = 1; i < source.length; i++) {
+		for (int i = 1; i < counts.length; i++) {
 			counts[i] += counts[i - 1];
 		}
 		
