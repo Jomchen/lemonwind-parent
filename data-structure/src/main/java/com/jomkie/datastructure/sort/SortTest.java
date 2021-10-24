@@ -25,7 +25,7 @@ public class SortTest {
 		// 6,9,11,20,35,332,440,520,1120
 		int[] source = new int[] {1120, 332, 9, 440, 6, 35, 20, 11, 520};
 		printer(source, "排序前");
-		countingSort2(source);
+		radixSort(source);
 		printer(source, "排序后");
 		
 //		printer(source2);
@@ -43,7 +43,8 @@ public class SortTest {
 //		for (int end = source.length - 1; end > 0; end --) { 
 //			 for (int begin = 1; begin <= end; begin ++) { 
 //				 if (source[begin] < source[begin - 1]) { 
-//					 int tmp = source[begin]; source[begin] = source[begin - 1]; 
+//					 int tmp = source[begin];
+//					 source[begin] = source[begin - 1];
 //					 source[begin - 1] = tmp; 
 //				 }
 //			 } 
@@ -369,39 +370,6 @@ public class SortTest {
 	}
 	
 	/**
-	 * 桶排序
-	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
-	 * @param source
-	 */
-	public static void bucketSort(int[] source) {
-		
-	}
-	
-	/**
-	 * 基数排序
-	 * 非常适合整数据排序，尤其是非负整数
-	 * 依次对个数，十位，百位，....进行排序（从低位到高位）
-	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
-	 * @param source
-	 */
-	public static void RadixSort(int[] source) {
-		int max = source[0];
-		for (int i = 0; i < source.length; i++) {
-			if (cmp(source[i], max) > 0) {
-				max = source[i];
-			}
-		}
-		
-		// 个位数：5932 / 1 % 10 = 2
-		// 十位数：5932 / 10 % 10 = 3
-		// 百位数：5932 / 100 % 10 = 9
-		// 千位数：5932 / 1000 % 10 = 5
-		for (int divider = 1; divider <= max; divider *= 10) {
-			
-		}
-	}
-	
-	/**
 	 * 计数排序
 	 * 不稳定排序
 	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
@@ -465,7 +433,97 @@ public class SortTest {
 			source[--counts[temporary[i] - min]] = temporary[i];
 		}
 	}
-	
+
+
+
+	/**
+	 * 桶排序
+	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
+	 * @param source
+	 */
+	public static void bucketSort(int[] source) {
+		// 通过链表或数组的元素充当桶（桶号越小表示这个桶里的数据一定小于桶号大的）
+		// 对源数据的每个元素通过 自定义算法 算出应该放在哪个桶
+		// 对每个桶的元素在桶内排序
+		// 依次遍历每个桶，取出桶的元素放到源数组中，完成排序
+	}
+
+	/**
+	 * 基数排序
+	 * 非常适合整数据排序，尤其是非负整数
+	 * 依次对个数，十位，百位，....进行排序（从低位到高位），当某位如果不存在时，则以0替代
+	 * 最终相当于：针对个位数执行一次计数排序，针对十位数执行一次计数排序，针对百位...
+	 * 空间换时间，在某些情况下，平均时间复杂度可以比 O(nlogn)更低
+	 * @param source
+	 */
+	public static void radixSort(int[] source) {
+		int max = source[0];
+		for (int i = 1; i < source.length; i++) {
+			if (cmp(source[i], max) > 0) {
+				max = source[i];
+			}
+		}
+
+		// 相当于最大值有几位，就执行多少次计数排序
+
+		// 个位数：5932 / 1 % 10 = 2
+		// 十位数：5932 / 10 % 10 = 3
+		// 百位数：5932 / 100 % 10 = 9
+		// 千位数：5932 / 1000 % 10 = 5
+		for (int divider = 1; divider <= max; divider *= 10) {
+			radixSortTool(source, divider);
+		}
+	}
+	private static void radixSortTool(int[] source, int divider) {
+		// TODO 这里还可以作优化，因为基数最小值也许不是0，这样浪费了时间和空间
+		int[] counting = new int[10];
+		for (int i = source.length - 1; i >= 0; i--) {
+			counting[source[i] / divider % 10]++;
+		}
+		for (int i = 1; i < counting.length; i++) {
+			counting[i] += counting[i - 1];
+		}
+
+		int[] newArray = new int[source.length];
+		for (int i = source.length - 1; i >= 0; i--) {
+			int index = source[i] / divider % 10;
+			newArray[--counting[index]] = source[i];
+		}
+		for (int i = 0; i < newArray.length; i++) {
+			source[i] = newArray[i];
+		}
+	}
+
+	/**
+	 * 基数排序，另一种思路
+	 * @param source
+	 */
+	public static void radixSort2(int[] source) {
+		int max = source[0];
+		for (int i = 0; i < source.length; i++) {
+			if (cmp(source[i], max) > 0) {
+				max = source[i];
+			}
+		}
+
+		int[][] buckets = new int[10][source.length];
+		int[] bucketSizes = new int[10];
+
+		for (int divider = 1; divider <= max; divider *= 10) {
+			for (int i = 0; i < source.length; i++) {
+				int base = source[i] / divider % 10;
+				buckets[base][bucketSizes[base]++] = source[i];
+			}
+			int index = 0;
+			for (int i = 0; i < buckets.length; i++) {
+				for (int j = 0; j < bucketSizes[i]; j++) {
+					source[index++] = buckets[i][j];
+				}
+				bucketSizes[i] = 0;
+			}
+		}
+	}
+
 	/**
 	 * 打印器
 	 * @param source
