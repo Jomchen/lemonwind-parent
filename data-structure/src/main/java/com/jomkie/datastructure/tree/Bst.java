@@ -84,9 +84,15 @@ public class Bst<E> extends BinaryTree<E> {
             } else {
                 node.parent.right = replacement;
             }
+
+            // 删除节点之后的处理
+            afterRemove(node);
         } else if (node.parent == null) {
             // node 度为0 且是根节点
             root = null;
+
+            // 删除节点之后的处理
+            afterRemove(node);
         } else {
             // node 度为0 但不是根节点
             if (node.parent.left == node) {
@@ -94,6 +100,9 @@ public class Bst<E> extends BinaryTree<E> {
             } else {
                 node.parent.right = null;
             }
+
+            // 删除节点之后的处理
+            afterRemove(node);
         }
     }
 
@@ -124,7 +133,13 @@ public class Bst<E> extends BinaryTree<E> {
      * @param node
      */
     protected void afterAdd(Node<E> node) {}
-    
+
+    /**
+     * 删除后处理
+     * @param node
+     */
+    protected void afterRemove(Node<E> node) {}
+
     /**
      * 返回值大于0表示 e1 > e2，
      * 如果小于0表示 e1 < e2，
