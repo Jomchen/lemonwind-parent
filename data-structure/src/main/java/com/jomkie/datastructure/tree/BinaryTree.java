@@ -274,7 +274,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     @Override
     public Object string(Object node) {
-        Node<E> wrapNode = ((Node<E>) node);
+        /*Node<E> wrapNode = ((Node<E>) node);
         StringBuilder resultBuilder = new StringBuilder();
         resultBuilder.append(wrapNode.element)
                 .append("_p(");
@@ -285,7 +285,9 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         }
         resultBuilder.append(")");
 
-        return resultBuilder.toString();
+        return resultBuilder.toString();*/
+
+        return node;
     }
 
     protected static class Node<E> {
@@ -304,6 +306,12 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         }
         public boolean hasTwoChildren() {
             return left != null && right != null;
+        }
+        public boolean isLeftChild() {
+            return parent != null && this == parent.left;
+        }
+        public boolean isRightChild() {
+            return parent != null && this == parent.right;
         }
     }
 

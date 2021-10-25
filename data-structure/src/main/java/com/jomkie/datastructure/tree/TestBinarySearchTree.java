@@ -5,13 +5,18 @@ import com.jomkie.common.util.treeprint.BinaryTrees;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 二叉树的前，中，后，层序遍历
+ * 二叉树的最大深度
+ */
 public class TestBinarySearchTree {
 
     public static void main(String[] args) {
         //test00();
         //test01();
         //test02();
-        test03();
+        //test03();
+        test04();
     }
 
     /** 测试二叉树打印 */
@@ -71,7 +76,16 @@ public class TestBinarySearchTree {
     
     /** 测试平衡二叉树的添加 */
     public static void test04() {
-    	List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
+        //List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
+        List<Integer> dataList = Arrays.asList(
+                85,19,69,3,7,99,95,2,1,70,44,58,11,21,14,93,57,4,56
+        );
+        AvlTree<Integer> avlTree = new AvlTree<>();
+        dataList.forEach(e -> {
+            System.out.println("<" + e + "> -------------------------------------");
+            avlTree.add(e);
+            BinaryTrees.println(avlTree);
+        });
     }
 
 }
