@@ -16,7 +16,8 @@ public class TestBinarySearchTree {
         //test01();
         //test02();
         //test03();
-        test04();
+        //test04();
+        test05();
     }
 
     /** 测试二叉树打印 */
@@ -86,6 +87,25 @@ public class TestBinarySearchTree {
             avlTree.add(e);
             BinaryTrees.println(avlTree);
         });
+    }
+
+    /** 测试平衡二叉树的删除 */
+    public static void test05() {
+        Integer[] dataSource = new Integer[] {85,19,69,3,7,99,95};
+        AvlTree<Integer> avlTree = new AvlTree<>();
+        Arrays.stream(dataSource).forEach(avlTree::add);
+        BinaryTrees.println(avlTree);
+        System.out.println("---------------------------------------");
+        avlTree.remove(99);
+        BinaryTrees.println(avlTree);
+        System.out.println("---------------------------------------");
+        avlTree.remove(85);
+        BinaryTrees.println(avlTree);
+        System.out.println("---------------------------------------");
+        avlTree.remove(95);
+        BinaryTrees.println(avlTree);
+        System.out.println("---------------------------------------");
+
     }
 
 }
