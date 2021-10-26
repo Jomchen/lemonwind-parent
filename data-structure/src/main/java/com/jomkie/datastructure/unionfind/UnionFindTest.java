@@ -1,5 +1,9 @@
 package com.jomkie.datastructure.unionfind;
 
+import com.jomkie.common.entity.bean.JoUser;
+
+import java.util.Date;
+
 /**
  * 并查集测试
  * @author jomkie
@@ -8,7 +12,7 @@ package com.jomkie.datastructure.unionfind;
 public class UnionFindTest {
 
 	public static void main(String[] args) {
-		testUnionFind();
+		test01();
 	}
 	
 	public static void testUnionFind() {
@@ -39,6 +43,32 @@ public class UnionFindTest {
 		uf.union(4, 6);
 		// true
 		System.out.println(uf.isSame(2, 7));
+	}
+
+	public static void test01() {
+		GenericUnionFind<JoUser> uf = new GenericUnionFind<>();
+		JoUser user1 = new JoUser(1, "jack", 20, "长安", new Date());
+		JoUser user2 = new JoUser(2, "jane", 22, "Canada", new Date());
+		JoUser user3 = new JoUser(3, "jack", 22, "Canada", new Date());
+		JoUser user4 = new JoUser(4, "jane", 22, "Canada", new Date());
+		uf.makeSet(user1);
+		uf.makeSet(user2);
+		uf.makeSet(user3);
+		uf.makeSet(user4);
+
+		uf.union(user1, user2);
+		uf.union(user3, user4);
+
+		// true
+		System.out.println(uf.isSame(user1, user2));
+		// true
+		System.out.println(uf.isSame(user3, user4));
+		// false
+		System.out.println(uf.isSame(user1, user3));
+
+		// true
+		/*uf.union(user1, user4);
+		System.out.println(uf.isSame(user2, user3));*/
 	}
 	
 }
