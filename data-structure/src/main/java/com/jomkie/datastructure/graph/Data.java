@@ -1,4 +1,4 @@
-package com.jomchen.springcloud.datastructure.graph.xiaomage.graph;
+package com.jomkie.datastructure.graph;
 
 public class Data {
 	public static final Object[][] BFS_01 = {//P26,left
