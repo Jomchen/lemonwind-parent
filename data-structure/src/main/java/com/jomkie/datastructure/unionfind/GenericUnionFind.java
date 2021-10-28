@@ -60,7 +60,7 @@ public class GenericUnionFind<V> {
     }
 
     @Data
-    private static class Node<V> {
+    protected static class Node<V> {
         V value;
         Node<V> parent = this;
         int rank = 1;

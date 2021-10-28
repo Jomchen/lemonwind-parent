@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class JoUser {
 	
 	private Integer id;
@@ -16,5 +14,17 @@ public class JoUser {
 	private Integer age;
 	private String address;
 	private Date birthday;
+
+	public JoUser() {
+
+	}
+
+	public JoUser(Integer id, String name, Integer age, String address, Date birthday) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.address = address;
+		this.birthday = birthday;
+	}
 	
 }

@@ -9,6 +9,7 @@ import java.util.Date;
  * @author jomkie
  * @since 2021-10-08 22:51:27
  */
+@SuppressWarnings("unchecked")
 public class UnionFindTest {
 
 	public static void main(String[] args) {

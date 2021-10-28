@@ -2,6 +2,9 @@ package com.jomkie.datastructure.graph;
 
 public interface Graph<V, E> {
 
+    /** 打印 */
+    void print();
+
     /** 边的数量 */
     int edgesSize();
 
