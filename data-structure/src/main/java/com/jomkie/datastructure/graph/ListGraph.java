@@ -10,6 +10,10 @@ public class ListGraph<V, E> implements Graph<V, E> {
     public void print() {
         vertices.forEach((V v, Vertex<V, E> vertex) -> {
             System.out.println(v);
+            System.out.println("out------------");
+            System.out.println(vertex.outEdges);
+            System.out.println("in--------------");
+            System.out.println(vertex.inEdges);
         });
         edges.forEach(e -> {
             System.out.println(e);
