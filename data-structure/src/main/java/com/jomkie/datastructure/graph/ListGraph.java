@@ -1,6 +1,7 @@
 package com.jomkie.datastructure.graph;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListGraph<V, E> implements Graph<V, E> {
 
@@ -15,6 +16,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
             System.out.println("in--------------");
             System.out.println(vertex.inEdges);
         });
+        System.out.println("*************************************");
         edges.forEach(e -> {
             System.out.println(e);
         });
@@ -68,13 +70,41 @@ public class ListGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public void removeVertext(V o) {
+    public void removeVertext(V v) {
+        Vertex<V, E> vertex = vertices.remove(v);
+        if (null == vertex) return;
 
+        // 删除关于此顶点的出度
+        Iterator<Edge<V, E>> iteratorOut = vertex.outEdges.iterator();
+        while (iteratorOut.hasNext()) {
+            Edge<V, E> edge = iteratorOut.next();
+            edge.to.inEdges.remove(edge);
+            iteratorOut.remove();
+            edges.remove(edge);
+        }
+
+        // 删除关于此顶点的入度
+        Iterator<Edge<V, E>> iteratorIn = vertex.inEdges.iterator();
+        while (iteratorIn.hasNext()) {
+            Edge<V, E> edge = iteratorIn.next();
+            edge.from.outEdges.remove(edge);
+            iteratorIn.remove();
+            edges.remove(edge);
+        }
     }
 
     @Override
     public void removeEdge(V from, V to) {
+        Vertex<V, E> fromVertex = vertices.get(from);
+        if (fromVertex == null) return;
+        Vertex<V, E> toVertex = vertices.get(to);
+        if (toVertex == null) return;
 
+        Edge<V, E> edge = new Edge<>(fromVertex, toVertex, null);
+        if (fromVertex.outEdges.remove(edge)) {
+            toVertex.inEdges.remove(edge);
+            edges.remove(edge);
+        }
     }
 
     private static class Vertex<V, E> {
