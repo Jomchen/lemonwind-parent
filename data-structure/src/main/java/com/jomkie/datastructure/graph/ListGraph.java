@@ -1,7 +1,6 @@
 package com.jomkie.datastructure.graph;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ListGraph<V, E> implements Graph<V, E> {
 
@@ -105,6 +104,40 @@ public class ListGraph<V, E> implements Graph<V, E> {
             toVertex.inEdges.remove(edge);
             edges.remove(edge);
         }
+    }
+
+    @Override
+    public void bfs(V from) {
+        Vertex<V, E> beginVertex = vertices.get(from);
+        if (null == beginVertex) return;
+
+        Set<Vertex<V, E>> uniqueSet = new HashSet<>();
+        Queue<Vertex<V, E>> queue = new LinkedList<>();
+        // 添加时刻1
+        queue.offer(beginVertex);
+        uniqueSet.add(beginVertex);
+
+        while ( !queue.isEmpty()) {
+            Vertex<V, E> vertex = queue.poll();
+            System.out.println(vertex);
+
+            for (Edge<V, E> edge : vertex.outEdges) {
+                if (uniqueSet.contains(edge.to)) continue;
+                queue.offer(edge.to);
+                // 添加时刻2
+                uniqueSet.add(edge.to);
+            }
+        }
+
+        // 添加时刻解析：如果有 A 直连 B 和 C，B 和 C 分别直连 D，那么需要入队时就算遍历过才能防重复
+    }
+
+    @Override
+    public void dfs(V from) {
+        Vertex<V, E> beginVertex = vertices.get(from);
+        if (beginVertex == null) return;
+
+
     }
 
     private static class Vertex<V, E> {

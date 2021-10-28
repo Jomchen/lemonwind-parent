@@ -26,4 +26,10 @@ public interface Graph<V, E> {
     /** 删除边 */
     void removeEdge(V from, V to);
 
+    /** 广度优化算法 breadthFirstSearch */
+    void bfs(V from);
+
+    /** 深度优化算法 depthFirstSearch */
+    void dfs(V from);
+
 }
