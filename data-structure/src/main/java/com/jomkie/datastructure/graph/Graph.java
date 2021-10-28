@@ -22,4 +22,5 @@ public interface Graph<V, E> {
 
     /** 删除边 */
     void removeEdge(V from, V to);
+
 }
