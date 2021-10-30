@@ -2,6 +2,9 @@ package com.jomkie.datastructure.graph;
 
 public interface Graph<V, E> {
 
+    /** 任何测试 */
+    void anyTest(V v);
+
     /** 打印 */
     void print();
 
@@ -27,9 +30,16 @@ public interface Graph<V, E> {
     void removeEdge(V from, V to);
 
     /** 广度优化算法 breadthFirstSearch */
-    void bfs(V from);
+    void bfs(V from, VertexVisitor<V> visitor);
 
     /** 深度优化算法 depthFirstSearch */
-    void dfs(V from);
+    void dfs(V from, VertexVisitor<V> visitor);
+
+    /** 非递归深度优化算法 depthFirstSearch */
+    void dfs2(V from, VertexVisitor<V> visitor);
+
+    interface VertexVisitor<V> {
+        boolean visitor(V v);
+    }
 
 }

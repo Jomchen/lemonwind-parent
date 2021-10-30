@@ -5,7 +5,7 @@ package com.jomkie.datastructure.graph;
  */
 public class TestGraph {
     public static void main(String[] args) {
-        test04();
+        test06();
     }
 
     /** 测试打印 */
@@ -69,19 +69,30 @@ public class TestGraph {
         graph.print();
     }
 
-    /** 测试图的遍历 */
+    /** 测试图的广度优先遍历 */
     public static void test04() {
-        /*Graph<String, Integer> graph = new ListGraph<>();
-        graph.addEdge("v1", "v0", 9);
-        graph.addEdge("v1", "v2", 3);
-        graph.addEdge("v2", "v0", 2);
-        graph.addEdge("v2", "v3", 5);
-        graph.addEdge("v3", "v4", 1);
-        graph.addEdge("v0", "v4", 6);
-        graph.bfs("v1");*/
         Graph<Object, Double> graph2 = directedGraph(Data.BFS_02);
-        graph2.bfs(5);
+        graph2.bfs(5, null);
     }
+
+    /** 测试图的 递归版 深度优先遍历 */
+    public static void test05() {
+        Graph<Object, Double> graph2 = unDirectedGraph(Data.DFS_01);
+        graph2.dfs(1, null);
+    }
+
+    /** 测试图的 非递归版 深度优先遍历 */
+    public static void test06() {
+        Graph<Object, Double> graph2 = directedGraph(Data.DFS_02);
+        graph2.dfs2("a", null);
+    }
+
+
+
+
+
+
+
 
     /** 添加有向图 */
     private static Graph<Object, Double> directedGraph(Object[][] data) {

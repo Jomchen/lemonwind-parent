@@ -7,6 +7,11 @@ public class ListGraph<V, E> implements Graph<V, E> {
     private Map<V, Vertex<V, E>> vertices = new HashMap<>();
     private Set<Edge<V, E>> edges = new HashSet<>();
 
+    @Override
+    public void anyTest(V v) {
+
+    }
+
     public void print() {
         vertices.forEach((V v, Vertex<V, E> vertex) -> {
             System.out.println(v);
@@ -107,25 +112,28 @@ public class ListGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public void bfs(V from) {
+    public void bfs(V from, VertexVisitor<V> visitor) {
+        if (null == visitor) {
+            visitor = e -> { e.toString(); return true; };
+        }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (null == beginVertex) return;
 
-        Set<Vertex<V, E>> uniqueSet = new HashSet<>();
+        Set<Vertex<V, E>> visitedSet = new HashSet<>();
         Queue<Vertex<V, E>> queue = new LinkedList<>();
         // 添加时刻1
         queue.offer(beginVertex);
-        uniqueSet.add(beginVertex);
+        visitedSet.add(beginVertex);
 
         while ( !queue.isEmpty()) {
             Vertex<V, E> vertex = queue.poll();
-            System.out.println(vertex);
+            visitor.visitor(beginVertex.value);
 
             for (Edge<V, E> edge : vertex.outEdges) {
-                if (uniqueSet.contains(edge.to)) continue;
+                if (visitedSet.contains(edge.to)) continue;
                 queue.offer(edge.to);
                 // 添加时刻2
-                uniqueSet.add(edge.to);
+                visitedSet.add(edge.to);
             }
         }
 
@@ -133,11 +141,55 @@ public class ListGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public void dfs(V from) {
+    public void dfs(V from, VertexVisitor<V> visitor) {
+        if (null == visitor) {
+            visitor = e -> { e.toString(); return true; };
+        }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (beginVertex == null) return;
+        dfsTool(beginVertex, new HashSet<>(), visitor);
+    }
+    private void dfsTool(
+            Vertex<V, E> beginVertex,
+            Set<Vertex<V, E>> visitedSet,
+            VertexVisitor<V> visitor) {
+        visitor.visitor(beginVertex.value);
+        visitedSet.add(beginVertex);
+        if (beginVertex.outEdges.isEmpty()) return;
+        for (Edge<V, E> edge : beginVertex.outEdges) {
+            if (visitedSet.contains(edge.to)) continue;
+            dfsTool(edge.to, visitedSet, visitor);
+        }
+    }
 
+    @Override
+    public void dfs2(V from, VertexVisitor<V> visitor) {
+        if (null == visitor) {
+            visitor = e -> { e.toString(); return true; };
+        }
+        Vertex<V, E> beginVertex = vertices.get(from);
+        if (null == beginVertex) return;
 
+        Set<Vertex<V, E>> visitedSet = new HashSet<>();
+        Stack<Vertex<V, E>> stack = new Stack<>();
+
+        stack.push(beginVertex);
+        visitedSet.add(beginVertex);
+        visitor.visitor(beginVertex.value);
+
+        while ( !stack.isEmpty()) {
+            Vertex<V, E> vertex = stack.pop();
+            for (Edge<V, E> edge : vertex.outEdges) {
+                if (visitedSet.contains(edge.to)) continue;
+
+                stack.push(edge.from);
+                stack.push(edge.to);
+                visitedSet.add(edge.to);
+                visitor.visitor(beginVertex.value);
+
+                break;
+            }
+        }
     }
 
     private static class Vertex<V, E> {
