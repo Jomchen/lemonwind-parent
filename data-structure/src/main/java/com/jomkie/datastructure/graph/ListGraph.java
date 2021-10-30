@@ -114,7 +114,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
     @Override
     public void bfs(V from, VertexVisitor<V> visitor) {
         if (null == visitor) {
-            visitor = e -> { e.toString(); return true; };
+            visitor = e -> {System.out.println(e);; return true; };
         }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (null == beginVertex) return;
@@ -127,7 +127,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
 
         while ( !queue.isEmpty()) {
             Vertex<V, E> vertex = queue.poll();
-            visitor.visitor(beginVertex.value);
+            visitor.visitor(vertex.value);
 
             for (Edge<V, E> edge : vertex.outEdges) {
                 if (visitedSet.contains(edge.to)) continue;
@@ -143,7 +143,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
     @Override
     public void dfs(V from, VertexVisitor<V> visitor) {
         if (null == visitor) {
-            visitor = e -> { e.toString(); return true; };
+            visitor = e -> {System.out.println(e);; return true; };
         }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (beginVertex == null) return;
@@ -165,7 +165,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
     @Override
     public void dfs2(V from, VertexVisitor<V> visitor) {
         if (null == visitor) {
-            visitor = e -> { e.toString(); return true; };
+            visitor = e -> {System.out.println(e);; return true; };
         }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (null == beginVertex) return;
@@ -185,7 +185,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
                 stack.push(edge.from);
                 stack.push(edge.to);
                 visitedSet.add(edge.to);
-                visitor.visitor(beginVertex.value);
+                visitor.visitor(edge.to.value);
 
                 break;
             }
