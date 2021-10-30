@@ -1,6 +1,7 @@
 package com.jomkie.datastructure.graph;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListGraph<V, E> implements Graph<V, E> {
 
@@ -191,6 +192,68 @@ public class ListGraph<V, E> implements Graph<V, E> {
             }
         }
     }
+
+
+    @Override
+    public List<V> topologicalSort() {
+        Map<Vertex<V, E>, Integer> vertexMap = new HashMap<>();
+        Queue<Vertex<V, E>> queue = new LinkedList<>();
+        List<Vertex<V, E>> resultList = new LinkedList<>();
+        vertices.forEach((V v, Vertex<V, E> vertex) -> {
+            if (vertex.inEdges.isEmpty()) {
+                queue.add(vertex);
+            } else {
+                vertexMap.put(vertex, vertex.inEdges.size());
+            }
+        });
+
+        while ( !queue.isEmpty()) {
+            Vertex<V, E> vertex = queue.poll();
+            resultList.add(vertex);
+            for (Edge<V, E> edge : vertex.outEdges) {
+                Integer inDegree = vertexMap.get(edge.to) - 1;
+                if (inDegree.equals(0)) {
+                    queue.offer(edge.to);
+                } else {
+                    vertexMap.put(edge.to, inDegree);
+                }
+            }
+        }
+
+        return resultList.stream().map(e -> e.value).collect(Collectors.toList());
+
+        /*Set<Vertex<V, E>> visitedSet = new HashSet<>();
+        Queue<Vertex<V, E>> queue = new LinkedList<>();
+
+        while (true) {
+            List<Vertex<V, E>> vertexWithoutInEdge = vertices.values().stream().filter(vertexObj -> {
+                if (visitedSet.contains(vertexObj)) return false;
+                if (vertexObj.inEdges.isEmpty()) return true;
+                return vertexObj.inEdges.stream().allMatch(edge -> visitedSet.contains(edge.from));
+            }).collect(Collectors.toList());
+
+            if (vertexWithoutInEdge.isEmpty()) {
+                break;
+            } else {
+                vertexWithoutInEdge.forEach(queue::offer);
+                visitedSet.addAll(vertexWithoutInEdge);
+            }
+        }
+
+        if (queue.size() != vertices.size()) {
+            return new LinkedList<>();
+        }
+
+        return queue.stream().map(vertex -> vertex.value).collect(Collectors.toList());*/
+    }
+
+    @Override
+    public Set<EdgeInfo<V, E>> prim(V v, Comparator<V> comparator) {
+        return null;
+    }
+
+
+
 
     private static class Vertex<V, E> {
         /** 顶点值 */

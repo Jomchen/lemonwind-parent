@@ -5,7 +5,7 @@ package com.jomkie.datastructure.graph;
  */
 public class TestGraph {
     public static void main(String[] args) {
-        test06();
+        test07();
     }
 
     /** 测试打印 */
@@ -85,6 +85,12 @@ public class TestGraph {
     public static void test06() {
         Graph<Object, Double> graph2 = directedGraph(Data.DFS_02);
         graph2.dfs2("a", null);
+    }
+
+    /** 拓扑排序，判断是否是有向无环图 */
+    public static void test07() {
+        Graph<Object, Double> graph2 = directedGraph(Data.TOPO);
+        graph2.topologicalSort().forEach(System.out::println);
     }
 
 

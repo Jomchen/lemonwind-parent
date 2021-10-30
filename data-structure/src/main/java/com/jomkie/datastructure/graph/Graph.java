@@ -1,5 +1,9 @@
 package com.jomkie.datastructure.graph;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
 public interface Graph<V, E> {
 
     /** 任何测试 */
@@ -41,6 +45,25 @@ public interface Graph<V, E> {
     /** 遍历，返回值判断是否结果遍历 */
     interface VertexVisitor<V> {
         boolean visitor(V v);
+    }
+
+    /** AOV拓扑排序（判断是否是有向无环图，且源数据必须为有向图） */
+    List<V> topologicalSort();
+
+    /** 必须是有权无向图 */
+    Set<EdgeInfo<V, E>> prim(V v, Comparator<V> comparator);
+
+    /// AOE 网络
+
+    class EdgeInfo<V, E> {
+        V from;
+        V to;
+        E weight;
+        public EdgeInfo(V from, V to, E weight) {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
+        }
     }
 
 }
