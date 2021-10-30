@@ -38,6 +38,7 @@ public interface Graph<V, E> {
     /** 非递归深度优化算法 depthFirstSearch */
     void dfs2(V from, VertexVisitor<V> visitor);
 
+    /** 遍历，返回值判断是否结果遍历 */
     interface VertexVisitor<V> {
         boolean visitor(V v);
     }
