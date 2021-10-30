@@ -114,7 +114,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
     @Override
     public void bfs(V from, VertexVisitor<V> visitor) {
         if (null == visitor) {
-            visitor = e -> {System.out.println(e);; return true; };
+            visitor = e -> {System.out.println(e);; return false; };
         }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (null == beginVertex) return;
@@ -143,7 +143,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
     @Override
     public void dfs(V from, VertexVisitor<V> visitor) {
         if (null == visitor) {
-            visitor = e -> {System.out.println(e);; return true; };
+            visitor = e -> {System.out.println(e);; return false; };
         }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (beginVertex == null) return;
@@ -165,7 +165,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
     @Override
     public void dfs2(V from, VertexVisitor<V> visitor) {
         if (null == visitor) {
-            visitor = e -> {System.out.println(e);; return true; };
+            visitor = e -> {System.out.println(e);; return false; };
         }
         Vertex<V, E> beginVertex = vertices.get(from);
         if (null == beginVertex) return;
@@ -175,7 +175,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
 
         stack.push(beginVertex);
         visitedSet.add(beginVertex);
-        visitor.visitor(beginVertex.value);
+        if(visitor.visitor(beginVertex.value)) return;
 
         while ( !stack.isEmpty()) {
             Vertex<V, E> vertex = stack.pop();
@@ -185,7 +185,7 @@ public class ListGraph<V, E> implements Graph<V, E> {
                 stack.push(edge.from);
                 stack.push(edge.to);
                 visitedSet.add(edge.to);
-                visitor.visitor(edge.to.value);
+                if (visitor.visitor(edge.to.value)) return;
 
                 break;
             }
