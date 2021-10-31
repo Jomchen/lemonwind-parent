@@ -51,7 +51,7 @@ public class RBTree<E> extends BBST<E> {
     protected void afterAdd(Node<E> node) {
         Node<E> parent = node.parent;
 
-        // 如果是根节点的处理
+        // 如果是根节点或上溢到达了根节点
         if (parent == null) {
             black(node);
             return;
@@ -62,18 +62,17 @@ public class RBTree<E> extends BBST<E> {
 
         // 叔父节点，祖父节点
         Node<E> uncle = parent.sibling();
-        Node<E> grand = parent.parent;
+        Node<E> grand = red(parent.parent);
         // 叔父节点是红色
         if (isRed(uncle)) {
             black(parent);
             black(uncle);
-            afterAdd(red(grand));
+            afterAdd(grand);
             return;
         }
 
         // 叔父节点是黑色
         if (parent.isLeftChild()) { // L
-            red(grand);
             if (node.isLeftChild()) { // LL
                 black(parent);
             } else { // LR
@@ -82,7 +81,6 @@ public class RBTree<E> extends BBST<E> {
             }
             rotateRight(grand);
         } else { // R
-            red(grand);
             if (node.isLeftChild()) { // RL
                 black(node);
                 rotateRight(parent);
