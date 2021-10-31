@@ -2,7 +2,7 @@ package com.jomkie.datastructure.tree;
 
 import java.util.Comparator;
 
-public class RBTree<E> extends Bst<E> {
+public class RBTree<E> extends BBST<E> {
 
     private static final boolean BLACK = true;
     private static final boolean RED = false;

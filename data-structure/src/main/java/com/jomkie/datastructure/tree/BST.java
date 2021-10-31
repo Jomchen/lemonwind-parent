@@ -9,14 +9,14 @@ import java.util.Comparator;
  * @author Jomkie
  * @since 2021-08-15 23:25:35
  */
-public class Bst<E> extends BinaryTree<E> {
+public class BST<E> extends BinaryTree<E> {
 
     private Comparator<E> comparator;
 
-    public Bst() {
+    public BST() {
         this(null);
     }
-    public Bst(Comparator<E> comparator) {
+    public BST(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
