@@ -44,7 +44,30 @@ public class RBTree<E> extends Bst<E> {
 
     @Override
     protected void afterAdd(Node<E> node) {
-        super.afterAdd(node);
+        Node<E> parent = node.parent;
+
+        // 如果是根节点的处理
+        if (parent == null) {
+            black(node);
+            return;
+        }
+
+        // 如果父节点是黑色，直接返回
+        if (isBlack((parent))) { return; }
+
+        // 叔父节点
+        Node<E> uncle = parent.sibling();
+        // 祖父节点
+        Node<E> grand = parent.parent;
+        // 叔父节点是红色
+        if (isRed(uncle)) {
+            black(parent);
+            black(uncle);
+            afterAdd(red(grand));
+            return;
+        }
+
+        // 叔父节点不是红色
     }
 
     @Override
