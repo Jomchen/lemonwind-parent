@@ -79,7 +79,7 @@ public class TestBinarySearchTree {
     public static void test04() {
         //List<Integer> dataList = Arrays.asList(7, 4, 9, 2, 5, 8, 11, 3, 12, 1);
         List<Integer> dataList = Arrays.asList(
-                85,19,69,3,7,99,95,2,1,70,44,58,11,21,14,93,57,4,56
+                67, 52, 92, 96, 53, 95, 13, 63, 34, 82, 76, 54, 9, 68, 39
         );
         AvlTree<Integer> avlTree = new AvlTree<>();
         dataList.forEach(e -> {
@@ -91,12 +91,23 @@ public class TestBinarySearchTree {
 
     /** 测试平衡二叉树的删除 */
     public static void test05() {
-        Integer[] dataSource = new Integer[] {85,19,69,3,7,99,95};
+        //Integer[] dataSource = new Integer[] {85,19,69,3,7,99,95};
+        //Integer[] dataSource = {85, 19, 69, 3, 7, 99, 95, 2, 1, 70, 44, 58, 11, 21, 14, 93, 57, 4, 56};
+        Integer[] dataSource = {
+                67, 52, 92, 96, 53, 95, 13, 63, 34, 82, 76, 54, 9, 68, 39
+        };
         AvlTree<Integer> avlTree = new AvlTree<>();
         Arrays.stream(dataSource).forEach(avlTree::add);
+        System.out.println("初始化：---------------------------------------");
         BinaryTrees.println(avlTree);
-        System.out.println("---------------------------------------");
-        avlTree.remove(99);
+        for (int i = 0; i < dataSource.length; i++) {
+            avlTree.remove(dataSource[i]);
+            System.out.println("删除了：" + dataSource[i] + "---------------------------------------");
+            BinaryTrees.println(avlTree);
+        }
+
+
+        /*avlTree.remove(99);
         BinaryTrees.println(avlTree);
         System.out.println("---------------------------------------");
         avlTree.remove(85);
@@ -104,7 +115,7 @@ public class TestBinarySearchTree {
         System.out.println("---------------------------------------");
         avlTree.remove(95);
         BinaryTrees.println(avlTree);
-        System.out.println("---------------------------------------");
+        System.out.println("---------------------------------------");*/
 
     }
 
