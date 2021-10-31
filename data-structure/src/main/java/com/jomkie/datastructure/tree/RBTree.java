@@ -43,6 +43,11 @@ public class RBTree<E> extends BBST<E> {
     }
 
     @Override
+    protected Node<E> createNode(E element, Node<E> parent) {
+        return new RBNode<>(element, parent);
+    }
+
+    @Override
     protected void afterAdd(Node<E> node) {
         Node<E> parent = node.parent;
 
@@ -55,9 +60,8 @@ public class RBTree<E> extends BBST<E> {
         // 如果父节点是黑色，直接返回
         if (isBlack((parent))) { return; }
 
-        // 叔父节点
+        // 叔父节点，祖父节点
         Node<E> uncle = parent.sibling();
-        // 祖父节点
         Node<E> grand = parent.parent;
         // 叔父节点是红色
         if (isRed(uncle)) {
@@ -67,7 +71,26 @@ public class RBTree<E> extends BBST<E> {
             return;
         }
 
-        // 叔父节点不是红色
+        // 叔父节点是黑色
+        if (parent.isLeftChild()) { // L
+            red(grand);
+            if (node.isLeftChild()) { // LL
+                black(parent);
+            } else { // LR
+                black(node);
+                rotateLeft(parent);
+            }
+            rotateRight(grand);
+        } else { // R
+            red(grand);
+            if (node.isLeftChild()) { // RL
+                black(node);
+                rotateRight(parent);
+            } else { // RR
+                black(parent);
+            }
+            rotateLeft(grand);
+        }
     }
 
     @Override
@@ -79,6 +102,15 @@ public class RBTree<E> extends BBST<E> {
         boolean color = RED;
         public RBNode(E element, Node<E> parent) {
             super(element, parent);
+        }
+
+        @Override
+        public String toString() {
+            String str = "";
+            if (color == RED) {
+                str = "R_";
+            }
+            return str + element.toString();
         }
     }
 

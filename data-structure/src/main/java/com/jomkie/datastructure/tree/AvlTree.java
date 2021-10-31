@@ -54,10 +54,10 @@ public class AvlTree<E> extends BBST<E> {
     }
 
     @Override
-    protected void rotate(
-            Node<E> r, Node<E> b, Node<E> c, Node<E> d, Node<E> e, Node<E> f) {
+    protected void rotate(Node<E> r, Node<E> b, Node<E> c, Node<E> d, Node<E> e, Node<E> f) {
         super.rotate(r, b, c, d, e, f);
 
+        // 更新高度
         updateHeight(b);
         updateHeight(f);
         updateHeight(d);
