@@ -102,8 +102,12 @@ public class RBTree<E> extends BBST<E> {
             return;
         }
 
-        // 删除的是黑色叶子节点
+        Node<E> parent =node.parent;
 
+        // 删除的是根节点
+        if (parent == null) return;
+
+        // 删除的是黑色叶子节点
     }
 
     private static class RBNode<E> extends Node<E> {
