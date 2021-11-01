@@ -18,7 +18,8 @@ public class TestBinarySearchTree {
         //test03();
         //test04();
         //test05();
-        test06();
+        //test06();
+        test07();
     }
 
     /** 测试二叉树打印 */
@@ -131,6 +132,22 @@ public class TestBinarySearchTree {
             System.out.println("添加了：" + dataSource[i] + "--------------------------------------");
             BinaryTrees.println(rbTree);
         }
+    }
+
+    /** 测试红黑树的删除 */
+    public static void test07() {
+        Integer[] dataSource = {
+                55, 87, 56, 74, 96, 22, 62, 20, 70, 68, 90, 50
+        };
+        RBTree<Integer> rbTree = new RBTree<>();
+        Arrays.stream(dataSource).forEach(rbTree::add);
+        System.out.println("初始化：-----------------------------------");
+        BinaryTrees.println(rbTree);
+        Arrays.stream(dataSource).forEach(e -> {
+        System.out.println("删除" + e + " -----------------------------------");
+            rbTree.remove(e);
+            BinaryTrees.println(rbTree);
+        });
     }
 
 }
