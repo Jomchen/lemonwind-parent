@@ -93,6 +93,10 @@ public class TestGraph {
         graph2.topologicalSort().forEach(System.out::println);
     }
 
+    /** prim 算法 */
+    public static void test08() {
+    }
+
 
 
 

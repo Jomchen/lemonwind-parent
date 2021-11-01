@@ -1,5 +1,6 @@
 package com.jomkie.datastructure.graph;
 
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -248,11 +249,47 @@ public class ListGraph<V, E> implements Graph<V, E> {
     }
 
     @Override
-    public Set<EdgeInfo<V, E>> prim(V v, Comparator<V> comparator) {
-        return null;
+    public Set<EdgeInfo<V, E>> mst() {
+        return prim();
     }
 
+    /** prim算法，必须是有权无向图 */
+    public Set<EdgeInfo<V, E>> prim() {
+        Vertex<V, E> beginVertex = vertices.isEmpty() ? null : vertices.values().iterator().next();
+        if (null == beginVertex) return null;
 
+        Set<Vertex<V, E>> visitedVertices = new HashSet<>();
+        Set<EdgeInfo<V, E>> edgeInfos = new HashSet<>();
+        visitedVertices.add(beginVertex);
+
+        while (visitedVertices.size() != vertices.size()) {
+            Edge<V, E> minimumEdge = null;
+            for (Vertex<V, E> vertex : visitedVertices) {
+                for (Edge<V, E> edge : vertex.outEdges) {
+                    boolean existsFrom = visitedVertices.contains(edge.from);
+                    boolean existsTo = visitedVertices.contains(edge.to);
+                    if (existsFrom && existsTo) { continue; }
+
+                    if (minimumEdge == null) {
+                        minimumEdge = edge;
+                    } else {
+                        // 如果权值比较小则替换掉 minimumEdge
+                        // 添加 edge.to 到 visitedVertices
+                        // 转换 edge 为 edgeInfo 并加入到 edgeInfoSet
+                        minimumEdge = null;
+                    }
+                }
+            }
+        }
+
+
+        return edgeInfos;
+    }
+
+    /** kruskal 算法 */
+    public Set<EdgeInfo<V, E>> kruskal() {
+        return null;
+    }
 
 
     private static class Vertex<V, E> {

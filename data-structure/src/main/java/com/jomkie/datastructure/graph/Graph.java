@@ -50,8 +50,8 @@ public interface Graph<V, E> {
     /** AOV拓扑排序（判断是否是有向无环图，且源数据必须为有向图） */
     List<V> topologicalSort();
 
-    /** 必须是有权无向图 */
-    Set<EdgeInfo<V, E>> prim(V v, Comparator<V> comparator);
+    /** 最小生成树 */
+    Set<EdgeInfo<V, E>> mst();
 
     /// AOE 网络
 
