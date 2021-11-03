@@ -70,8 +70,6 @@ public class RecursionTest {
         return latter;
     }
 
-    /** 上楼梯（跳台阶）*/
-
     /**
      * 上楼梯（跳台阶）
      * 同理可以和斐波那契数一样进行优化
@@ -87,16 +85,6 @@ public class RecursionTest {
         // 因为一步只上 1 阶 或 2 阶，所以只共可能的走法应该是两种情况相加
         return climbStairs(n - 1) + climbStairs(n - 2);
     }
-
-    /**
-     * 汉诺塔
-     * 要求将 n 个盘子从 n1-n 挪动到 seatC
-     * @param n 盘子的数量
-     * @param n 盘子的数量
-     * @param n 盘子的数量
-     * @param n 盘子的数量
-     * @return
-     */
 
     /**
      * 汉诺塔
@@ -120,8 +108,7 @@ public class RecursionTest {
         hanoi(n - 1, seatB, seatA, seatC);
     }
     private static void move(int n, String originalSeat, String purposeSeat) {
-        System.out.println("将 " + n + " 号地从 " + originalSeat + " 移动到 " + purposeSeat);
+        System.out.println("将 " + n + " 号盘子从 " + originalSeat + " 移动到 " + purposeSeat);
     }
-
 
 }
