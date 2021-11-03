@@ -82,7 +82,7 @@ public class RecursionTest {
         if (n == 1) { return 1; }
         if (n == 2) { return 2; }
 
-        // 因为一步只上 1 阶 或 2 阶，所以只共可能的走法应该是两种情况相加
+        // 因为一步只上 1 阶 或 2 阶，所以总共可能的走法应该是两种情况各自的走法相加
         return climbStairs(n - 1) + climbStairs(n - 2);
     }
 
