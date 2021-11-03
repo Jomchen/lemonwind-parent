@@ -1,5 +1,8 @@
-package com.jomkie.datastructure.recursion;
+package com.jomkie.datastructure.suanfa.recursion;
 
+/**
+ * 递归
+ */
 public class RecursionTest {
 
     public static void main(String[] args) {
