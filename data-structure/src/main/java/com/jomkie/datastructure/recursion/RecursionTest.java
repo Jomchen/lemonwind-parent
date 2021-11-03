@@ -102,21 +102,25 @@ public class RecursionTest {
      * 汉诺塔
      * 要求将 n 个盘子从 n1 ~ n 挪动到 seatC
      * 盘子号数小的只能放在盘子号数大的上面
+     * （思维解析，只需要注重：起始座位，缓冲座位，目的座位）
      * @param n 盘子号数
-     * @param seatA 座位A
-     * @param seatB 座位B
-     * @param seatC 座位C
+     * @param seatA 座位A（起始座位）
+     * @param seatB 座位B（缓冲座位）
+     * @param seatC 座位C（目的座位）
      * @return
      */
     public static void hanoi(int n, String seatA, String seatB, String seatC) {
         if (n == 1) {
-            System.out.println("将 " + n + " 号盘从 "  + seatA + " 放到 " + seatC);
+            move(n, seatA, seatC);
             return;
         }
 
         hanoi(n - 1, seatA, seatC, seatB);
-        System.out.println("将" + n + " 号盘从 " + seatA + " 放到 " + seatC);
+        move(n, seatA, seatC);
         hanoi(n - 1, seatB, seatA, seatC);
+    }
+    private static void move(int n, String originalSeat, String purposeSeat) {
+        System.out.println("将 " + n + " 号地从 " + originalSeat + " 移动到 " + purposeSeat);
     }
 
 
