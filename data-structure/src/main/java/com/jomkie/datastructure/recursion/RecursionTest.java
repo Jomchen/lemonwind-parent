@@ -100,7 +100,8 @@ public class RecursionTest {
 
     /**
      * 汉诺塔
-     * 要求将 n 个盘子从 n1-n 挪动到 seatC
+     * 要求将 n 个盘子从 n1 ~ n 挪动到 seatC
+     * 盘子号数小的只能放在盘子号数大的上面
      * @param n 盘子号数
      * @param seatA 座位A
      * @param seatB 座位B
