@@ -7,6 +7,7 @@ public class RecursionTest {
         System.out.println(fid01(5));
         System.out.println(fid02(5));
         System.out.println(fid03(5));
+        hanoi(3, "A", "B", "C");
     }
 
     /** 斐波那契数列 */
@@ -112,7 +113,9 @@ public class RecursionTest {
             return;
         }
 
-        // 未完待续
+        hanoi(n - 1, seatA, seatC, seatB);
+        System.out.println("将" + n + " 号盘从 " + seatA + " 放到 " + seatC);
+        hanoi(n - 1, seatB, seatA, seatC);
     }
 
 
