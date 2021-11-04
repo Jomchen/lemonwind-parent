@@ -1,7 +1,5 @@
 package com.jomkie.datastructure.suanfa.backtracking;
 
-import java.util.Arrays;
-
 /**
  * 八皇后问题
  * 8 x 8 格的国际象棋上摆放八个皇后，使其不能互相攻击：任意两个皇后都不能牌同一行，同一列或同一斜线上
@@ -18,9 +16,11 @@ public class EightQueens {
 
     public static void main(String[] args) {
         // 2 种
-        //test00(4);
+        //test1(4);
+        //test2(4);
         // 92 种
-        test1(8);
+        //test1(8);
+        test2(8);
     }
 
 
@@ -85,13 +85,17 @@ public class EightQueens {
         System.out.println("---------------------------------------");
     }
 
-
+    /* ---------------------------------------- 华丽的分割线 ---------------------------------------- */
+    /** 摆放种数 */
+    private static int WAYS_SECOND = 0;
     /** 标记着某一列是否有皇后 */
-    private static boolean[] cols2 = null;
+    private static boolean[] COLS_SECOND = null;
      /** 标记着某一对角线是否有皇后（左上角->右下角，left top -> right bottom）*/
-    private static boolean[] leftTop = null;
+     /** 一条线上的各点 row - col + (n - 1) 都相等 */
+    private static boolean[] LEFT_TOP = null;
     /** 标记着某一对角线是否有皇后（右上角->左下角，right top -> left bottom）*/
-    private static boolean[] rightTop = null;
+     /** 一条线上的各点 row + col 都相等 */
+    private static boolean[] RIGHT_TOP = null;
     /**
      * n 皇后优化
      * @param n 行数或列数
@@ -100,35 +104,43 @@ public class EightQueens {
         if (n < 1) { return; }
 
         // 注意对角线一定是 2 * n - 1
-        cols2 = new boolean[n];
-        leftTop = new boolean[(n << 1) - 1];
-        rightTop = new boolean[leftTop.length];
+        COLS_SECOND = new boolean[n];
+        LEFT_TOP = new boolean[(n << 1) - 1];
+        RIGHT_TOP = new boolean[LEFT_TOP.length];
 
         place2(0);
-        System.out.println("总共有 " + ways + " 种方法");
+        System.out.println("总共有 " + WAYS_SECOND + " 种方法");
     }
     private static void place2(int row) {
-        if (row == cols2.length) {
-            ways++;
-            show();
+        if (row == COLS_SECOND.length) {
+            WAYS_SECOND++;
+            show2();
             return;
         }
 
-        for (int col = 0; col < cols2.length; col++) {
-            if (isValid2(col, ltIndex, rtIndex)) { continue; }
+        for (int col = 0; col < COLS_SECOND.length; col++) {
+            if(isValid2(row, col)) { continue; }
 
-            // 列处理，两条对角线处理
-            cols2[col] = true;
-            leftTop[ltIndex] = true;
-            rightTop[rtIndex] = true;
+            COLS_SECOND[col] = true;
+            LEFT_TOP[row - col + COLS_SECOND.length - 1] = true;
+            RIGHT_TOP[row + col] = true;
             place2(row + 1);
+
+            // 这里的重置是为了下一行不能摆皇后的回溯情况
+            COLS_SECOND[col] = false;
+            LEFT_TOP[row - col + COLS_SECOND.length - 1] = false;
+            RIGHT_TOP[row + col] = false;
         }
     }
-    private static boolean isValid2(int col, int ltIndex, int rtIndex) {
-        if (cols2[col]) { return false; }
-        if (leftTop[ltIndex]) { return false; }
-        if (rightTop[rtIndex]) { return false; }
-        return true;
+    private static boolean isValid2(int row, int col) {
+        if (COLS_SECOND[col]) { return true; }
+        int ltIndex = row - col + COLS_SECOND.length - 1;
+        if (LEFT_TOP[ltIndex]) { return true; }
+        int rtIndex = row + col;
+        if (RIGHT_TOP[rtIndex]) { return true; }
+        return false;
+    }
+    private static void show2() {
     }
 
 }
