@@ -17,10 +17,10 @@ public class EightQueens {
     public static void main(String[] args) {
         // 2 种
         //test1(4);
-        //test2(4);
+        test2(4);
         // 92 种
         //test1(8);
-        test2(8);
+        //test2(8);
     }
 
 
@@ -88,6 +88,8 @@ public class EightQueens {
     /* ---------------------------------------- 华丽的分割线 ---------------------------------------- */
     /** 摆放种数 */
     private static int WAYS_SECOND = 0;
+    /** 方便打印皇后的缓存数据 */
+    private static int[] QUENNS = null;
     /** 标记着某一列是否有皇后 */
     private static boolean[] COLS_SECOND = null;
      /** 标记着某一对角线是否有皇后（左上角->右下角，left top -> right bottom）*/
@@ -104,6 +106,7 @@ public class EightQueens {
         if (n < 1) { return; }
 
         // 注意对角线一定是 2 * n - 1
+        QUENNS = new int[n];
         COLS_SECOND = new boolean[n];
         LEFT_TOP = new boolean[(n << 1) - 1];
         RIGHT_TOP = new boolean[LEFT_TOP.length];
@@ -124,6 +127,7 @@ public class EightQueens {
             COLS_SECOND[col] = true;
             LEFT_TOP[row - col + COLS_SECOND.length - 1] = true;
             RIGHT_TOP[row + col] = true;
+            QUENNS[row] = col;
             place2(row + 1);
 
             // 这里的重置是为了下一行不能摆皇后的回溯情况
@@ -141,6 +145,17 @@ public class EightQueens {
         return false;
     }
     private static void show2() {
+        for (int row = 0; row < QUENNS.length; row++) {
+            for (int col = 0; col < QUENNS.length; col++) {
+                if (QUENNS[row] == col) {
+                    System.out.print("x ");
+                } else {
+                    System.out.print("o ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("---------------------------------------");
     }
 
 }
