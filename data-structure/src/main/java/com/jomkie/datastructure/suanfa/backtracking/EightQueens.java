@@ -17,10 +17,13 @@ public class EightQueens {
     public static void main(String[] args) {
         // 2 种
         //test1(4);
-        test2(4);
+        //test2(4);
+
         // 92 种
         //test1(8);
         //test2(8);
+
+        test03();
     }
 
 
@@ -89,15 +92,15 @@ public class EightQueens {
     /** 摆放种数 */
     private static int WAYS_SECOND = 0;
     /** 方便打印皇后的缓存数据 */
-    private static int[] QUENNS = null;
+    private static int[] QUENNS_SECOND = null;
     /** 标记着某一列是否有皇后 */
     private static boolean[] COLS_SECOND = null;
      /** 标记着某一对角线是否有皇后（左上角->右下角，left top -> right bottom）*/
      /** 一条线上的各点 row - col + (n - 1) 都相等 */
-    private static boolean[] LEFT_TOP = null;
+    private static boolean[] LEFT_TOP_SECOND = null;
     /** 标记着某一对角线是否有皇后（右上角->左下角，right top -> left bottom）*/
      /** 一条线上的各点 row + col 都相等 */
-    private static boolean[] RIGHT_TOP = null;
+    private static boolean[] RIGHT_TOP_SECOND = null;
     /**
      * n 皇后优化
      * @param n 行数或列数
@@ -106,10 +109,10 @@ public class EightQueens {
         if (n < 1) { return; }
 
         // 注意对角线一定是 2 * n - 1
-        QUENNS = new int[n];
+        QUENNS_SECOND = new int[n];
         COLS_SECOND = new boolean[n];
-        LEFT_TOP = new boolean[(n << 1) - 1];
-        RIGHT_TOP = new boolean[LEFT_TOP.length];
+        LEFT_TOP_SECOND = new boolean[(n << 1) - 1];
+        RIGHT_TOP_SECOND = new boolean[LEFT_TOP_SECOND.length];
 
         place2(0);
         System.out.println("总共有 " + WAYS_SECOND + " 种方法");
@@ -117,7 +120,7 @@ public class EightQueens {
     private static void place2(int row) {
         if (row == COLS_SECOND.length) {
             WAYS_SECOND++;
-            show2();
+            show2(WAYS_SECOND);
             return;
         }
 
@@ -125,29 +128,29 @@ public class EightQueens {
             if(isValid2(row, col)) { continue; }
 
             COLS_SECOND[col] = true;
-            LEFT_TOP[row - col + COLS_SECOND.length - 1] = true;
-            RIGHT_TOP[row + col] = true;
-            QUENNS[row] = col;
+            LEFT_TOP_SECOND[row - col + COLS_SECOND.length - 1] = true;
+            RIGHT_TOP_SECOND[row + col] = true;
+            QUENNS_SECOND[row] = col;
             place2(row + 1);
 
             // 这里的重置是为了下一行不能摆皇后的回溯情况
             COLS_SECOND[col] = false;
-            LEFT_TOP[row - col + COLS_SECOND.length - 1] = false;
-            RIGHT_TOP[row + col] = false;
+            LEFT_TOP_SECOND[row - col + COLS_SECOND.length - 1] = false;
+            RIGHT_TOP_SECOND[row + col] = false;
         }
     }
     private static boolean isValid2(int row, int col) {
         if (COLS_SECOND[col]) { return true; }
         int ltIndex = row - col + COLS_SECOND.length - 1;
-        if (LEFT_TOP[ltIndex]) { return true; }
+        if (LEFT_TOP_SECOND[ltIndex]) { return true; }
         int rtIndex = row + col;
-        if (RIGHT_TOP[rtIndex]) { return true; }
+        if (RIGHT_TOP_SECOND[rtIndex]) { return true; }
         return false;
     }
-    private static void show2() {
-        for (int row = 0; row < QUENNS.length; row++) {
-            for (int col = 0; col < QUENNS.length; col++) {
-                if (QUENNS[row] == col) {
+    private static void show2(int way) {
+        for (int row = 0; row < QUENNS_SECOND.length; row++) {
+            for (int col = 0; col < QUENNS_SECOND.length; col++) {
+                if (QUENNS_SECOND[row] == col) {
                     System.out.print("x ");
                 } else {
                     System.out.print("o ");
@@ -155,7 +158,59 @@ public class EightQueens {
             }
             System.out.println();
         }
-        System.out.println("---------------------------------------");
+        System.out.println("上图是第 " + way + " 种---------------------------------------");
+    }
+
+    /* ---------------------------------------- 华丽的分割线 ---------------------------------------- */
+
+    private static int[] QUEENS_THIRD;
+    /** 8 个位，某位为1表示那列有皇后 */
+    private static byte COLS_THIRD;
+    private static short LEFT_TOP_THIRD;
+    private static short RIGHT_TOP_THIRD;
+    private static int WAYS_THIRD = 0;
+    public static void test03() {
+        QUEENS_THIRD = new int[Byte.SIZE];
+        place3(0);
+        System.out.println("总共有 " + WAYS_THIRD + " 种方法");
+    }
+    private static void place3(int row) {
+        if (row == 8) {
+            WAYS_THIRD ++;
+            show3(WAYS_THIRD);
+            return;
+        }
+        for (int col = 0; col < 8; col++) {
+            int cv = (1 << col);
+            if ((COLS_THIRD & cv) != 0) { continue; }
+            int lv = 1 << (row - col + 8 - 1);
+            if ((LEFT_TOP_THIRD & lv) != 0) { continue; }
+            int rv = 1 << (row + col);
+            if ((RIGHT_TOP_THIRD & rv) != 0) { continue; }
+
+            // 置值
+            QUEENS_THIRD[row] = col;
+            COLS_THIRD |= (1 << col);
+            LEFT_TOP_THIRD |= lv;
+            RIGHT_TOP_THIRD |= rv;
+            place3(row + 1);
+            COLS_THIRD &= ~cv;
+            LEFT_TOP_THIRD &= ~lv;
+            RIGHT_TOP_THIRD &= ~rv;
+        }
+    }
+    private static void show3(int way) {
+        for (int row = 0; row < QUEENS_THIRD.length; row++) {
+            for (int col = 0; col < QUEENS_THIRD.length; col++) {
+                if (QUEENS_THIRD[row] == col) {
+                    System.out.print("x ");
+                } else {
+                    System.out.print("o ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("上图是第 " + way + " 种---------------------------------------");
     }
 
 }
