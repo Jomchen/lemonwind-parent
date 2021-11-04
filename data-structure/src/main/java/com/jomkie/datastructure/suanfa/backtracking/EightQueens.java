@@ -1,6 +1,8 @@
 package com.jomkie.datastructure.suanfa.backtracking;
 
 /**
+ * 回朔算法
+ *
  * 八皇后问题
  * 8 x 8 格的国际象棋上摆放八个皇后，使其不能互相攻击：任意两个皇后都不能牌同一行，同一列或同一斜线上
  * 请问有多少种摆法
