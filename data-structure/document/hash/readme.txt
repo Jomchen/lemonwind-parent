@@ -30,13 +30,14 @@
       通过上面的形式可知，如果任意一个数 X 和 n-1 相与，结果必然为 [0 ~ (n-1)] 范围
       ```
 
-* Float计算hash
-   - Float.floatToIntBits(float的浮点数)
-   - 就是 float 在二进制中的表现结果
 
 * Integer计算hash
    - Integer.toBinaryString
    - 就是 int 值在二进制中的表现结果
+
+* Float计算hash
+   - Float 对象中 floatToIntBits(float的浮点数)
+   - 就是 float 在二进制中的表现结果
 
 * Long计算hash
    - value ^ (value >>> 32)
@@ -44,7 +45,7 @@
    - 即long的值为 value，将value无符号右移32的结果和原来的值进行异或
 
 * Double计算hash
-   - long bits = Double.doubleToLongBits(value)
+   - long bits = Double 中 doubleToLongBits(value)
    - value 为 Double 类型的值
    - 结果为：(int)(bits ^ (bits >>> 32))
 
@@ -53,3 +54,6 @@
    - 等价于 [(j * n + a) * n + c] * n + k
    - 在，JDK 中，乘数 n 为 31，为什么为 31
       - 31 是一个奇素数，JVM 会将 31 * i 优化成 (i << 5) - i
+
+* 关于 31 的探讨
+   - 31 * i = (2^5 - 1) * i = i * 2^5 - i = (i << 5) - i
