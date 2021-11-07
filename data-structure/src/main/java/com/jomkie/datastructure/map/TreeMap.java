@@ -1,9 +1,8 @@
 package com.jomkie.datastructure.map;
 
-import com.jomkie.datastructure.tree.BinaryTree;
-import com.jomkie.datastructure.tree.RBTree;
-
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class TreeMap<K, V> implements Map<K, V> {
 
@@ -36,7 +35,7 @@ public class TreeMap<K, V> implements Map<K, V> {
     public V put(K key, V value) {
         keyNotNullCheck(key);
         if (null == root) {
-            root = new Node<>(key, null, null);
+            root = new Node<>(key, value, null);
             size ++;
 
             afterPut(root);
@@ -56,7 +55,7 @@ public class TreeMap<K, V> implements Map<K, V> {
             } else {
                 node.key = key;
                 V oldValue = node.value;
-                node.value = oldValue;
+                node.value = value;
                 return oldValue;
             }
         }
@@ -75,27 +74,235 @@ public class TreeMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        return null;
+        Node<K, V> node = node(key);
+        return node != null ? node.value : null;
     }
 
     @Override
     public V remove(K key) {
-        return null;
+        return remove(node(key));
     }
 
     @Override
     public boolean containsKey(K key) {
-        return false;
+        return node(key) != null;
     }
 
     @Override
-    public boolean containsValue(V vlaue) {
+    public boolean containsValue(V value) {
+        if (null == root) { return false; }
+        Queue<Node<K, V>> queue = new LinkedList<>();
+        while ( !queue.isEmpty()) {
+            Node<K, V> node = queue.poll();
+            if (valEquals(value, node.value)) { return true; }
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+            queue.offer(node.right);
+            }
+        }
+
         return false;
     }
 
     @Override
     public void traversal(Visitor<K, V> visitor) {
+        // TreeMap 应该让 key 以中序遍历方式遍历
+        if (visitor == null) { return; }
+        traversal(root, visitor);
+    }
+    private void traversal(Node<K, V> node, Visitor<K, V> visitor) {
+        if (node == null || visitor.stop) { return; }
 
+        traversal(node.left, visitor);
+        if (visitor.stop) { return; }
+        visitor.visit(node.key, node.value);
+        traversal(node.right, visitor);
+    }
+
+    private boolean valEquals(V v1, V v2) {
+        return v1 == null ? v2 == null : v1.equals(v2);
+    }
+
+    public V remove(Node<K, V> node) {
+        if (null == node) { return null; }
+
+        size --;
+
+        V oldValue = node.value;
+
+        if (node.hasTwoChildren()) {
+            Node<K, V> s = successor(node);
+            node.key = s.key;
+            node.value = s.value;
+            node = s;
+        }
+
+        // 这里 node 的度必然是 0 或 1
+        Node<K, V> replacement = node.left != null ? node.left : node.right;
+        if (null != replacement) {
+            // node 是度为1的节点
+            replacement.parent = node.parent;
+            if (node.parent == null) {
+                root = replacement;
+            } else if (node.parent.left == node) {
+                node.parent.left = replacement;
+            } else {
+                node.parent.right = replacement;
+            }
+
+            // 删除节点之后的处理
+            afterRemove(replacement);
+        } else if (node.parent == null) {
+            // node 度为0 且是根节点
+            root = null;
+
+            // 删除节点之后的处理
+            afterRemove(node);
+        } else {
+            // node 度为0 但不是根节点
+            if (node.parent.left == node) {
+                node.parent.left = null;
+            } else {
+                node.parent.right = null;
+            }
+
+            // 删除节点之后的处理
+            afterRemove(node);
+        }
+
+        return oldValue;
+    }
+
+    private void afterRemove(Node<K, V> node) {
+        // 如果删除的节点是红色 或者用以取代node的子节点是红色
+        if (isRed(node)) {
+            black(node);
+            return;
+        }
+
+        Node<K, V> parent =node.parent;
+        // 删除的是根节点
+        if (parent == null) { return; }
+
+        // 删除的是黑色叶子节点[下溢]
+        // 判断被删除的node是左还是右（这种判断才是真正正确的）
+        boolean left = parent.left == null || node.isLeftChild();
+        Node<K, V> sibling = left ? parent.right : parent.left;
+        if (left) { // 被删除的节点在左色，兄弟节点在右边
+            if (isRed(sibling)) { // 兄弟节点是红色
+                black(sibling);
+                red(parent);
+                rotateLeft(parent);
+                // 更换兄弟
+                sibling = parent.right;
+            }
+
+            // 兄弟节点必然是黑色
+            if (isBlack(sibling.left) && isBlack(sibling.right)) {
+                // 兄弟节点没有一个子节点
+                boolean parentBlack = isBlack(parent);
+                black(parent);
+                red(sibling);
+                if (parentBlack) {
+                    afterRemove(parent);
+                }
+            } else { // 兄弟节点至少有 1 个子节点
+                if (isBlack(sibling.right)) {
+                    rotateRight(sibling);
+                    sibling = parent.right;
+                }
+
+                color(sibling, colorOf(parent));
+                black(sibling.right);
+                black(parent);
+                rotateLeft(parent);
+            }
+        } else { // 被删除的节点在右边，兄弟节点在左边
+            if (isRed(sibling)) { // 兄弟节点是红色
+                black(sibling);
+                red(parent);
+                rotateRight(parent);
+                // 更换兄弟
+                sibling = parent.left;
+            }
+
+            // 兄弟节点必然是黑色
+            if (isBlack(sibling.left) && isBlack(sibling.right)) {
+                // 兄弟节点没有一个子节点
+                boolean parentBlack = isBlack(parent);
+                black(parent);
+                red(sibling);
+                if (parentBlack) {
+                    afterRemove(parent);
+                }
+            } else { // 兄弟节点至少有 1 个子节点
+                if (isBlack(sibling.left)) {
+                    rotateLeft(sibling);
+                    sibling = parent.left;
+                }
+
+                color(sibling, colorOf(parent));
+                black(sibling.left);
+                black(parent);
+                rotateRight(parent);
+            }
+        }
+    }
+
+    protected Node<K, V> predecessor(Node<K, V> node) {
+        if (null == node) { return null; }
+        if (null != node.left) {
+            Node<K, V> temporary = node.left;
+            while (null != temporary.right) {
+                temporary = temporary.right;
+            }
+            return temporary;
+        }
+
+        while (null != node.parent && node == node.parent.left) {
+            node = node.parent;
+        }
+
+        // node.parent == null
+        // node.parent.right == node
+        return node.parent;
+    }
+
+    private Node<K, V> successor(Node<K, V> node) {
+        if (null == node) { return null; }
+        if (null != node.right) {
+            Node<K, V> temporary = node.right;
+            while (null != temporary.left) {
+                temporary = temporary.left;
+            }
+            return temporary;
+        }
+
+        while (null != node.parent && node == node.parent.right) {
+            node = node.parent;
+        }
+
+        return node.parent;
+    }
+    
+    private Node<K, V> node(K e) {
+        if (null == e || null == root) { return null; }
+
+        Node<K, V> node = root;
+        while (null != node) {
+            int cmp = compare(e, node.key);
+            if (cmp < 0) {
+                node = node.left;
+            } else if (cmp > 0) {
+                node = node.right;
+            } else {
+                return node;
+            }
+        }
+
+        return null;
     }
 
     private void afterPut(Node<K, V> node) {
