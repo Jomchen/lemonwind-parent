@@ -49,10 +49,8 @@ public class BST<E> extends BinaryTree<E> {
         Node<E> newNode = createNode(element, parent);
         if (cmp > 0) {
             parent.right = newNode;
-        } else if (cmp < 0) {
-            parent.left = newNode;
         } else {
-            return;
+             parent.left = newNode;
         }
 
         size ++;

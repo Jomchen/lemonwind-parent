@@ -8,4 +8,23 @@ package com.jomkie.datastructure.suanfa.divideandconquer;
  * 因此，分治策略非常适合用递归
  */
 public class DivideAndConquerTest {
+
+    /**
+     * 子序列：从一个串中按顺序任意选择元素组成新的串称为大序列（原来的串）的子序列
+     *    子序列：元素在原串中不一定是连续的
+     *    子串（在原数据中必须连续）：其实就是串元素在原串中是连续的，相当于是特殊的子序列
+     *    子数组（在原数据中必须连续）：在原数组中元素必须是连续的
+     *    子区间（在原数据中必须连续）：
+     */
+    public static void main(String[] args) {
+
+    }
+
+    /**
+     * 最大连续列和
+     */
+    public static void test00() {
+        int[] array = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    }
+
 }
