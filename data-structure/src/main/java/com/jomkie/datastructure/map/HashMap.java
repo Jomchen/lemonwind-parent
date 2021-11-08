@@ -1,7 +1,9 @@
 package com.jomkie.datastructure.map;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 
 public class HashMap<K, V> implements Map<K, V> {
 
@@ -48,10 +50,35 @@ public class HashMap<K, V> implements Map<K, V> {
         Node<K, V> parent = root;
         Node<K, V> node = root;
         int cmp = 0;
-        int h1 = key == null ? 0 : key.hashCode();
+        K k1 = key;
+        int h1 = k1 == null ? 0 : k1.hashCode();
+        Node<K, V> result = null;
         do {
-            cmp = compare(key, node.key, h1, node.hash);
             parent = node;
+            K k2 = node.key;
+            int h2 = node.hash;
+            if (h1 > h2) {
+                cmp = 1;
+            } else if (h1 < h2) {
+                cmp = -1;
+            } else if (Objects.equals(k1, k2)) {
+                cmp = 0;
+            } else if (k1 != null && k2 != null
+                && k1.getClass() == k2.getClass()
+                && k1 instanceof Comparable) {
+                cmp = ((Comparable) k1).compareTo(k2);
+            } else {
+                // 先扫描，然后根据内存地址大小决定左右
+                if (node.left != null && (result = node(node.left, k1)) != null
+                        || (node.right != null && (result = node(node.right, k1)) != null)) {
+                    // 已经存在这个 key
+                    node = result;
+                    cmp = 0;
+                } else { // 不存在这个 key
+                    cmp = System.identityHashCode(k1) - System.identityHashCode(k2);
+                }
+            }
+
             if (cmp > 0) {
                 node = node.right;
             } else if (cmp < 0) {
@@ -89,32 +116,91 @@ public class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean containsKey(K key) {
-        return false;
+        return node(key) != null;
     }
 
     @Override
-    public boolean containsValue(V vlaue) {
+    public boolean containsValue(V value) {
+        if (size == 0) { return false; }
+        Queue<Node<K, V>> queue = new LinkedList<>();
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] == null) { return false; }
+            queue.offer(table[i]);
+            while ( !queue.isEmpty()) {
+                Node<K, V> node = queue.poll();
+                if (Objects.equals(node.value, value)) { return true; }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public void traversal(Visitor<K, V> visitor) {
-
+        if (size == 0 || visitor == null) { return; }
+        Queue<Node<K, V>> queue = new LinkedList<>();
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] == null) { continue; }
+            queue.offer(table[i]);
+            while ( !queue.isEmpty()) {
+                Node<K, V> node = queue.poll();
+                if (visitor.visit(node.key, node.value)) { return; }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
     }
 
     private Node<K, V> node(K key) {
-        Node<K, V> node = table[index(key)];
-        int h1 = key == null ? 0 : key.hashCode();
+        Node<K, V> root = table[index(key)];
+        return root == null ? null : node(root, key);
+    }
+
+    private Node<K, V> node(Node<K, V> node, K k1) {
+        int h1 = k1 == null ? 0 : k1.hashCode();
+        // 存储查找结果
+        Node<K, V> result = null;
         while (node != null) {
-            int cmp = compare(key, node.key, h1, node.hash);
-            if (cmp == 0) { return node; }
-            if (cmp > 0) {
+            K k2 = node.key;
+            int h2 = node.hash;
+            // 这里不能用 h1 - h2 的结果作为判断，因为两者可能都是比较大的内存地址
+            // 如果 h1 是正数，h2 是绝对值很大的负数，结果可能溢出造成结果为负数
+            // 从而造成判断错误
+            if (h1 > h2) {
                 node = node.right;
-            } else {
+            } else if (h1 < h2) {
                 node = node.left;
+            } else if (Objects.equals(k1, k2)) {
+                return node;
+            } else if (k1 != null && k2 != null
+                && k1.getClass() == k2.getClass()
+                && k1 instanceof  Comparable) {
+                // hash值相等，但是不equals
+                int cmp = ((Comparable) k1).compareTo(k2);
+                if (cmp > 0) {
+                    node = node.right;
+                } else if (cmp < 0) {
+                    node = node.left;
+                } else {
+                    return node;
+                }
+            } else if (node.right != null && (result = node(node.right, k1)) != null) { // hash 值相等，不具备可比较性，也不equals
+                return result;
+            } else if (node.left != null && (result = node(node.left, k1)) != null) {
+                return result;
+            } else {
+                return null;
             }
         }
-
         return null;
     }
 
@@ -247,32 +333,33 @@ public class HashMap<K, V> implements Map<K, V> {
      * @param h2 k2的hashCode
      * @return
      */
-    private int compare(K k1, K k2, int h1, int h2) {
-        int result = h1 - h2;
-        if (result != 0) { return result; }
-
-        // 比较 equals 看是否是同一对象
-        if (Objects.equals(k1, k2)) { return 0; }
-
-        // 能来到这行表示：hashCode相等，但是 equals 对比不同
-        if (k1 != null && k2 != null) {
-            // 比较类名
-            String k1Class = k1.getClass().getName();
-            String k2Class = k2.getClass().getName();
-            result = k1Class.compareTo(k2Class);
-            if (result != 0) { return result; }
-
-            // 同类型且具备可比较性
-            if (k1 instanceof Comparable) {
-                return ((Comparable) k1).compareTo(k2);
-            }
-        }
-
-        // 同一种类型，hash值一样，但是不具备可比较性
-        // k1 不为空，k2为空；k1 为空，k2不为空
-        // 使用内存地址相减进行返回 hashCode
-        return System.identityHashCode(k1) - System.identityHashCode(k2);
-    }
+//    private int compare(K k1, K k2, int h1, int h2) {
+//        int result = h1 - h2;
+//        if (result != 0) { return result; }
+//
+//        // 比较 equals 看是否是同一对象
+//        if (Objects.equals(k1, k2)) { return 0; }
+//
+//        // TODO 注意这里要调整
+//        // 能来到这行表示：hashCode相等，但是 equals 对比不同
+//        if (k1 != null && k2 != null) {
+//            // 比较类名
+//            String k1Class = k1.getClass().getName();
+//            String k2Class = k2.getClass().getName();
+//            result = k1Class.compareTo(k2Class);
+//            if (result != 0) { return result; }
+//
+//            // 同类型且具备可比较性
+//            if (k1 instanceof Comparable) {
+//                return ((Comparable) k1).compareTo(k2);
+//            }
+//        }
+//
+//        // 同一种类型，hash值一样，但是不具备可比较性
+//        // k1 不为空，k2为空；k1 为空，k2不为空
+//        // 使用内存地址相减进行返回 hashCode
+//        return System.identityHashCode(k1) - System.identityHashCode(k2);
+//    }
 
     private V remove(Node<K, V> node) {
         if (null == node) { return null; }

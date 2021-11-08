@@ -67,10 +67,26 @@ public class MapTest {
         System.out.println(map.get(null));
         System.out.println(map.get(p1));*/
 
-        System.out.println(map.size());
+        /*System.out.println(map.size());
         System.out.println(map.remove("jack"));
         System.out.println(map.get("jack"));
-        System.out.println(map.size());
+        System.out.println(map.size());*/
+
+        System.out.println(map.containsKey(p1));
+        System.out.println(map.containsKey(null));
+        System.out.println(map.containsValue(6));
+        System.out.println(map.containsValue(1));
+        System.out.println("---------------------------------------");
+        map.traversal(new Map.Visitor<Object, Integer>() {
+            public boolean visit(Object key, Integer value) {
+                System.out.println(key + "_" + value);
+                return false;
+            }
+        });
+    }
+
+    public static void test03() {
+
     }
 
 }
