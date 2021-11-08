@@ -1,6 +1,5 @@
 package com.jomkie.datastructure.hash;
 
-import java.util.Objects;
 
 public class Person {
 

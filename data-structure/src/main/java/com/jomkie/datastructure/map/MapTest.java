@@ -1,10 +1,13 @@
 package com.jomkie.datastructure.map;
 
+import com.jomkie.datastructure.hash.Person;
+
 public class MapTest {
 
     public static void main(String[] args) {
-        test00();
-        test01();
+        /*test00();
+        test01();*/
+        test02();
     }
 
     public static void test00() {
@@ -48,5 +51,26 @@ public class MapTest {
         });
     }
 
+    public static void test02() {
+        Person p1 = new Person(10, 1.67f, "jack");
+        Person p2 = new Person(10, 1.67f, "jack");
+
+        Map<Object, Integer> map = new HashMap<>();
+        map.put(p1, 1);
+        map.put(p2, 2);
+        map.put("jack", 3);
+        map.put("rose", 4);
+        map.put("jack", 5);
+        map.put(null, 6);
+        /*System.out.println(map.get("jack"));
+        System.out.println(map.get("rose"));
+        System.out.println(map.get(null));
+        System.out.println(map.get(p1));*/
+
+        System.out.println(map.size());
+        System.out.println(map.remove("jack"));
+        System.out.println(map.get("jack"));
+        System.out.println(map.size());
+    }
 
 }

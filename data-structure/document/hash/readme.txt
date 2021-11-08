@@ -1,4 +1,5 @@
 * java 中 hash(key) 的计算结果为 32 位的数值
+* java 中 hashCode 相同的对象并不一定 equals 相等
 
 * hash(key)中key的常见种类可能有
    1. 整数，浮点数，字符串，自定义对象
