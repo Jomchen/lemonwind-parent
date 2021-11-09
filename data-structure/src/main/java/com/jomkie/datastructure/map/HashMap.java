@@ -52,7 +52,8 @@ public class HashMap<K, V> implements Map<K, V> {
         int cmp = 0;
         K k1 = key;
         int h1 = k1 == null ? 0 : k1.hashCode();
-        Node<K, V> result = null;
+        Node<K, V> result;
+        boolean searched = false; // 是否已经搜索过
         do {
             parent = node;
             K k2 = node.key;
@@ -65,9 +66,12 @@ public class HashMap<K, V> implements Map<K, V> {
                 cmp = 0;
             } else if (k1 != null && k2 != null
                 && k1.getClass() == k2.getClass()
-                && k1 instanceof Comparable) {
-                cmp = ((Comparable) k1).compareTo(k2);
-            } else {
+                && k1 instanceof Comparable
+                && (cmp = ((Comparable) k1).compareTo(k2)) != 0) {
+                // 什么都不做，防止 compare 相同，但是 equals 不同的情况（对于 key 实现了 Comparable 的情况）
+            } else if (searched) { // 已经扫描了
+                cmp = System.identityHashCode(k1) - System.identityHashCode(k2);
+            } else { // searched == false; 还没有扫描，然后再根据内存地址大小决定左右
                 // 先扫描，然后根据内存地址大小决定左右
                 if (node.left != null && (result = node(node.left, k1)) != null
                         || (node.right != null && (result = node(node.right, k1)) != null)) {
@@ -75,6 +79,7 @@ public class HashMap<K, V> implements Map<K, V> {
                     node = result;
                     cmp = 0;
                 } else { // 不存在这个 key
+                    searched = true;
                     cmp = System.identityHashCode(k1) - System.identityHashCode(k2);
                 }
             }
@@ -84,9 +89,10 @@ public class HashMap<K, V> implements Map<K, V> {
             } else if (cmp < 0) {
                 node = node.left;
             } else {
-                node.key = key;
                 V oldValue = node.value;
+                node.key = key;
                 node.value = value;
+                //node.hash = h1; 这里可以不用写，因为 node.hash 一定等于 h1
                 return oldValue;
             }
         } while (node != null);
@@ -168,7 +174,8 @@ public class HashMap<K, V> implements Map<K, V> {
     private Node<K, V> node(Node<K, V> node, K k1) {
         int h1 = k1 == null ? 0 : k1.hashCode();
         // 存储查找结果
-        Node<K, V> result = null;
+        Node<K, V> result;
+        int cmp = 0;
         while (node != null) {
             K k2 = node.key;
             int h2 = node.hash;
@@ -183,23 +190,19 @@ public class HashMap<K, V> implements Map<K, V> {
                 return node;
             } else if (k1 != null && k2 != null
                 && k1.getClass() == k2.getClass()
-                && k1 instanceof  Comparable) {
-                // hash值相等，但是不equals
-                int cmp = ((Comparable) k1).compareTo(k2);
-                if (cmp > 0) {
-                    node = node.right;
-                } else if (cmp < 0) {
-                    node = node.left;
-                } else {
-                    return node;
-                }
+                && k1 instanceof  Comparable
+                && (cmp = ((Comparable) k1).compareTo(k2)) != 0) {
+                node = cmp > 0 ? node.right : node.left;
             } else if (node.right != null && (result = node(node.right, k1)) != null) { // hash 值相等，不具备可比较性，也不equals
                 return result;
-            } else if (node.left != null && (result = node(node.left, k1)) != null) {
-                return result;
-            } else {
-                return null;
+            } else { // 只能往左边找
+                node = node.left;
             }
+//            } else if (node.left != null && (result = node(node.left, k1)) != null) {
+//                return result;
+//            } else {
+//                return null;
+//            }
         }
         return null;
     }
@@ -325,8 +328,7 @@ public class HashMap<K, V> implements Map<K, V> {
         return colorOf(node) == RED;
     }
 
-    /**
-     *
+    /*
      * @param k1
      * @param k2
      * @param h1 k1的hashCode
@@ -372,6 +374,7 @@ public class HashMap<K, V> implements Map<K, V> {
             Node<K, V> s = successor(node);
             node.key = s.key;
             node.value = s.value;
+            node.hash = s.hash;
             node = s;
         }
 
