@@ -5,6 +5,18 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
+/**
+ * 装填因子(Load Factor): 节点总数量 / 哈希表桶数组长度，也叫负载因子
+ * JDK 默认装填因子为 0.75，如果装填因子超过 0.75，就扩容为原来的 2 倍
+ *
+ * 自定义对象作为 key，最好同时重写 hashCode, equals 方法
+ *    equals：用以判断 2 个 key 是否为同一个 key
+ *    自反性：对于任何非 null 的 x, x.equals(x) 必须返回 true
+ *    对称性：对于任何非 null 的 x, y，如果 y.equals(x) 返回 true，x.equals(y) 也必须返回 true
+ *    传递性：对于任何非 null 的 x, y, z，如果 x.equals(y)，y.equals(x) 返回 true，那么 x.equals(z)必须返回 true
+ *    一致性：对于任何非 null 的 x, y，只要 equals 的比较操作在对象中所用的信息没有被修改，多次调用 x.equals(y) 就会一致地返回 true，或者一致地返回 false
+ *    对于任何非 null 的 x, x.equals(null) 必须返回 false
+ */
 public class HashMap<K, V> implements Map<K, V> {
 
     private static final boolean RED = false;
@@ -12,6 +24,7 @@ public class HashMap<K, V> implements Map<K, V> {
     private int size;
     private Node<K, V>[] table;
     private static final int DEFAULT_CAPACITY = 1 << 4;
+    private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
     public HashMap() {
         table = new Node[DEFAULT_CAPACITY];
@@ -36,6 +49,8 @@ public class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public V put(K key, V value) {
+        resize();
+
         int index = index(key);
         Node<K, V> root = table[index];
         if (root == null) {
@@ -115,6 +130,84 @@ public class HashMap<K, V> implements Map<K, V> {
         return node != null ? node.value : null;
     }
 
+    private void resize() {
+        if (size / table.length <= DEFAULT_LOAD_FACTOR) { return; }
+        Node<K, V>[]  oldTable = table;
+        table = new Node[oldTable.length << 1];
+
+        Queue<Node<K, V>> queue = new LinkedList<>();
+        for (int i = 0; i < oldTable.length; i++) {
+            if (oldTable[i] == null) { continue; }
+            queue.offer(oldTable[i]);
+            while ( !queue.isEmpty()) {
+                Node<K, V> node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                moveNode(node);
+            }
+        }
+    }
+
+    private void moveNode(Node<K, V> newNode) {
+        // 重置
+        newNode.parent = null;
+        newNode.left = null;
+        newNode.right = null;
+        newNode.color = RED;
+
+        int index = index(newNode);
+        Node<K, V> root = table[index];
+        if (root == null) {
+            root = newNode;
+            table[index] = root;
+            afterPut(root);
+            return;
+        }
+
+        // 添加新的节点到红黑树上
+        Node<K, V> parent = root;
+        Node<K, V> node = root;
+        int cmp = 0;
+        K k1 = newNode.key;
+        int h1 = newNode.hash;
+        do {
+            parent = node;
+            K k2 = node.key;
+            int h2 = node.hash;
+            if (h1 > h2) {
+                cmp = 1;
+            } else if (h1 < h2) {
+                cmp = -1;
+            } else if (k1 != null && k2 != null
+                    && k1 instanceof Comparable
+                    && k1.getClass() == k2.getClass()
+                    && (cmp = ((Comparable) k1).compareTo(k2)) != 0) {
+                // do nothing
+            } else {
+                cmp = System.identityHashCode(h1) - System.identityHashCode(k2);
+            }
+
+            if (cmp > 0) {
+                node = node.right;
+            } else if (cmp < 0) {
+                node = node.left;
+            }
+        } while (node != null);
+
+        newNode.parent = parent;
+        if (cmp > 0) {
+            parent.right = newNode;
+        } else {
+            parent.left = newNode;
+        }
+
+        afterPut(newNode);
+    }
+
     @Override
     public V remove(K key) {
         return remove(node(key));
@@ -130,7 +223,7 @@ public class HashMap<K, V> implements Map<K, V> {
         if (size == 0) { return false; }
         Queue<Node<K, V>> queue = new LinkedList<>();
         for (int i = 0; i < table.length; i++) {
-            if (table[i] == null) { return false; }
+            if (table[i] == null) { continue; }
             queue.offer(table[i]);
             while ( !queue.isEmpty()) {
                 Node<K, V> node = queue.poll();
