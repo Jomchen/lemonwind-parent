@@ -2,10 +2,12 @@ package com.jomkie.datastructure.tree.heap;
 
 import com.jomkie.common.util.treeprint.BinaryTrees;
 
+import java.util.stream.IntStream;
+
 public class BinaryHeapTest {
 
     public static void main(String[] args) {
-        test02();
+        test03();
     }
 
     /** 测试添加 */
@@ -51,6 +53,12 @@ public class BinaryHeapTest {
 
         BinaryTrees.println(binaryHeap);
         System.out.println(binaryHeap.replace(70) + "---");
+        BinaryTrees.println(binaryHeap);
+    }
+
+    public static void test03() {
+        BinaryHeap<Integer> binaryHeap = new BinaryHeap<>();
+        // 待实现
         BinaryTrees.println(binaryHeap);
     }
 
