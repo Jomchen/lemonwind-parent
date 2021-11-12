@@ -17,29 +17,18 @@ import java.util.Comparator;
  * 如果 2i + 2 <= n - 1，它的右子节点索引为 2i + 2
  * 如果 2i + 2 > n - 1，它无右子节点
  */
-public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
+public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
 
     private E[] elements;
-    private int size;
-    private Comparator<E> comparator;
     private static final int DEFAULT_CAPACITY = 10;
 
     public BinaryHeap(Comparator<E> comparator) {
+        super(comparator);
         elements = (E[])new Object[DEFAULT_CAPACITY];
     }
 
     public BinaryHeap() {
         this(null);
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -64,7 +53,12 @@ public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
 
     @Override
     public E remove() {
-        return null;
+        emptyCheck();
+        E root = elements[0];
+        elements[0] = elements[--size];
+        elements[size] = null;
+        siftDown(0);
+        return root;
     }
 
     @Override
@@ -89,21 +83,44 @@ public class BinaryHeap<E> implements Heap<E>, BinaryTreeInfo {
             index = parentIndex;
         }*/
 
-        E e = elements[index];
+        E element = elements[index];
         while (index > 0) {
             int parentIndex = (index - 1) >> 1;
-            E p = elements[parentIndex];
-            if (compare(e, p) <= 0) { break; }
-            elements[index] = p;
+            E parent = elements[parentIndex];
+            if (compare(element, parent) <= 0) { break; }
+            elements[index] = parent;
             index = parentIndex;
         }
 
-        elements[index] = e;
+        elements[index] = element;
     }
 
-    private int compare(E e1, E e2) {
-        return comparator != null ? comparator.compare(e1, e2)
-                : ((Comparable<E>) e1).compareTo(e2);
+    /**
+     * 让 index 位置的元素下溢
+     * @param index 元素索引
+     */
+    private void siftDown(int index) {
+        E element = elements[0];
+        // 必须保证 index 节点是非叶子节点，只要索引小于第一个非叶子节点即可
+        // 第一个叶子节点的索引刚好是非叶子节点的数量
+        int half = size >> 1;
+        while (index < half) {
+            // 非叶子节点有两种情况：1. 只有左子节点 2. 有左右两个节点
+            int childIndex = (index << 1) + 1;
+            E child = elements[childIndex];
+
+            int rightIndex = childIndex + 1;
+            if (rightIndex < size && compare(elements[rightIndex], child) > 0) {
+                child = elements[childIndex = rightIndex];
+            }
+
+            if (compare(element, child) >= 0) { break; }
+
+            elements[index] = child;
+            index = childIndex;
+        }
+
+        elements[index] = element;
     }
 
     private void ensureCapacity(int capacity) {
