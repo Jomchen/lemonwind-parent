@@ -107,7 +107,7 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
     }
 
     /**
-     * 让 index 位置的元素下溢
+     * 让 index 位置的元素下滤
      * @param index 元素索引
      */
     private void siftDown(int index) {
