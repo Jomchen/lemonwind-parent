@@ -5,7 +5,7 @@ import com.jomkie.common.util.treeprint.BinaryTrees;
 public class BinaryHeapTest {
 
     public static void main(String[] args) {
-        test01();
+        test02();
     }
 
     /** 测试添加 */
@@ -20,6 +20,7 @@ public class BinaryHeapTest {
         BinaryTrees.println(binaryHeap);
     }
 
+    /** 测试删除 */
     public static void test01() {
         BinaryHeap<Integer> binaryHeap = new BinaryHeap<>();
         binaryHeap.add(68);
@@ -33,6 +34,23 @@ public class BinaryHeapTest {
 
         BinaryTrees.println(binaryHeap);
         binaryHeap.remove();
+        BinaryTrees.println(binaryHeap);
+    }
+
+    /** 测试替换 */
+    public static void test02() {
+        BinaryHeap<Integer> binaryHeap = new BinaryHeap<>();
+        binaryHeap.add(68);
+        binaryHeap.add(72);
+        binaryHeap.add(43);
+        binaryHeap.add(50);
+        binaryHeap.add(38);
+        binaryHeap.add(10);
+        binaryHeap.add(90);
+        binaryHeap.add(65);
+
+        BinaryTrees.println(binaryHeap);
+        System.out.println(binaryHeap.replace(70) + "---");
         BinaryTrees.println(binaryHeap);
     }
 

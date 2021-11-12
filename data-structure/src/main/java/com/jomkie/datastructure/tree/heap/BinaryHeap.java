@@ -63,7 +63,18 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
 
     @Override
     public E replace(E element) {
-        return null;
+        elementNotNullCheck(element);
+
+        E root = null;
+        if (size == 0) {
+            elements[0] = element;
+            size++;
+        } else {
+            root = elements[0];
+            elements[0] = element;
+            siftDown(0);
+        }
+        return root;
     }
 
     /**
