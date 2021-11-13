@@ -1,5 +1,6 @@
 package com.jomkie.datastructure.tree.heap;
 
+import com.jomkie.common.entity.bean.JoUser;
 import com.jomkie.common.util.treeprint.BinaryTrees;
 
 import java.util.Comparator;
@@ -8,7 +9,7 @@ import java.util.stream.IntStream;
 public class BinaryHeapTest {
 
     public static void main(String[] args) {
-        test04();
+        test05();
     }
 
     /** 测试添加 */
@@ -99,4 +100,22 @@ public class BinaryHeapTest {
         // 93, 92, 91, 90
         BinaryTrees.println(heap);
     }
+
+    /** 测试优先级队列 */
+    public static void test05() {
+        Comparator<JoUser> comparator = Comparator.comparingInt(JoUser::getAge);
+//        comparator = comparator.reversed();
+        PriorityQueue<JoUser> priorityQueue = new PriorityQueue<>(comparator);
+
+
+        priorityQueue.enQueue(new JoUser(2, "Jack", 2, "", null));
+        priorityQueue.enQueue(new JoUser(10, "Rose", 10, "", null));
+        priorityQueue.enQueue(new JoUser(5, "Jake", 5, "", null));
+        priorityQueue.enQueue(new JoUser(15, "Jame", 15, "", null));
+
+        while ( !priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.deQueue());
+        }
+    }
+
 }

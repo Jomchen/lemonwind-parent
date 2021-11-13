@@ -16,7 +16,6 @@ public class JoUser {
 	private Date birthday;
 
 	public JoUser() {
-
 	}
 
 	public JoUser(Integer id, String name, Integer age, String address, Date birthday) {
@@ -26,5 +25,15 @@ public class JoUser {
 		this.address = address;
 		this.birthday = birthday;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "JoUser{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", age=" + age +
+				", address='" + address + '\'' +
+				", birthday=" + birthday +
+				'}';
+	}
 }
