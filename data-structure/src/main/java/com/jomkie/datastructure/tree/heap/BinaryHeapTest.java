@@ -2,6 +2,7 @@ package com.jomkie.datastructure.tree.heap;
 
 import com.jomkie.common.util.treeprint.BinaryTrees;
 
+import java.util.Comparator;
 import java.util.stream.IntStream;
 
 public class BinaryHeapTest {
@@ -56,9 +57,17 @@ public class BinaryHeapTest {
         BinaryTrees.println(binaryHeap);
     }
 
+    /** 测试批量创建建堆 */
     public static void test03() {
-        BinaryHeap<Integer> binaryHeap = new BinaryHeap<>();
-        // 待实现
+        Integer[] data = {88, 44, 53, 41, 16, 6, 70, 18, 85, 98, 81, 23, 36, 43, 37};
+        // 最大堆
+        BinaryHeap<Integer> binaryHeap = new BinaryHeap<>(data);
+        BinaryTrees.println(binaryHeap);
+
+        // 最小堆
+        Comparator<Integer> comparator = Integer::compare;
+        comparator = comparator.reversed();
+        binaryHeap = new BinaryHeap<>(data, comparator);
         BinaryTrees.println(binaryHeap);
     }
 

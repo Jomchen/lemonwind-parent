@@ -22,13 +22,32 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
     private E[] elements;
     private static final int DEFAULT_CAPACITY = 10;
 
+    public BinaryHeap(E[] elements, Comparator<E> comparator) {
+        super(comparator);
+        if (elements == null || elements.length == 0) {
+            this.elements = (E[]) new Object[DEFAULT_CAPACITY];
+        } else {
+            size = elements.length;
+            int capacity = Math.max(elements.length, DEFAULT_CAPACITY);
+            this.elements = (E[]) new Object[capacity];
+            for (int i = 0; i < size; i++) {
+                this.elements[i] = elements[i];
+            }
+            heapiry();
+        }
+    }
+
+    public BinaryHeap(E[] elements) {
+        this(elements, null);
+    }
+
     public BinaryHeap(Comparator<E> comparator) {
         super(comparator);
         elements = (E[])new Object[DEFAULT_CAPACITY];
     }
 
     public BinaryHeap() {
-        this(null);
+        this(null, null);
     }
 
     @Override
@@ -77,6 +96,18 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
         return root;
     }
 
+    private void heapiry() {
+        // 自上而下的上滤
+        /*for (int i = 1; i < size; i++) {
+            siftUp(i);
+        }*/
+
+        // 这里选择自下而上的下滤
+        for (int i = (size >> 1) - 1; i >= 0; i--) {
+            siftDown(i);
+        }
+    }
+
     /**
      * 让 index 位置的元素上滤
      * @param index 元素索引
@@ -111,7 +142,7 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
      * @param index 元素索引
      */
     private void siftDown(int index) {
-        E element = elements[0];
+        E element = elements[index];
         // 必须保证 index 节点是非叶子节点，只要索引小于第一个非叶子节点即可
         // 第一个叶子节点的索引刚好是非叶子节点的数量
         int half = size >> 1;
