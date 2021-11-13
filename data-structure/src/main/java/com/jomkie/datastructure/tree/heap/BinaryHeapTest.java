@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 public class BinaryHeapTest {
 
     public static void main(String[] args) {
-        test03();
+        test04();
     }
 
     /** 测试添加 */
@@ -71,4 +71,32 @@ public class BinaryHeapTest {
         BinaryTrees.println(binaryHeap);
     }
 
+    /** 在一组数据中取出最大的前 k 个数 */
+    public static void test04() {
+        BinaryHeap<Integer> heap = new BinaryHeap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        int k = 5;
+        Integer[] data = {51, 30, 39, 92, 74, 25, 16, 93,
+            91, 19, 54, 47, 73, 62, 76, 63, 35, 18,
+            90, 6, 65, 49, 3, 26, 61, 21, 48};
+
+        // 取最大的前 k 个元素，就要创建小顶堆
+        for (int i = 0; i < data.length; i++) {
+            if (heap.size() < k) {
+                heap.add(data[i]);
+                BinaryTrees.println(heap);
+            } else {
+                if (data[i] > heap.get()) {
+                    heap.replace(data[i]);
+                }
+            }
+        }
+
+        // 93, 92, 91, 90
+        BinaryTrees.println(heap);
+    }
 }
