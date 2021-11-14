@@ -14,12 +14,13 @@ public class TrieTest {
         trie.add("cast", 4);
         trie.add("小码哥", 5);
         System.out.println(trie.size() == 5);
-        System.out.println(trie.get("dog"));
-        System.out.println(trie.get("小码哥"));
-//        System.out.println(trie.startWith("c"));
-//        System.out.println(trie.startWith("ca"));
-//        System.out.println(trie.startWith("cat"));
-//        System.out.println(trie.startWith("cata"));
+        System.out.println(trie.get("dog")); // 2
+        System.out.println(trie.get("小码哥")); // 5
+        System.out.println(trie.startWith("c")); // true
+        System.out.println(trie.startWith("ca")); // true
+        System.out.println(trie.startWith("cat")); // true
+        System.out.println(trie.startWith("cata")); // true
+        System.out.println(trie.startWith("hehe")); // false
 //        System.out.println(trie.get("小码哥") == 5);
 //        System.out.println(trie.remove("cat") == 1);
 //        System.out.println(trie.remove("catalog") == 3);
