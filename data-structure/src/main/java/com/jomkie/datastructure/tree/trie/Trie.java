@@ -78,7 +78,8 @@ public class Trie<V> {
         Node<V> parent;
         while ((parent = node.parent) != null) {
             parent.children.remove(node.character);
-            if ( !parent.children.isEmpty()) { break; }
+            // 从父节点中删除自己后，可能父节点为单词结尾，可能父节点为其它单词前缀，此时应该终止删除
+            if ( parent.word || !parent.children.isEmpty()) { break; }
             node = parent;
         }
 
