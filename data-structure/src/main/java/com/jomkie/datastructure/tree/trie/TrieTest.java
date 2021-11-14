@@ -21,13 +21,14 @@ public class TrieTest {
         System.out.println(trie.startWith("cat")); // true
         System.out.println(trie.startWith("cata")); // true
         System.out.println(trie.startWith("hehe")); // false
-//        System.out.println(trie.get("小码哥") == 5);
-//        System.out.println(trie.remove("cat") == 1);
-//        System.out.println(trie.remove("catalog") == 3);
-//        System.out.println(trie.remove("cast") == 4);
-//        System.out.println(trie.size() == 2);
-//        System.out.println(trie.startWith("do"));
-//        System.out.println(trie.startWith("c"));
+        System.out.println(trie.get("小码哥") == 5); // true
+        System.out.println(trie.remove("cat") == 1); // true
+        System.out.println(trie.remove("catalog") == 3); // true
+        System.out.println(trie.remove("cast") == 4); // true
+        System.out.println(trie.size() == 2); // true
+        System.out.println(trie.startWith("小")); // true
+        System.out.println(trie.startWith("do")); // true
+        System.out.println(trie.startWith("c")); // false
     }
 
 }

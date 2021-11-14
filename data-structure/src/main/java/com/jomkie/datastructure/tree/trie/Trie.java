@@ -33,7 +33,7 @@ public class Trie<V> {
 
     public V add(String str, V value) {
         keyCheck(str);
-        if (root == null) { root = new Node<>(); }
+        if (root == null) { root = new Node<>(null); }
         int length = str.length();
         Node<V> node = root;
         for (int i = 0; i < length; i++) {
@@ -41,7 +41,8 @@ public class Trie<V> {
             boolean emptyChildren = node.children == null;
             Node<V> childNode = emptyChildren ? null : node.children.get(c);
             if (null == childNode) {
-                childNode = new Node<>();
+                childNode = new Node<>(node);
+                childNode.character = c;
                 node.children = emptyChildren ? new HashMap<>() : node.children;
                 node.children.put(c, childNode);
             }
@@ -61,8 +62,29 @@ public class Trie<V> {
     }
 
     public V remove(String str) {
-        return null;
+        Node<V> node = node(str);
+        if (node == null || !node.word) { return null; }
+        size--;
+        V oldValue = node.value;
+
+        // 如果还有子节点，表示此节点是其它单词的前缀
+        if (node.children != null && !node.children.isEmpty()) {
+            node.word = false;
+            node.value = null;
+            return oldValue;
+        }
+
+        // 如果没有子节点，表示此节点
+        Node<V> parent;
+        while ((parent = node.parent) != null) {
+            parent.children.remove(node.character);
+            if ( !parent.children.isEmpty()) { break; }
+            node = parent;
+        }
+
+        return oldValue;
     }
+
     public boolean startWith(String prefix) {
         return node(prefix) != null;
     }
@@ -91,9 +113,15 @@ public class Trie<V> {
     }
 
     private static class Node<V> {
+        Node<V> parent;
         V value;
         boolean word;
+        Character character;
         private HashMap<Character, Node<V>> children;
+
+        public Node(Node<V> parent) {
+            this.parent = parent;
+        }
     }
 
 }
