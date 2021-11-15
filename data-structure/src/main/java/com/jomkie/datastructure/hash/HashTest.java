@@ -19,7 +19,7 @@ import java.util.Map;
 public class HashTest {
 
     public static void main(String[] args) {
-        test01();
+        test02();
     }
 
     /** 实验重写 hashCode() 就越是否生效 */
@@ -43,6 +43,19 @@ public class HashTest {
         System.out.println(map.size());
         // 打印3，如果没有重写 equals
         System.out.println(map.size());
+    }
+
+    /** 测试字符串的 hashCode 生成 */
+    public static void test02() {
+        String str = "jack";
+        int len = str.length();
+        int hashCode = 0;
+        for (int i = 0; i < len; i++) {
+            char c = str.charAt(i);
+            hashCode = hashCode * 31 + c;
+        }
+        System.out.println(hashCode);
+        System.out.println(str.hashCode());
     }
 
 }
