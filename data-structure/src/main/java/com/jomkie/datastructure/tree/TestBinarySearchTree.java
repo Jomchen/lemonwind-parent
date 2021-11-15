@@ -4,6 +4,7 @@ import com.jomkie.common.util.treeprint.BinaryTrees;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * 二叉树的前，中，后，层序遍历
@@ -19,7 +20,8 @@ public class TestBinarySearchTree {
         //test04();
         //test05();
         //test06();
-        test07();
+        //test07();
+        test08();
     }
 
     /** 测试二叉树打印 */
@@ -148,6 +150,28 @@ public class TestBinarySearchTree {
             rbTree.remove(e);
             BinaryTrees.println(rbTree);
         });
+    }
+
+    /** 测试非递归先序遍历 */
+    public static void test08() {
+        BST<Integer> tree = new BST();
+        Stream.of(7, 4, 9, 2, 5, 8, 11).forEach(tree::add);
+        // 7 4 2 5 9 8 11
+        tree.preorderNoRecursion(System.out::println);
+    }
+
+    /** 测试非递归中序遍历 */
+    public static void test09() {
+        BST<Integer> tree = new BST();
+        Stream.of(7, 4, 9, 2, 5, 8, 11).forEach(tree::add);
+        // 2 4 5 7 8 9 11
+    }
+
+    /** 测试非递归后序遍历 */
+    public static void test10() {
+        BST<Integer> tree = new BST();
+        Stream.of(7, 4, 9, 2, 5, 8, 11).forEach(tree::add);
+        // 2 5 4 8 11 9 7
     }
 
 }

@@ -4,6 +4,7 @@ import com.jomkie.common.util.treeprint.BinaryTreeInfo;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.function.Consumer;
 
 /**
@@ -149,6 +150,25 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         preorderTraversalTool(node.right, consumer);
     }
 
+    /** 非递归前序遍历 */
+    public void preorderNoRecursion(Consumer<E> consumer) {
+        if (root == null) { return; }
+        preorderNoRecursionTool(root, consumer);
+    }
+    public void preorderNoRecursionTool(Node<E> node, Consumer<E> consumer) {
+        Stack<Node<E>> stack = new Stack<>();
+        while (node != null) {
+            consumer.accept(node.element);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            node = node.left;
+            if (node == null && !stack.isEmpty()) {
+                node = stack.pop();
+            }
+        }
+     }
+
     /**
      * 中序遍历 Inorder Traversal
      * 二叉搜索树的中序遍历是，升序或降序
@@ -163,6 +183,14 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         inorderTraversalTool(node.right, consumer);
     }
 
+    /** 非递归中序遍历 */
+    public void inorderNoRecursion(Consumer<E> consumer) {
+        if (null == root) { return; }
+        inorderNoRecursionTool(root, consumer);
+    }
+    public void inorderNoRecursionTool(Node<E> node, Consumer<E> consumer) {
+    }
+
     /** 后序遍历 Postorder Traversal */
     public void postorderTraversal(Consumer<E> consumer) {
         postorderTraversalTool(root, consumer);
@@ -172,6 +200,11 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         postorderTraversalTool(node.left, consumer);
         postorderTraversalTool(node.right, consumer);
         consumer.accept(node.element);
+    }
+
+    /** 非递归后序遍历 */
+    public void postorderNoRecursion(Consumer<E> consumer) {
+
     }
 
     /** 层序遍历 Level Order Traversal */
