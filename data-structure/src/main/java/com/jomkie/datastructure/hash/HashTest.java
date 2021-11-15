@@ -52,7 +52,8 @@ public class HashTest {
         int hashCode = 0;
         for (int i = 0; i < len; i++) {
             char c = str.charAt(i);
-            hashCode = hashCode * 31 + c;
+//            hashCode = hashCode * 31 + c;
+            hashCode = (hashCode << 5) - hashCode + c;
         }
         System.out.println(hashCode);
         System.out.println(str.hashCode());
