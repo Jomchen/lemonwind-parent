@@ -184,6 +184,26 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
         }
      }
 
+     /** 非递归前序遍历，方式2 */
+     public void preorderNoRecursion2(Consumer<E> consumer) {
+        if (null == root || null == consumer) { return; }
+         preorderNoRecursion2Tool(root, consumer);
+     }
+    public void preorderNoRecursion2Tool(Node<E> node, Consumer<E> consumer) {
+        Stack<Node<E>> stack = new Stack<>();
+        stack.push(node);
+        while ( !stack.isEmpty()) {
+            Node<E> nodeTmp = stack.pop();
+            consumer.accept(nodeTmp.element);
+            if (null != nodeTmp.right) {
+                stack.push(nodeTmp.right);
+            }
+            if (null != nodeTmp.left) {
+                stack.push(nodeTmp.left);
+            }
+        }
+    }
+
     /**
      * 中序遍历 Inorder Traversal
      * 二叉搜索树的中序遍历是，升序或降序

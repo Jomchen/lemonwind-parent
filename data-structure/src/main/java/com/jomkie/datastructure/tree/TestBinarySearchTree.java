@@ -160,6 +160,8 @@ public class TestBinarySearchTree {
         Stream.of(7, 4, 9, 2, 5, 8, 11).forEach(tree::add);
         // 7 4 2 5 9 8 11
         tree.preorderNoRecursion(System.out::println);
+        System.out.println("*************************");
+        tree.preorderNoRecursion2(System.out::println);
     }
 
     /** 测试非递归中序遍历 */
