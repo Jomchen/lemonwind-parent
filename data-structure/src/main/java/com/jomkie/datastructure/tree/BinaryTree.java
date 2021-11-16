@@ -141,6 +141,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     /** 前序遍历 Preorder Traversal */
     public void preorderTraversal(Consumer<E> consumer) {
+        if (null == consumer) { return; }
         preorderTraversalTool(root, consumer);
     }
     private void preorderTraversalTool(Node<E> node, Consumer<E> consumer) {
@@ -152,18 +153,32 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     /** 非递归前序遍历 */
     public void preorderNoRecursion(Consumer<E> consumer) {
-        if (root == null) { return; }
+        if (root == null || consumer == null) { return; }
         preorderNoRecursionTool(root, consumer);
     }
     public void preorderNoRecursionTool(Node<E> node, Consumer<E> consumer) {
         Stack<Node<E>> stack = new Stack<>();
-        while (node != null) {
+        /*while (node != null) {
             consumer.accept(node.element);
             if (node.right != null) {
                 stack.push(node.right);
             }
             node = node.left;
             if (node == null && !stack.isEmpty()) {
+                node = stack.pop();
+            }
+        }*/
+
+        while (true) {
+            if (node != null) {
+                consumer.accept(node.element);
+                if (node.right != null) {
+                    stack.push(node.right);
+                }
+                node = node.left;
+            } else if (stack.isEmpty()) {
+                return;
+            } else {
                 node = stack.pop();
             }
         }
@@ -174,6 +189,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
      * 二叉搜索树的中序遍历是，升序或降序
      */
     public void inorderTraversal(Consumer<E> consumer) {
+        if (null == consumer) { return; }
         inorderTraversalTool(root, consumer);
     }
     private void inorderTraversalTool(Node<E> node, Consumer<E> consumer) {
@@ -185,10 +201,23 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     /** 非递归中序遍历 */
     public void inorderNoRecursion(Consumer<E> consumer) {
-        if (null == root) { return; }
+        if (null == root || consumer == null) { return; }
         inorderNoRecursionTool(root, consumer);
     }
     public void inorderNoRecursionTool(Node<E> node, Consumer<E> consumer) {
+        Stack<Node<E>> stack = new Stack<>();
+        while (true) {
+            if (node != null) {
+                stack.push(node);
+                node = node.left;
+            } else if (stack.isEmpty()) {
+                return;
+            } else {
+                node = stack.pop();
+                consumer.accept(node.element);
+                node = node.right;
+            }
+        }
     }
 
     /** 后序遍历 Postorder Traversal */
@@ -204,7 +233,27 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     /** 非递归后序遍历 */
     public void postorderNoRecursion(Consumer<E> consumer) {
-
+        if (root == null || consumer == null) { return; }
+        postorderNoRecursionTool(root, consumer);
+    }
+    public void postorderNoRecursionTool(Node<E> node, Consumer<E> consumer) {
+        Stack<Node<E>> stack = new Stack<>();
+        Node<E> prev = null;
+        stack.push(node);
+        while ( !stack.isEmpty()) {
+            Node<E> top = stack.peek();
+            if (top.isLeaf() || (prev != null && prev.parent == top)) {
+                prev = stack.pop();
+                consumer.accept(prev.element);
+            } else {
+                if (top.right != null) {
+                    stack.push(top.right);
+                }
+                if (top.left != null) {
+                    stack.push(top.left);
+                }
+            }
+        }
     }
 
     /** 层序遍历 Level Order Traversal */

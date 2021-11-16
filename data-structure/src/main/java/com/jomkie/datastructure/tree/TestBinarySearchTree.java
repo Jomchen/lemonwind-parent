@@ -21,7 +21,9 @@ public class TestBinarySearchTree {
         //test05();
         //test06();
         //test07();
-        test08();
+        //test08();
+        //test09();
+        test10();
     }
 
     /** 测试二叉树打印 */
@@ -165,6 +167,7 @@ public class TestBinarySearchTree {
         BST<Integer> tree = new BST();
         Stream.of(7, 4, 9, 2, 5, 8, 11).forEach(tree::add);
         // 2 4 5 7 8 9 11
+        tree.inorderNoRecursion(System.out::println);
     }
 
     /** 测试非递归后序遍历 */
@@ -172,6 +175,7 @@ public class TestBinarySearchTree {
         BST<Integer> tree = new BST();
         Stream.of(7, 4, 9, 2, 5, 8, 11).forEach(tree::add);
         // 2 5 4 8 11 9 7
+        tree.postorderNoRecursion(System.out::println);
     }
 
 }
