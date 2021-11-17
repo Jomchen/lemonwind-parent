@@ -4,13 +4,26 @@ package com.jomkie.datastructure.graph;
  * 测试图
  */
 public class TestGraph {
+
+    static Graph.WeightManager<Double> weightManager = new Graph.WeightManager<Double>() {
+        @Override
+        public int compare(Double w1, Double w2) {
+//            return w1.compareTo(w2);
+            return w2.compareTo(w1);
+        }
+        @Override
+        public Double add(Double w1, Double w2) {
+            return w1 + w2;
+        }
+    };
+
     public static void main(String[] args) {
-        test07();
+        test08();
     }
 
     /** 测试打印 */
     public static void test00() {
-        Graph<String, Integer> graph = new ListGraph<>();
+        Graph<String, Integer> graph = new ListGraph(weightManager);
         graph.addEdge("v1", "v0", 9);
         graph.addEdge("v1", "v2", 3);
         graph.addEdge("v2", "v0", 2);
@@ -22,51 +35,51 @@ public class TestGraph {
 
     /** 测试删除边 */
     public static void test01() {
-        Graph<String, Integer> graph = new ListGraph<>();
-        graph.addEdge("v1", "v0", 9);
-        graph.addEdge("v1", "v2", 3);
-        graph.addEdge("v2", "v0", 2);
-        graph.addEdge("v2", "v3", 5);
-        graph.addEdge("v3", "v4", 1);
-        graph.addEdge("v0", "v4", 6);
-
-        graph.removeEdge("v0", "v4");
-        graph.print();
+//        Graph<String, Integer> graph = new ListGraph(weightManager);
+//        graph.addEdge("v1", "v0", 9);
+//        graph.addEdge("v1", "v2", 3);
+//        graph.addEdge("v2", "v0", 2);
+//        graph.addEdge("v2", "v3", 5);
+//        graph.addEdge("v3", "v4", 1);
+//        graph.addEdge("v0", "v4", 6);
+//
+//        graph.removeEdge("v0", "v4");
+//        graph.print();
     }
 
     /** 测试删除顶点 */
     public static void test02() {
-        Graph<String, Integer> graph = new ListGraph<>();
-        graph.addEdge("v1", "v0", 9);
-        graph.addEdge("v1", "v2", 3);
-        graph.addEdge("v2", "v0", 2);
-        graph.addEdge("v2", "v3", 5);
-        graph.addEdge("v3", "v4", 1);
-        graph.addEdge("v0", "v4", 6);
-
-        graph.removeEdge("v0", "v4");
-        graph.print();
+//        Graph<String, Integer> graph = new ListGraph(weightManager);
+//        graph.addEdge("v1", "v0", 9);
+//        graph.addEdge("v1", "v2", 3);
+//        graph.addEdge("v2", "v0", 2);
+//        graph.addEdge("v2", "v3", 5);
+//        graph.addEdge("v3", "v4", 1);
+//        graph.addEdge("v0", "v4", 6);
+//
+//        graph.removeEdge("v0", "v4");
+//        graph.print();
     }
 
     /** 测试无向图 */
     public static void test03() {
-        Graph<String, Integer> graph = new ListGraph<>();
-        graph.addEdge("v0", "v1");
-        graph.addEdge("v1", "v0");
-
-        graph.addEdge("v0", "v2");
-        graph.addEdge("v2", "v0");
-
-        graph.addEdge("v0", "v3");
-        graph.addEdge("v3", "v0");
-
-        graph.addEdge("v1", "v2");
-        graph.addEdge("v2", "v1");
-
-        graph.addEdge("v2", "v3");
-        graph.addEdge("v3", "v2");
-
-        graph.print();
+//        Graph<String, Integer> graph = new ListGraph(weightManager);
+//        graph.addEdge("v0", "v1");
+//        graph.addEdge("v1", "v0");
+//
+//        graph.addEdge("v0", "v2");
+//        graph.addEdge("v2", "v0");
+//
+//        graph.addEdge("v0", "v3");
+//        graph.addEdge("v3", "v0");
+//
+//        graph.addEdge("v1", "v2");
+//        graph.addEdge("v2", "v1");
+//
+//        graph.addEdge("v2", "v3");
+//        graph.addEdge("v3", "v2");
+//
+//        graph.print();
     }
 
     /** 测试图的广度优先遍历 */
@@ -95,6 +108,8 @@ public class TestGraph {
 
     /** prim 算法 */
     public static void test08() {
+        Graph<Object, Double> graph = unDirectedGraph(Data.MST_01);
+        graph.mst().forEach(System.out::println);
     }
 
 
@@ -106,7 +121,7 @@ public class TestGraph {
 
     /** 添加有向图 */
     private static Graph<Object, Double> directedGraph(Object[][] data) {
-        Graph<Object, Double> graph = new ListGraph<>();
+        Graph<Object, Double> graph = new ListGraph(weightManager);
         for (Object[] edge : data) {
             if (edge.length == 1) {
                 graph.addVertext(edge[0]);
@@ -122,7 +137,7 @@ public class TestGraph {
 
     /** 添加无向图 */
     private static Graph<Object, Double> unDirectedGraph(Object[][] data) {
-        Graph<Object, Double> graph = new ListGraph<>();
+        Graph<Object, Double> graph = new ListGraph(weightManager);
         for (Object[] edge : data) {
             if (edge.length == 1) {
                 graph.addVertext(edge[0]);

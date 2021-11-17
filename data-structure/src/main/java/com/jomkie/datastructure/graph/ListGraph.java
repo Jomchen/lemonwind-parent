@@ -1,18 +1,25 @@
 package com.jomkie.datastructure.graph;
 
 
+import com.jomkie.datastructure.tree.heap.BinaryHeap;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ListGraph<V, E> implements Graph<V, E> {
+public class ListGraph<V, E> extends Graph<V, E> {
 
     private Map<V, Vertex<V, E>> vertices = new HashMap<>();
     private Set<Edge<V, E>> edges = new HashSet<>();
+    private Comparator<Edge<V, E>> edgeComparator = (Edge<V, E> e1, Edge<V, E> e2) -> weightManager.compare(e1.weight, e2.weight);
+
+    public ListGraph() {}
+
+    public ListGraph(WeightManager<E> weightManager) {
+        super(weightManager);
+    }
 
     @Override
-    public void anyTest(V v) {
-
-    }
+    public void anyTest(V v) {}
 
     public void print() {
         vertices.forEach((V v, Vertex<V, E> vertex) -> {
@@ -255,34 +262,25 @@ public class ListGraph<V, E> implements Graph<V, E> {
 
     /** prim算法，必须是有权无向图 */
     public Set<EdgeInfo<V, E>> prim() {
-        Vertex<V, E> beginVertex = vertices.isEmpty() ? null : vertices.values().iterator().next();
-        if (null == beginVertex) return null;
+        Vertex<V, E> vertex = vertices.isEmpty() ? null : vertices.values().iterator().next();
+        if (null == vertex) return null;
 
-        Set<Vertex<V, E>> visitedVertices = new HashSet<>();
         Set<EdgeInfo<V, E>> edgeInfos = new HashSet<>();
-        visitedVertices.add(beginVertex);
+        Set<Vertex<V, E>> visitedVertices = new HashSet<>();
 
-        while (visitedVertices.size() != vertices.size()) {
-            Edge<V, E> minimumEdge = null;
-            for (Vertex<V, E> vertex : visitedVertices) {
-                for (Edge<V, E> edge : vertex.outEdges) {
-                    boolean existsFrom = visitedVertices.contains(edge.from);
-                    boolean existsTo = visitedVertices.contains(edge.to);
-                    if (existsFrom && existsTo) { continue; }
+        BinaryHeap<Edge<V, E>> heap = new BinaryHeap<>(vertex.outEdges, edgeComparator);
+        visitedVertices.add(vertex);
+        int edgeSize = vertices.size() - 1;
+        while ( !heap.isEmpty() && edgeInfos.size() < edgeSize) {
+            Edge<V, E> edge = heap.remove();
+            if (visitedVertices.contains(edge.to)) { continue; }
 
-                    if (minimumEdge == null) {
-                        minimumEdge = edge;
-                    } else {
-                        // 如果权值比较小则替换掉 minimumEdge
-                        // 添加 edge.to 到 visitedVertices
-                        // 转换 edge 为 edgeInfo 并加入到 edgeInfoSet
-                        minimumEdge = null;
-                    }
-                }
+            edgeInfos.add(edge.info());
+            visitedVertices.add(edge.to);
+            for (Edge<V, E> e : edge.to.outEdges) {
+                heap.add(e);
             }
         }
-
-
         return edgeInfos;
     }
 
@@ -313,7 +311,6 @@ public class ListGraph<V, E> implements Graph<V, E> {
         public int hashCode() {
             return value == null ? 0 : value.hashCode();
         }
-
         @Override
         public String toString() {
             return value == null ? "null" : value.toString();
@@ -331,6 +328,10 @@ public class ListGraph<V, E> implements Graph<V, E> {
             this.weight = weight;
         }
 
+        public EdgeInfo<V, E> info() {
+            return new EdgeInfo<>(from.value, to.value, weight);
+        }
+
         @Override
         public boolean equals(Object obj) {
             Edge<V, E> edge = ((Edge<V, E>) obj);
@@ -340,7 +341,6 @@ public class ListGraph<V, E> implements Graph<V, E> {
         public int hashCode() {
             return from.hashCode() * 31 + to.hashCode();
         }
-
         @Override
         public String toString() {
             return "Edge{" +

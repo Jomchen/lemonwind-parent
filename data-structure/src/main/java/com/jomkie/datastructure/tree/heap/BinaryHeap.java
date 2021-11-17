@@ -3,6 +3,7 @@ package com.jomkie.datastructure.tree.heap;
 import com.jomkie.common.util.treeprint.BinaryTreeInfo;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 
 /**
@@ -16,11 +17,42 @@ import java.util.Comparator;
  * 如果 2i + 1 > n - 1，它无左子节点
  * 如果 2i + 2 <= n - 1，它的右子节点索引为 2i + 2
  * 如果 2i + 2 > n - 1，它无右子节点
+ *
+ * 这个类默认是最大堆
  */
 public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
 
     private E[] elements;
     private static final int DEFAULT_CAPACITY = 10;
+
+    public BinaryHeap() {
+        this((E[])null, null);
+    }
+
+    public BinaryHeap(E[] elements) {
+        this(elements, null);
+    }
+
+    public BinaryHeap(Comparator<E> comparator) {
+        super(comparator);
+        elements = (E[])new Object[DEFAULT_CAPACITY];
+    }
+
+    public BinaryHeap(Collection<E> elements, Comparator<E> comparator) {
+        super(comparator);
+        size = elements == null ? 0 : elements.size();
+        if (size == 0) {
+            this.elements = (E[]) new Object[DEFAULT_CAPACITY];
+        } else {
+            int capacity = Math.max(size, DEFAULT_CAPACITY);
+            this.elements = (E[]) new Object[capacity];
+            int i = 0;
+            for (E element : elements) {
+                this.elements[i++] = element;
+            }
+            heapiry();
+        }
+    }
 
     public BinaryHeap(E[] elements, Comparator<E> comparator) {
         super(comparator);
@@ -35,19 +67,6 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
             }
             heapiry();
         }
-    }
-
-    public BinaryHeap(E[] elements) {
-        this(elements, null);
-    }
-
-    public BinaryHeap(Comparator<E> comparator) {
-        super(comparator);
-        elements = (E[])new Object[DEFAULT_CAPACITY];
-    }
-
-    public BinaryHeap() {
-        this(null, null);
     }
 
     @Override
