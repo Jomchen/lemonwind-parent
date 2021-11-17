@@ -2,6 +2,9 @@ package com.jomkie.datastructure.graph;
 
 
 import com.jomkie.datastructure.tree.heap.BinaryHeap;
+import com.jomkie.datastructure.unionfind.GenericUnionFind;
+import com.jomkie.datastructure.unionfind.UnionFind;
+import com.jomkie.datastructure.unionfind.UnionFind_QU;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -257,7 +260,8 @@ public class ListGraph<V, E> extends Graph<V, E> {
 
     @Override
     public Set<EdgeInfo<V, E>> mst() {
-        return prim();
+//        return prim();
+        return kruskal();
     }
 
     /** prim算法，必须是有权无向图 */
@@ -267,8 +271,9 @@ public class ListGraph<V, E> extends Graph<V, E> {
 
         Set<EdgeInfo<V, E>> edgeInfos = new HashSet<>();
         Set<Vertex<V, E>> visitedVertices = new HashSet<>();
+        // 因为这个堆默认是大顶堆，所以需要转换为小顶堆
+        BinaryHeap<Edge<V, E>> heap = new BinaryHeap<>(vertex.outEdges, edgeComparator.reversed());
 
-        BinaryHeap<Edge<V, E>> heap = new BinaryHeap<>(vertex.outEdges, edgeComparator);
         visitedVertices.add(vertex);
         int edgeSize = vertices.size() - 1;
         while ( !heap.isEmpty() && edgeInfos.size() < edgeSize) {
@@ -286,7 +291,28 @@ public class ListGraph<V, E> extends Graph<V, E> {
 
     /** kruskal 算法 */
     public Set<EdgeInfo<V, E>> kruskal() {
-        return null;
+        Vertex<V, E> vertex = vertices.isEmpty() ? null : vertices.values().iterator().next();
+        if (null == vertex) return null;
+
+        // 边按照权值从小到大排序
+        List<Edge<V, E>> sortedEdgeList = edges.stream().sorted(edgeComparator).collect(Collectors.toList());
+        Set<EdgeInfo<V, E>> edgeInfos = new HashSet<>();
+        GenericUnionFind<Vertex<V, E>> unionFind = new GenericUnionFind<>();
+        vertices.forEach((V v, Vertex<V, E> theVertex) ->
+            unionFind.makeSet(theVertex)
+        );
+
+        int endEdgeSize = vertices.size() - 1;
+        if (endEdgeSize == -1) { return edgeInfos; }
+        for (Edge<V, E> edge : sortedEdgeList) {
+            if (edgeInfos.size() == endEdgeSize) { break; }
+
+            if (unionFind.isSame(edge.from, edge.to)) { continue; }
+            edgeInfos.add(edge.info());
+            unionFind.union(edge.from, edge.to);
+        }
+
+        return edgeInfos;
     }
 
 

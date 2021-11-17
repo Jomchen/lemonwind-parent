@@ -8,8 +8,7 @@ public class TestGraph {
     static Graph.WeightManager<Double> weightManager = new Graph.WeightManager<Double>() {
         @Override
         public int compare(Double w1, Double w2) {
-//            return w1.compareTo(w2);
-            return w2.compareTo(w1);
+            return w1.compareTo(w2);
         }
         @Override
         public Double add(Double w1, Double w2) {
@@ -18,7 +17,7 @@ public class TestGraph {
     };
 
     public static void main(String[] args) {
-        test08();
+        test09();
     }
 
     /** 测试打印 */
@@ -106,8 +105,16 @@ public class TestGraph {
         graph2.topologicalSort().forEach(System.out::println);
     }
 
-    /** prim 算法 */
+    /** 最小生成树 prim 算法 */
     public static void test08() {
+        // 9, 2, 4, 4, 3, 5, 1
+        Graph<Object, Double> graph = unDirectedGraph(Data.MST_01);
+        graph.mst().forEach(System.out::println);
+    }
+
+    /** 最小生成树 kruskal 算法 */
+    public static void test09() {
+        // 9, 2, 4, 4, 3, 5, 1
         Graph<Object, Double> graph = unDirectedGraph(Data.MST_01);
         graph.mst().forEach(System.out::println);
     }
@@ -152,4 +159,6 @@ public class TestGraph {
         }
         return graph;
     }
+
+
 }
