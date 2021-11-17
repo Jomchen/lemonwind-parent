@@ -294,7 +294,7 @@ public class ListGraph<V, E> extends Graph<V, E> {
         Vertex<V, E> vertex = vertices.isEmpty() ? null : vertices.values().iterator().next();
         if (null == vertex) return null;
 
-        // 边按照权值从小到大排序
+        // 边按照权值从小到大排序（如果这里采用小顶堆，并在循环中采用 remove 的方式取当前堆最小值性能可能会更好）
         List<Edge<V, E>> sortedEdgeList = edges.stream().sorted(edgeComparator).collect(Collectors.toList());
         Set<EdgeInfo<V, E>> edgeInfos = new HashSet<>();
         GenericUnionFind<Vertex<V, E>> unionFind = new GenericUnionFind<>();
