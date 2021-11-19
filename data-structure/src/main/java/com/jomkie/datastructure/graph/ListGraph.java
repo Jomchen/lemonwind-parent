@@ -3,8 +3,6 @@ package com.jomkie.datastructure.graph;
 
 import com.jomkie.datastructure.tree.heap.BinaryHeap;
 import com.jomkie.datastructure.unionfind.GenericUnionFind;
-import com.jomkie.datastructure.unionfind.UnionFind;
-import com.jomkie.datastructure.unionfind.UnionFind_QU;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -264,6 +262,11 @@ public class ListGraph<V, E> extends Graph<V, E> {
         return kruskal();
     }
 
+    @Override
+    public Map<V, E> shortestPath(V begin) {
+        return dijkstra(begin);
+    }
+
     /** prim算法，必须是有权无向图 */
     public Set<EdgeInfo<V, E>> prim() {
         Vertex<V, E> vertex = vertices.isEmpty() ? null : vertices.values().iterator().next();
@@ -315,6 +318,59 @@ public class ListGraph<V, E> extends Graph<V, E> {
         return edgeInfos;
     }
 
+
+    /** 最短路径 Dijkstra 算法，不能有负权边 */
+    private Map<V, E> dijkstra(V begin) {
+        Vertex<V, E> beginVertex = vertices.get(begin);
+        if (null == beginVertex) { return null; }
+
+        Map<V, E> selectedPaths = new HashMap<>();
+        Map<Vertex<V, E>, E> paths= new HashMap<>();
+        for (Edge<V, E> edge : beginVertex.outEdges) {
+            paths.put(edge.to, edge.weight);
+        }
+
+        while ( !paths.isEmpty()) {
+            Map.Entry<Vertex<V, E>, E> minEntry = getShortestPath(paths);
+            // minVertex 离开桌面
+            Vertex<V, E> minVertex = minEntry.getKey();
+            selectedPaths.put(minVertex.value, minEntry.getValue());
+            paths.remove(minVertex);
+            // 对它的 minVertex 的 outEdges 进行松弛操作
+            for (Edge<V, E> edge : minVertex.outEdges) {
+                // 如果顶点已经起来了，则不能作松弛操作
+                if (selectedPaths.containsKey(edge.to.value) || edge.to.equals(beginVertex)) { continue; }
+
+                // 以前的最短路径：beginVertex 到 edge.to 的最短路径
+                // 新的可选择的最短路径：beginVertex 到 edge.from 的最短路径 + edge.weght
+                // 如果新的最短路径比旧的短则更新最短路径
+                E newWeight = weightManager.add(minEntry.getValue(), edge.weight);
+                E oldWeight = paths.get(edge.to);
+                if (oldWeight == null || weightManager.compare(newWeight, oldWeight) < 0) {
+                    paths.put(edge.to, newWeight);
+                }
+            }
+        }
+
+        return selectedPaths;
+    }
+
+    public void relax() {
+
+    }
+
+    private Map.Entry<Vertex<V, E>, E> getShortestPath(Map<Vertex<V, E>, E> paths) {
+        Iterator<Map.Entry<Vertex<V, E>, E>> iterator = paths.entrySet().iterator();
+        Map.Entry<Vertex<V, E>, E> minEntry = iterator.next();
+
+        while (iterator.hasNext()) {
+            Map.Entry<Vertex<V, E>, E> entry = iterator.next();
+            if (weightManager.compare(entry.getValue(), minEntry.getValue()) < 0) {
+                minEntry = entry;
+            }
+        }
+        return minEntry;
+    }
 
     private static class Vertex<V, E> {
         /** 顶点值 */

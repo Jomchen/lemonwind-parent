@@ -1,5 +1,7 @@
 package com.jomkie.datastructure.graph;
 
+import java.util.Map;
+
 /**
  * 测试图
  */
@@ -17,7 +19,7 @@ public class TestGraph {
     };
 
     public static void main(String[] args) {
-        test09();
+        test10();
     }
 
     /** 测试打印 */
@@ -119,7 +121,14 @@ public class TestGraph {
         graph.mst().forEach(System.out::println);
     }
 
+    /** Dijkstra 最短路径 */
+    public static void test10() {
+        Graph<Object, Double> graph =directedGraph(Data.SP);
+        Graph<Object, Double> graph2 = unDirectedGraph(Data.SP);
 
+        System.out.println(graph.shortestPath("A"));
+        System.out.println(graph2.shortestPath("A"));
+    }
 
 
 

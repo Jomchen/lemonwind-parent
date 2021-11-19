@@ -1,15 +1,14 @@
 package com.jomkie.datastructure.graph;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class Graph<V, E> {
 
     protected WeightManager<E> weightManager;
 
-    public Graph() {
-
-    }
+    public Graph() {}
 
     public Graph(WeightManager<E> weightManager) {
         this.weightManager = weightManager;
@@ -66,6 +65,8 @@ public abstract class Graph<V, E> {
 
     /** 最小生成树 */
     public abstract Set<EdgeInfo<V, E>> mst();
+
+    public abstract Map<V, E> shortestPath(V begin);
 
     /// AOE 网络
 
