@@ -126,8 +126,11 @@ public class TestGraph {
         Graph<Object, Double> graph =directedGraph(Data.SP);
         Graph<Object, Double> graph2 = unDirectedGraph(Data.SP);
 
-        System.out.println(graph.shortestPath("A"));
-        System.out.println(graph2.shortestPath("A"));
+        Map<Object, Graph.PathInfo<Object, Double>> map = graph.shortestPath("A");
+        map.forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+        System.out.println("------------------------------------");
+        Map<Object, Graph.PathInfo<Object, Double>> map2 = graph2.shortestPath("A");
+        map2.forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
     }
 
 

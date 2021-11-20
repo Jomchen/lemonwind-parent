@@ -1,5 +1,6 @@
 package com.jomkie.datastructure.graph;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,6 +51,18 @@ public abstract class Graph<V, E> {
     /** 非递归深度优化算法 depthFirstSearch */
     public abstract void dfs2(V from, VertexVisitor<V> visitor);
 
+
+    /** AOV拓扑排序（判断是否是有向无环图，且源数据必须为有向图） */
+    public abstract List<V> topologicalSort();
+
+    /** 最小生成树 */
+    public abstract Set<EdgeInfo<V, E>> mst();
+
+    //    public abstract Map<V, E> shortestPath(V begin);
+    public abstract Map<V, PathInfo<V, E>> shortestPath(V begin);
+
+    /// AOE 网络
+
     public interface WeightManager<E> {
         int compare(E w1, E w2);
         E add(E w1, E w2);
@@ -60,15 +73,18 @@ public abstract class Graph<V, E> {
         boolean visitor(V v);
     }
 
-    /** AOV拓扑排序（判断是否是有向无环图，且源数据必须为有向图） */
-    public abstract List<V> topologicalSort();
+    public static class PathInfo<V, E> {
+        protected E weight;
+        protected List<EdgeInfo<V, E>> edgeInfos = new LinkedList<>();
 
-    /** 最小生成树 */
-    public abstract Set<EdgeInfo<V, E>> mst();
-
-    public abstract Map<V, E> shortestPath(V begin);
-
-    /// AOE 网络
+        @Override
+        public String toString() {
+            return "PathInfo{" +
+                    "weight=" + weight +
+                    ", edgeInfos=" + edgeInfos +
+                    '}';
+        }
+    }
 
     public static class EdgeInfo<V, E> {
         private V from;
