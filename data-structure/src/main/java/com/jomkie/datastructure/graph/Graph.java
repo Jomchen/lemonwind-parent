@@ -66,6 +66,7 @@ public abstract class Graph<V, E> {
     public interface WeightManager<E> {
         int compare(E w1, E w2);
         E add(E w1, E w2);
+        E zero();
     }
 
     /** 遍历，返回值判断是否结果遍历 */

@@ -269,7 +269,8 @@ public class ListGraph<V, E> extends Graph<V, E> {
 
     @Override
     public Map<V, PathInfo<V, E>> shortestPath(V begin) {
-        return dijkstra(begin);
+        //return dijkstra(begin);
+        return bellmanFord(begin);
     }
 
 
@@ -361,6 +362,29 @@ public class ListGraph<V, E> extends Graph<V, E> {
         return selectedPaths;
     }*/
 
+
+    private Map<V, PathInfo<V, E>> bellmanFord(V begin) {
+        Vertex<V, E> beginVertex = vertices.get(begin);
+        if (null == beginVertex) { return null; }
+
+        Map<V, PathInfo<V, E>> selectedPaths = new HashMap<>();
+        PathInfo<V, E> beginPath = new PathInfo<>();
+        beginPath.weight = weightManager.zero();
+        selectedPaths.put(begin, beginPath);
+
+        int count = vertices.size() - 1;
+        for (int i = 0; i < count; i++) {
+            for (Edge<V, E> edge : edges) {
+                PathInfo<V, E> fromPath = selectedPaths.get(edge.from.value);
+                if (null == fromPath) { continue; }
+                relaxForBellmanFord(edge, fromPath, selectedPaths);
+            }
+        }
+
+        selectedPaths.remove(begin);
+        return selectedPaths;
+    }
+
     private Map<V, PathInfo<V, E>> dijkstra(V begin) {
         Vertex<V, E> beginVertex = vertices.get(begin);
         if (null == beginVertex) { return null; }
@@ -386,7 +410,7 @@ public class ListGraph<V, E> extends Graph<V, E> {
                 // 如果顶点已经起来了，则不能作松弛操作
                 //if (selectedPaths.containsKey(edge.to.value) || edge.to.equals(beginVertex)) { continue; }
                 if (selectedPaths.containsKey(edge.to.value)) { continue; }
-                relax(edge, minPath, paths);
+                relaxForDijkstra(edge, minPath, paths);
             }
         }
 
@@ -400,7 +424,7 @@ public class ListGraph<V, E> extends Graph<V, E> {
      * @param fromPath edge的from的最短路径信息
      * @param paths 其它点（没有离开桌面的点）的最短路径信息
      */
-    public void relax(Edge<V, E> edge, PathInfo<V, E> fromPath, Map<Vertex<V, E>, PathInfo<V, E>> paths) {
+    private void relaxForDijkstra(Edge<V, E> edge, PathInfo<V, E> fromPath, Map<Vertex<V, E>, PathInfo<V, E>> paths) {
         // 以前的最短路径：beginVertex 到 edge.to 的最短路径
         // 新的可选择的最短路径：beginVertex 到 edge.from 的最短路径 + edge.weght
         // 如果新的最短路径比旧的短则更新最短路径
@@ -411,6 +435,23 @@ public class ListGraph<V, E> extends Graph<V, E> {
         if (oldPath == null) {
             oldPath = new PathInfo<>();
             paths.put(edge.to, oldPath);
+        } else {
+            oldPath.edgeInfos.clear();
+        }
+
+        oldPath.weight = newWeight;
+        oldPath.edgeInfos.addAll(fromPath.edgeInfos);
+        oldPath.edgeInfos.add(edge.info());
+    }
+
+    private void relaxForBellmanFord(Edge<V, E> edge, PathInfo<V, E> fromPath, Map<V, PathInfo<V, E>> paths) {
+        E newWeight = weightManager.add(fromPath.weight, edge.weight);
+        PathInfo<V, E> oldPath = paths.get(edge.to.value);
+        if (oldPath != null && weightManager.compare(newWeight, oldPath.weight) >= 0) { return; }
+
+        if (oldPath == null) {
+            oldPath = new PathInfo<>();
+            paths.put(edge.to.value, oldPath);
         } else {
             oldPath.edgeInfos.clear();
         }

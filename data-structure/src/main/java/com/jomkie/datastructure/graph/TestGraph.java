@@ -16,10 +16,15 @@ public class TestGraph {
         public Double add(Double w1, Double w2) {
             return w1 + w2;
         }
+
+        @Override
+        public Double zero() {
+            return 0.0;
+        }
     };
 
     public static void main(String[] args) {
-        test10();
+        test11();
     }
 
     /** 测试打印 */
@@ -126,14 +131,28 @@ public class TestGraph {
         Graph<Object, Double> graph =directedGraph(Data.SP);
         Graph<Object, Double> graph2 = unDirectedGraph(Data.SP);
 
-        Map<Object, Graph.PathInfo<Object, Double>> map = graph.shortestPath("A");
-        map.forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+        graph.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
         System.out.println("------------------------------------");
-        Map<Object, Graph.PathInfo<Object, Double>> map2 = graph2.shortestPath("A");
-        map2.forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+        graph2.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
     }
 
+    /** BellmanFord 最短路径 */
+    public static void test11() {
+         Graph<Object, Double> graph =directedGraph(Data.SP);
+         Graph<Object, Double> graph2 = unDirectedGraph(Data.SP);
+         Graph<Object, Double> graph3 = directedGraph(Data.NEGATIVE_WEIGHT1);
 
+        graph.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+        System.out.println("------------------------------------");
+        graph2.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+        System.out.println("------------------------------------");
+        graph3.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+    }
+
+    /** */
+    public static void test12() {
+
+    }
 
 
 
