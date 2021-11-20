@@ -140,13 +140,19 @@ public class TestGraph {
     public static void test11() {
          Graph<Object, Double> graph =directedGraph(Data.SP);
          Graph<Object, Double> graph2 = unDirectedGraph(Data.SP);
-         Graph<Object, Double> graph3 = directedGraph(Data.NEGATIVE_WEIGHT1);
 
         graph.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
         System.out.println("------------------------------------");
         graph2.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
         System.out.println("------------------------------------");
+
+        // 有负权边，不支持 Dijkstra
+        Graph<Object, Double> graph3 = directedGraph(Data.NEGATIVE_WEIGHT1);
         graph3.shortestPath("A").forEach((Object o, Graph.PathInfo<Object, Double> path) -> System.out.println(o + "---" + path));
+
+        // 有负权环，不支持 Dijkstra
+        /*Graph<Object, Double> graph4 = directedGraph(Data.NEGATIVE_WEIGHT2);
+        graph4.shortestPath(0);*/
     }
 
     /** */

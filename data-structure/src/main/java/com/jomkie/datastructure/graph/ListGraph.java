@@ -269,7 +269,7 @@ public class ListGraph<V, E> extends Graph<V, E> {
 
     @Override
     public Map<V, PathInfo<V, E>> shortestPath(V begin) {
-        //return dijkstra(begin);
+//        return dijkstra(begin);
         return bellmanFord(begin);
     }
 
@@ -381,6 +381,17 @@ public class ListGraph<V, E> extends Graph<V, E> {
             }
         }
 
+
+        // 当经历了最坏松弛情况后，如果再有可以松弛的情况则是负权环
+        for (Edge<V, E> edge : edges) {
+            PathInfo<V, E> fromPath = selectedPaths.get(edge.from.value);
+            if (null == fromPath) { continue; }
+            if (relaxForBellmanFord(edge, fromPath, selectedPaths)) {
+                System.out.println("有负权环");
+                return null;
+            }
+        }
+
         selectedPaths.remove(begin);
         return selectedPaths;
     }
@@ -444,10 +455,10 @@ public class ListGraph<V, E> extends Graph<V, E> {
         oldPath.edgeInfos.add(edge.info());
     }
 
-    private void relaxForBellmanFord(Edge<V, E> edge, PathInfo<V, E> fromPath, Map<V, PathInfo<V, E>> paths) {
+    private boolean relaxForBellmanFord(Edge<V, E> edge, PathInfo<V, E> fromPath, Map<V, PathInfo<V, E>> paths) {
         E newWeight = weightManager.add(fromPath.weight, edge.weight);
         PathInfo<V, E> oldPath = paths.get(edge.to.value);
-        if (oldPath != null && weightManager.compare(newWeight, oldPath.weight) >= 0) { return; }
+        if (oldPath != null && weightManager.compare(newWeight, oldPath.weight) >= 0) { return false; }
 
         if (oldPath == null) {
             oldPath = new PathInfo<>();
@@ -459,6 +470,8 @@ public class ListGraph<V, E> extends Graph<V, E> {
         oldPath.weight = newWeight;
         oldPath.edgeInfos.addAll(fromPath.edgeInfos);
         oldPath.edgeInfos.add(edge.info());
+
+        return true;
     }
 
     /*private Map.Entry<Vertex<V, E>, E> getMinPath(Map<Vertex<V, E>, E> paths) {
