@@ -141,7 +141,10 @@ public class Data {
 			{15, 16, 7}, {15, 17, 7},
 			{16, 17, 2}
 	};
-	
+
+	/**
+	 * 有负权边
+	 */
 	public static final Object[][] NEGATIVE_WEIGHT1 = {
 			{"A", "B", -1}, {"A", "C", 4}, 
 			{"B", "C", 3}, {"B", "D", 2}, {"B", "E", 2},

@@ -24,7 +24,7 @@ public class TestGraph {
     };
 
     public static void main(String[] args) {
-        test11();
+        test12();
     }
 
     /** 测试打印 */
@@ -157,7 +157,15 @@ public class TestGraph {
 
     /** */
     public static void test12() {
-
+        Graph<Object, Double> graph = directedGraph(Data.SP);
+//        Graph<Object, Double> graph = directedGraph(Data.NEGATIVE_WEIGHT1);
+        Map<Object, Map<Object, Graph.PathInfo<Object, Double>>> sp = graph.shortestPath();
+        sp.forEach((Object from, Map<Object, Graph.PathInfo<Object, Double>> paths) -> {
+            System.out.println(from + "作为起点：--------------------------------");
+            paths.forEach((Object to, Graph.PathInfo<Object, Double> path) -> {
+                System.out.println(to + "--" + path);
+            });
+        });
     }
 
 

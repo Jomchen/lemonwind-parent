@@ -58,8 +58,12 @@ public abstract class Graph<V, E> {
     /** 最小生成树 */
     public abstract Set<EdgeInfo<V, E>> mst();
 
+    /** 最短路径 */
     //    public abstract Map<V, E> shortestPath(V begin);
     public abstract Map<V, PathInfo<V, E>> shortestPath(V begin);
+
+    /** 此方法专为 floyd 算法提供 */
+    public abstract Map<V, Map<V, PathInfo<V, E>>> shortestPath();
 
     /// AOE 网络
 
@@ -77,6 +81,11 @@ public abstract class Graph<V, E> {
     public static class PathInfo<V, E> {
         protected E weight;
         protected List<EdgeInfo<V, E>> edgeInfos = new LinkedList<>();
+        public PathInfo() {}
+        public PathInfo(E weight) {
+            this.weight = weight;
+        }
+
 
         @Override
         public String toString() {

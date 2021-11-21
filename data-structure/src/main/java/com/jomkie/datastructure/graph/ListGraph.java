@@ -273,6 +273,11 @@ public class ListGraph<V, E> extends Graph<V, E> {
         return bellmanFord(begin);
     }
 
+    @Override
+    public Map<V, Map<V, PathInfo<V, E>>> shortestPath() {
+        return floyd();
+    }
+
 
     /** prim算法，必须是有权无向图 */
     public Set<EdgeInfo<V, E>> prim() {
@@ -362,15 +367,69 @@ public class ListGraph<V, E> extends Graph<V, E> {
         return selectedPaths;
     }*/
 
+    public Map<V, Map<V, PathInfo<V, E>>> floyd() {
+        // 初始化
+        Map<V, Map<V, PathInfo<V, E>>> paths = new HashMap<>();
+        edges.forEach(edge -> {
+            Map<V, PathInfo<V, E>> map = paths.get(edge.from.value);
+            if (null == map) {
+                map = new HashMap<>();
+                paths.put(edge.from.value, map);
+            }
+            PathInfo<V, E> pathInfo = new PathInfo<>(edge.weight);
+            pathInfo.edgeInfos.add(edge.info());
+            map.put(edge.to.value, pathInfo);
+        });
+
+        vertices.forEach((V v2, Vertex<V, E> vertex2) -> {
+            vertices.forEach((V v1, Vertex<V, E> vertex1) -> {
+                vertices.forEach((V v3, Vertex<V, E> vertex3) -> {
+                    if (v1.equals(v2) || v1.equals(v3) || v2.equals(v3)) { return; }
+
+                    // v1 -> v2
+                    PathInfo<V, E> path12 = getPathInfo(v1, v2, paths);
+                    if (null == path12) { return; }
+
+                    // v2 -> v3
+                    PathInfo<V, E> path23 = getPathInfo(v2, v3, paths);;
+                    if (null == path23) { return; }
+
+                    // v1 -> v3
+                    PathInfo<V, E> path13 = getPathInfo(v1, v3, paths);
+
+                    E newWeight = weightManager.add(path12.weight, path23.weight);
+                    if (path13 != null && weightManager.compare(newWeight, path13.weight) >= 0) {
+                        return;
+                    }
+
+                    if (path13 == null) {
+                        path13 = new PathInfo<>();
+                        paths.get(v1).put(v3, path13);
+                    } else {
+                        path13.edgeInfos.clear();;
+                    }
+
+                    path13.weight = newWeight;
+                    path13.edgeInfos.addAll(path12.edgeInfos);
+                    path13.edgeInfos.addAll(path23.edgeInfos);
+                });
+            });
+        });
+
+        return paths;
+    }
+
+    private PathInfo<V, E> getPathInfo(V from, V to, Map<V, Map<V, PathInfo<V, E>>> paths) {
+        Map<V, PathInfo<V, E>> map = paths.get(from);
+        return map == null ? null : map.get(to);
+    }
 
     private Map<V, PathInfo<V, E>> bellmanFord(V begin) {
         Vertex<V, E> beginVertex = vertices.get(begin);
         if (null == beginVertex) { return null; }
 
         Map<V, PathInfo<V, E>> selectedPaths = new HashMap<>();
-        PathInfo<V, E> beginPath = new PathInfo<>();
-        beginPath.weight = weightManager.zero();
-        selectedPaths.put(begin, beginPath);
+        selectedPaths.put(begin, new PathInfo<>(weightManager.zero()));
 
         int count = vertices.size() - 1;
         for (int i = 0; i < count; i++) {
@@ -402,12 +461,13 @@ public class ListGraph<V, E> extends Graph<V, E> {
 
         Map<V, PathInfo<V, E>> selectedPaths = new HashMap<>();
         Map<Vertex<V, E>, PathInfo<V, E>> paths= new HashMap<>();
-        for (Edge<V, E> edge : beginVertex.outEdges) {
-            PathInfo<V, E> pathInfo = new PathInfo<>();
-            pathInfo.weight = edge.weight;
-            pathInfo.edgeInfos.add(edge.info());
-            paths.put(edge.to, pathInfo);
-        }
+        paths.put(beginVertex, new PathInfo<>(weightManager.zero()));
+//        for (Edge<V, E> edge : beginVertex.outEdges) {
+//            PathInfo<V, E> pathInfo = new PathInfo<>();
+//            pathInfo.weight = edge.weight;
+//            pathInfo.edgeInfos.add(edge.info());
+//            paths.put(edge.to, pathInfo);
+//        }
 
         while ( !paths.isEmpty()) {
             Map.Entry<Vertex<V, E>, PathInfo<V, E>> minEntry = getMinPath(paths);
