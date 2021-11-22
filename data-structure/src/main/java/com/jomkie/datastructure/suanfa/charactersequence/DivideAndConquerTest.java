@@ -1,4 +1,4 @@
-package com.jomkie.datastructure.suanfa.divideandconquer;
+package com.jomkie.datastructure.suanfa.charactersequence;
 
 /**
  * 分治算法
@@ -17,14 +17,7 @@ public class DivideAndConquerTest {
      *    子区间（在原数据中必须连续）：
      */
     public static void main(String[] args) {
-
     }
 
-    /**
-     * 最大连续列和
-     */
-    public static void test00() {
-        int[] array = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-    }
 
 }
