@@ -35,9 +35,9 @@ public class MaxSubarray {
      *    [i, j) 存在于 [mid, end) 中
      *    [i, j) 一部分存在于 [begin, mid) 中，另一部分存在于 [mid, end) 中
      * 根据思想：
-     *    mid - 1 开始往前相加，加到最大的值 x1
-     *    mid 开始往后相加， 加到最大的 x2
-     *    那么 S[i, j] 为 x1 + x2
+     *    mid - 1 开始往前相加，加到最大的值 max1
+     *    mid 开始往后相加， 加到最大的 max2
+     *    那么 S[i, j] 为 Math.max(max1, max2, max1 + max2)
      * @param nums
      * @return
      */
