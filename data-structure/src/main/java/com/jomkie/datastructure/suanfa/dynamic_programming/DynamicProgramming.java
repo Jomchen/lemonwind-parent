@@ -13,7 +13,8 @@ public class DynamicProgramming {
 //        System.out.println(coinChange());
 //        System.out.println(maxSubArray());
 //        lis();
-        System.out.println(lcs());
+//        System.out.println(lcs());
+        System.out.println(lcsS());
     }
 
     /**
@@ -186,16 +187,16 @@ public class DynamicProgramming {
     /** LIS Longest Increasing Subsequence 最长上升子序列 */
     public static void lis() {
         // 给定一个无序的整数序列，求出最长上升子序列的长度（要求严格上升）
-        // ijt[] nums = [10, 2, 2, 5, 1, 7, 101, 18] 的结果为 [2, 5, 7, 101], [2, 5, 7, 18]，长度是 4
-        // dp(i) 是以nums[i] 结尾的最长上升子序列的长度，初始值为 1, 1 属于 [0, nums.length)
-        // 以 nums[0]   10 结尾的最长上升子序列是  10              =>  所以 dp(0) = 1
-        // 以 nums[1]     2 结尾的最长上升子序列是     2              =>  所以 dp(0) = 1
-        // 以 nums[2]     2 结尾的最长上升子序列是     2              =>  所以 dp(0) = 1
-        // 以 nums[3]     5 结尾的最长上升子序列是 2, 5              =>  所以 dp(0) = 1
-        // 以 nums[4]     1 结尾的最长上升子序列是     1              =>  所以 dp(0) = 1
-        // 以 nums[5]     7 结尾的最长上升子序列是 2, 5, 7         =>  所以 dp(0) = 1
-        // 以 nums[6] 101 结尾的最长上升子序列是 2, 5,7, 101 => 所以 dp(0) = 1
-        // 以 nums[7]   18 结尾的最长上升子序列是  2, 5, 7, 18 => 所以 dp(0) = 1
+        //     int[] nums = [10, 2, 2, 5, 1, 7, 101, 18] 的结果为 [2, 5, 7, 101], [2, 5, 7, 18]，长度是 4
+        //     dp(i) 是以nums[i] 结尾的最长上升子序列的长度，初始值为 1, 1 属于 [0, nums.length)
+        //     以 nums[0]   10 结尾的最长上升子序列是  10              =>  所以 dp(0) = 1
+        //     以 nums[1]     2 结尾的最长上升子序列是     2              =>  所以 dp(0) = 1
+        //     以 nums[2]     2 结尾的最长上升子序列是     2              =>  所以 dp(0) = 1
+        //     以 nums[3]     5 结尾的最长上升子序列是 2, 5              =>  所以 dp(0) = 1
+        //     以 nums[4]     1 结尾的最长上升子序列是     1              =>  所以 dp(0) = 1
+        //     以 nums[5]     7 结尾的最长上升子序列是 2, 5, 7         =>  所以 dp(0) = 1
+        //     以 nums[6] 101 结尾的最长上升子序列是 2, 5,7, 101 => 所以 dp(0) = 1
+        //     以 nums[7]   18 结尾的最长上升子序列是  2, 5, 7, 18 => 所以 dp(0) = 1
         int[] array = {10, 2, 2, 5, 1, 7, 101, 18};
         lisOptimization(array);
     }
@@ -241,12 +242,13 @@ public class DynamicProgramming {
 
     /** LCS Long Common Subsequence 最长公共子序列 */
     public static int lcs() {
-        // 假设 2 个序列分别是 nums1, nums2
-        // i 属于 [1, nums1.length]     j 属于 [1, nums2.lemgth]
-        // 假设 dp(i, j) 是 nums1 前 i 个元素 与 nums2 前 j 个元素 的最长公共子序列长度
-        // dp(i, 0) 和 dp(0, j) 初始值为 0
-        // 如果 nums1[i - 1] = nums2[j - 1]，那么 dp(i, j) = dp(i - 1, j - 1) + 1
-        // 如果 nums1[i - 1] != nums2[j - 1]，那么 dp(i, j) = max {dp(i - 1, j), dp(i, j - 1)}
+        // 假设
+        //     2 个序列分别是 nums1, nums2
+        //     i 属于 [1, nums1.length]     j 属于 [1, nums2.lemgth]
+        //     假设 dp(i, j) 是 nums1 前 i 个元素 与 nums2 前 j 个元素 的最长公共子序列长度
+        //     dp(i, 0) 和 dp(0, j) 初始值为 0
+        //     如果 nums1[i - 1] = nums2[j - 1]，那么 dp(i, j) = dp(i - 1, j - 1) + 1
+        //     如果 nums1[i - 1] != nums2[j - 1]，那么 dp(i, j) = max {dp(i - 1, j), dp(i, j - 1)}
         // 求 dp(i, j) 时相当于是以下两列的最大公共子序列
         //     前 i - 1 个元素 | nums[i - 1]
         //     前 j - 1 个元素 | nums[j - 1]
@@ -379,11 +381,46 @@ public class DynamicProgramming {
     /* ---------------------------------------------------------------------------------------------- */
 
     /** LCS 最长公共子串 Longest Common Substring */
-    public static void lcsS() {
+    public static int lcsS() {
+        // 假设
+        //     两个字符串为 str1, str2
+        //     i 属于 [1, str1.length]
+        //     j 属于 [1, str2.length]
+        // 假设 dp(i, j) 是以 str1[i - 1], str2[j - 1] 结尾的最长公共子串长度
+        //     dp(i, 0) 和 dp(0, j) 初始值均为 0
+        //     如果 str1[i - 1] = str2[j - 1]，那么 dp(i, j) = dp(i - 1, j - 1) + 1
+        //     如果 str1[i - 1] != str2[j - 1]，那么 dp(i, j) = 0
 
+
+        String str1 = "ABCD";
+        String str2 = "BABC";
+        return lcsSTool(str1, str2);
+    }
+    private static int lcsSTool(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        int[][] dp = new int[len1 + 1][len2 + 1];
+
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                }
+            }
+        }
+
+        int longest = Integer.MIN_VALUE;
+        for (int i = 0; i < len1; i++) {
+            for (int j = 0; j < len2; j++) {
+                if (dp[i][j] > longest) {
+                    longest = dp[i][j];
+                }
+            }
+        }
+        return longest;
     }
 
-    public static void longestCommonSubstring(String str1, String str2) {
+    private static void lcsOptimization(String str1, String str2) {
 
     }
 
