@@ -1,6 +1,7 @@
 package com.jomkie.datastructure.suanfa.dynamic_programming;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * 动态规划
@@ -12,7 +13,8 @@ public class DynamicProgramming {
     public static void main(String[] args) {
 //        System.out.println(coinChange());
 //        System.out.println(maxSubArray());
-        longestIncreasingSubsequence();
+//        lis();
+        System.out.println(lcs());
     }
 
     /**
@@ -182,8 +184,8 @@ public class DynamicProgramming {
 
     /* ---------------------------------------------------------------------------------------------- */
 
-    /** LIS 最长上升子序列 */
-    public static void longestIncreasingSubsequence() {
+    /** LIS Longest Increasing Subsequence 最长上升子序列 */
+    public static void lis() {
         // 给定一个无序的整数序列，求出最长上升子序列的长度（要求严格上升）
         // ijt[] nums = [10, 2, 2, 5, 1, 7, 101, 18] 的结果为 [2, 5, 7, 101], [2, 5, 7, 18]，长度是 4
         // dp(i) 是以nums[i] 结尾的最长上升子序列的长度，初始值为 1, 1 属于 [0, nums.length)
@@ -238,20 +240,96 @@ public class DynamicProgramming {
 
     /* ---------------------------------------------------------------------------------------------- */
 
-    /** LCS 最长公共子序列 */
-    public static void longestCommonSubsequence() {
+    /** LCS Long Common Subsequence 最长公共子序列 */
+    public static int lcs() {
         // 假设 2 个序列分别是 nums1, nums2
         // i 属于 [1, nums1.length]     j 属于 [1, nums2.lemgth]
         // 假设 dp(i, j) 是 nums1 前 i 个元素 与 nums2 前 j 个元素 的最长公共子序列长度
         // dp(i, 0) 和 dp(0, j) 初始值为 0
         // 如果 nums1[i - 1] = nums2[j - 1]，那么 dp(i, j) = dp(i - 1, j - 1) + 1
         // 如果 nums1[i - 1] != nums2[j - 1]，那么 dp(i, j) = max {dp(i - 1, j), dp(i, j - 1)}
-        //
-        // dp[i][j] 表示
+        // 求 dp(i, j) 时相当于是以下两列的最大公共子序列
+        //     前 i - 1 个元素 | nums[i - 1]
+        //     前 j - 1 个元素 | nums[j - 1]
+        //     如果 nums[i - 1] = nums[j - 1]，那么 dp(i, j) = dp(i - 1, j - 1) + 1
+        //     如果 nums[i - 1] != nums[j - 1]，那么 dp(i, j) = max {dp(i - 1, j), dp(i, j - 1)}
+
+        // 1, 9, 10
         int[] nums1 = {1, 3, 5, 9, 10};
         int[] nums2 = {1, 4, 9, 10};
-    }
-    private static void longestCommonSubsequenceTool(int[] nums1, int[] nums2) {
 
+        // 1, 4, 9, 10
+//        int[] nums1 = {1, 4, 5, 9, 10};
+//        int[] nums2 = {1, 4, 9, 10};
+
+        return longestCommonSubsequenceTool(nums1, nums2);
+    }
+
+
+    private static int longestCommonSubsequenceTool(int[] nums1, int[] nums2) {
+        if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
+//        return longestCommonSubsequenceTool(nums1, nums1.length, nums2, nums2.length);
+//        return longestCommonSubsequenceTool2(nums1, nums2);
+        return longestCommonSubsequenceTool2Optimization(nums1, nums2);
+    }
+    /**
+     * 求 nums1 前 i 个元素 和 nums2 前 j 个元素的最长公共子序列长度
+     * 递归方式
+     * @param nums1
+     * @param i
+     * @param nums2
+     * @param j
+     * @return
+     */
+    private static int longestCommonSubsequenceTool(int[] nums1, int i, int[] nums2, int j) {
+        if (i == 0 || j == 0) { return 0; }
+        if (nums1[i - 1] == nums2[j - 1]) {
+            return longestCommonSubsequenceTool(nums1, i - 1, nums2, j - 1) + 1;
+        }
+        return Math.max(
+                longestCommonSubsequenceTool(nums1, i - 1, nums2, j),
+                longestCommonSubsequenceTool(nums1, i, nums2, j - 1)
+        );
+    }
+
+    /** 动态规划方式 */
+    private static int longestCommonSubsequenceTool2(int[] nums1, int[] nums2) {
+        if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
+        int[][] dp = new int[nums1.length + 1][nums2.length + 1];
+        for (int i = 1; i <= nums1.length; i++) {
+            for (int j = 1; j <= nums2.length; j++) {
+                if (nums1[i - 1] == nums2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        return dp[nums1.length][nums2.length];
+    }
+
+    private static int longestCommonSubsequenceTool2Optimization(int[] nums1, int[] nums2) {
+        // 如果把 dp 的结果显示成二维数组，分析得知从上到下，从左至右，
+        // 每个元素在计算时需要参考：斜左上方元素，正上方元素，相邻左边元素
+        //     当计算dp(i,j)，nums1[i] 等于 nums2[j] 则得出 nums[i - 1][j - 1] + 1
+        //     当nums1[i] != nums2[j] 时则取 max{dp(i, j - 1), dp(i - 1, j)}
+        //     所以优化结果为数组只使用到了两行
+        if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
+        int[][] dp = new int[2][nums2.length + 1];
+        for (int i = 1; i <= nums1.length; i++) {
+            int row = i % 2;
+            // int row = i & 1;    一个数模2可以优化为位运算和1相与
+            int prevRow = (i - 1) % 2;
+            for (int j = 1; j <= nums2.length; j++) {
+                if (nums1[i - 1] == nums2[j - 1]) {
+                    dp[row][j] = dp[prevRow][j - 1] + 1;
+                } else {
+                    dp[row][j] = Math.max(dp[prevRow][j], dp[row][j - 1]);
+                }
+            }
+        }
+
+        return dp[nums1.length % 2][nums2.length];
     }
 }
