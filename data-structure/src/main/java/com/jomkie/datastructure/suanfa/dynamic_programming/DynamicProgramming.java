@@ -390,38 +390,62 @@ public class DynamicProgramming {
         //     dp(i, 0) 和 dp(0, j) 初始值均为 0
         //     如果 str1[i - 1] = str2[j - 1]，那么 dp(i, j) = dp(i - 1, j - 1) + 1
         //     如果 str1[i - 1] != str2[j - 1]，那么 dp(i, j) = 0
+        // 最终结果为 max{dp(i, j)}
 
-
-        String str1 = "ABCD";
-        String str2 = "BABC";
-        return lcsSTool(str1, str2);
+        // C B A
+        String str1 = "ABDCBA";
+        String str2 = "HGCBA";
+//        return lcsSTool(str1, str2);
+        return lcsSToolOptimization(str1, str2);
     }
     private static int lcsSTool(String str1, String str2) {
+        if (null == str1 || null == str2) { return 0; }
         int len1 = str1.length();
         int len2 = str2.length();
+        if (len1 == 0 || len2 == 0) { return 0; }
         int[][] dp = new int[len1 + 1][len2 + 1];
 
+        int max = 0;
         for (int i = 1; i <= len1; i++) {
             for (int j = 1; j <= len2; j++) {
                 if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
+                    max = Math.max(dp[i][j], max);
                 }
             }
         }
 
-        int longest = Integer.MIN_VALUE;
-        for (int i = 0; i < len1; i++) {
-            for (int j = 0; j < len2; j++) {
-                if (dp[i][j] > longest) {
-                    longest = dp[i][j];
-                }
-            }
-        }
-        return longest;
+        return max;
     }
 
-    private static void lcsOptimization(String str1, String str2) {
+    private static int lcsSToolOptimization(String str1, String str2) {
+        // dp 的展示为一个二维数组，并且处理 dp(i, j) 时，总是要参考 dp(i - 1, j - 1)
+        if (null == str1 || null == str2) { return 0; }
+        if (str1.length() == 0 || str2.length() == 0) { return 0; }
+        char[] chars1 = str1.toCharArray();
+        char[] chars2 = str2.toCharArray();
+        char[] rowsChars = chars1, colsChars = chars2;
+        if (chars1.length < chars2.length) {
+            colsChars = chars1;
+            rowsChars = chars2;
+        }
 
+        int[] dp = new int[colsChars.length + 1];
+        int max = 0;
+        for (int row = 1; row <= rowsChars.length; row++) {
+            int cur = 0;
+            for (int col = 1; col <= colsChars.length; col++) {
+                int leftTop = cur;
+                cur = dp[col];
+                if (chars1[row - 1] != chars2[col - 1]) {
+                    dp[col] = 0;
+                } else {
+                    dp[col] = leftTop + 1;
+                    max = Math.max(dp[col], max);
+                }
+            }
+        }
+        return max;
     }
 
 }
