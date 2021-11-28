@@ -1,7 +1,6 @@
 package com.jomkie.datastructure.suanfa.dynamic_programming;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 /**
  * 动态规划
@@ -27,7 +26,7 @@ public class DynamicProgramming {
         // 20, 20, 1
 //        int money = 41;
 //        int[] faces = {25, 20, 5, 1};
-//        return coinChangeTool(faces, money);
+//        coinChangeOptimization(faces, money);
 
         // 7
 //        int money = 19;
@@ -39,7 +38,7 @@ public class DynamicProgramming {
 //        for (int i = 0; i < faces.length; i++) {
 //            if (faces[i] <= money) { dp[faces[i]] = 1; }
 //        }
-//        return coinChangeTool2(faces, dp, money);
+//        coinChangeOptimization2(faces, dp, money);
 
         // 3
 //        int money = 41;
@@ -48,31 +47,31 @@ public class DynamicProgramming {
         // -1 表示不足以找补
 //        int money = 41;
 //        Integer[] faces = {25, 20, 5, 5};
-//        return money + " 分在面额为" + Arrays.toString(faces) +  "中找补需要 " + coinChangeTool4(faces, money) + " 枚";
+//        return money + " 分在面额为" + Arrays.toString(faces) +  "中找补需要 " + coinChangeOptimization4(faces, money) + " 枚";
 
 
         return "";
     }
     /** 暴力递归 */
-    private static int coinChangeTool(int[] faces, int money) {
+    private static int coinChangeOptimization(int[] faces, int money) {
         if (money < 1) { return Integer.MAX_VALUE; }
         if (money == 25 || money == 20 || money == 5 || money == 1) { return 1; }
-        int min1 = Math.min(coinChangeTool(faces, money - 25), coinChangeTool(faces, money - 20));
-        int min2 = Math.min(coinChangeTool(faces, money - 5), coinChangeTool(faces, money - 1));
+        int min1 = Math.min(coinChangeOptimization(faces, money - 25), coinChangeOptimization(faces, money - 20));
+        int min2 = Math.min(coinChangeOptimization(faces, money - 5), coinChangeOptimization(faces, money - 1));
         return Math.min(min1, min2) + 1;
     }
     /** 记忆化搜索-优化，此算法目前限定了面值 */
-    private static int coinChangeTool2(int[] faces, int[] dp, int money) {
+    private static int coinChangeOptimization2(int[] faces, int[] dp, int money) {
         if (money < 1) { return Integer.MAX_VALUE; }
         if (dp[money] == 0) {
-            int min1 = Math.min(coinChangeTool2(faces, dp, money - 25), coinChangeTool2(faces, dp, money - 20));
-            int min2 = Math.min(coinChangeTool2(faces, dp, money - 5), coinChangeTool2(faces, dp, money - 1));
+            int min1 = Math.min(coinChangeOptimization2(faces, dp, money - 25), coinChangeOptimization2(faces, dp, money - 20));
+            int min2 = Math.min(coinChangeOptimization2(faces, dp, money - 5), coinChangeOptimization2(faces, dp, money - 1));
             dp[money] = Math.min(min1, min2) + 1;
         }
         return dp[money];
     }
     /** 递推（自底向上），此算法不足以处理不够补零的情况 */
-    private static int coinChangeTool3(Integer[] faces, int money) {
+    private static int coinChangeOptimization3(Integer[] faces, int money) {
         if (faces == null || faces.length == 0 || money < 1) { return -1; }
         Integer[] dp = new Integer[money + 1];
         Integer[] lastFace = new Integer[money + 1];
@@ -102,7 +101,7 @@ public class DynamicProgramming {
     }
 
     /** 动态规划，最终解法算法（解决不能找补的情况 */
-    private static int coinChangeTool4(Integer[] faces, int money) {
+    private static int coinChangeOptimization4(Integer[] faces, int money) {
         if (faces == null || faces.length == 0 || money < 1) { return -1; }
         Integer[] dp = new Integer[money + 1];
         Arrays.fill(dp, 0);
@@ -148,9 +147,9 @@ public class DynamicProgramming {
           * 此数组的最大连续子序列和为 6
          */
         int[] array = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-        return maxSubArrayTool2(array);
+        return maxSubArrayOptimization2(array);
     }
-    private static int maxSubArrayTool(int[] array) {
+    private static int maxSubArrayOptimization(int[] array) {
         if (null == array || array.length == 0) { return 0; }
         int[] dp = new int[array.length];
         dp[0] = array[0];
@@ -170,7 +169,7 @@ public class DynamicProgramming {
     }
 
     /** 优化空间 */
-    private static int maxSubArrayTool2(int[] array) {
+    private static int maxSubArrayOptimization2(int[] array) {
         if (null == array || array.length == 0) { return 0; }
         int dp = array[0];
         int max = dp;
@@ -198,9 +197,9 @@ public class DynamicProgramming {
         // 以 nums[6] 101 结尾的最长上升子序列是 2, 5,7, 101 => 所以 dp(0) = 1
         // 以 nums[7]   18 结尾的最长上升子序列是  2, 5, 7, 18 => 所以 dp(0) = 1
         int[] array = {10, 2, 2, 5, 1, 7, 101, 18};
-        longestIncreasingSubsequenceTool(array);
+        lisOptimization(array);
     }
-    private static int longestIncreasingSubsequenceTool(int[] array) {
+    private static int lisOptimization(int[] array) {
         if (null == array || array.length == 0) { return 0; }
         int[] dp = new int[array.length];
         int max = dp[0] = 1;
@@ -218,7 +217,7 @@ public class DynamicProgramming {
         return max;
     }
     /** 二分法优化 */
-    private static int longestIncreasingSubsequenceTool2(int[] array) {
+    private static int licOptimization2(int[] array) {
         if (array == null || array.length == 0) { return 0; }
         int[] top = new int[array.length];
         int len = 0;
@@ -274,16 +273,16 @@ public class DynamicProgramming {
 //        int[] nums1 = {1, 2, 3, 6, 8, 10, 7, 13};
 //        int[] nums2 = {2, 3, 8, 10, 13};
 
-        return longestCommonSubsequenceTool(nums1, nums2);
+        return lcsTool(nums1, nums2);
     }
 
 
-    private static int longestCommonSubsequenceTool(int[] nums1, int[] nums2) {
+    private static int lcsTool(int[] nums1, int[] nums2) {
         if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
-//        return longestCommonSubsequenceTool(nums1, nums1.length, nums2, nums2.length);
-//        return longestCommonSubsequenceTool2(nums1, nums2);
-//        return longestCommonSubsequenceTool2Optimization(nums1, nums2);
-        return longestCommonSubsequenceTool2Optimization2(nums1, nums2);
+//        return longestCommonSubsequenceOptimization(nums1, nums1.length, nums2, nums2.length);
+//        return longestCommonSubsequenceOptimization2(nums1, nums2);
+//        return longestCommonSubsequenceOptimization3(nums1, nums2);
+        return longestCommonSubsequenceTool2Optimization4(nums1, nums2);
     }
     /**
      * 求 nums1 前 i 个元素 和 nums2 前 j 个元素的最长公共子序列长度
@@ -294,19 +293,19 @@ public class DynamicProgramming {
      * @param j
      * @return
      */
-    private static int longestCommonSubsequenceTool(int[] nums1, int i, int[] nums2, int j) {
+    private static int longestCommonSubsequenceOptimization(int[] nums1, int i, int[] nums2, int j) {
         if (i == 0 || j == 0) { return 0; }
         if (nums1[i - 1] == nums2[j - 1]) {
-            return longestCommonSubsequenceTool(nums1, i - 1, nums2, j - 1) + 1;
+            return longestCommonSubsequenceOptimization(nums1, i - 1, nums2, j - 1) + 1;
         }
         return Math.max(
-                longestCommonSubsequenceTool(nums1, i - 1, nums2, j),
-                longestCommonSubsequenceTool(nums1, i, nums2, j - 1)
+                longestCommonSubsequenceOptimization(nums1, i - 1, nums2, j),
+                longestCommonSubsequenceOptimization(nums1, i, nums2, j - 1)
         );
     }
 
     /** 动态规划方式，dp的结果展示为一个二维数组 */
-    private static int longestCommonSubsequenceTool2(int[] nums1, int[] nums2) {
+    private static int longestCommonSubsequenceOptimization2(int[] nums1, int[] nums2) {
         if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
         int[][] dp = new int[nums1.length + 1][nums2.length + 1];
         for (int i = 1; i <= nums1.length; i++) {
@@ -322,7 +321,7 @@ public class DynamicProgramming {
         return dp[nums1.length][nums2.length];
     }
     /** 优化数组空间为两行 */
-    private static int longestCommonSubsequenceTool2Optimization(int[] nums1, int[] nums2) {
+    private static int longestCommonSubsequenceOptimization3(int[] nums1, int[] nums2) {
         // 如果把 dp 的结果显示成二维数组，分析得知从上到下，从左至右，
         // 每个元素在计算时需要参考：斜左上方元素，正上方元素，相邻左边元素
         //     当计算dp(i,j)，nums1[i] 等于 nums2[j] 则得出 nums[i - 1][j - 1] + 1
@@ -346,7 +345,7 @@ public class DynamicProgramming {
         return dp[nums1.length % 2][nums2.length];
     }
     /** 优化二维数组空间为一行*/
-    private static int longestCommonSubsequenceTool2Optimization2(int[] nums1, int[] nums2) {
+    private static int longestCommonSubsequenceTool2Optimization4(int[] nums1, int[] nums2) {
         // dp[x] 记录的是上层结果，随着当前位置 (i, j) 的遍历，需要注意以下几点
         //     需要考虑之前的 leftTop 作比较（如果 nums1[i - 1] == nums[j - 1]）
         //     并将当前的 dp[j] 作为 leftTop 备份
@@ -376,4 +375,16 @@ public class DynamicProgramming {
         System.out.println(Arrays.toString(dp));
         return dp[colsNums.length];
     }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    /** LCS 最长公共子串 Longest Common Substring */
+    public static void lcsS() {
+
+    }
+
+    public static void longestCommonSubstring(String str1, String str2) {
+
+    }
+
 }
