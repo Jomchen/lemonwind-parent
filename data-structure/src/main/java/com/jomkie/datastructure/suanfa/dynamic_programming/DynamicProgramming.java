@@ -14,7 +14,8 @@ public class DynamicProgramming {
 //        System.out.println(maxSubArray());
 //        lis();
 //        System.out.println(lcs());
-        System.out.println(lcsS());
+//        System.out.println(lcsS());
+        System.out.println(knapsack());
     }
 
     /**
@@ -446,6 +447,31 @@ public class DynamicProgramming {
             }
         }
         return max;
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    /** 0-1 背包问题 */
+    public static int knapsack() {
+        // 有 n 件物品和一个最大承重为 W 的背包，每件物品的重量是 wi, 价值是 vi
+        // 在保证总重量不超过 W 的前提下，选择某些物品装入背包，背包的最大总价值是多少
+        // 注意：每个物品只有 1 件，也就是每个物品只能选择 0 件或者 1 件
+
+        int[] values = {6, 3, 5, 4, 6};
+        int[] weights = {2, 2, 6, 5, 4};
+        int capacity = 10;
+        return maxValue(values, weights, capacity);
+    }
+
+    /**
+     * 求得在最大承重的背包可以装的最大价值
+     * @param values 物品对应的价值
+     * @param weights 物品对应的重量
+     * @param capacity 背包最大承重
+     * @return
+     */
+    private static int maxValue(int[] values, int[] weights, int capacity) {
+        return 0;
     }
 
 }
