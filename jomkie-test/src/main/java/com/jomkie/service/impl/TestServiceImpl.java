@@ -1,14 +1,10 @@
 package com.jomkie.service.impl;
 
-import com.jomkie.common.entity.dto.JoKongfuDTO;
-import com.jomkie.common.entity.dto.JoUserDTO;
-import com.jomkie.common.entity.vo.JoKongfuVO;
 import com.jomkie.common.redis.RedisTool;
 import com.jomkie.common.remote.RemoteApi;
 import com.jomkie.common.wechat.action.WeChatNativePay;
 import com.jomkie.common.wechat.action.WeChatPlatformCertification;
 import com.jomkie.service.TestService;
-import com.jomkie.test.mapstruct.JoKongfuConverter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;

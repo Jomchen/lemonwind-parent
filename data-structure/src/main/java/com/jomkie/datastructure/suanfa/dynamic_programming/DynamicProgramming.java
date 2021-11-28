@@ -262,6 +262,10 @@ public class DynamicProgramming {
 //        int[] nums1 = {1, 4, 5, 9, 10};
 //        int[] nums2 = {1, 4, 9, 10};
 
+        // 2, 3, 8, 10, 13
+//        int[] nums1 = {1, 2, 3, 6, 8, 10, 7, 13};
+//        int[] nums2 = {2, 3, 8, 10, 13};
+
         return longestCommonSubsequenceTool(nums1, nums2);
     }
 
@@ -270,7 +274,8 @@ public class DynamicProgramming {
         if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
 //        return longestCommonSubsequenceTool(nums1, nums1.length, nums2, nums2.length);
 //        return longestCommonSubsequenceTool2(nums1, nums2);
-        return longestCommonSubsequenceTool2Optimization(nums1, nums2);
+//        return longestCommonSubsequenceTool2Optimization(nums1, nums2);
+        return longestCommonSubsequenceTool2Optimization2(nums1, nums2);
     }
     /**
      * 求 nums1 前 i 个元素 和 nums2 前 j 个元素的最长公共子序列长度
@@ -292,7 +297,7 @@ public class DynamicProgramming {
         );
     }
 
-    /** 动态规划方式 */
+    /** 动态规划方式，dp的结果展示为一个二维数组 */
     private static int longestCommonSubsequenceTool2(int[] nums1, int[] nums2) {
         if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
         int[][] dp = new int[nums1.length + 1][nums2.length + 1];
@@ -308,7 +313,7 @@ public class DynamicProgramming {
 
         return dp[nums1.length][nums2.length];
     }
-
+    /** 优化数组空间为两行 */
     private static int longestCommonSubsequenceTool2Optimization(int[] nums1, int[] nums2) {
         // 如果把 dp 的结果显示成二维数组，分析得知从上到下，从左至右，
         // 每个元素在计算时需要参考：斜左上方元素，正上方元素，相邻左边元素
@@ -331,5 +336,36 @@ public class DynamicProgramming {
         }
 
         return dp[nums1.length % 2][nums2.length];
+    }
+    /** 优化二维数组空间为一行*/
+    private static int longestCommonSubsequenceTool2Optimization2(int[] nums1, int[] nums2) {
+        // dp[x] 记录的是上层结果，随着当前位置 (i, j) 的遍历，需要注意以下几点
+        //     需要考虑之前的 leftTop 作比较（如果 nums1[i - 1] == nums[j - 1]）
+        //     并将当前的 dp[j] 作为 leftTop 备份
+        //     将当前位置计算结果覆盖 dp[j]
+        if (null == nums1 || nums1.length == 0 || null == nums2 || nums2.length == 0) { return 0; }
+
+        // 让长度小的作为 dp 的长度，进一步优化空间
+        int[] rowsNums = nums1, colsNums = nums2;
+        if (nums1.length < nums2.length) {
+            colsNums = nums1;
+            rowsNums = nums2;
+        }
+        int[] dp = new int[colsNums.length + 1];
+        for (int i = 1; i <= rowsNums.length; i++) {
+            int cur = 0;
+            for (int j = 1; j <= colsNums.length; j++) {
+                int leftTop = cur;
+                cur = dp[j];
+                if (rowsNums[i - 1] == colsNums[j - 1]) {
+                    dp[j] = leftTop + 1;
+                } else {
+                    dp[j] = Math.max(dp[j], dp[j - 1]);
+                }
+            }
+        }
+
+        System.out.println(Arrays.toString(dp));
+        return dp[colsNums.length];
     }
 }
