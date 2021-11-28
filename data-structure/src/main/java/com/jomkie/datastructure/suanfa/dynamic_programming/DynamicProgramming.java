@@ -319,7 +319,7 @@ public class DynamicProgramming {
         int[][] dp = new int[2][nums2.length + 1];
         for (int i = 1; i <= nums1.length; i++) {
             int row = i % 2;
-            // int row = i & 1;    一个数模2可以优化为位运算和1相与
+            // int row = i & 1;    i % 2 可以优化为此行，在hash计算的readme.txt有解释原理，在递归计算斐波那契数时有提到优化
             int prevRow = (i - 1) % 2;
             for (int j = 1; j <= nums2.length; j++) {
                 if (nums1[i - 1] == nums2[j - 1]) {
