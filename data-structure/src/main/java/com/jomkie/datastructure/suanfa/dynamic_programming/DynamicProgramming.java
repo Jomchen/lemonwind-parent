@@ -456,11 +456,26 @@ public class DynamicProgramming {
         // 有 n 件物品和一个最大承重为 W 的背包，每件物品的重量是 wi, 价值是 vi
         // 在保证总重量不超过 W 的前提下，选择某些物品装入背包，背包的最大总价值是多少
         // 注意：每个物品只有 1 件，也就是每个物品只能选择 0 件或者 1 件
+        //
+        // 编号为 k 的物品，价值是 values[k]，重量是 weights[k]，k 属于 [0, n)
+        // 假设 dp(i, j) 是最大承重为 j，有前 i 件物品可选时的最大总价值，i 属于 [0, n], j 属于 [0, W]
+        //     dp(i, 0) 和 dp(0, j) 均为 0
+        //     dp(i, j) 的计算的情况
+        //         如果 j < weights[i - 1]，dp(i, j) = dp(i - 1, j)
+        //         如果 j >= weights[i - 1]
+        //             如果不选择第 i 件物品，dp(i, j) = dp(i - 1, j)
+        //             如果选择第 i 件物品，dp(i, j) = values[i - 1] + dp(i - 1, j - weights[i - 1])
+        //             dp(i, j) = max{
+        //                 dp(i - 1, j),
+        //                 values[i -1] + dp(i - 1, j - weights[i - 1])
+        //             }
 
+        // 15
         int[] values = {6, 3, 5, 4, 6};
         int[] weights = {2, 2, 6, 5, 4};
         int capacity = 10;
-        return maxValue(values, weights, capacity);
+//        return maxValue(values, weights, capacity);
+        return maxValueOptimization(values, weights, capacity);
     }
 
     /**
@@ -471,7 +486,89 @@ public class DynamicProgramming {
      * @return
      */
     private static int maxValue(int[] values, int[] weights, int capacity) {
-        return 0;
+        if (null == values || values.length == 0) { return 0; }
+        if (null == weights || weights.length == 0) { return 0; }
+        if (weights.length != values.length) { return 0; }
+        if (capacity <= 0) { return 0; }
+
+        int[][] dp = new int[values.length + 1][capacity + 1];
+        for (int i = 1; i <= values.length; i++) {
+            for (int j = 1; j <= capacity; j++) {
+                if (j < weights[i - 1]) {
+                    dp[i][j] = dp[i - 1][j];
+                    continue;
+                }
+
+                int noSelected = dp[i - 1][j];
+                int selected = values[i - 1] + dp[i - 1][j - weights[i - 1]];
+                dp[i][j] = Math.max(noSelected, selected);
+            }
+        }
+
+        return dp[values.length][capacity];
+    }
+    /** 优化 */
+    private static int maxValueOptimization(int[] values, int[] weights, int capacity) {
+        // dp 显示是一个二维数组，在计算 dp(i, j) 时总是依赖于上一层的数据，以此作优化
+        // 如果想将数组优化为一个一维数组，如果从左向右处理，则之前的值可能被覆盖，所以选择从右向左处理
+        if (null == values || values.length == 0) { return 0; }
+        if (null == weights || weights.length == 0) { return 0; }
+        if (weights.length != values.length) { return 0; }
+        if (capacity <= 0) { return 0; }
+
+        int[] dp = new int[capacity + 1];
+        for (int i = 1; i <= values.length; i++) {
+//            for (int j = capacity; j >= 1; j--) {
+//                if (j < weights[i - 1]) {
+//                    dp[j] = dp[j];
+//                    continue;
+//                }
+
+            // j >= 1 优化为 weights[i - 1] 可以减少循环的次数
+            // 已经确定了重量的情况，所以也可以省略 j < weights[i - 1] 的情况
+            for (int j = capacity; j >= weights[i - 1]; j--) {
+
+                int noSelected = dp[j];
+                int selected = values[i - 1] + dp[j - weights[i - 1]];
+                dp[j] = Math.max(noSelected, selected);
+            }
+        }
+
+        return dp[capacity];
+    }
+
+    /** 0-1 背包-恰好装满 */
+    public static int knapsack2() {
+        // 有 n 件物品和一个最大承重为 W 的背包，每件物品的重量是 wi, 价值是 vi
+        // 在保证总重量恰好等于 W 的前提下，选择某些物品装入背包，背包的最大总价值是多少？
+        // 注意：每个物品只有1件，也就是每个物品只能选择 0 件或 1 件
+
+        // dp(i, j) 初始状态调整
+        // dp(i, 0) = 0，总重量恰好为0，最大总价值必然也为 0
+        // dp(0, j) = -无穷，j >= 1，负数在这里代表无法恰好装满
+        int[] values = {6, 3, 5, 4, 6};
+        int[] weights = {2, 2, 6, 5, 4};
+        int capacity = 10;
+        return maxValueExactly(values, weights, capacity);
+    }
+
+    private static int maxValueExactly(int[] values, int[] weights, int capacity) {
+        if (null == values || values.length == 0) { return -1; }
+        if (null == weights || weights.length == 0) { return -1; }
+        if (weights.length != values.length) { return 0; }
+        if (capacity <= 0) { return 0; }
+        int[] dp = new int[capacity + 1];
+        for (int j = 1; j <= capacity; j++) {
+            dp[j] = Integer.MIN_VALUE;
+        }
+
+        for (int i = 1; i <= values.length; i++) {
+            for (int j = capacity; j >= weights[i - 1]; j--) {
+                dp[j] = Math.max(dp[j], dp[j - weights[i - 1]] + values[i - 1]);
+            }
+        }
+
+        return dp[capacity] < 0 ? -1 : dp[capacity];
     }
 
 }
