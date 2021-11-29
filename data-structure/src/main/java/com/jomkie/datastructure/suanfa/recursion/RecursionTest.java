@@ -44,6 +44,7 @@ public class RecursionTest {
      * 滚动数组：一个只有n个元素空间的数组，在一串数据中，像滑动窗口一样，每次滑动一个元素位置再进行计算
      * */
     public static int fid02(int n) {
+        // TODO 这里二进制表示有问题
         // data 与 2 进行相模的运算可以优化为 data & 1
         // 4 % 2 = 0 0b100 & 0b001 = 0
         // 3 % 2 = 1 0b011 & 0b001 = 1
