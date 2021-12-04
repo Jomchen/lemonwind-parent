@@ -15,7 +15,8 @@ public class DynamicProgramming {
 //        lis();
 //        System.out.println(lcs());
 //        System.out.println(lcsS());
-        System.out.println(knapsack());
+//        System.out.println(knapsack());
+        System.out.println(knapsack2());
     }
 
     /**
@@ -537,7 +538,16 @@ public class DynamicProgramming {
         return dp[capacity];
     }
 
-    /** 0-1 背包-恰好装满 */
+    /**
+     * 0-1 背包-恰好装满
+     * 有 n 件物品和一个最大承重为 W 的背包，每件物品的重量是 wi，价值是 vi
+     * 在保证总重量恰好等于 W 的前提下，选择某些物品装入背包，背包的最大总价值是多少
+     * 注意：每个物品只有 1 件，也就是每个物品只能选择 0 件或者 1 件
+     *
+     * dp(i, j) 初始状态调整
+     * dp(i, ) = 0，总重量恰好为 0，最大总价值必然也为 0
+     * dp(0, j) = 负无穷，j >= 1，负数在这里代表无法恰好装满
+     */
     public static int knapsack2() {
         // 有 n 件物品和一个最大承重为 W 的背包，每件物品的重量是 wi, 价值是 vi
         // 在保证总重量恰好等于 W 的前提下，选择某些物品装入背包，背包的最大总价值是多少？
@@ -548,10 +558,15 @@ public class DynamicProgramming {
         // dp(0, j) = -无穷，j >= 1，负数在这里代表无法恰好装满
         int[] values = {6, 3, 5, 4, 6};
         int[] weights = {2, 2, 6, 5, 4};
+
         int capacity = 10;
         return maxValueExactly(values, weights, capacity);
-    }
 
+        // 这个是无法凑齐 20 的
+//         int capacity = 20;
+//        return maxValueExactly(values, weights, capacity);
+    }
+    /** 如果返回 -1 表示没法刚好凑到 capacity 这个量 */
     private static int maxValueExactly(int[] values, int[] weights, int capacity) {
         if (null == values || values.length == 0) { return -1; }
         if (null == weights || weights.length == 0) { return -1; }
