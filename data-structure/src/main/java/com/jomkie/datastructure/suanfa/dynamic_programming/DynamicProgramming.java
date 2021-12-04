@@ -568,6 +568,8 @@ public class DynamicProgramming {
     }
     /** 如果返回 -1 表示没法刚好凑到 capacity 这个量 */
     private static int maxValueExactly(int[] values, int[] weights, int capacity) {
+        // 对于负无穷用最小值代替的思考：
+        // 随着不断地计算，最小值可能会增大，增大到正数时会影响结果
         if (null == values || values.length == 0) { return -1; }
         if (null == weights || weights.length == 0) { return -1; }
         if (weights.length != values.length) { return 0; }
