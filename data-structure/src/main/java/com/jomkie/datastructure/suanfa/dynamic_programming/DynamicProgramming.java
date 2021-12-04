@@ -538,6 +538,8 @@ public class DynamicProgramming {
         return dp[capacity];
     }
 
+    /* -------------------------------------------------------------------------------------- */
+
     /**
      * 0-1 背包-恰好装满
      * 有 n 件物品和一个最大承重为 W 的背包，每件物品的重量是 wi，价值是 vi
@@ -566,10 +568,11 @@ public class DynamicProgramming {
 //         int capacity = 20;
 //        return maxValueExactly(values, weights, capacity);
     }
-    /** 如果返回 -1 表示没法刚好凑到 capacity 这个量 */
+
     private static int maxValueExactly(int[] values, int[] weights, int capacity) {
         // 对于负无穷用最小值代替的思考：
         // 随着不断地计算，最小值可能会增大，增大到正数时会影响结果
+        // 如果返回 -1 表示没法刚好凑到 capacity 这个量
         if (null == values || values.length == 0) { return -1; }
         if (null == weights || weights.length == 0) { return -1; }
         if (weights.length != values.length) { return 0; }
