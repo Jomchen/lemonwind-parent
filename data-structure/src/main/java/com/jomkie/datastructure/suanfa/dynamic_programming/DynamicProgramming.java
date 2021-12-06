@@ -12,9 +12,9 @@ public class DynamicProgramming {
     public static void main(String[] args) {
 //        System.out.println(coinChange());
 //        System.out.println(maxSubArray());
-//        lis();
+        lis();
 //        System.out.println(lcs());
-        System.out.println(lcsS());
+//        System.out.println(lcsS());
 //        System.out.println(knapsack());
 //        System.out.println(knapsack2());
     }
@@ -199,8 +199,12 @@ public class DynamicProgramming {
         //     以 nums[5]     7 结尾的最长上升子序列是 2, 5, 7         =>  所以 dp(0) = 1
         //     以 nums[6] 101 结尾的最长上升子序列是 2, 5,7, 101 => 所以 dp(0) = 1
         //     以 nums[7]   18 结尾的最长上升子序列是  2, 5, 7, 18 => 所以 dp(0) = 1
+
+        // 最长上升子序列长度为 4
         int[] array = {10, 2, 2, 5, 1, 7, 101, 18};
-        lisOptimization(array);
+//        lisOptimization(array);
+//        licOptimization2(array);
+        licOptimization3(array);
     }
     private static int lisOptimization(int[] array) {
         if (null == array || array.length == 0) { return 0; }
@@ -219,8 +223,59 @@ public class DynamicProgramming {
         System.out.println(Arrays.toString(dp));
         return max;
     }
-    /** 二分法优化 */
+    /**
+     * 把序列的每个数字看作是一张扑克牌，从左到右按顺序处理每一个扑克牌
+     * 从左往右数牌堆，最先找到某牌堆的牌面值 >= 当前处理扑克
+     *     如果找到，则把当前处理的牌压在相应牌堆牌面
+     *     如果没找到，则在目前所有牌堆的最右边新建一个牌堆（即把当前处理扑克作为牌堆）
+     * 最终：牌堆数即最长上升子序列长度
+     *
+     * 10, 2, 2, 5, 1, 7, 101, 18 处理后的牌堆如下：
+     *
+     *     10    5    7    101
+     *      2                  18
+     *      2
+     *      1
+     *
+     * 所以最长上升子序列为：
+     * 10, 5, 7, 101or18
+     * 2 5 7 101or18
+     * 2, 5, 7, 101or18
+     * 1, 5, 7, 101or18
+     */
     private static int licOptimization2(int[] array) {
+        if (array == null || array.length == 0) { return 0; }
+        // 牌堆的数量
+        int len = 0;
+        // 牌顶数组
+        int[] top = new int[array.length];
+        // 遍历所有牌
+        for (int num : array) {
+            int j = 0;
+            while (j < len) {
+                // 找到一个牌面 >= num的牌堆
+                if (top[j] >= num) {
+                    top[j] = num;
+                    break;
+                }
+                // 牌顶 < num
+                j++;
+            }
+            if (j == len) {
+                len++;
+                top[j] = num;
+            }
+        }
+
+        System.out.println(len);
+        return len;
+    }
+
+    /**
+     * 二分法优化
+     * 根据实验得知 top 的牌面一定是升序的，以此情况可以作二分搜索
+     */
+    private static int licOptimization3(int[] array) {
         if (array == null || array.length == 0) { return 0; }
         int[] top = new int[array.length];
         int len = 0;
@@ -237,6 +292,8 @@ public class DynamicProgramming {
             top[begin] = num;
             if (begin == len) { len++; }
         }
+
+        System.out.println(len);
         return len;
     }
 
