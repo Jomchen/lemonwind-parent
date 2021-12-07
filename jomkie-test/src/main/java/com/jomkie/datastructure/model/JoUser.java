@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
  * 用户模型层
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @TableName(JoUser.TABLE_NAME)
 public class JoUser {
 
@@ -27,5 +25,17 @@ public class JoUser {
     private Short sex;
 
     private String email;
+
+    public JoUser() {
+
+    }
+
+    public JoUser(Long id, String name, Integer age, Short sex, String email) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+        this.email = email;
+    }
 
 }
