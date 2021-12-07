@@ -1,3 +1,4 @@
+###
 ### 更新用户
 POST http://127.0.0.1:8080/net/user/update
 Accept: application/json
@@ -10,6 +11,11 @@ Content-Type: application/json
   "email": "googlemail2@gmail.com",
   "dateTime": "2020-01-01"
 }
+
+### 查询所有用户
+GET http://127.0.0.1:8080/net//user/get/all
+Accept: application/json
+
 
 ### 增加用户
 POST http://127.0.0.1:8080/net/user/add
