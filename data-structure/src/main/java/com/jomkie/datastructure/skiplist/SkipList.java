@@ -1,5 +1,6 @@
 package com.jomkie.datastructure.skiplist;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -22,6 +23,7 @@ public class  SkipList<K, V> {
     private int size;
     private Comparator<K> comparator;
     private Node<K, V> first;
+    private static final double P = 0.25;
 
     /** 有效层，最低层索引为0 */
     private int level;
@@ -34,8 +36,7 @@ public class  SkipList<K, V> {
 
     public SkipList(Comparator<K> comparator) {
         this.comparator = comparator;
-        this.first = new Node<>();
-        this.first.nexts = new Node[MAX_LEVEL];
+        this.first = new Node(null, null, MAX_LEVEL);
     }
 
     public int size() {
@@ -48,13 +49,41 @@ public class  SkipList<K, V> {
 
     public V put(K key, V value) {
         keyCheck(key);
+
+        Node<K, V> node = first;
+        Node<K, V>[] prevs = new Node[level];
+        for (int i = level - 1; i >= 0; i--) {
+            int cmp = -1;
+            while (node.nexts[i] != null
+                    && (cmp = compare(key, node.nexts[i].key)) > 0) {
+                node = node.nexts[i];
+            }
+            if (cmp == 0) {
+                V oldV = node.nexts[i].value;
+                node.nexts[i].value = value;
+                return oldV;
+            }
+            prevs[i] = node;
+        }
+
+        int newLevel = randomLevel();
+        Node<K, V> newNode = new Node<>(key, value, newLevel);
+        for (int i = 0; i < newLevel; i++) {
+            if (i >= level) {
+                first.nexts[i] = newNode;
+            } else {
+                newNode.nexts[i] = prevs[i].nexts[i];
+                prevs[i].nexts[i] = newNode;
+            }
+        }
+        size++;
+        level = Math.max(level, newLevel);
         return null;
     }
 
     public V get(K key) {
         keyCheck(key);
         Node<K, V> node = first;
-
         for (int i = level - 1; i >= 0; i--) {
             int cmp = -1;
             while (node.nexts[i] != null
@@ -71,7 +100,48 @@ public class  SkipList<K, V> {
 
     public V remove(K key) {
         keyCheck(key);
-        return null;
+
+        Node<K, V> node = first;
+        Node<K, V>[] prevs = new Node[level];
+        boolean exist = false;
+        for (int i = level - 1; i >= 0; i--) {
+            int cmp = -1;
+            while (node.nexts[i] != null
+                    && (cmp = compare(key, node.nexts[i].key)) > 0) {
+                node = node.nexts[i];
+            }
+            prevs[i] = node;
+            if (cmp == 0) { exist = true; }
+        }
+        if (!exist) { return null; }
+
+        // 需要被删除的节点
+        Node<K, V> removedNode = node.nexts[0];
+        // 数量减少
+        size--;
+
+        // 设置后继节点
+        for (int i = 0; i < removedNode.nexts.length; i++) {
+            prevs[i].nexts[i] = removedNode.nexts[i];
+        }
+
+        // 更新跳表的层数，从以前的层数进行层为数遍历，判断相应层是否有下一个节点
+        int newLevel = level;
+        while (--newLevel >= 0 && first.nexts[newLevel] == null) {
+            level = newLevel;
+        }
+
+        return removedNode.value;
+    }
+
+    /** 随机算出新节点的层级数 */
+    private int randomLevel() {
+        int level = 1;
+        // 生成 [0, 1) 的小数
+        while (Math.random() < P && level < MAX_LEVEL) {
+            level++;
+        }
+        return level;
     }
 
     private void keyCheck(K key) {
@@ -87,13 +157,36 @@ public class  SkipList<K, V> {
     }
 
     private static class Node<K, V> {
+        static final Node[] EMPTY_NODE = {};
         K key;
         V value;
-        Node<K, V>[] nexts;
+        Node<K, V>[] nexts = EMPTY_NODE;
 
-        public Node() {}
-        public Node(K key, V value) {}
+        public Node(K key, V value, int level) {
+            this.key = key;
+            this.value = value;
+            this.nexts = new Node[level];
+        }
 
+        @Override
+        public String toString() {
+            return key + ":" + value + "_" + nexts.length;
+        }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("一共" + level + "层").append("\n");
+        for (int i = level - 1; i >= 0; i--) {
+            Node<K, V> node = first;
+            while (node.nexts[i] != null) {
+                sb.append(node.nexts[i].key);
+                sb.append(" ");
+                node = node.nexts[i];
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }
