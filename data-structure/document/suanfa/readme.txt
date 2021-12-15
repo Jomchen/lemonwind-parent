@@ -66,3 +66,11 @@
              *-------------*
       因为 AC 和 BD 已经计算过了，所以相较于之前的分治算法要少做些乘法
    ```
+
+* Sequence 串
+   - 字符串，前缀(prefix)，真前缀(proper prefix)，后缀(suffix)，真后缀(proper suffix)
+   - "thank" 字符串
+      1. 前缀：t, th, tha, than, thank
+      2. 真前缀：t, th, tha, than
+      3. 后缀：thank, hank, ank, nk, k
+      4. 真后缀：hank, ank, nk, k
