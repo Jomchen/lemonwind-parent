@@ -13,8 +13,12 @@ public class Sequence {
 
     public static void main(String[] args) {
         // 7
+//        String text = "Hello World";
+//        String pattern = "or";
+
+        // lo W
         String text = "Hello World";
-        String pattern = "or";
+        String pattern = "lo W";
 
         // -1
 //        String text = "Hello World";
@@ -23,7 +27,7 @@ public class Sequence {
         // -1
 //        String text = "Hello World";
 //        String pattern = "xy";
-        System.out.println("test00: " + bruteForce(text, pattern));
+        System.out.println("test00: " + bruteForce2(text, pattern));
     }
 
     /**
@@ -51,7 +55,22 @@ public class Sequence {
     }
 
     /** 优化，pi 增加时，ti不增加，利用 ti+pi 得到 text 对应的字符进行比较 */
-    public static int bruteForce2 (String text, String pattern) {
+    public static int bruteForce2(String text, String pattern) {
+        if (checkStr(text, pattern)) { return -1; }
+
+        int tlen = text.length();
+        int plen = pattern.length();
+        int tiMax = tlen - plen;
+        for (int ti = 0; ti <= tiMax; ti++) {
+            int pi = 0;
+            for (; pi < plen; pi++) {
+                if (text.charAt(ti + pi) != pattern.charAt(pi)) {
+                    break;
+                }
+            }
+            if (pi == plen) { return ti; }
+        }
+
         return -1;
     }
 
