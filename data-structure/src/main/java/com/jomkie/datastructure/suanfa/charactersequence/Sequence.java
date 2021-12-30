@@ -74,6 +74,30 @@ public class Sequence {
         return -1;
     }
 
+    /** KMP */
+    public static int kmp(String text, String pattern) {
+        if (checkStr(text, pattern)) { return -1; }
+
+        int tlen = text.length();
+        int plen = pattern.length();
+        int[] next = next(pattern);
+        int pi = 0, ti = 0, lenDelta = tlen - plen;
+        while (pi < plen && ti <= lenDelta) {
+            if (text.charAt(ti) == pattern.charAt(pi)) {
+                ti++;
+                pi++;
+            } else {
+
+            }
+        }
+
+        return pi == plen ? (ti - pi) : -1;
+    }
+
+    private static int[] next(String pattern) {
+        return null;
+    }
+
     private static boolean checkStr(String text, String pattern) {
         if (null == text || text.length() == 0
                 || null == pattern || pattern.length() == 0
