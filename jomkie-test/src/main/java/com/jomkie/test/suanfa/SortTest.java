@@ -22,7 +22,8 @@ public class SortTest {
 //        xuanze(source);
 //        charu(source);
 //        guibing(source);
-        kuaipai(source);
+//        kuaipai(source);
+        heapSort(source);
         System.out.println("排序后：>>>>>>>>>>>>>>>");
         System.out.println(Arrays.toString(source));
     }
@@ -160,6 +161,45 @@ public class SortTest {
         }
 
         return begin;
+    }
+
+    /**
+     * 堆排序
+     * @param source
+     */
+    public static void heapSort(int[] source) {
+        for (int i = source.length/2 -1; i >= 0; i--) {
+            siftDown(source, i, source.length);
+        }
+
+        int heapSize = source.length;
+        while (heapSize > 1) {
+            exchange(source, 0, --heapSize);
+            siftDown(source, 0, heapSize);
+        }
+
+    }
+    private static void siftDown(int[] source, int index, int heapSize) {
+        int element = source[index];
+        int lastSize = heapSize >> 1;
+        while (index < lastSize) {
+            int childIndex = (index << 1) + 1;
+            int childValue = source[childIndex];
+            int rightIndex = (index << 1) + 2;
+            if (rightIndex < heapSize && source[rightIndex] > childValue) {
+                childIndex = rightIndex;
+                childValue = source[rightIndex];
+            }
+
+            if (childValue <= element) {
+                break;
+            }
+
+            source[index] = childValue;
+            index = childIndex;
+        }
+
+        source[index] = element;
     }
 
     /**
