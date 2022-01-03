@@ -69,6 +69,9 @@ public class SortTest {
 		/* 上一个的代码如果在数据量很多的情况，有序的可能性很小。所以运行效率不一定比没有优化的好 */
 		/* 再经过优化，如果序列尾部已经局部有序，可以记录最后一次交换的位置，减少比较次数 */
 		for (int end = source.length - 1; end > 0; end --) {
+			// 正常逻辑应该是默认赋值为 end，但如果后面的数据已经是完全有序的，
+			// 则不会进入 if 判断去变更 sortedIndex；意味着不会变更 sortedIndex
+			// 因此就没有排序的必要性，所以初始化值为 0
 			int sortedIndex = 0;
 			for (int begin = 1; begin <= end; begin ++) {
 				if (cmp(source, begin, begin - 1) < 0) {
