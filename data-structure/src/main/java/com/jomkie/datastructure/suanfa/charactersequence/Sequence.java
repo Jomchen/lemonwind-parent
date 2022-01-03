@@ -42,6 +42,7 @@ public class Sequence {
         int plen = pattern.length();
         int pi = 0, ti = 0, lenDelta = tlen - plen;
         while (pi < plen && ti - pi <= lenDelta) { // 右边一个条件是为了判断 text 如果要对比完 pattern 会不会越界；当前正在匹配的字符串的开始索引不能超过临界值
+            // ti - pi 是指每一轮比较中 text 首个比较字符的位置
             if (text.charAt(ti) == pattern.charAt(pi)) {
                 pi++;
                 ti++;
