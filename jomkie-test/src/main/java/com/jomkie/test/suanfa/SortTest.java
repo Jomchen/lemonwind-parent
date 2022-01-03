@@ -20,7 +20,9 @@ public class SortTest {
         System.out.println(Arrays.toString(source));
 //        maopao(source);
 //        xuanze(source);
-        charu(source);
+//        charu(source);
+//        guibing(source);
+        kuaipai(source);
         System.out.println("排序后：>>>>>>>>>>>>>>>");
         System.out.println(Arrays.toString(source));
     }
@@ -66,6 +68,98 @@ public class SortTest {
             }
             source[begin] = temporary;
         }
+    }
+
+    public static void guibing(int[] source) {
+        int[] temporary = new int[source.length];
+        guibing(source, 0, source.length, temporary);
+    }
+    public static void guibing(int[] source, int begin, int end, int[] temporary) {
+        if ((end - begin) < 2) { return; }
+        int mid = (begin + end) >> 1;
+        guibing(source, begin, mid, temporary);
+        guibing(source, mid, end, temporary);
+        merge(source, begin, mid, end, temporary);
+    }
+    private static void merge(int[] source, int begin, int mid, int end, int[] temporary) {
+        int firstIndex = begin;
+        int secondIndex = mid;
+        int temporaryIndex = begin;
+        while (true) {
+            if (firstIndex < mid && secondIndex < end) {
+                if (compare(source, firstIndex, secondIndex) <= 0) {
+                    temporary[temporaryIndex] = source[firstIndex];
+                    ++firstIndex;
+                    ++temporaryIndex;
+                    continue;
+                } else {
+                    temporary[temporaryIndex] = source[secondIndex];
+                    ++secondIndex;
+                    ++temporaryIndex;
+                    continue;
+                }
+            }
+
+            while (firstIndex < mid) {
+                temporary[temporaryIndex] = source[firstIndex];
+                ++firstIndex;
+                ++temporaryIndex;
+            }
+            while (secondIndex < end) {
+                temporary[temporaryIndex] = source[secondIndex];
+                ++secondIndex;
+                ++temporaryIndex;
+            }
+
+            break;
+        }
+
+        for (int i = begin; i < end; i++) {
+            source[i] = temporary[i];
+        }
+    }
+
+    public static void kuaipai(int[] source) {
+        kuaipai(source, 0, source.length);
+    }
+    public static void kuaipai(int[] source, int begin, int end) {
+        if ((end - begin) < 2) { return; }
+        int tem = kuaipaiTool(source, begin, end);
+        kuaipai(source, begin, tem);
+        kuaipai(source, tem + 1, end);
+    }
+    public static int kuaipaiTool(int[] source, int begin, int end) {
+        int tem = (end + begin) >> 1;
+        exchange(source, begin, tem);
+
+        int lastData = source[begin];
+        end--;
+
+        while (begin < end) {
+            while (begin < end) {
+                if (source[end] > lastData) {
+                    end--;
+                } else {
+                    source[begin] = source[end];
+                    begin++;
+                    break;
+                }
+            }
+
+            while (begin < end) {
+                if (source[begin] < lastData) {
+                    begin++;
+                } else {
+                    source[end] = source[begin];
+                    end--;
+                    break;
+                }
+            }
+
+            source[begin] = lastData;
+        }
+
+        return begin;
     }
 
     /**

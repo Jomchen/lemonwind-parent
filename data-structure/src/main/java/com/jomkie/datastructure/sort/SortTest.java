@@ -341,7 +341,9 @@ public class SortTest {
 	}
 	private static int quickSortTool2(int[] source, int begin, int end) {
 		/* ---
-		这一段代码为优化，需要优化则放开 
+		这一段代码为优化，需要优化则放开 ，因为如果每次都以 begin 的值作为轴点
+		如果是升序排序，如果 begin 之后的都是比 begin 小的，那么需要很多次处理才能把 begin 的值放到最后
+		所以需要随机选择一个值作为轴点值，把轴点值赋给 begin，再以 begin 的当前值作为轴点元素
 		int random = (int)Math.random() * (end - begin);
 		swap(source, begin, begin + random);
 		--- */
