@@ -84,11 +84,11 @@ public class Sequence {
         int[] next = next(pattern);
         int pi = 0, ti = 0, lenDelta = tlen - plen;
         while (pi < plen && ti <= lenDelta) {
-            if (text.charAt(ti) == pattern.charAt(pi)) {
+            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
             } else {
-
+                pi = next[pi];
             }
         }
 
