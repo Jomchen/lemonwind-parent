@@ -1,7 +1,7 @@
 package com.jomkie.typetest.jicheng.impl;
 
-import org.apache.ibatis.typetest.entity.JoUser;
-import org.apache.ibatis.typetest.jicheng.JoExtends;
+import com.jomkie.typetest.entity.JoUser;
+import com.jomkie.typetest.jicheng.JoExtends;
 
 public class JoUserExtendsImpl extends JoExtends<JoUser> {
 

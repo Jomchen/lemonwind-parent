@@ -1,7 +1,7 @@
 package com.jomkie.typetest.jiekou.impl;
 
-import org.apache.ibatis.typetest.entity.JoUser;
-import org.apache.ibatis.typetest.jiekou.JoInterface;
+import com.jomkie.typetest.entity.JoUser;
+import com.jomkie.typetest.jiekou.JoInterface;
 
 public class JoUserInterfaceImpl implements JoInterface<JoUser> {
 
