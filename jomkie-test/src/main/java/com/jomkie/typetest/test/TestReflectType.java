@@ -84,6 +84,6 @@ public class TestReflectType {
     // java.util.List<java.lang.String>
 //    listArrayGenericArrayType.getGenericComponentType();
 
-
+    /* ----------------------- TypeVariable ----------------------- */
   }
 }
