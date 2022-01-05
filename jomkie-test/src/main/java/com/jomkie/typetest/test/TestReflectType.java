@@ -1,21 +1,23 @@
-package org.apache.ibatis.typetest.test;
+package com.jomkie.typetest.test;
 
-import org.apache.ibatis.typetest.entity.JoKongfu;
-import org.apache.ibatis.typetest.entity.JoUser;
-import org.apache.ibatis.typetest.jicheng.JoExtends;
-import org.apache.ibatis.typetest.jicheng.JoMulExtends;
-import org.apache.ibatis.typetest.jicheng.impl.JoUserExtendsImpl;
-import org.apache.ibatis.typetest.jicheng.impl.JoUserMulExtendsImpl;
-import org.apache.ibatis.typetest.jiekou.JoInterface;
-import org.apache.ibatis.typetest.jiekou.JoMulInterface;
-import org.apache.ibatis.typetest.jiekou.impl.JoUserInterfaceImpl;
-import org.apache.ibatis.typetest.jiekou.impl.JoUserMulInterfaceImpl;
+
+import com.jomkie.typetest.entity.CommonBean;
+import com.jomkie.typetest.entity.JoKongfu;
+import com.jomkie.typetest.entity.JoUser;
+import com.jomkie.typetest.jicheng.JoExtends;
+import com.jomkie.typetest.jicheng.JoMulExtends;
+import com.jomkie.typetest.jicheng.impl.JoUserExtendsImpl;
+import com.jomkie.typetest.jicheng.impl.JoUserMulExtendsImpl;
+import com.jomkie.typetest.jiekou.JoInterface;
+import com.jomkie.typetest.jiekou.JoMulInterface;
+import com.jomkie.typetest.jiekou.impl.JoUserInterfaceImpl;
+import com.jomkie.typetest.jiekou.impl.JoUserMulInterfaceImpl;
 
 import java.lang.reflect.*;
 
 public class TestReflectType {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws NoSuchFieldException {
     Class<?> joUser = JoUser.class;
     Class<?> joKongfu = JoKongfu.class;
 
@@ -36,12 +38,53 @@ public class TestReflectType {
 //    WildcardType
 
     /* ---------------- ParameterizedType 是带有参数化的类型对象，例如 List<T> 或 Map<K, V> ---------------- */
-    Type type = joUserExtendsImpl.getGenericSuperclass();
-    ParameterizedType parameterizedType = (ParameterizedType) type;
-    Class cla = (Class) parameterizedType.getActualTypeArguments()[0];
+//    Type type = joUserExtendsImpl.getGenericSuperclass();
+//    ParameterizedType parameterizedType = (ParameterizedType) type;
+//    Class cla = (Class) parameterizedType.getActualTypeArguments()[0];
 
-    /* ---------------- TypeVariable 是具体泛型中的对象，例如 List<T> 中的 T ---------------- */
-    Type type2 = joUserExtendsImpl.getGenericSuperclass();
+    /* ----------------------- 测试00 ----------------------- */
+    Class<?> commonBeanClass = CommonBean.class;
+    Field listField = commonBeanClass.getDeclaredField("list");
+    Field mapField = commonBeanClass.getDeclaredField("map");
+    Field arrayField = commonBeanClass.getDeclaredField("array");
+    Field listArrayField = commonBeanClass.getDeclaredField("listArray");
+    Field mapEntryField = commonBeanClass.getDeclaredField("mapEntry");
+    Field genericListField = commonBeanClass.getDeclaredField("genericList");
+    Field genericArrayField = commonBeanClass.getDeclaredField("genericArray");
+
+
+    Type listType = listField.getGenericType();
+    Type mapType = mapField.getGenericType();
+    Type arrayType = arrayField.getGenericType();
+    Type listArrayType = listArrayField.getGenericType();
+    Type mapEntryType = mapEntryField.getGenericType();
+    Type genericListType = genericListField.getGenericType();
+    Type genericArrayType = genericArrayField.getGenericType();
+
+    ParameterizedType listParameterizedType = (ParameterizedType) listType;
+    ParameterizedType mapParameterizedType = (ParameterizedType) mapType;
+    // arrayType instanceof ParameterizedType 为 false
+    GenericArrayType listArrayGenericArrayType = (GenericArrayType) listArrayType;
+    ParameterizedType mapEntryParameterizedType = (ParameterizedType) mapEntryType;
+    ParameterizedType genericListParameterizedType = (ParameterizedType) genericListType;
+    GenericArrayType genericArrayGenericArrayType = (GenericArrayType) genericArrayType;
+
+    TypeVariable genericListTypeVariable = (TypeVariable) genericListParameterizedType.getActualTypeArguments()[0];
+    TypeVariable genericArrayTypeVariable = (TypeVariable) genericArrayGenericArrayType.getGenericComponentType();
+
+    /* ----------------------- ParameterizedType ----------------------- */
+    // class org.apache.ibatis.typetest.entity.JoUser
+//    listParameterizedType.getActualTypeArguments()[0];
+    // interface java.util.List
+//    listParameterizedType.getRawType();
+    // interface java.util.Map
+//    mapEntryParameterizedType.getOwnerType();
+
+    /* ----------------------- GenericArrayType ----------------------- */
+    // java.util.List<java.lang.String>
+//    listArrayGenericArrayType.getGenericComponentType();
+
+    /* ----------------------- TypeVariable ----------------------- */
   }
 
 }

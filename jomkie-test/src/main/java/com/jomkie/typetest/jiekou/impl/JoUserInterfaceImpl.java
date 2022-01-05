@@ -1,4 +1,4 @@
-package org.apache.ibatis.typetest.jiekou.impl;
+package com.jomkie.typetest.jiekou.impl;
 
 import org.apache.ibatis.typetest.entity.JoUser;
 import org.apache.ibatis.typetest.jiekou.JoInterface;

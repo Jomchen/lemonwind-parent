@@ -1,4 +1,4 @@
-package org.apache.ibatis.typetest.jicheng;
+package com.jomkie.typetest.jicheng;
 
 public abstract class JoMulExtends<T, E> {
 
