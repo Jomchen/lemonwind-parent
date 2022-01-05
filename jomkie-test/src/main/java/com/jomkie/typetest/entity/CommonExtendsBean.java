@@ -13,4 +13,11 @@ public class CommonExtendsBean<JoFather> extends CommonEntity<JoFather> {
         this.extendsBound = extendsBound;
     }
 
+    public List<? extends JoFather> getExtendsBound() {
+        return extendsBound;
+    }
+
+    public void setExtendsBound(List<? extends JoFather> extendsBound) {
+        this.extendsBound = extendsBound;
+    }
 }

@@ -13,4 +13,11 @@ public class CommonSuperBean<JoSon> extends CommonEntity<JoSon> {
         this.superBound = superBound;
     }
 
+    public List<? super JoSon> getSuperBound() {
+        return superBound;
+    }
+
+    public void setSuperBound(List<? super JoSon> superBound) {
+        this.superBound = superBound;
+    }
 }
