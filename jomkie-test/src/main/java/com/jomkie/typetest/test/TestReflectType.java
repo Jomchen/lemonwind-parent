@@ -1,16 +1,17 @@
 package com.jomkie.typetest.test;
 
-import org.apache.ibatis.typetest.entity.CommonBean;
-import org.apache.ibatis.typetest.entity.JoKongfu;
-import org.apache.ibatis.typetest.entity.JoUser;
-import org.apache.ibatis.typetest.jicheng.JoExtends;
-import org.apache.ibatis.typetest.jicheng.JoMulExtends;
-import org.apache.ibatis.typetest.jicheng.impl.JoUserExtendsImpl;
-import org.apache.ibatis.typetest.jicheng.impl.JoUserMulExtendsImpl;
-import org.apache.ibatis.typetest.jiekou.JoInterface;
-import org.apache.ibatis.typetest.jiekou.JoMulInterface;
-import org.apache.ibatis.typetest.jiekou.impl.JoUserInterfaceImpl;
-import org.apache.ibatis.typetest.jiekou.impl.JoUserMulInterfaceImpl;
+
+import com.jomkie.typetest.entity.CommonBean;
+import com.jomkie.typetest.entity.JoKongfu;
+import com.jomkie.typetest.entity.JoUser;
+import com.jomkie.typetest.jicheng.JoExtends;
+import com.jomkie.typetest.jicheng.JoMulExtends;
+import com.jomkie.typetest.jicheng.impl.JoUserExtendsImpl;
+import com.jomkie.typetest.jicheng.impl.JoUserMulExtendsImpl;
+import com.jomkie.typetest.jiekou.JoInterface;
+import com.jomkie.typetest.jiekou.JoMulInterface;
+import com.jomkie.typetest.jiekou.impl.JoUserInterfaceImpl;
+import com.jomkie.typetest.jiekou.impl.JoUserMulInterfaceImpl;
 
 import java.lang.reflect.*;
 
