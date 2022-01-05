@@ -1,40 +1,47 @@
 package com.jomkie.typetest.entity;
 
-public class JoUser {
+public class JoSon extends JoFather {
 
-  private long id;
+  private int id;
   private String name;
   private int age;
 
-  public JoUser() {
+  public JoSon() {
+    super();
   }
 
-  public JoUser(long id, String name, int age) {
+  public JoSon(int id, String name, int age) {
     this.id = id;
     this.name = name;
     this.age = age;
   }
 
-  public long getId() {
+  @Override
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  @Override
+  public void setId(int id) {
     this.id = id;
   }
 
+  @Override
   public String getName() {
     return name;
   }
 
+  @Override
   public void setName(String name) {
     this.name = name;
   }
 
+  @Override
   public int getAge() {
     return age;
   }
 
+  @Override
   public void setAge(int age) {
     this.age = age;
   }

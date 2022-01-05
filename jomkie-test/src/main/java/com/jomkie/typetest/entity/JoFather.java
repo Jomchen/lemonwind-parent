@@ -1,25 +1,25 @@
 package com.jomkie.typetest.entity;
 
-public class JoUser {
+public class JoFather {
 
-  private long id;
+  private int id;
   private String name;
   private int age;
 
-  public JoUser() {
+  public JoFather() {
   }
 
-  public JoUser(long id, String name, int age) {
+  public JoFather(int id, String name, int age) {
     this.id = id;
     this.name = name;
     this.age = age;
   }
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
 

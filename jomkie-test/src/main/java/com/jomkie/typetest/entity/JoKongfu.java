@@ -1,4 +1,4 @@
-package org.apache.ibatis.typetest.entity;
+package com.jomkie.typetest.entity;
 
 public class JoKongfu {
 
