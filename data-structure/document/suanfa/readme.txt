@@ -79,3 +79,22 @@
       2. 真前缀：t, th, tha, than
       3. 后缀：thank, hank, ank, nk, k
       4. 真后缀：hank, ank, nk, k
+   - 对于 KMP 算法的 next 表
+      - 图解
+         ```
+                              n                             i
+         *-----*-----*-----*-----*-----*-----*-----*-----*-----*
+         |  A  | ... |  A  |  X  | ### |  A  | ... |  A  |  Y  |
+         *-----*-----*-----*-----*-----*-----*-----*-----*-----*
+         已知 前面的 A...A 与后面的 A...A 完全相同的
+         ```
+      0. 已知 next[i] == n
+      1. 如果 Pattern[i] == Pattern[n]
+         - 那么 next[i + 1] == n + 1
+      2. 如果 Pattern[i] != Pattern[n]
+         - 已知 next[n] == k
+         - 如果 Pattern[i] == Pattern[k]
+            - 那么 next[i + 1] == k + 1
+         - 如果 Pattern[i] != Pattern[k]
+            - 将 k 代入 n，重复执行 2步骤
+

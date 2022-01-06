@@ -1,8 +1,8 @@
 package com.jomkie.typetest.jiekou.impl;
 
-import org.apache.ibatis.typetest.entity.JoKongfu;
-import org.apache.ibatis.typetest.entity.JoUser;
-import org.apache.ibatis.typetest.jiekou.JoMulInterface;
+import com.jomkie.typetest.entity.JoKongfu;
+import com.jomkie.typetest.entity.JoUser;
+import com.jomkie.typetest.jiekou.JoMulInterface;
 
 public class JoUserMulInterfaceImpl implements JoMulInterface<JoKongfu, JoUser> {
 

@@ -96,7 +96,22 @@ public class Sequence {
     }
 
     private static int[] next(String pattern) {
-        return null;
+        int len = pattern.length();
+        char[] chars = pattern.toCharArray();
+        int[] next = new int[chars.length];
+
+        int i = 0;
+        int n = next[i] = -1;
+        int imax = len - 1;
+        while (i < imax) {
+            if (n < 0 || pattern.charAt(i) == chars[n]) {
+                next[++i] = ++n;
+            } else {
+                n = next[n];
+            }
+        }
+
+        return next;
     }
 
     private static boolean checkStr(String text, String pattern) {
