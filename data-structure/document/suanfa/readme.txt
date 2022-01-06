@@ -79,6 +79,21 @@
       2. 真前缀：t, th, tha, than
       3. 后缀：thank, hank, ank, nk, k
       4. 真后缀：hank, ank, nk, k
+   - 举例
+      ```
+      *----------*-------------------------------*------------------------------------*------------------*
+      |  模式串  |            真前缀             |               真后缀               | 最大公共子串长度 |
+      *----------*-------------------------------*------------------------------------*------------------*
+      | ABCDABCE | A,AB,ABC,ABCDA,ABCDAB,ABCDABC | BCDABCE,CDABCE,DABCE,ABCE,BCE,CE,E |          0       |
+      | ABCDAB   | A,AB,ABC,ABCD,ABCDA,ABCDAB    | BCDABC,CDABC,DABC,ABC,BC,C         |          3       |
+      | ABCDAB   | A,AB,ABC,ABCD,ABCDA           | BCDAB,CDAB,DAB,AB,B                |          2       |
+      | ABCDA    | A,AB,ABC,ABCD                 | BCDA,CDA,DA,A                      |          1       |
+      | ABCD     | A,AB,ABC                      | BCD,CD,D                           |          0       |
+      | ABC      | A,AB                          | BC,C                               |          0       |
+      | AB       | A                             | B                                  |          0       |
+      | A        |                               |                                    |          0       |
+      *----------*-------------------------------*------------------------------------*------------------*
+      ```
    - 对于 KMP 算法的 next 表
       - 图解
          ```
