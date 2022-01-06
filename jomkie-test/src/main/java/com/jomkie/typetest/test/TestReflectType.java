@@ -1,9 +1,7 @@
 package com.jomkie.typetest.test;
 
 
-import com.jomkie.typetest.entity.CommonBean;
-import com.jomkie.typetest.entity.JoKongfu;
-import com.jomkie.typetest.entity.JoUser;
+import com.jomkie.typetest.entity.*;
 import com.jomkie.typetest.jicheng.JoExtends;
 import com.jomkie.typetest.jicheng.JoMulExtends;
 import com.jomkie.typetest.jicheng.impl.JoUserExtendsImpl;
@@ -14,6 +12,8 @@ import com.jomkie.typetest.jiekou.impl.JoUserInterfaceImpl;
 import com.jomkie.typetest.jiekou.impl.JoUserMulInterfaceImpl;
 
 import java.lang.reflect.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TestReflectType {
 
@@ -85,6 +85,20 @@ public class TestReflectType {
 //    listArrayGenericArrayType.getGenericComponentType();
 
     /* ----------------------- TypeVariable ----------------------- */
+
+    List<? super JoFather> list = new LinkedList<>();
+    JoFather joFather = new JoFather();
+    JoSon joSon = new JoSon();
+    list.add(joFather);
+    list.add(joSon);
+//    JoFather f1 = list.get(0);
+//    JoSon s1 = list.get(0);
+
+    List<? extends JoFather> list2 = new LinkedList<>();
+//    list2.add(joFather);
+//    list2.add(joSon);
+    JoFather joFather2 = list2.get(0);
+
   }
 
 }
