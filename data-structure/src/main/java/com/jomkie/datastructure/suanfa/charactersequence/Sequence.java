@@ -28,6 +28,7 @@ public class Sequence {
 //        String text = "Hello World";
 //        String pattern = "xy";
         System.out.println("test00: " + bruteForce2(text, pattern));
+        System.out.println("kmp: " + kmp(text, pattern));
     }
 
     /**
@@ -93,6 +94,11 @@ public class Sequence {
         }
 
         return pi == plen ? (ti - pi) : -1;
+    }
+
+    /** KMP 优化 */
+    public static int kmpOpetimization(String text, String pattern) {
+        return -1;
     }
 
     private static int[] next(String pattern) {
