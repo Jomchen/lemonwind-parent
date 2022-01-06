@@ -29,6 +29,7 @@ public class Sequence {
 //        String pattern = "xy";
         System.out.println("test00: " + bruteForce2(text, pattern));
         System.out.println("kmp: " + kmp(text, pattern));
+        System.out.println("kmpOpetimization: " + kmpOpetimization(text, pattern));
     }
 
     /**
@@ -96,11 +97,6 @@ public class Sequence {
         return pi == plen ? (ti - pi) : -1;
     }
 
-    /** KMP 优化 */
-    public static int kmpOpetimization(String text, String pattern) {
-        return -1;
-    }
-
     private static int[] next(String pattern) {
         int len = pattern.length();
         char[] chars = pattern.toCharArray();
@@ -112,6 +108,53 @@ public class Sequence {
         while (i < imax) {
             if (n < 0 || pattern.charAt(i) == chars[n]) {
                 next[++i] = ++n;
+            } else {
+                n = next[n];
+            }
+        }
+
+        return next;
+    }
+
+
+    /** KMP 优化 */
+    public static int kmpOpetimization(String text, String pattern) {
+        if (checkStr(text, pattern)) { return -1; }
+
+        int tlen = text.length();
+        int plen = pattern.length();
+        int[] next = nextOpetimization(pattern);
+        int pi = 0, ti = 0, lenDelta = tlen - plen;
+        while (pi < plen && ti <= lenDelta) {
+            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
+                ti++;
+                pi++;
+            } else {
+                pi = next[pi];
+            }
+        }
+
+        return pi == plen ? (ti - pi) : -1;
+    }
+
+    /** next 优化 */
+    private static int[] nextOpetimization(String pattern) {
+        int len = pattern.length();
+        char[] chars = pattern.toCharArray();
+        int[] next = new int[chars.length];
+
+        int i = 0;
+        int n = next[i] = -1;
+        int imax = len - 1;
+        while (i < imax) {
+            if (n < 0 || pattern.charAt(i) == chars[n]) {
+                i++;
+                n++;
+                if (pattern.charAt(i) == pattern.charAt(n)) {
+                    next[i] = next[n];
+                } else {
+                    next[i] = n;
+                }
             } else {
                 n = next[n];
             }
