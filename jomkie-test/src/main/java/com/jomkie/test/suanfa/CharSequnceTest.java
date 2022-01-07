@@ -38,9 +38,17 @@ public class CharSequnceTest {
     	int tlen = text.length();
     	int plen = pattern.length();
     	int cmpLen = tlen - plen;
-    	// 逻辑未实现
+    	int pi = 0, ti = 0;
+    	while (pi < plen && ti <= cmpLen) {
+    		if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
+    			pi++;
+    			ti++;
+    		} else {
+    			pi = next[pi];
+    		}
+    	}
     	
-    	return -1;
+    	return pi == plen ? ti - pi : -1;
     }
 
     public static int[] next(String pattern) {
