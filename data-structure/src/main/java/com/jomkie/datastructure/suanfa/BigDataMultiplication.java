@@ -16,7 +16,7 @@ public class BigDataMultiplication {
 		long dataA = 282892;
 		long dataB = 29238;
 		System.out.println(dataA * dataB);
-		System.out.println(bigDataComputed(String.valueOf(dataA), String.valueOf(dataB)));
+		System.out.println(multiplicationOfBigData(String.valueOf(dataA), String.valueOf(dataB)));
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class BigDataMultiplication {
 	 * @param data2 大数字2
 	 * @return
 	 */
-	public static String bigDataComputed(String data1, String data2) {
+	public static String multiplicationOfBigData(String data1, String data2) {
 		check(data1, data2);
 		if (data2.length() > data1.length()) {
 			String tem = data1;
@@ -64,15 +64,24 @@ public class BigDataMultiplication {
 		String totalSum = "0";
 		while (!queue.isEmpty()) {
 			String dataStr = queue.poll();
-			totalSum = sumOfStr(dataStr, totalSum);
+			totalSum = sumOfBigData(dataStr, totalSum);
 		}
 		
 		return totalSum;
 	}
 	
 	
-	/** 对字符串的数字求和 */
-	private static String sumOfStr(String s1, String s2) {
+	/**
+	 * 大数加法
+	 * TODO 目前尚不支付负数，小数
+	 * @author jomkie
+	 * @since 2022-01-08 22:40:04
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	private static String sumOfBigData(String s1, String s2) {
+		check(s1, s2);
 		int len1 = s1.length();
 		int len2 = s2.length();
 
@@ -83,16 +92,17 @@ public class BigDataMultiplication {
 		while (i <= maxLen) {
 			int base1 = (len1 - i) < 0 ? 0 : Integer.parseInt(String.valueOf(s1.charAt(len1 - i)));
 			int base2 = (len2 - i) < 0 ? 0 : Integer.parseInt(String.valueOf(s2.charAt(len2 - i)));
-			
 			int multipation = base1 + base2 + before;
+			
 			if (multipation <= 9) {
 				before = 0;
 				totalSumBuilder.append(multipation);
 			} else {
 				int[] sangYu = sangAndYu(multipation);	
-				before = sangYu[0];
 				totalSumBuilder.append(sangYu[1]);
+				before = sangYu[0];
 			}
+			
 			i++;
 		}
 		
@@ -126,7 +136,6 @@ public class BigDataMultiplication {
 		if (!matche1 || !matche2) {
 			throw new IllegalArgumentException("the expression of parameters are invalid");	
 		}
-		
 	}
 	
 }
