@@ -86,18 +86,33 @@ public class TestReflectType {
 
     /* ----------------------- TypeVariable ----------------------- */
 
-    List<? super JoFather> list = new LinkedList<>();
-    JoFather joFather = new JoFather();
-    JoSon joSon = new JoSon();
-    list.add(joFather);
-    list.add(joSon);
-//    JoFather f1 = list.get(0);
-//    JoSon s1 = list.get(0);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    List<? super JoFather> list = new LinkedList<>();
+//    JoFather joFather = new JoFather();
+//    JoSon joSon = new JoSon();
+//    list.add(joFather);
+//    list.add(joSon);
+	/*
+	 * JoFather f1 = list.get(0); JoSon s1 = list.get(0);
+	 */
 
-    List<? extends JoFather> list2 = new LinkedList<>();
-//    list2.add(joFather);
-//    list2.add(joSon);
-    JoFather joFather2 = list2.get(0);
+//    List<? extends JoFather> list2 = new LinkedList<>();
+	/*
+	 * list2.add(joFather); list2.add(joSon);
+	 */
+//    JoFather joFather2 = list2.get(0);
 
   }
 
