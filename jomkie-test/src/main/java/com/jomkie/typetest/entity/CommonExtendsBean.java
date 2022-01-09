@@ -2,14 +2,14 @@ package com.jomkie.typetest.entity;
 
 import java.util.List;
 
-public class CommonExtendsBean<JoFather> extends CommonEntity<JoFather> {
+public class CommonExtendsBean<T extends JoFather> extends CommonEntity<T> {
 
-    List<? extends JoFather> extendsBound;
+    List<T> extendsBound;
 
     public CommonExtendsBean() {
     }
 
-    public CommonExtendsBean(List<? extends JoFather> extendsBound) {
+    public CommonExtendsBean(List<T> extendsBound) {
         this.extendsBound = extendsBound;
     }
 
@@ -17,7 +17,7 @@ public class CommonExtendsBean<JoFather> extends CommonEntity<JoFather> {
         return extendsBound;
     }
 
-    public void setExtendsBound(List<? extends JoFather> extendsBound) {
+    public void setExtendsBound(List<T> extendsBound) {
         this.extendsBound = extendsBound;
     }
 }
