@@ -12,6 +12,7 @@ import com.jomkie.typetest.jiekou.impl.JoUserInterfaceImpl;
 import com.jomkie.typetest.jiekou.impl.JoUserMulInterfaceImpl;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +44,9 @@ public class TestReflectType {
 //    Class cla = (Class) parameterizedType.getActualTypeArguments()[0];
 
     /* ----------------------- 测试00 ----------------------- */
+    Class<?> commonExtendsBeanClass = CommonExtendsBean.class;
+    Class<?> commonSuperBeanClass = CommonSuperBean.class;
+    
     Class<?> commonBeanClass = CommonBean.class;
     Field listField = commonBeanClass.getDeclaredField("list");
     Field mapField = commonBeanClass.getDeclaredField("map");
@@ -85,14 +89,34 @@ public class TestReflectType {
 //    listArrayGenericArrayType.getGenericComponentType();
 
     /* ----------------------- TypeVariable ----------------------- */
-
     
+    /* ----------------------- WildcardType ----------------------- */
     
+    Field extendsBoundOfExtendsBean = commonExtendsBeanClass.getDeclaredField("extendsBound");
+    Type extendsBoundOfExtendsBeanType = extendsBoundOfExtendsBean.getGenericType();
+    ParameterizedType extendsBoundOfExtendsBeanParameterizedType = (ParameterizedType) extendsBoundOfExtendsBeanType;
+    TypeVariable extendsBoundOfExtendsBeanTypeVariable = (TypeVariable) extendsBoundOfExtendsBeanParameterizedType.getActualTypeArguments()[0];
+    System.out.println(extendsBoundOfExtendsBeanTypeVariable.getBounds()[0]);;
     
+    System.out.println("------------------------------------------------------");
     
+    Field superBound = commonSuperBeanClass.getDeclaredField("superBound");
+    Type superBoundType = superBound.getGenericType();
+    ParameterizedType superBoundParameterizedType = (ParameterizedType) superBoundType;
+    WildcardType superBoundWildcardType = (WildcardType) superBoundParameterizedType.getActualTypeArguments()[0];
+    Type xxType = superBoundWildcardType.getLowerBounds()[0];
+    TypeVariable xxTypeVariable = (TypeVariable) xxType;
+    // 以下两个输出需要严重注意一下
+    System.out.println(xxType);
+    System.out.println((Class<JoSon>)xxTypeVariable.getBounds()[0]);
     
+    System.out.println("------------------------------------------------------");
     
-    
+    Field extendsBound = commonSuperBeanClass.getDeclaredField("extendsBound");
+    Type extendsBoundType = extendsBound.getGenericType();
+    ParameterizedType extendsBoundParameterized = (ParameterizedType) extendsBoundType;
+    WildcardType extendsBoundWildcardType = (WildcardType) extendsBoundParameterized.getActualTypeArguments()[0];
+    System.out.println(extendsBoundWildcardType.getUpperBounds()[0]);
     
     
     
