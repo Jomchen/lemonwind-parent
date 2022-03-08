@@ -12,13 +12,16 @@ import com.jomkie.typetest.jiekou.impl.JoUserInterfaceImpl;
 import com.jomkie.typetest.jiekou.impl.JoUserMulInterfaceImpl;
 
 import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestReflectType {
 
-  public static void main(String[] args) throws NoSuchFieldException {
+  static Object lockOne = new Object();
+  static Map<String, String> MY_MAP = new HashMap<>();
+
+
+  public static void main(String[] args) throws NoSuchFieldException, InterruptedException {
     Class<?> joUser = JoUser.class;
     Class<?> joKongfu = JoKongfu.class;
 
@@ -138,6 +141,31 @@ public class TestReflectType {
 	 */
 //    JoFather joFather2 = list2.get(0);
 
+
+    MY_MAP.put("1", "111");
+    MY_MAP.put("2", "222");
+    MY_MAP.put("3", "333");
+    AtomicInteger atomicInteger = new AtomicInteger(0);
+    for (Map.Entry<String, String> entry : MY_MAP.entrySet()) {
+      String key = entry.getKey();
+      new Thread(() -> {
+        while (true) {
+          System.out.println(System.currentTimeMillis());
+          synchronized (lockOne) {
+            System.out.println(Thread.currentThread().getName() + "拿到了第 <1> 个锁");
+          }
+          System.out.println(Thread.currentThread().getName() + "==>" + atomicInteger.getAndAdd(1));
+          synchronizedMethod();
+        }
+      }, "my-thread-" + key).start();
+    }
   }
+
+  private static void synchronizedMethod() {
+    synchronized (MY_MAP) {
+      System.out.println(Thread.currentThread().getName() + "拿到了第 <2> 个锁");
+    }
+  }
+
 
 }
