@@ -47,7 +47,7 @@ public class AllTest {
         int maxIndex = tlen - plen;
         int pi = 0, ti = 0;
         while (pi < plen && ti <= maxIndex) {
-            if (text.charAt(ti) == pattern.charAt(pi)) {
+            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
             } else {
