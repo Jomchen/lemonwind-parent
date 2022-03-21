@@ -19,7 +19,29 @@ public class AllTest {
         System.out.println(indexOf(text, pattern));
         System.out.println(kmp(text, pattern));*/
 
-        reverseChain();
+//        reverseChain();
+
+        System.out.println(feibonaqi(4));
+    }
+
+
+    /** 斐波那契 */
+    public static int feibonaqi(int num) {
+        // 1-1-2-3-5-8
+        // 1-2-3-4-5-6
+        if (num < 1) { throw new RuntimeException("序号错误"); }
+
+        int left = 0;
+        int right = 1;
+        int i = 1;
+        while (i < num) {
+            int tmp = left + right;
+            left = right;
+            right = tmp;
+            i++;
+        }
+
+        return right;
     }
 
     /** 暴力求索引 */
