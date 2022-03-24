@@ -14,15 +14,34 @@ import java.util.stream.Stream;
 public class AllTest {
 
     public static void main(String[] args) {
+        // 暴力搜索 和 kmp 搜索
         /*String text = "ABCDzxf9XXEXL";
         String pattern = "zxf";
         System.out.println(indexOf(text, pattern));
         System.out.println(kmp(text, pattern));*/
 
-//        reverseChain();
+        // 反转链表
+        //reverseChain();
 
-        System.out.println(binarySearch(new Integer[]{1,2,3,4,5,6,7,8,9}, -2));
-        System.out.println(feibonaqi(4));
+        // 二分查询
+        //System.out.println(binarySearch(new Integer[]{1,2,3,4,5,6,7,8,9}, -2));
+
+        // 斐波那契
+        //System.out.println(feibonaqi(4));
+
+        // 找零算法
+        //Integer money = 41; // 不够找补
+        //Integer[] faces = {25, 20, 5, 5};
+        /*Integer money = 41; // 3 枚
+        Integer[] faces = {25, 20, 5, 1};*/
+        //System.out.println(coin(faces, money));
+
+        // 0-1 背包问题
+        // 15
+        Integer[] values = {6, 3, 5, 4, 6};
+        Integer[] weights = {2, 2, 6, 5, 4};
+        Integer capacity = 10;
+        System.out.println(packageValue(weights, values, capacity));
     }
 
 
@@ -155,6 +174,41 @@ public class AllTest {
         }
     }
 
+    public static int coin(Integer[] faces, Integer money) {
+        if (null == faces || faces.length == 0 || money == null || money == 0) {
+            throw new RuntimeException("数据异常");
+        }
+        Integer[] dp = new Integer[money + 1];
+        dp[0] = 0;
+        for (int current = 1; current <= money; current++) {
+            int min = Integer.MAX_VALUE;
+            for (int fi = 0; fi < faces.length; fi++) {
+                // 零钱比找补值大
+                if (faces[fi] > current) { continue; }
+                // 选择这个硬币后，不足以找补 | 找补需要的数量比其它找补的数量多
+                if (dp[current - faces[fi]] == -1 || dp[current - faces[fi]] >= min) { continue; }
+                min = dp[current - faces[fi]] + 1;
+            }
+
+            if (min == Integer.MAX_VALUE) {
+                dp[current] = -1;
+            } else {
+                dp[current] = min;
+            }
+        }
+
+        return dp[money];
+    }
+
+
+    /** 0-1 背包问题 */
+    public static Integer packageValue( Integer[] values, Integer[] weights, Integer capacity) {
+        if (null == values || weights == null || values.length != weights.length || capacity == 0) { throw new RuntimeException("数据异常"); }
+
+        Integer[][] dp = new Integer[values.length + 1][capacity + 1];
+
+        return null;
+    }
 
     public static void test00(String[] args) {
         Optional<Integer> sumData = IntStream.range(0, 10).boxed().reduce(Integer::sum);
