@@ -21,6 +21,7 @@ public class AllTest {
 
 //        reverseChain();
 
+        System.out.println(binarySearch(new Integer[]{1,2,3,4,5,6,7,8,9}, -2));
         System.out.println(feibonaqi(4));
     }
 
@@ -96,6 +97,26 @@ public class AllTest {
         }
 
         return next;
+    }
+
+    /** 二分搜索 */
+    public static int binarySearch(Integer[] array, Integer data) {
+        if (array.length <= 1) { throw new RuntimeException("长度异常"); }
+
+        int left = 0;
+        int right = array.length;
+        while (left < right) {
+            int mid = (left + right) >> 1;
+            if (array[mid].equals(data)) {
+                return mid;
+            } else if (data < array[mid]) {
+                right = mid;
+            } else if (data > array[mid]) {
+                left = mid + 1;
+            }
+        }
+
+        return -1;
     }
 
     /** 反转链表 */
