@@ -68,11 +68,11 @@
    - 度：是某个节点不为空的子节点的个数，二叉树限定了度最大值为 2
    - 树的度：所有节点度中的最大值
    - 叶子节点：度为 0 的节点
-   - 层数：根节点在第一层，根节点的子节点在第二层，以此类推（有些教程也以0层开始）
-   - 节点的深度：从根节点到当前节点的唯一路径上的节点总数
-   - 节点的高度：从当前节点到最远叶子节点的路径上的节点总数
+   - 层数：根节点在第一层，根节点的子节点在第二层，以此类推（有些教程也以0层开始）（维基百科定义：Level: The lvel of a node is defined as: 1 + the number of edges between the node and the root）
+   - 节点的深度：从根节点到当前节点的唯一路径上的节点总数（维基百科定义：Depth: The depth of a node is defined as: the number of edges between the node and the root）
+   - 节点的高度：从当前节点到最远叶子节点的路径上的节点总数（维基百科定义：Height of node: The height of a node is the number of edges on the longest path between that node and a leaf）
    - 树的深度：所有节点深度中最大值
-   - 树的高度：所有节点高度中的最大值
+   - 树的高度：所有节点高度中的最大值（维基百科定义：Height of tree: The height of a tree is the height of its root node）
    - 有序树：树中任意节点的子节点之间有顺序关系
    - 无序树：树中任意节点的子节点之间没有顺序关系
    - 树的重构
