@@ -13,36 +13,7 @@ import java.util.stream.Stream;
 
 public class AllTest {
 
-    public static void main(String[] args) {
-        // 暴力搜索 和 kmp 搜索
-        /*String text = "ABCDzxf9XXEXL";
-        String pattern = "zxf";
-        System.out.println(indexOf(text, pattern));
-        System.out.println(kmp(text, pattern));*/
 
-        // 反转链表
-        //reverseChain();
-
-        // 二分查询
-        //System.out.println(binarySearch(new Integer[]{1,2,3,4,5,6,7,8,9}, -2));
-
-        // 斐波那契
-        //System.out.println(feibonaqi(4));
-
-        // 找零算法
-        //Integer money = 41; // 不够找补
-        //Integer[] faces = {25, 20, 5, 5};
-        /*Integer money = 41; // 3 枚
-        Integer[] faces = {25, 20, 5, 1};*/
-        //System.out.println(coin(faces, money));
-
-        // 0-1 背包问题
-        // 15
-        Integer[] values = {6, 3, 5, 4, 6};
-        Integer[] weights = {2, 2, 6, 5, 4};
-        Integer capacity = 10;
-        System.out.println(packageValue(weights, values, capacity));
-    }
 
 
     /** 斐波那契 */
@@ -247,5 +218,81 @@ public class AllTest {
         
     }
 
+
+    public static void main(String[] args) {
+        // 暴力搜索 和 kmp 搜索
+        /*String text = "ABCDzxf9XXEXL";
+        String pattern = "zxf";
+        System.out.println(indexOf(text, pattern));
+        System.out.println(kmp(text, pattern));*/
+
+        // 反转链表
+        //reverseChain();
+
+        // 二分查询
+        //System.out.println(binarySearch(new Integer[]{1,2,3,4,5,6,7,8,9}, -2));
+
+        // 斐波那契
+        //System.out.println(feibonaqi(4));
+
+        // 找零算法
+        //Integer money = 41; // 不够找补
+        //Integer[] faces = {25, 20, 5, 5};
+        /*Integer money = 41; // 3 枚
+        Integer[] faces = {25, 20, 5, 1};*/
+        //System.out.println(coin(faces, money));
+
+        // 0-1 背包问题
+        // 15
+//        Integer[] values = {6, 3, 5, 4, 6};
+//        Integer[] weights = {2, 2, 6, 5, 4};
+//        Integer capacity = 10;
+//        System.out.println(packageValue(weights, values, capacity));
+
+        String text = "abcddefg22k";
+        String pattern = "22k";
+        System.out.println(indexOf2(text, pattern));
+    }
+
+    public static Object test(Integer[] array1, Integer[] array2, Integer capacity) {
+        return null;
+    }
+    public static Object indexOf2(String text, String pattern) {
+        int ti = 0;
+        int pi = 0;
+        int maxTi = text.length() - pattern.length();
+        int[] next = next2(pattern);
+        while (ti <= maxTi && pi < pattern.length()) {
+            if (pi < 0 || pattern.charAt(pi) == text.charAt(ti)) {
+                pi++;
+                ti++;
+            } else {
+                pi = next[pi];
+            }
+
+            if (pi == pattern.length()) {
+                return ti - pi;
+            }
+        }
+        return -1;
+    }
+    public static int[] next2(String pattern) {
+        int[] next = new int[pattern.length()];
+        int i = -1;
+        int n = 0;
+        next[n] = i;
+        while (i < pattern.length() - 1) {
+            if (i < 0 || pattern.charAt(i) == pattern.charAt(n)) {
+                next[++n] = ++i;
+            } else {
+                i = next[i];
+            }
+        }
+
+        return next;
+    }
+    public static Object erfen(Integer[] array, int capacity) {
+        return -1;
+    }
 
 }
