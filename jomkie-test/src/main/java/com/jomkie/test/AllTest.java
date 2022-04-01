@@ -268,7 +268,7 @@ public class AllTest {
         int plen = pattern.length();
         int[] next = next2(pattern);
         int pi = 0, ti = 0, lenDelta = tlen - plen;
-        while (pi < plen) {
+        while (pi < plen && ti < tlen) {
             if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;

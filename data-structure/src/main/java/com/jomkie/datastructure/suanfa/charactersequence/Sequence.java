@@ -90,7 +90,7 @@ public class Sequence {
         int[] next = next(pattern);
         int pi = 0, ti = 0;
         // 因为 ti 和 pi 都在偏移，而暴力比对时ti是基本没有偏移的，所以这里不能写 ti <= tlen - plen
-        while (pi < plen) {
+        while (pi < plen && ti < tlen) {
             if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
@@ -131,7 +131,7 @@ public class Sequence {
         int[] next = nextOpetimization(pattern);
         int pi = 0, ti = 0;
         // 因为 ti 和 pi 都在偏移，而暴力比对时ti是基本没有偏移的，所以这里不能写 ti <= tlen - plen
-        while (pi < plen) {
+        while (pi < plen && ti < tlen) {
             if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
