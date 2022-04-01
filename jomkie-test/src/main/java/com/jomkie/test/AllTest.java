@@ -13,9 +13,6 @@ import java.util.stream.Stream;
 
 public class AllTest {
 
-
-
-
     /** 斐波那契 */
     public static int feibonaqi(int num) {
         // 1-1-2-3-5-8
@@ -251,15 +248,19 @@ public class AllTest {
 
         String text = "abcddefg22k";
         String pattern = "22k";
+        System.out.println(indexOf2(text, pattern));
         System.out.println(kmp2(text, pattern));
     }
 
-    public static Object test(Integer[] array1, Integer[] array2, Integer capacity) {
-        return null;
-    }
     public static Object indexOf2(String text, String pattern) {
-        int ti = 0, pi = 0;
+        for (int ti = 0; ti <= text.length() - pattern.length(); ti++) {
+            int pi = 0;
+            while (pi < pattern.length() && text.charAt(ti + pi) == pattern.charAt(pi)) {
+                pi++;
+            }
 
+            if (pi == pattern.length()) { return ti; }
+        }
         return  -1;
     }
     public static Object kmp2(String text, String pattern) {
@@ -267,7 +268,7 @@ public class AllTest {
         int plen = pattern.length();
         int[] next = next2(pattern);
         int pi = 0, ti = 0, lenDelta = tlen - plen;
-        while (pi < plen && ti <= lenDelta) {
+        while (pi < plen) {
             if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
@@ -277,19 +278,6 @@ public class AllTest {
         }
 
         return pi == plen ? (ti - pi) : -1;
-
-        /*int[] next = next2(pattern);
-        int ti = 0, pi = 0;
-        while (ti < (text.length() - pattern.length()) && pi < pattern.length()) {
-            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
-                ti++;
-                pi++;
-            } else {
-                pi = next[pi];
-            }
-        }
-
-        return pi == pattern.length() ? ti - pi : -1;*/
     }
     public static int[] next2(String pattern) {
         int[] next = new int[pattern.length()];
