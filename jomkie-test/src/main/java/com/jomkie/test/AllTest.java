@@ -251,41 +251,57 @@ public class AllTest {
 
         String text = "abcddefg22k";
         String pattern = "22k";
-        System.out.println(indexOf2(text, pattern));
+        System.out.println(kmp2(text, pattern));
     }
 
     public static Object test(Integer[] array1, Integer[] array2, Integer capacity) {
         return null;
     }
     public static Object indexOf2(String text, String pattern) {
-        int ti = 0;
-        int pi = 0;
-        int maxTi = text.length() - pattern.length();
+        int ti = 0, pi = 0;
+
+        return  -1;
+    }
+    public static Object kmp2(String text, String pattern) {
+        int tlen = text.length();
+        int plen = pattern.length();
         int[] next = next2(pattern);
-        while (ti <= maxTi && pi < pattern.length()) {
-            if (pi < 0 || pattern.charAt(pi) == text.charAt(ti)) {
-                pi++;
+        int pi = 0, ti = 0, lenDelta = tlen - plen;
+        while (pi < plen && ti <= lenDelta) {
+            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
+                pi++;
             } else {
                 pi = next[pi];
             }
+        }
 
-            if (pi == pattern.length()) {
-                return ti - pi;
+        return pi == plen ? (ti - pi) : -1;
+
+        /*int[] next = next2(pattern);
+        int ti = 0, pi = 0;
+        while (ti < (text.length() - pattern.length()) && pi < pattern.length()) {
+            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
+                ti++;
+                pi++;
+            } else {
+                pi = next[pi];
             }
         }
-        return -1;
+
+        return pi == pattern.length() ? ti - pi : -1;*/
     }
     public static int[] next2(String pattern) {
         int[] next = new int[pattern.length()];
-        int i = -1;
-        int n = 0;
-        next[n] = i;
-        while (i < pattern.length() - 1) {
-            if (i < 0 || pattern.charAt(i) == pattern.charAt(n)) {
-                next[++n] = ++i;
+        int left = -1;
+        int right = 0;
+        next[right] = left;
+        int maxIndex = pattern.length() - 1;
+        while (right < maxIndex) {
+            if (left < 0 || pattern.charAt(left) == pattern.charAt(right)) {
+                next[++right] = ++left;
             } else {
-                i = next[i];
+                left = next[left];
             }
         }
 

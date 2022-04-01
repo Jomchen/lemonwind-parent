@@ -16,9 +16,13 @@ public class Sequence {
 //        String text = "Hello World";
 //        String pattern = "or";
 
-        // lo W
-        String text = "Hello World";
-        String pattern = "lo W";
+        // lo W 2
+//        String text = "Hello World";
+//        String pattern = "lo W";
+
+        // 22k 8
+        String text = "abcddefg22k";
+        String pattern = "22k";
 
         // -1
 //        String text = "Hello World";
@@ -85,7 +89,9 @@ public class Sequence {
         int plen = pattern.length();
         int[] next = next(pattern);
         int pi = 0, ti = 0, lenDelta = tlen - plen;
-        while (pi < plen && ti <= lenDelta) {
+//        while (pi < plen && ti <= lenDelta) {
+        // TODO 为什么不能有  && ti <= lenDelta
+        while (pi < plen) {
             if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
@@ -125,7 +131,9 @@ public class Sequence {
         int plen = pattern.length();
         int[] next = nextOpetimization(pattern);
         int pi = 0, ti = 0, lenDelta = tlen - plen;
-        while (pi < plen && ti <= lenDelta) {
+//        while (pi < plen && ti <= lenDelta) {
+        // TODO 为什么不能有  && ti <= lenDelta
+        while (pi < plen) {
             if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
                 ti++;
                 pi++;
