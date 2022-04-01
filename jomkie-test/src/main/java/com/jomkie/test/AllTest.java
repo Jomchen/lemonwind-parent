@@ -253,31 +253,34 @@ public class AllTest {
     }
 
     public static Object indexOf2(String text, String pattern) {
-        for (int ti = 0; ti <= text.length() - pattern.length(); ti++) {
+        int tlen = text.length();
+        int plen = pattern.length();
+        int maxTlen = tlen - plen;
+        for (int ti = 0; ti <= maxTlen; ti++) {
             int pi = 0;
-            while (pi < pattern.length() && text.charAt(ti + pi) == pattern.charAt(pi)) {
+            while (pi < plen && text.charAt(ti + pi) == pattern.charAt(pi)) {
                 pi++;
             }
 
-            if (pi == pattern.length()) { return ti; }
+            if (pi == plen) { return ti; }
         }
         return  -1;
     }
     public static Object kmp2(String text, String pattern) {
+        int[] next = next2(pattern);
         int tlen = text.length();
         int plen = pattern.length();
-        int[] next = next2(pattern);
-        int pi = 0, ti = 0, lenDelta = tlen - plen;
-        while (pi < plen && ti < tlen) {
-            if (pi < 0 || text.charAt(ti) == pattern.charAt(pi)) {
-                ti++;
+        int ti = 0, pi = 0;
+        while (ti < tlen && pi < plen) {
+            if (pi < 0 || pattern.charAt(pi) == text.charAt(ti)) {
                 pi++;
+                ti++;
             } else {
                 pi = next[pi];
             }
         }
 
-        return pi == plen ? (ti - pi) : -1;
+        return pi == plen ? ti - pi : -1;
     }
     public static int[] next2(String pattern) {
         int[] next = new int[pattern.length()];
@@ -286,13 +289,12 @@ public class AllTest {
         next[right] = left;
         int maxIndex = pattern.length() - 1;
         while (right < maxIndex) {
-            if (left < 0 || pattern.charAt(left) == pattern.charAt(right)) {
+            if (left < 0 || next[left] == next[right]) {
                 next[++right] = ++left;
             } else {
                 left = next[left];
             }
         }
-
         return next;
     }
     public static Object erfen(Integer[] array, int capacity) {
