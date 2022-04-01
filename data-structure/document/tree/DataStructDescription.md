@@ -66,26 +66,51 @@
       - B*Tree
 
 * 树定义
-   - 度：是某个节点不为空的子节点的个数，二叉树限定了度最大值为 2
-   - 树的度：所有节点度中的最大值
-   - 叶子节点：度为 0 的节点
-   - 层数：根节点在第一层，根节点的子节点在第二层，以此类推（有些教程也以0层开始）（维基百科定义：Level: The lvel of a node is defined as: 1 + the number of edges between the node and the root）
-   - 节点的深度：从根节点到当前节点的唯一路径上的节点总数（维基百科定义：Depth: The depth of a node is defined as: the number of edges between the node and the root）
-   - 节点的高度：从当前节点到最远叶子节点的路径上的节点总数（维基百科定义：Height of node: The height of a node is the number of edges on the longest path between that node and a leaf）
-   - 树的深度：所有节点深度中最大值
-   - 树的高度：所有节点高度中的最大值（维基百科定义：Height of tree: The height of a tree is the height of its root node）
-   - 有序树：树中任意节点的子节点之间有顺序关系
-   - 无序树：树中任意节点的子节点之间没有顺序关系
+   - 定义
+      - 度：是某个节点不为空的子节点的个数，二叉树限定了度最大值为 2
+      - 树的度：所有节点度中的最大值
+      - 叶子节点：度为 0 的节点
+      - 层数：根节点在第一层，根节点的子节点在第二层，以此类推（有些教程也以0层开始）（维基百科定义：Level: The lvel of a node is defined as: 1 + the number of edges between the node and the root）
+      - 节点的深度：从根节点到当前节点的唯一路径上的节点总数（维基百科定义：Depth: The depth of a node is defined as: the number of edges between the node and the root）
+      - 节点的高度：从当前节点到最远叶子节点的路径上的节点总数（维基百科定义：Height of node: The height of a node is the number of edges on the longest path between that node and a leaf）
+      - 树的深度：所有节点深度中最大值
+      - 树的高度：所有节点高度中的最大值（维基百科定义：Height of tree: The height of a tree is the height of its root node）
+      - 有序树：树中任意节点的子节点之间有顺序关系
+      - 无序树：树中任意节点的子节点之间没有顺序关系
    - 树的重构
-      0. 原理，要从 (先序/后序 + 中序) 恢复原本二叉树方式
+      1. 原理，要从 (先序/后序 + 中序) 恢复原本二叉树方式
          - 先根据 先序/后序 得到节点X（目前范围内的根）
          - 再根据中序结果中，以 X 作为基础将范围划分为左和右，左边部分一定是 X 的左子树，右边部分一定是 X 的右子树
          - 在 先序/后序 部分找到子结果集节点，离 X 最近的元素一定是 X 的左子节点/右子节点（是左是右以 中 序遍历结果划分左右决定）
-      1. 给出 先序遍历 和 中序遍历 可以推导出树结构
+      2. 给出 先序遍历 和 中序遍历 可以推导出树结构
          头 左 右 **** 左 头 右
          由于 左，右 都是子树，可以根据上面的形式递归推导
-      2. 给出 后序遍历 和 中序遍历 可以推导出树结构
+      3. 给出 后序遍历 和 中序遍历 可以推导出树结构
          左 右 头 **** 左 头 右
+   - 案例
+      - 图示
+      ```
+               A
+             /   \
+            B     C
+           / \   / \
+          D   E F   G
+             / \
+            H   I
+           /   /
+          J   K
+              
+      先序遍历：A B D E H J I K C F G
+      中序遍历：D B J H E K I A F C G
+      后序遍历：D J H K I E B F G C A
+      
+      以先序遍历和中序遍历为例：
+      1. 先序遍历得到根节点为 A
+      2. 中序遍历划分为 DBJHEKI-A-FCG （得到左子树和右子树）
+      3. 由于 FCG 是 A 的右子树，在先序遍历中可知 C 离 A 最近，而 C 根据划分可知是 A 的左子树部分，所以 C 是 A 的右子节点
+      4. C 在中序遍历中可以划分为 F-C-G（F一定是C是左子树，G是C的右子树，在先序遍历中F和G分别离C最近，所以F是C的左子节点，G是C的右子节点）
+      5. 根据相同规则可以恢复 DBJHEKI...
+      ```
 
 * 二叉树
    - 三大公式
