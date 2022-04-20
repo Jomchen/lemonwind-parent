@@ -44,6 +44,8 @@ public class TestNio {
         //intBuffer.mark();
         // ################## 需要重视
         intBuffer.compact();
+        // ################## 需要重视
+        intBuffer.arrayOffset();
     }
 
 }
