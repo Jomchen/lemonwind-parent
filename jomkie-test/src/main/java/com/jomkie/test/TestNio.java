@@ -8,11 +8,10 @@ import java.util.stream.IntStream;
  * 测试 NIO
  * @author Jomkie
  * @since 2021-09-09 10:52:19
- * @param
- * @return
  */
 public class TestNio {
 
+    // TODO 3.1.2 的使用通道，数据复制需要重新理解
     public static void main(String[] args) {
         test00();
     }
@@ -43,10 +42,13 @@ public class TestNio {
         //intBuffer.reset();
         // mark = position
         //intBuffer.mark();
+        // mark丢弃，position 为 limit - 1 - position + 1，limit 为 capacity
+        //intBuffer.compact();
         // ################## 需要重视
         intBuffer.compact();
         // ################## 需要重视
-        intBuffer.arrayOffset();
+        //intBuffer.arrayOffset();
+        //System.out.println(ByteOrder.nativeOrder().toString());
 
         ByteBuffer byteBuffer = ByteBuffer.allocate(5);
         for (int i = 0; i < 5; i++) {
@@ -55,6 +57,15 @@ public class TestNio {
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
         byteBuffer.compact();
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
+
+    }
+
+
+
+    public void createDirectBuffer() {
+        // 创建一个直接的字节缓冲区，如果没有 direct 字眼或wrap的包装方式创建的缓冲区都是非直接缓冲区
+        // 只有直接缓冲区才可以进行系统级别的 I/O 操作
+        //ByteBuffer.allocateDirect(5);
     }
 
 }
