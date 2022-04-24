@@ -52,6 +52,8 @@ public class TestNio {
         //System.out.println(ByteOrder.nativeOrder().toString());
     }
 
+    // TODO 3.1.2 的使用通道，数据复制需要重新理解
+
     public void createDirectBuffer() {
         // 创建一个直接的字节缓冲区，如果没有 direct 字眼或wrap的包装方式创建的缓冲区都是非直接缓冲区
         // 只有直接缓冲区才可以进行系统级别的 I/O 操作
