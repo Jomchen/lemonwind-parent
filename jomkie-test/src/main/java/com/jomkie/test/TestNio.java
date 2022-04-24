@@ -45,7 +45,7 @@ public class TestNio {
         //intBuffer.reset();
         // mark = position
         //intBuffer.mark();
-        // mark丢弃，position 为 limit - 1 - position，limit 为 capacity
+        // mark丢弃，position 为 limit - 1 - position + 1，limit 为 capacity
         //intBuffer.compact();
         // ################## 需要重视
         //intBuffer.arrayOffset();
