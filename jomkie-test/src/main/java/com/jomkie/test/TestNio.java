@@ -1,5 +1,6 @@
 package com.jomkie.test;
 
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.stream.IntStream;
 
@@ -46,6 +47,14 @@ public class TestNio {
         intBuffer.compact();
         // ################## 需要重视
         intBuffer.arrayOffset();
+
+        ByteBuffer byteBuffer = ByteBuffer.allocate(5);
+        for (int i = 0; i < 5; i++) {
+            byteBuffer.put((byte)1);
+        }
+        System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
+        byteBuffer.compact();
+        System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
     }
 
 }
