@@ -1,5 +1,8 @@
 package com.jomkie.test;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.stream.IntStream;
 
@@ -42,10 +45,17 @@ public class TestNio {
         //intBuffer.reset();
         // mark = position
         //intBuffer.mark();
+        // mark丢弃，position 为 limit - 1 - position，limit 为 capacity
+        //intBuffer.compact();
         // ################## 需要重视
-        intBuffer.compact();
-        // ################## 需要重视
-        intBuffer.arrayOffset();
+        //intBuffer.arrayOffset();
+        //System.out.println(ByteOrder.nativeOrder().toString());
+    }
+
+    public void createDirectBuffer() {
+        // 创建一个直接的字节缓冲区，如果没有 direct 字眼或wrap的包装方式创建的缓冲区都是非直接缓冲区
+        // 只有直接缓冲区才可以进行系统级别的 I/O 操作
+        //ByteBuffer.allocateDirect(5);
     }
 
 }
