@@ -1,4 +1,4 @@
-package com.jomkie.test;
+package com.jomkie.test.nio;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
