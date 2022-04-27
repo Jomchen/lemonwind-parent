@@ -57,7 +57,10 @@ public class TestNio {
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
         byteBuffer.compact();
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
-
+        // TODO 关于官方给出的数据复制算法讲解
+        // while 之中：write 时可能不会使用完缓冲中的全部数据，所以调用 compact 进行剩余数据进行压缩待下次使用
+        // while 之外：在 while 之中有数据剩余数据压缩情况，且读管道中已经没有数据读取的时候，调用 flip 进行剩余数据预处理位置移动
+        // while 之外：buffer.hasRemaining() 判断是否真有剩余数据，如果有则处理掉
     }
 
 
