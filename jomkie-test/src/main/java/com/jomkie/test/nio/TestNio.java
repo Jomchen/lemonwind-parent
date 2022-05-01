@@ -1,11 +1,19 @@
 package com.jomkie.test.nio;
 
+<<<<<<< HEAD
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+=======
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
+>>>>>>> origin/main
 import java.util.stream.IntStream;
 
 /**
@@ -62,20 +70,40 @@ public class TestNio {
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
         byteBuffer.compact();
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
-        // TODO 关于官方给出的数据复制算法讲解
-        // while 之中：write 时可能不会使用完缓冲中的全部数据，所以调用 compact 进行剩余数据进行压缩待下次使用
-        // while 之外：在 while 之中有数据剩余数据压缩情况，且读管道中已经没有数据读取的时候，调用 flip 进行剩余数据预处理位置移动
-        // while 之外：buffer.hasRemaining() 判断是否真有剩余数据，如果有则处理掉
     }
 
 
 
+    /** 创建一个直接缓冲区 */
     public void createDirectBuffer() {
         // 创建一个直接的字节缓冲区，如果没有 direct 字眼或wrap的包装方式创建的缓冲区都是非直接缓冲区
         // 只有直接缓冲区才可以进行系统级别的 I/O 操作
         //ByteBuffer.allocateDirect(5);
     }
 
+    /** 复制算法解析 */
+    public void copyDetail(ReadableByteChannel src, WritableByteChannel dest) throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(16 * 1024);
+        // 读取数据到 buffer 中，也许不会完全占满 buffer
+        while (src.read(buffer) != -1) {
+            // 因为buffer的指针发生了偏移，所以移动 position 和 limit 以进行预处理
+            buffer.flip();
+            // 将 buffer 中的数据写入到 dest 中（也许只使用了 buffer 的部分数据进行写操作）
+            dest.write(buffer);
+            // 如果是只使用了 buffer 的部分数据，剩下的数据进行压缩以让新的数据追加在旧数据（还未使用的数据）之后
+            // 如果 buffer 已经空了，则和 clear 操作等同
+            buffer.compact();
+        }
+
+        // 如果 buffer 中有剩余数据 且 src又已经没有数据可读，偏移指针预处理 buffer
+        buffer.flip();
+        // 如果 buffer 中有剩余数据，则使用之进行写操作
+        while (buffer.hasRemaining()) {
+            dest.write(buffer);
+        }
+    }
+
+    /** 测试文件的读取 */
     public void testReadFile() throws FileNotFoundException {
         FileInputStream fileInputStream = new FileInputStream("/opt/test/nio-test/nio.txt");
         ReadableByteChannel readableByteChannel = Channels.newChannel(fileInputStream);
