@@ -7,9 +7,7 @@ import java.util.*;
 
 import static java.util.stream.Collectors.*;
 
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class AllTest {
 
@@ -211,10 +209,11 @@ public class AllTest {
 //        Integer capacity = 10;
 //        System.out.println(packageValue(weights, values, capacity));
 
-        String text = "abcddefg22k";
+        /*String text = "abcddefg22k";
         String pattern = "22k";
         System.out.println(indexOf2(text, pattern));
-        System.out.println(kmp2(text, pattern));
+        System.out.println(kmp2(text, pattern));*/
+
     }
 
     public static Object indexOf2(String text, String pattern) {

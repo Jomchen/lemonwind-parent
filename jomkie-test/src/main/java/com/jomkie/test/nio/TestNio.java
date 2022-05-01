@@ -1,7 +1,11 @@
 package com.jomkie.test.nio;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.stream.IntStream;
 
 /**
@@ -38,6 +42,7 @@ public class TestNio {
         //intBuffer.hasRemaining();
         // 当前位置(position)到上界(limit)剩余元素数量
         //intBuffer.remaining();
+
         // position = mark
         //intBuffer.reset();
         // mark = position
@@ -69,6 +74,11 @@ public class TestNio {
         // 创建一个直接的字节缓冲区，如果没有 direct 字眼或wrap的包装方式创建的缓冲区都是非直接缓冲区
         // 只有直接缓冲区才可以进行系统级别的 I/O 操作
         //ByteBuffer.allocateDirect(5);
+    }
+
+    public void testReadFile() throws FileNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream("/opt/test/nio-test/nio.txt");
+        ReadableByteChannel readableByteChannel = Channels.newChannel(fileInputStream);
     }
 
 }
