@@ -1,19 +1,15 @@
 package com.jomkie.test.nio;
 
-<<<<<<< HEAD
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import sun.misc.Unsafe;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-=======
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
->>>>>>> origin/main
+import java.nio.MappedByteBuffer;
+import java.nio.channels.*;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.IntStream;
 
 /**
@@ -24,18 +20,17 @@ import java.util.stream.IntStream;
 public class TestNio {
 
     // TODO 3.1.2 的使用通道，数据复制需要重新理解
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         test00();
     }
 
-    public static void test00() {
-        int[] sourceArray = new int[10];
+    public static void test00() throws IOException {
+        /*int[] sourceArray = new int[10];
         IntStream.range(0, 10).boxed().forEach(index -> sourceArray[index] = index);
         IntBuffer intBuffer = IntBuffer.wrap(sourceArray);
-        // IntBuffer intBuffer2 = IntBuffer.allocate(10);
         while (intBuffer.hasRemaining()) {
             System.out.println(intBuffer.get());
-        }
+        }*/
 
         /* -- Buffer 中有 capacity（总容量，不可变动），mark（标记位置，默认为 -1），position（当前应处理位置），limit（上界，默认等于 capacity）-- */
         /* -- rewind(), clear(), flip() 总是丢弃 mark */
@@ -58,18 +53,21 @@ public class TestNio {
         // mark丢弃，position 为 limit - 1 - position + 1，limit 为 capacity
         //intBuffer.compact();
         // ################## 需要重视
-        intBuffer.compact();
+//        intBuffer.compact();
         // ################## 需要重视
         //intBuffer.arrayOffset();
         //System.out.println(ByteOrder.nativeOrder().toString());
 
-        ByteBuffer byteBuffer = ByteBuffer.allocate(5);
+        /*ByteBuffer byteBuffer = ByteBuffer.allocate(5);
         for (int i = 0; i < 5; i++) {
             byteBuffer.put((byte)1);
         }
         System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
         byteBuffer.compact();
-        System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());
+        System.out.println(byteBuffer.position() + "--" + byteBuffer.limit());*/
+
+
+        openChannel();
     }
 
 
@@ -104,9 +102,57 @@ public class TestNio {
     }
 
     /** 测试文件的读取 */
-    public void testReadFile() throws FileNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream("/opt/test/nio-test/nio.txt");
-        ReadableByteChannel readableByteChannel = Channels.newChannel(fileInputStream);
+    public static void testReadFile() throws FileNotFoundException {
+        /*FileInputStream fileInputStream = new FileInputStream("/opt/test/nio-test/nio.txt");
+        ReadableByteChannel readableByteChannel = Channels.newChannel(fileInputStream);*/
+    }
+
+    public static void openChannel() throws IOException {
+        // 能打开通道的几种方式
+        String readFilePath = "/opt/test/nio-test/read.txt";
+        String writeFilePath = "/opt/test/nio-test/write.txt";
+        String mode = "rw"; // "rw" "rws" "rwd"
+        /*FileChannel fileChannel = new RandomAccessFile(readFilePath, mode).getChannel();
+        FileChannel fileChannel2 = new FileInputStream(readFilePath).getChannel();
+        FileChannel fileChannel3 = new FileOutputStream(readFilePath).getChannel();
+        DatagramChannel datagramChannel = DatagramChannel.open();
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        SocketChannel socketChannel = SocketChannel.open();*/
+
+        /*FileInputStream fileInputStream = new FileInputStream(readFilePath);
+        BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(fileInputStream));
+        long startTime2 = System.currentTimeMillis();
+        String str2;
+        while ((str2 = bufferedReader2.readLine()) != null) {
+        }
+        long endTime2 = System.currentTimeMillis();
+        System.out.println((endTime2 - startTime2) + "------> 毫秒**IO");
+        bufferedReader2.close();
+        fileInputStream.close();
+
+        FileChannel fileChannel = new RandomAccessFile(readFilePath, mode).getChannel();
+        InputStream inputStream = Channels.newInputStream(fileChannel);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        long startTime = System.currentTimeMillis();
+        String str;
+        while ((str = bufferedReader.readLine()) != null) {
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println((endTime - startTime) + "------> 毫秒**NIO");
+        bufferedReader.close();
+        fileChannel.close();*/
+
+        FileChannel fileChannel3 = new RandomAccessFile(readFilePath, mode).getChannel();
+        Reader reader = Channels.newReader(fileChannel3, StandardCharsets.ISO_8859_1.name());
+        BufferedReader bufferedReader3 = new BufferedReader(reader);
+        long startTime3 = System.currentTimeMillis();
+        String str3;
+        while ((str3 = bufferedReader3.readLine()) != null) {
+        }
+        long endTime3 = System.currentTimeMillis();
+        System.out.println((endTime3 - startTime3) + "------> 毫秒**NIO2");
+        bufferedReader3.close();
+        reader.close();
     }
 
 }
