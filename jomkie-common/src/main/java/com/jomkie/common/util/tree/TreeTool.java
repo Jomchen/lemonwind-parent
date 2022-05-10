@@ -11,13 +11,12 @@ import java.util.function.Function;
 
 /**
  * 目录树工具（此功能适用于森林和二叉树）
- * 注意元素不要出现 相互层级关系，否则会无限循环
+ * 已处理环形的异常节点
  * <Obj> 组成树的元素
  * <Identifier> 元素自己的唯一标识
  * @author Jomkie
  * @since 2021-06-01 16:44:0
  */
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class TreeTool<Obj, Identifier> {
@@ -291,5 +290,6 @@ public class TreeTool<Obj, Identifier> {
     public boolean isEmpty(Collection<Obj> dataList) {
         return null == dataList || dataList.size() == 0;
     }
+
 
 }
