@@ -86,7 +86,9 @@ public class TestJomkie {
         TreeTool<TestJoUser, String> treeTool = new TreeTool<>(
                 acquireIdentifierOfItSelfFunction,
                 acquireChildrenByParentIdentifierFunction,
-                setChildFunction
+                setChildFunction,
+                null,
+                null
         );
         /* ---------- 封装查询工具 ----------  End */
 
