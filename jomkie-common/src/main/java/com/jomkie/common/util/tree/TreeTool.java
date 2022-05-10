@@ -46,16 +46,20 @@ public class TreeTool<Obj, Identifier> {
 
     /**
      * 获取拥有指定层数的完整树
+     * 假设下例为原数据结构：
      *           A
      *         /   \
      *       B     C
      *     / \    / \
      *  D   E  F  G
-     *  如果 originalRootList  中只有A，method(3, originalRootList) 那么执行结果为图示的整棵树
+     *  如果 originalRootList  中有[B,C]，那么 method(2, originalRootList) 执行结果为：
+     *       B     C
+     *     / \    / \
+     *  D   E  F  G
      * @author Jomkie
      * @since 2021-06-01 16:45:12
      * @param depth 树的深度，最少为 1
-     * @param originalRootList 树的顶级元素集合
+     * @param originalRootList 树的某层元素集合
      */
     public List<Obj> getTree(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(getIdentifierOfItSelfFun)
@@ -107,16 +111,17 @@ public class TreeTool<Obj, Identifier> {
 
     /**
      *  获取树中某一层的元素集合
+     *  假设下例为原数据结构：
      *           A
      *         /   \
      *       B     C
      *     / \    / \
      *  D   E  F  G
-     *  如果 originalRootList  中只有A，method(3, originalRootList) 那么执行结果为 [D,E,F,G]
+     *  如果 originalRootList  中只有A，那么 method(3, originalRootList) 执行结果为 [D,E,F,G]
      * @author Jomkie
      * @since 2021-06-02 11:50:56
      * @param depth 树的深度，至少为 1
-     * @param originalRootList 树的顶级元素集合
+     * @param originalRootList 树的某层元素集合
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(getIdentifierOfItSelfFun) || Objects.isNull(getChildrenByParentIdentifierFun)) {
@@ -208,7 +213,7 @@ public class TreeTool<Obj, Identifier> {
      * @author Jomkie
      * @since 2021-08-04 09:38:02
      * @param depth 深度
-     * @param parentList 父集元素集合
+     * @param parentList 某层元素集合
      */
     public List<Obj> getAllObjForSpecificDepth(int depth, List<Obj> parentList) {
         if (isEmpty(parentList)) { return Collections.EMPTY_LIST; }
@@ -254,10 +259,10 @@ public class TreeTool<Obj, Identifier> {
     }
 
     /**
-     * 从父级元素开始到所有的后代元素进行逻辑处理
+     * 遍历整棵树的每个元素，遍历的同时根据实现消费元素
      * @author Jomkie
      * @since 2021-08-04 11:34:21
-     * @param originalList 父级元素
+     * @param originalList 某层元素集合
      */
     public void consumeEachObj(List<Obj> originalList) {
         if (Objects.isNull(getIdentifierOfItSelfFun)
