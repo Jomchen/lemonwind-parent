@@ -1,6 +1,7 @@
 package com.jomkie.test.multithread;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class ForkJoinDemo {
@@ -28,6 +29,17 @@ public class ForkJoinDemo {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        // 计算方式3
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> {
+            // 此为没有返回值的情况
+            System.out.println(Thread.currentThread().getName());
+        });
+        CompletableFuture<String> completableFuture2 = CompletableFuture.supplyAsync(() -> "Linux" );
+        completableFuture2.whenComplete((d, e) -> {
+            // 这里的 d 是返回值
+            // 这里的 e 是异常，如果没有异常则为 null
+        });
     }
 
     public static class MyFork extends RecursiveTask<Integer> {
@@ -50,7 +62,9 @@ public class ForkJoinDemo {
             MyFork left = new MyFork(start, mid);
             MyFork right = new MyFork(mid + 1, end);
             left.fork();
-            return right.compute() + left.join();
+            Integer rightValue = right.compute();
+            Integer leftValue = left.join();
+            return leftValue + rightValue;
         }
     }
 
