@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
 
-public class TestOne {
+public class TestJdk8 {
 
     public static void main(String[] args) {
         test01();
