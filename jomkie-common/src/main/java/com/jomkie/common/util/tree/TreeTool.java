@@ -3,6 +3,7 @@ package com.jomkie.common.util.tree;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -17,8 +18,9 @@ import java.util.function.Function;
  * @author Jomkie
  * @since 2021-06-01 16:44:0
  */
-@NoArgsConstructor
-@Data
+//@NoArgsConstructor
+@Data(staticConstructor = "of")
+@Accessors(chain = true)
 public class TreeTool<Obj, Identifier> {
 
     /** 通过元素获取自己的唯一标识 */
