@@ -1,6 +1,5 @@
 package com.jomkie.common.util.tree;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,41 +7,47 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import lombok.AllArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 目录树工具（此功能适用于森林和二叉树）
  * 已处理环形的异常节点
- * <Obj> 组成树的元素
- * <Identifier> 元素自己的唯一标识
+ * @param <Obj> 组成树的元素
+ * @param <ID> 元素自己的唯一标识
  * @author Jomkie
  * @since 2021-06-01 16:44:0
  */
-@NoArgsConstructor
 @Data
-public class TreeTool<Obj, Identifier> {
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+public class TreeTool<Obj, ID> {
 
     /** 通过元素获取自己的唯一标识 */
-    private Function<Obj, Identifier> getIdentifierOfItSelfFun;
+    private Function<Obj, ID> idFun;
 
     /** 通过父级标识获取直接子级元素集合 */
-    private Function<Identifier, List<Obj>> getChildrenByParentIdentifierFun;
+    private Function<ID, List<Obj>> childrenByParentIdFun;
 
     /** 将子级元素集合注入到父级元素中 */
-    private BiConsumer<Obj, List<Obj>> setChildrenFun;
+    private BiConsumer<Obj, List<Obj>> injectChildrenFun;
 
-    /** 获取父级对象 */
-    private Function<Obj, Obj> getParentObjFun;
+    /** 通过一个对象获取父级对象 */
+    private Function<Obj, Obj> parentObjFun;
 
     /** 对一个元素逻辑处理 */
     private Consumer<Obj> consumer;
 
-    public TreeTool(Function<Obj, Identifier> getIdentifierOfItSelfFun,
-                    Function<Identifier, List<Obj>> getChildrenByParentIdentifierFun,
-                    BiConsumer<Obj, List<Obj>> setChildrenFun) {
-        this.getIdentifierOfItSelfFun = getIdentifierOfItSelfFun;
-        this.getChildrenByParentIdentifierFun = getChildrenByParentIdentifierFun;
-        this.setChildrenFun = setChildrenFun;
+    public TreeTool(Function<Obj, ID> idFun,
+                    Function<ID, List<Obj>> childrenByParentIdFun,
+                    BiConsumer<Obj, List<Obj>> injectChildrenFun) {
+        this.idFun = idFun;
+        this.childrenByParentIdFun = childrenByParentIdFun;
+        this.injectChildrenFun = injectChildrenFun;
     }
+    
+    // TODO 这些方法还缺一个层级数和对象作为参数的处理实现未解决
 
     /**
      * 获取拥有指定层数的完整树
@@ -60,11 +65,12 @@ public class TreeTool<Obj, Identifier> {
      * @since 2021-06-01 16:45:12
      * @param depth 树的深度，最少为 1
      * @param originalRootList 树的某层元素集合
+     * @return 树结构
      */
     public List<Obj> getTree(int depth, List<Obj> originalRootList) {
-        if (Objects.isNull(getIdentifierOfItSelfFun)
-                || Objects.isNull(getChildrenByParentIdentifierFun)
-                || Objects.isNull(setChildrenFun)) {
+        if (Objects.isNull(idFun)
+                || Objects.isNull(childrenByParentIdFun)
+                || Objects.isNull(injectChildrenFun)) {
             throw new RuntimeException("Building conditions are not complete");
         }
         if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
@@ -81,27 +87,27 @@ public class TreeTool<Obj, Identifier> {
 
         int currentDepth = 1;
         int numbersForCurrentLayer = rootList.size();
-        Set<Identifier> setBeingExist = new HashSet<>();
-        while ( ! isEmpty(queue)) {
+        Set<ID> beingExistSet = new HashSet<>();
+        while (isNotEmpty(queue)) {
             if (currentDepth >= depth) { return rootList; }
 
             Obj currentObj = queue.poll();
-            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
-            if (setBeingExist.contains(identifierOfItSelf)) {
-                throw new RuntimeException("data exception, a node has been exist " + identifierOfItSelf.toString());
+            ID idOfItSelf = idFun.apply(currentObj);
+            if (beingExistSet.contains(idOfItSelf)) {
+                throw new RuntimeException("data exception, a node has been exist " + idOfItSelf.toString());
             } else {
-                setBeingExist.add(identifierOfItSelf);
+                beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! isEmpty(children)) {
+            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            if (isNotEmpty(children)) {
                 children.forEach(queue::add);
-                setChildrenFun.accept(currentObj, children);
+                injectChildrenFun.accept(currentObj, children);
             }
 
-            -- numbersForCurrentLayer;
+            --numbersForCurrentLayer;
             if (numbersForCurrentLayer <= 0) {
-                currentDepth ++;
+                currentDepth++;
                 numbersForCurrentLayer = queue.size();
             }
         }
@@ -122,9 +128,10 @@ public class TreeTool<Obj, Identifier> {
      * @since 2021-06-02 11:50:56
      * @param depth 树的深度，至少为 1
      * @param originalRootList 树的某层元素集合
+     * @return 指定层的节点集合
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
-        if (Objects.isNull(getIdentifierOfItSelfFun) || Objects.isNull(getChildrenByParentIdentifierFun)) {
+        if (Objects.isNull(idFun) || Objects.isNull(childrenByParentIdFun)) {
             throw new RuntimeException("Building conditions are not complete");
         }
         if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
@@ -137,26 +144,26 @@ public class TreeTool<Obj, Identifier> {
 
         int currentDepth = 1;
         int numbersForCurrentLayer = queue.size();
-        Set<Identifier> setBeingExist = new HashSet<>();
-        while ( ! isEmpty(queue)) {
+        Set<ID> beingExistSet = new HashSet<>();
+        while (isNotEmpty(queue)) {
             if (currentDepth >= depth) { return new ArrayList<>(queue); }
 
             Obj currentObj = queue.poll();
-            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
-            if (setBeingExist.contains(identifierOfItSelf)) {
-                throw new RuntimeException("data exception, a node has been exist " + identifierOfItSelf.toString());
+            ID idOfItSelf = idFun.apply(currentObj);
+            if (beingExistSet.contains(idOfItSelf)) {
+                throw new RuntimeException("data exception, a node has been exist " + idOfItSelf.toString());
             } else {
-                setBeingExist.add(identifierOfItSelf);
+                beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! isEmpty(children)) {
+            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            if (isNotEmpty(children)) {
                 children.forEach(queue::add);
             }
 
-            -- numbersForCurrentLayer;
+            --numbersForCurrentLayer;
             if (numbersForCurrentLayer <= 0) {
-                currentDepth ++;
+                currentDepth++;
                 numbersForCurrentLayer = queue.size();
             }
         }
@@ -175,10 +182,11 @@ public class TreeTool<Obj, Identifier> {
      * @author Jomkie
      * @since 2021-06-09 11:47:59
      * @param obj 一个元素
+     * @return 当前节点到顶级节点的节点集合
      */
     public List<Obj> getForefatherChain2(Obj obj) {
-        if (Objects.isNull(getParentObjFun) || Objects.isNull(getIdentifierOfItSelfFun)) {
-            throw new RuntimeException("both <getParentObjFun> and <getIdentifierOfItSelfFun> must be not null");
+        if (Objects.isNull(parentObjFun) || Objects.isNull(idFun)) {
+            throw new RuntimeException("both <getParentObjFun> and <getIDOfItSelfFun> must be not null");
         }
         if (Objects.isNull(obj)) {
             return Collections.EMPTY_LIST;
@@ -186,17 +194,17 @@ public class TreeTool<Obj, Identifier> {
 
         Obj temporary = obj;
         List<Obj> queue = new LinkedList<>();
-        Set<Identifier> identifierSet = new HashSet<>();
+        Set<ID> idSet = new HashSet<>();
         while (Objects.nonNull(temporary)) {
-            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(temporary);
-            if (identifierSet.contains(identifierOfItSelf)) {
-                throw new RuntimeException("data exception, a node has been exist " + identifierOfItSelf.toString());
+            ID idOfItSelf = idFun.apply(temporary);
+            if (idSet.contains(idOfItSelf)) {
+                throw new RuntimeException("data exception, a node has been exist " + idOfItSelf.toString());
             } else {
-                identifierSet.add(identifierOfItSelf);
+                idSet.add(idOfItSelf);
             }
 
             queue.add(temporary);
-            temporary = getParentObjFun.apply(temporary);
+            temporary = parentObjFun.apply(temporary);
         }
 
         return queue;
@@ -211,6 +219,7 @@ public class TreeTool<Obj, Identifier> {
      *  D   E  F  G
      *  如果 parentList  中只有A，method(3, parentList) 那么执行结果为 [A,B,C,D,E,F,G]
      * @author Jomkie
+     * @return 本节点作为根节点的整棵树的节点集合
      * @since 2021-08-04 09:38:02
      * @param depth 深度
      * @param parentList 某层元素集合
@@ -218,8 +227,8 @@ public class TreeTool<Obj, Identifier> {
     public List<Obj> getAllObjForSpecificDepth(int depth, List<Obj> parentList) {
         if (isEmpty(parentList)) { return Collections.EMPTY_LIST; }
         if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
-        if (Objects.isNull(getChildrenByParentIdentifierFun)
-                || Objects.isNull(getIdentifierOfItSelfFun)) {
+        if (Objects.isNull(childrenByParentIdFun)
+                || Objects.isNull(idFun)) {
             throw new RuntimeException("Building conditions are not complete");
         }
 
@@ -227,30 +236,30 @@ public class TreeTool<Obj, Identifier> {
         Queue<Obj> queue = new LinkedList<>(parentList);
         int currentDepth = 1;
         int numbersForCurrentLayer = queue.size();
-        Set<Identifier> setBeingExist = new HashSet<>();
+        Set<ID> beingExistSet = new HashSet<>();
 
-        while ( ! queue.isEmpty()) {
+        while (isNotEmpty(queue)) {
             if (currentDepth >= depth) {
                 return resultList;
             }
 
             Obj currentObj = queue.poll();
-            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
-            if (setBeingExist.contains(identifierOfItSelf)) {
-                throw new RuntimeException("data exception, a node has been exist " + identifierOfItSelf.toString());
+            ID idOfItSelf = idFun.apply(currentObj);
+            if (beingExistSet.contains(idOfItSelf)) {
+                throw new RuntimeException("data exception, a node has been exist " + idOfItSelf.toString());
             } else {
-                setBeingExist.add(identifierOfItSelf);
+                beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! isEmpty(children)) {
+            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            if (isNotEmpty(children)) {
                 resultList.addAll(children);
                 queue.addAll(children);
             }
 
-            -- numbersForCurrentLayer;
+            --numbersForCurrentLayer;
             if (numbersForCurrentLayer <= 0) {
-                currentDepth ++;
+                currentDepth++;
                 numbersForCurrentLayer = queue.size();
             }
         }
@@ -265,35 +274,39 @@ public class TreeTool<Obj, Identifier> {
      * @param originalList 某层元素集合
      */
     public void consumeEachObj(List<Obj> originalList) {
-        if (Objects.isNull(getIdentifierOfItSelfFun)
-                || Objects.isNull(getChildrenByParentIdentifierFun)
+        if (Objects.isNull(idFun)
+                || Objects.isNull(childrenByParentIdFun)
                 || Objects.isNull(consumer)) {
             throw new RuntimeException("Building conditions are not complete");
         }
 
         if (isEmpty(originalList)) { return; }
         Queue<Obj> queue = new LinkedList<>(originalList);
-        Set<Identifier> setBeingExist = new HashSet<>();
-        while ( ! queue.isEmpty()) {
+        Set<ID> beingExistSet = new HashSet<>();
+        while (isNotEmpty(queue)) {
             Obj currentObj = queue.poll();
             consumer.accept(currentObj);
 
-            Identifier identifierOfItSelf = getIdentifierOfItSelfFun.apply(currentObj);
-            if (setBeingExist.contains(identifierOfItSelf)) {
-                throw new RuntimeException("data exception, a node has been exist " + identifierOfItSelf.toString());
+            ID idOfItSelf = idFun.apply(currentObj);
+            if (beingExistSet.contains(idOfItSelf)) {
+                throw new RuntimeException("data exception, a node has been exist " + idOfItSelf.toString());
             } else {
-                setBeingExist.add(identifierOfItSelf);
+                beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = getChildrenByParentIdentifierFun.apply(identifierOfItSelf);
-            if ( ! isEmpty(children)) {
+            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            if (isNotEmpty(children)) {
                 queue.addAll(children);
             }
         }
     }
 
     public boolean isEmpty(Collection<Obj> dataList) {
-        return null == dataList || dataList.size() == 0;
+        return null == dataList || dataList.isEmpty();
+    }
+    
+    public boolean isNotEmpty(Collection<Obj> dataList) {
+        return null != dataList && !dataList.isEmpty();
     }
 
 

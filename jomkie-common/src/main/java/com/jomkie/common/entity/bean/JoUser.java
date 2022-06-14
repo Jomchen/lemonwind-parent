@@ -3,8 +3,10 @@ package com.jomkie.common.entity.bean;
 import java.util.Date;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class JoUser {
 	
 	private Integer id;
