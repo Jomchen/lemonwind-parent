@@ -309,5 +309,4 @@ public class TreeTool<Obj, ID> {
         return null != dataList && !dataList.isEmpty();
     }
 
-
 }

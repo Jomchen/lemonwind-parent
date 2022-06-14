@@ -74,26 +74,21 @@ public class TestJomkie {
         /* ---------- 构建源数据 ----------  End */
 
         /* ---------- 封装查询工具 ----------  Start */
-        Function<TestJoUser, String> acquireIdentifierOfItSelfFunction = TestJoUser::getId;
-        Function<String, List<TestJoUser>> acquireChildrenByParentIdentifierFunction = parentId -> database.stream()
+        Function<TestJoUser, String> identifierOfItSelfFunction = TestJoUser::getId;
+        Function<String, List<TestJoUser>> childrenByParentIdentifierFunction = parentId -> database.stream()
                 .filter(obj -> parentId.equals(obj.getParentId()))
                 .collect(Collectors.toList());
-        BiConsumer<TestJoUser, List<TestJoUser>> setChildFunction = (obj, children) -> {
+        BiConsumer<TestJoUser, List<TestJoUser>> injectChildFunction = (obj, children) -> {
             if (obj.getChildren() == null) { obj.setChildren(new ArrayList<>()); }
             obj.getChildren().addAll(children);
         };
-
-        TreeTool<TestJoUser, String> treeTool = new TreeTool<>(
-                acquireIdentifierOfItSelfFunction,
-                acquireChildrenByParentIdentifierFunction,
-                setChildFunction
-        );
+        TreeTool treeTool = TreeTool.<TestJoUser, String>of()
+                .setGetIdentifierOfItSelfFun(identifierOfItSelfFunction)
+                .setGetChildrenByParentIdentifierFun(childrenByParentIdentifierFunction)
+                .setSetChildrenFun(injectChildFunction);
         /* ---------- 封装查询工具 ----------  End */
 
-        /* ---------------------------
-            构建根级数据
-            rootList 只能有顶级，元素对象内不能挂下级元素，否则结果不正确
-        --------------------- */
+        /* 构建根级数据，注意 rootList 的元素只能是同层元素，否则结果不正确 */
         List<TestJoUser> rootList = new ArrayList<>();
         rootList.add(root1);
         rootList.add(root2);

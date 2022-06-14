@@ -1,9 +1,14 @@
 package com.jomkie.common.util.tree;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
 
+@Data(staticConstructor = "of")
+@Accessors(chain = true)
 public class TestJoUser implements Serializable {
 
     private String id;
