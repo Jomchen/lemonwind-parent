@@ -1,6 +1,6 @@
 package com.jomkie.datastructure.chain;
 
-import com.jomkie.datastructure.model.chain.DataNode;
+import com.jomkie.common.util.chain.Node;
 
 public class ChainApplication {
 
@@ -9,57 +9,53 @@ public class ChainApplication {
     }
 
     public static void test() {
-        /*DataNode bean6 = new DataNode(6, null);
-        DataNode bean5 = new DataNode(5, bean6);
-        DataNode bean4 = new DataNode(4, bean5);
-        DataNode bean3 = new DataNode(3, bean4);
-        DataNode bean2 = new DataNode(2, bean3);
-        DataNode bean1 = new DataNode(1, bean2);
-        DataNode bean0 = new DataNode(0, bean1);*/
+        // 构建普通链表
+        /*Node<Integer> bean6 = new Node<>(6, null);
+        Node<Integer> bean5 = new Node<>(5, bean6);
+        Node<Integer> bean4 = new Node<>(4, bean5);
+        Node<Integer> bean3 = new Node<>(3, bean4);
+        Node<Integer> bean2 = new Node<>(2, bean3);
+        Node<Integer> bean1 = new Node<>(1, bean2);
+        Node<Integer> bean0 = new Node<>(0, bean1);*/
 
-        DataNode bean6 = new DataNode(6);
-        DataNode bean5 = new DataNode(5);
-        DataNode bean4 = new DataNode(4);
-        DataNode bean3 = new DataNode(3);
-        DataNode bean2 = new DataNode(2);
-        DataNode bean1 = new DataNode(1);
-        DataNode bean0 = new DataNode(0);
+        // 构建环型链表
+        Node<Integer> bean6 = new Node<>(6, null);
+        Node<Integer> bean5 = new Node<>(5, bean6);
+        Node<Integer> bean4 = new Node<>(4, bean5);
+        Node<Integer> bean3 = new Node<>(3, bean4);
+        Node<Integer> bean2 = new Node<>(2, bean3);
+        Node<Integer> bean1 = new Node<>(1, bean2);
+        Node<Integer> bean0 = new Node<>(0, bean1);
+        bean6.setNext(bean3);
+        
 
-        bean0.next = bean1;
-        bean1.next = bean2;
-        bean2.next = bean3;
-        bean3.next = bean4;
-        bean4.next = bean5;
-        bean5.next = bean6;
-        bean6.next = bean3;
-
-        /*printDataNode(reverse(bean6));*/
-        /*printDataNode(reverse2(bean6));*/
+        /*printDataNode(reverse(bean0));*/
+        /*printDataNode(reverse2(bean0));*/
         System.out.println(findRing(bean0));
     }
 
     /**
      * 反转链表，递归版
      */
-    public static DataNode reverse(DataNode head) {
-        if (null == head || head.next == null) { return head; }
-        DataNode reverseHead = reverse(head.next);
-        head.next.next = head;
-        head.next = null;
+    public static <T> Node<T> reverse(Node<T> head) {
+        if (null == head || head.getNext() == null) { return head; }
+        Node<T> reverseHead = reverse(head.getNext());
+        head.getNext().setNext(head);
+        head.setNext(null);
         return reverseHead;
     }
 
     /**
      * 反转链表，非递归版
      */
-    public static DataNode reverse2(DataNode head) {
-        if (null == head || head.next == null) { return head; }
+    public static <T> Node<T> reverse2(Node<T> head) {
+        if (null == head || head.getNext() == null) { return head; }
 
-        DataNode slow = null;
-        DataNode fast = head;
+        Node<T> slow = null;
+        Node<T> fast = head;
         while (fast != null) {
-            DataNode oldNext = fast.next;
-            fast.next = slow;
+            Node<T> oldNext = fast.getNext();
+            fast.setNext(slow);
             slow = fast;
             fast = oldNext;
         }
@@ -74,15 +70,15 @@ public class ChainApplication {
      * @param dataNode
      * @return 环型点
      */
-    public static DataNode findRing(DataNode dataNode) {
-        if (null == dataNode || dataNode.next == null) { return null; }
+    public static <T> Node<T> findRing(Node<T> dataNode) {
+        if (null == dataNode || dataNode.getNext() == null) { return null; }
 
-        DataNode slow = dataNode;
-        DataNode fast = dataNode.next;
-        while (fast != null && fast.next != null) {
+        Node<T> slow = dataNode;
+        Node<T> fast = dataNode.getNext();
+        while (fast != null && fast.getNext() != null) {
             if (slow.equals(fast)) { return slow; }
-            slow = slow.next;
-            fast = fast.next.next;
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
         }
 
         return null;
@@ -91,12 +87,12 @@ public class ChainApplication {
     /**
      * 打印链表
      */
-    public static void printDataNode(DataNode dataNode) {
+    public static <T> void printDataNode(Node<T> dataNode) {
         if (null == dataNode) { return; }
         while (dataNode != null) {
-            System.out.print(dataNode.data);
-            if (dataNode.next != null) { System.out.print("->"); }
-            dataNode = dataNode.next;
+            System.out.print(dataNode.getData());
+            if (dataNode.getNext() != null) { System.out.print("->"); }
+            dataNode = dataNode.getNext();
         }
 
         System.out.println();
