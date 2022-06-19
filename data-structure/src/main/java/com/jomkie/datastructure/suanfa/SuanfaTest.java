@@ -74,4 +74,24 @@ public class SuanfaTest {
         }
     }
     
+    /**
+     * 楼梯有 n 阶台阶，每次可以上 1 阶 或 2 阶，问走完 n 阶台阶共多少种走法 
+     * 假设一共有 f(n) 种走法，第 1 步有 2 种走法 
+     * 如果上 1 阶，那就剩 n-1 阶，共 f(n-1)种走法 
+     * 如果上 2 阶，那就剩 n-2 阶，共 f(n-2)种走法 
+     * 所以 f(n) = f(n-1) + f(n-2)
+     */
+    public static int climbStairs(int n) {
+        // 楼梯有 n 阶台阶，上楼可以一步上 1 阶，也可以一步上 2 阶，走完 n 阶台阶共有多少种不同的走法
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+
+        // 因为一步只上 1 阶 或 2 阶，所以总共可能的走法应该是两种情况各自的走法相加
+        return climbStairs(n - 1) + climbStairs(n - 2);
+    }
+    
 }
