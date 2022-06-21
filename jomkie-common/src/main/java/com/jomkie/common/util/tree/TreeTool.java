@@ -26,16 +26,12 @@ public class TreeTool<Obj, ID> {
 
     /** 通过元素获取自己的唯一标识 */
     private Function<Obj, ID> idFun;
-
     /** 通过父级标识获取直接子级元素集合 */
     private Function<ID, List<Obj>> childrenByParentIdFun;
-
     /** 将子级元素集合注入到父级元素中 */
     private BiConsumer<Obj, List<Obj>> injectChildrenFun;
-
     /** 通过一个对象获取父级对象 */
     private Function<Obj, Obj> parentObjFun;
-
     /** 对一个元素逻辑处理 */
     private Consumer<Obj> consumer;
 

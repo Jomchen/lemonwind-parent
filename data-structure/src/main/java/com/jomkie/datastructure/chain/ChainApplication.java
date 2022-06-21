@@ -36,6 +36,9 @@ public class ChainApplication {
 
     /**
      * 反转链表，递归版
+     * @param <T>
+     * @param head
+     * @return 
      */
     public static <T> NodeChain<T> reverse(NodeChain<T> head) {
         if (null == head || head.getNext() == null) { return head; 
@@ -48,6 +51,9 @@ public class ChainApplication {
 
     /**
      * 反转链表，非递归版
+     * @param <T>
+     * @param head
+     * @return 
      */
     public static <T> NodeChain<T> reverse2(NodeChain<T> head) {
         if (null == head || head.getNext() == null) { return head; }
@@ -67,6 +73,7 @@ public class ChainApplication {
     /**
      * 检查环型链表结点
      * @author Jomkie
+     * @param <T>
      * @since 2021-07-04 20:34:47
      * @param dataNode
      * @return 环型点
@@ -87,6 +94,8 @@ public class ChainApplication {
 
     /**
      * 打印链表
+     * @param <T>
+     * @param dataNode
      */
     public static <T> void printDataNode(NodeChain<T> dataNode) {
         if (null == dataNode) { return; }
