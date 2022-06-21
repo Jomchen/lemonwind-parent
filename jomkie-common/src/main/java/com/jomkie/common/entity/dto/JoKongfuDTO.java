@@ -9,16 +9,11 @@ import lombok.Data;
 @Data
 public class JoKongfuDTO {
 
-	private Integer userId;
-	
-	private BigDecimal power;
-	
-	private Integer level;
-
-	private Date createTime;
-	
-	private JoUserDTO joUserDTO;
-
-	List<JoUserDTO> joUserList;
+    private Integer userId;
+    private BigDecimal power;
+    private Integer level;
+    private Date createTime;
+    private JoUserDTO joUserDTO;
+    private List<JoUserDTO> joUserList;
 	
 }

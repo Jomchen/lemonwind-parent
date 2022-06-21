@@ -61,18 +61,27 @@ public class TreeToolTest {
                 TreeJoUser node3_3_3 = new TreeJoUser().setId("3_3_3").setName("name_3_3_3").setAge(333).setParentId("3_3");
         
         List<TreeJoUser> dataList = Stream.of(
-                node1,
-                node1_1, node1_1_1, node1_1_2, node1_1_3,
-                node1_2, node1_2_1, node1_2_2, node1_2_3,
-                node1_3, node1_3_1, node1_3_2, node1_3_3,
-                node2,
-                node2_1, node2_1_1, node2_1_2, node2_1_3,
-                node2_2, node2_2_1, node2_2_2, node2_2_3,
-                node2_3, node2_3_1, node2_3_2, node2_3_3,
-                node3,
-                node3_1, node3_1_1, node3_1_2, node3_1_3,
-                node3_2, node3_2_1, node3_2_2, node3_2_3,
-                node3_3, node3_3_1, node3_3_2, node3_3_3
+            node1,
+                node1_1, 
+                    node1_1_1, node1_1_2, node1_1_3,
+                node1_2, 
+                    node1_2_1, node1_2_2, node1_2_3,
+                node1_3, 
+                    node1_3_1, node1_3_2, node1_3_3,
+            node2,
+                node2_1, 
+                    node2_1_1, node2_1_2, node2_1_3,
+                node2_2, 
+                    node2_2_1, node2_2_2, node2_2_3,
+                node2_3, 
+                    node2_3_1, node2_3_2, node2_3_3,
+            node3,
+                node3_1, 
+                    node3_1_1, node3_1_2, node3_1_3,
+                node3_2, 
+                    node3_2_1, node3_2_2, node3_2_3,
+                node3_3, 
+                    node3_3_1, node3_3_2, node3_3_3
         ).collect(toList());
         List<TreeJoUser> rootList = dataList.stream().filter(e -> Objects.equals(e.getParentId(), "-1")).collect(toList());
         
@@ -84,10 +93,10 @@ public class TreeToolTest {
         BiConsumer<TreeJoUser, List<TreeJoUser>> injectChildrenFun = TreeJoUser::injectChildren;
         Function<TreeJoUser, TreeJoUser> parentObjFun = bean -> idMap.get(bean.getParentId());
         TreeTool<TreeJoUser, String> treeTool = new TreeTool<TreeJoUser, String>()
-                .setIdFun(idFun)
-                .setChildrenByParentIdFun(childrenByParentIdFun)
-                .setInjectChildrenFun(injectChildrenFun)
-                .setParentObjFun(parentObjFun);
+            .setIdFun(idFun)
+            .setChildrenByParentIdFun(childrenByParentIdFun)
+            .setInjectChildrenFun(injectChildrenFun)
+            .setParentObjFun(parentObjFun);
         
         // 获取一棵树
 //        System.out.println(JSONObject.toJSONString(treeTool.getTree(Integer.MAX_VALUE, rootList)));

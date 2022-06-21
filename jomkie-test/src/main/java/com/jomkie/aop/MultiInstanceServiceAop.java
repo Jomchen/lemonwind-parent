@@ -61,11 +61,10 @@ public class MultiInstanceServiceAop {
         if (Objects.nonNull(superInterface)) {
             Map<String, Object> map = applicationContext.getBeansOfType((Class<Object>) superInterface);
             Object logTarget = map.entrySet().stream()
-                    .filter(entry -> entry.getKey()
-                    .endsWith("Log"))
-                    .map(Map.Entry::getValue)
-                    .findFirst()
-                    .orElse(null);
+                .filter(entry -> entry.getKey().endsWith("Log"))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(null);
             if (Objects.nonNull(logTarget)) {
                 Method logMethod;
                 try {

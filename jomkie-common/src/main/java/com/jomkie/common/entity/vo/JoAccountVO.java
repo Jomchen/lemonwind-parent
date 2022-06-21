@@ -7,10 +7,8 @@ import lombok.Data;
 @Data
 public class JoAccountVO {
 	
-	private Integer userId;
-	
-	private BigDecimal money;
-	
-	private String createTime;
+    private Integer userId;
+    private BigDecimal money;
+    private String createTime;
 	
 }
