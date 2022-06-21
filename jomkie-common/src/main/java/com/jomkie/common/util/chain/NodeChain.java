@@ -12,10 +12,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Node<T> {
+public class NodeChain<T> {
 
     private T data;
     
-    private Node<T> next;
+    private NodeChain<T> next;
     
 }

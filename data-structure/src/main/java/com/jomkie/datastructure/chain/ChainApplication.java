@@ -1,6 +1,6 @@
 package com.jomkie.datastructure.chain;
 
-import com.jomkie.common.util.chain.Node;
+import com.jomkie.common.util.chain.NodeChain;
 
 public class ChainApplication {
 
@@ -10,22 +10,22 @@ public class ChainApplication {
 
     public static void test() {
         // 构建普通链表
-        /*Node<Integer> bean6 = new Node<>(6, null);
-        Node<Integer> bean5 = new Node<>(5, bean6);
-        Node<Integer> bean4 = new Node<>(4, bean5);
-        Node<Integer> bean3 = new Node<>(3, bean4);
-        Node<Integer> bean2 = new Node<>(2, bean3);
-        Node<Integer> bean1 = new Node<>(1, bean2);
-        Node<Integer> bean0 = new Node<>(0, bean1);*/
+        /*NodeChain<Integer> bean6 = new NodeChain<>(6, null);
+        NodeChain<Integer> bean5 = new NodeChain<>(5, bean6);
+        NodeChain<Integer> bean4 = new NodeChain<>(4, bean5);
+        NodeChain<Integer> bean3 = new NodeChain<>(3, bean4);
+        NodeChain<Integer> bean2 = new NodeChain<>(2, bean3);
+        NodeChain<Integer> bean1 = new NodeChain<>(1, bean2);
+        NodeChain<Integer> bean0 = new NodeChain<>(0, bean1);*/
 
         // 构建环型链表
-        Node<Integer> bean6 = new Node<>(6, null);
-        Node<Integer> bean5 = new Node<>(5, bean6);
-        Node<Integer> bean4 = new Node<>(4, bean5);
-        Node<Integer> bean3 = new Node<>(3, bean4);
-        Node<Integer> bean2 = new Node<>(2, bean3);
-        Node<Integer> bean1 = new Node<>(1, bean2);
-        Node<Integer> bean0 = new Node<>(0, bean1);
+        NodeChain<Integer> bean6 = new NodeChain<>(6, null);
+        NodeChain<Integer> bean5 = new NodeChain<>(5, bean6);
+        NodeChain<Integer> bean4 = new NodeChain<>(4, bean5);
+        NodeChain<Integer> bean3 = new NodeChain<>(3, bean4);
+        NodeChain<Integer> bean2 = new NodeChain<>(2, bean3);
+        NodeChain<Integer> bean1 = new NodeChain<>(1, bean2);
+        NodeChain<Integer> bean0 = new NodeChain<>(0, bean1);
         bean6.setNext(bean3);
         
 
@@ -37,9 +37,10 @@ public class ChainApplication {
     /**
      * 反转链表，递归版
      */
-    public static <T> Node<T> reverse(Node<T> head) {
-        if (null == head || head.getNext() == null) { return head; }
-        Node<T> reverseHead = reverse(head.getNext());
+    public static <T> NodeChain<T> reverse(NodeChain<T> head) {
+        if (null == head || head.getNext() == null) { return head; 
+        }
+        NodeChain<T> reverseHead = reverse(head.getNext());
         head.getNext().setNext(head);
         head.setNext(null);
         return reverseHead;
@@ -48,13 +49,13 @@ public class ChainApplication {
     /**
      * 反转链表，非递归版
      */
-    public static <T> Node<T> reverse2(Node<T> head) {
+    public static <T> NodeChain<T> reverse2(NodeChain<T> head) {
         if (null == head || head.getNext() == null) { return head; }
 
-        Node<T> slow = null;
-        Node<T> fast = head;
+        NodeChain<T> slow = null;
+        NodeChain<T> fast = head;
         while (fast != null) {
-            Node<T> oldNext = fast.getNext();
+            NodeChain<T> oldNext = fast.getNext();
             fast.setNext(slow);
             slow = fast;
             fast = oldNext;
@@ -70,11 +71,11 @@ public class ChainApplication {
      * @param dataNode
      * @return 环型点
      */
-    public static <T> Node<T> findRing(Node<T> dataNode) {
+    public static <T> NodeChain<T> findRing(NodeChain<T> dataNode) {
         if (null == dataNode || dataNode.getNext() == null) { return null; }
 
-        Node<T> slow = dataNode;
-        Node<T> fast = dataNode.getNext();
+        NodeChain<T> slow = dataNode;
+        NodeChain<T> fast = dataNode.getNext();
         while (fast != null && fast.getNext() != null) {
             if (slow.equals(fast)) { return slow; }
             slow = slow.getNext();
@@ -87,7 +88,7 @@ public class ChainApplication {
     /**
      * 打印链表
      */
-    public static <T> void printDataNode(Node<T> dataNode) {
+    public static <T> void printDataNode(NodeChain<T> dataNode) {
         if (null == dataNode) { return; }
         while (dataNode != null) {
             System.out.print(dataNode.getData());

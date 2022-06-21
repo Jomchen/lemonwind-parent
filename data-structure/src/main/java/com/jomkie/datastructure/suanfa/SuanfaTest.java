@@ -1,7 +1,7 @@
 package com.jomkie.datastructure.suanfa;
 
 import com.jomkie.common.entity.bean.JoUser;
-import com.jomkie.common.util.chain.Node;
+import com.jomkie.common.util.chain.NodeChain;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
@@ -40,34 +40,34 @@ public class SuanfaTest {
      * 反转链表
      */
     public static void reverseChain() {
-        List<Node<JoUser>> joUserList = IntStream.range(0, 10).boxed().map(e -> {
+        List<NodeChain<JoUser>> joUserList = IntStream.range(0, 10).boxed().map(e -> {
             JoUser joUser = new JoUser();
             joUser.setId(e);
             joUser.setName("李寻欢" + e);
-            Node<JoUser> node = new Node<>();
+            NodeChain<JoUser> node = new NodeChain<>();
             node.setData(joUser);
             return node;
         }).collect(toList());
         for (int i = 0; i < joUserList.size() - 1; i++) {
-            Node<JoUser> node = joUserList.get(i);
+            NodeChain<JoUser> node = joUserList.get(i);
             node.setNext(joUserList.get(i + 1));
         }
 
-        Node<JoUser> firstNode = joUserList.get(0);
-        Node<JoUser> lastNode = joUserList.get(joUserList.size() - 1);
+        NodeChain<JoUser> firstNode = joUserList.get(0);
+        NodeChain<JoUser> lastNode = joUserList.get(joUserList.size() - 1);
         printChain(firstNode);
-        Node<JoUser> node = joUserList.get(0);
-        Node<JoUser> left = node;
-        Node<JoUser> right = null;
+        NodeChain<JoUser> node = joUserList.get(0);
+        NodeChain<JoUser> left = node;
+        NodeChain<JoUser> right = null;
         while (left != null) {
-            Node<JoUser> next = left.getNext();
+            NodeChain<JoUser> next = left.getNext();
             left.setNext(right);
             right = left;
             left = next;
         }
         printChain(lastNode);
     }
-    private static void printChain(Node<JoUser> node) {
+    private static void printChain(NodeChain<JoUser> node) {
         while (node != null) {
             System.out.println(node);
             node = node.getNext();
