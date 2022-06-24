@@ -21,6 +21,9 @@ public class DynamicProgramming {
 
     /**
      * 零钱兑换-找补个数最小
+     * 有一些固定面额，不限数量的的硬币
+     * 有一个指定找零的价格
+     * 问要找零指定的价格，最少需要多少枚硬币
      * @author Jomkie
      * @since 2021-11-23 21:38:20
      * @return void
@@ -51,7 +54,6 @@ public class DynamicProgramming {
 //        int money = 41;
 //        Integer[] faces = {25, 20, 5, 5};
 //        return money + " 分在面额为" + Arrays.toString(faces) +  "中找补需要 " + coinChangeOptimization4(faces, money) + " 枚";
-
 
         return "";
     }
@@ -102,8 +104,7 @@ public class DynamicProgramming {
         }
         System.out.println();
     }
-
-    /** 动态规划，最终解法算法（解决不能找补的情况 */
+    /** FINAL 动态规划，最终解法算法（解决不能找补的情况） */
     private static int coinChangeOptimization4(Integer[] faces, int money) {
         if (faces == null || faces.length == 0 || money < 1) { return -1; }
         Integer[] dp = new Integer[money + 1];
