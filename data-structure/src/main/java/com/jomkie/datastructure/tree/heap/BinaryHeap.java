@@ -170,6 +170,7 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
             int childIndex = (index << 1) + 1;
             E child = elements[childIndex];
 
+            // 因为是大顶堆（某节点一定比子节点大），所以要从子节点中找更大的节点，和父节点进行比较
             int rightIndex = childIndex + 1;
             if (rightIndex < size && compare(elements[rightIndex], child) > 0) {
                 child = elements[childIndex = rightIndex];
