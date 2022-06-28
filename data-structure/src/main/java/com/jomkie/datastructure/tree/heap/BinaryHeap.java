@@ -178,6 +178,7 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo {
 
             if (compare(element, child) >= 0) { break; }
 
+            // 因为是大顶堆，子节点中最大的还要比父节点大，所以交换位置，再对下溢后的父节点继续作下溢操作
             elements[index] = child;
             index = childIndex;
         }
