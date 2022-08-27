@@ -149,20 +149,25 @@ public class PrefixAndSuffix {
                     s1.pop();
                 }
             } else {
-                while (true) {
-                    if (s1.isEmpty()) {
-                        break;
-                    } else {
-                        String s1Char = s1.peek();
-                        if (s1Char.equals(LEFT_BRACKET)) {
-                            break;
-                        } else if (opetatorPrim(s1Char) >= opetatorPrim(item)) {
-                            s2.add(s1.pop());
-                        } // TODO 如果这里 opetatorPrim(s1Char) < opetatorPrim(item) 了呢？
-                    }
+                while (!s1.isEmpty() && opetatorPrim(s1.peek()) >= opetatorPrim(item)) {
+                    s2.add(s1.pop());
                 }
-
                 s1.push(item);
+
+               // 以下部分逻辑可能引起无限循环
+//                while (true) {
+//                    if (s1.isEmpty()) {
+//                        break;
+//                    } else {
+//                        String s1Char = s1.peek();
+//                        if (s1Char.equals(LEFT_BRACKET)) {
+//                            break;
+//                        } else if (opetatorPrim(s1Char) >= opetatorPrim(item)) {
+//                            s2.add(s1.pop());
+//                        } // TODO 如果这里 opetatorPrim(s1Char) < opetatorPrim(item) 了呢？
+//                    }
+//                }
+//                s1.push(item);
             }
         }
 
