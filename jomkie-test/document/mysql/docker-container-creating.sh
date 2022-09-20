@@ -29,3 +29,5 @@ docker run \
   -v ${logDir}:/var/log/mysql \
   -v ${dataDir}:/var/lib/mysql \
   -d mysql:5.7.27
+
+
