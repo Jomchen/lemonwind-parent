@@ -5,8 +5,9 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OP
 
 
 CREATE DATABASE `test` DEFAULT CHARACTER SET utf8mb4;
-DROP TABLE IF EXISTS jo_user;
-CREATE TABLE jo_user
+USE test;
+DROP TABLE IF EXISTS `test`.jo_user;
+CREATE TABLE `test`.jo_user
 (
     id BIGINT(20) NOT NULL COMMENT '主键ID',
     name VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
@@ -16,8 +17,8 @@ CREATE TABLE jo_user
     PRIMARY KEY (id)
 ) charset=utf8;
 
-DELETE FROM jo_user WHERE 1=1;
-INSERT INTO jo_user (id, name, age, sex, email) VALUES
+DELETE FROM `test`.jo_user WHERE 1=1;
+INSERT INTO `test`.jo_user (id, name, age, sex, email) VALUES
 (0, 'Jomkie0', 0, 0, 'test0@baomidou.com'),
 (1, 'Jomkie1', 1, 0, 'test1@baomidou.com'),
 (2, 'Jomkie2', 2, 0, 'test2@baomidou.com'),
