@@ -1,4 +1,4 @@
-package com.jomkie.datastructure.suanfa;
+package com.jomkie.datastructure.suanfa.charactersequence;
 
 import java.util.*;
 
@@ -53,20 +53,14 @@ public class PrefixAndSuffix {
     static final String MOU_CHAR = "%";
 
     public static void main(String[] args) {
-        // ((2+5)+3
-//        String expression = "(2*5-3)";
-        // (((2-3)*4)+(8/4-2))
-        String expression = "(((2-3)*4)+(8/4-2))";
-       // (2*5-3)
-//        String suffixExpression =  "((2+5)+3";
         // (3+4)*5-6 = 29
-//        String expression = "3 4 + 5 * 6 -";
-
+        String suffixExpression = "3 4 + 5 * 6 -";
         // 4*5-8+60+8/2 = 76
-//        String suffixExpression = "4 5 * 8 - 60 + 8 2 / +";
+        String suffixExpression2 = "4 5 * 8 - 60 + 8 2 / +";
+
         // (1+((2+3)*4))-5) => (1+((23)+*4))-5) => 123+4*+5-
         // 后缀为 123+4*+5-
-//        String expression = "1+((2+3)*4)-5";
+        String expression = "1+((2+3)*4)-5";
         List<String> list = strToList(expression);
         System.out.println("原式子");
         System.out.println(list);
@@ -129,47 +123,54 @@ public class PrefixAndSuffix {
      * 7. 将s1中剩余的运算符依次弹出并压入s2
      * 8. 依次弹出s2中的元素并输出，输出结果的逆序 即为 中缀表达式对应的后缀表达式
      *
-     * @param ls 中缀表达式的内容集合
+     * @param exList 中缀表达式的内容集合
      */
-    public static List<String> parseSuffixExpression(List<String> ls) {
-        //定义两个栈
-        Stack<String> s1 = new Stack<>();  // 符号栈
+    public static List<String> parseSuffixExpression(List<String> exList) {
+        // 符号栈
+        Stack<String> s1 = new Stack<>();
+        // 存储中间结果栈
+        ArrayList<String> s2 = new ArrayList<>();
 
-        //说明：因为 s2这个栈，在整个转换过程中，没有pop操作，后面还需要逆序输出
-        //所以，把 s2 这个栈换成 List<String> 即可
-        //Stack<String> s2 = new Stack<>();  // 存储中间结果的栈
-        List<String> s2 = new ArrayList<>();  //存储中间结果的list
-
-        //遍历 ls
-        for(String item : ls) {
-            //如果是一个栈，就加入到s2
-            if(item.matches("\\d+")) {
+        for (String item : exList) {
+            if (item.matches("^\\d+$")) {
+                // 遇到的是数字
                 s2.add(item);
             } else if (item.equals(LEFT_BRACKET)) {
+                // 遇到的是左括号“(”
                 s1.push(item);
             } else if (item.equals(RIGHT_BRACKET)) {
-                // 如果是右括号，则依次弹出s1栈顶的运算符，并压入 s2,知道遇到左括号为止，此时将这一对括号丢弃
-                while(!s1.peek().equals(LEFT_BRACKET)) {
+                // 遇到的是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，
+                // 直到遇到左括号为止，此时将这一对括号丢弃
+                while (!s1.isEmpty() && !s1.peek().equals(LEFT_BRACKET)) {
                     s2.add(s1.pop());
                 }
-                s1.pop();  // 将左括号 弹出，消除小括号
+                if (!s1.isEmpty()) {
+                    // 弹出 s1 的 “(”
+                    s1.pop();
+                }
             } else {
-                // 当 item 的优先级小于或等于栈顶运算符，将s1栈顶的运算符弹出并压入s2中，再次转到4.1与s1中新的栈顶运算符相比较
-                //问题：缺少比较优先级高低的方法
-                while(s1.size() != 0 && opetatorPrim(s1.peek()) >= opetatorPrim(item)) {
-                    s2.add(s1.pop());
+                while (true) {
+                    if (s1.isEmpty()) {
+                        break;
+                    } else {
+                        String s1Char = s1.peek();
+                        if (s1Char.equals(LEFT_BRACKET)) {
+                            break;
+                        } else if (opetatorPrim(s1Char) >= opetatorPrim(item)) {
+                            s2.add(s1.pop());
+                        } // TODO 如果这里 opetatorPrim(s1Char) < opetatorPrim(item) 了呢？
+                    }
                 }
-                //还需要将 item 压入 栈中
+
                 s1.push(item);
             }
         }
 
-        //将s1中剩余的运算符依次弹出加入s2
-        while(s1.size()!=0) {
+        while (!s1.isEmpty()) {
             s2.add(s1.pop());
         }
 
-        return s2;  //因为存放到list中，因此，按顺序输出就是对应的后缀表达式对应的 list
+        return s2;
     }
 
     /**
@@ -189,13 +190,11 @@ public class PrefixAndSuffix {
                 return 2;
             case MOU_CHAR:
                 return 2;
-            case LEFT_BRACKET:
-                return -1;
             default:
                 throw new RuntimeException(
-                        "操作数不合法->" +
-                                operator +
-                                "<-"
+                        new StringBuilder("操作数不合法->")
+                                .append(operator)
+                                .append("<-").toString()
                 );
         }
     }
@@ -259,7 +258,6 @@ public class PrefixAndSuffix {
                 throw new RuntimeException("操作符异常");
         }
     }
-
 
     public static void printLog(Collection c) {
         if (c != null && !c.isEmpty()) {
