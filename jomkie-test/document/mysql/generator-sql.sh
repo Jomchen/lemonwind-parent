@@ -5,5 +5,5 @@
 
 
 for ((i = 0; i < 30; i ++));do
-	echo "($i, 'Jomkie$i', $i, 'test$i@baomidou.com', NOW(), NOW()), " >> ./temp.txt
+	echo "($i, 'Jomkie$i', $i, 'test$i@baomidou.com', '未知' NOW(), NOW()), " >> ./temp.txt
 done
