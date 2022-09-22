@@ -21,7 +21,7 @@ CREATE TABLE `jo_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DELETE FROM `test`.jo_user WHERE 1=1;
-INSERT INTO `test`.jo_user (id, name, age, sex, email, create_time, update_time) VALUES
+INSERT INTO `test`.jo_user (id, name, age, sex, email, real_name, create_time, update_time) VALUES
 (0, 'Jomkie0', 0, 0, 'test0@baomidou.com', '未知', NOW(), NOW()),
 (1, 'Jomkie1', 1, 0, 'test1@baomidou.com', '未知', NOW(), NOW()),
 (2, 'Jomkie2', 2, 0, 'test2@baomidou.com', '未知', NOW(), NOW()),
