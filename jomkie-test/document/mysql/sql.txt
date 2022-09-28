@@ -3,11 +3,15 @@ GRANT ALL ON *.* TO 'root'@'%';
 # 授予 root 任意地址访问，访问任何库的任何表，设置密码为 password
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
 
-
+# ------------------------------------------------------------------------------------
 CREATE DATABASE `test` DEFAULT CHARACTER SET utf8mb4;
 USE test;
-DROP TABLE IF EXISTS `test`.jo_user;
 
+# ------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `test`.jo_user;
+DROP TABLE IF EXISTS `test`.jo_kong_fu;
+
+# ------------------------------------------------------------------------------------
 CREATE TABLE `jo_user` (
   `id` bigint(20) NOT NULL COMMENT '主键ID',
   `name` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '姓名',
@@ -18,9 +22,23 @@ CREATE TABLE `jo_user` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表';
 
+CREATE TABLE `jo_kong_fu` (
+  `id` varchar(100) NOT NULL COMMENT '主键',
+  `name` varchar(100) NOT NULL COMMENT '名字',
+  `level` int(3) NOT NULL COMMENT '等级',
+  `invention_user_id` varchar(100) NOT NULL COMMENT '创始人',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='功夫表';
+
+# ------------------------------------------------------------------------------------
 DELETE FROM `test`.jo_user WHERE 1=1;
+DELETE FROM `test`.jo_kong_fu WHERE 1=1;
+
+# ------------------------------------------------------------------------------------
+
 INSERT INTO `test`.jo_user (id, name, age, sex, email, real_name, create_time, update_time) VALUES
 (0, 'Jomkie0', 0, 0, 'test0@baomidou.com', '未知', NOW(), NOW()),
 (1, 'Jomkie1', 1, 0, 'test1@baomidou.com', '未知', NOW(), NOW()),
