@@ -16,10 +16,10 @@ DROP TABLE IF EXISTS `test`.jo_kong_fu;
 
 CREATE TABLE `jo_user` (
   `id` int(20) NOT NULL COMMENT '主键ID',
-  `name` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '姓名',
+  `name` varchar(30) DEFAULT NULL COMMENT '姓名',
   `age` int(11) DEFAULT NULL COMMENT '年龄',
   `sex` tinyint(2) DEFAULT NULL COMMENT '性别：0：女 | 1：男',
-  `email` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '邮箱',
+  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
   `real_name` varchar(50) DEFAULT '未知' COMMENT '真实名字',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
