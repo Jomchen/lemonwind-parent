@@ -2,6 +2,7 @@
 GRANT ALL ON *.* TO 'root'@'%';
 # 授予 root 任意地址访问，访问任何库的任何表，设置密码为 password
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 
 # ------------------------------------------------------------------------------------
 CREATE DATABASE `test` DEFAULT CHARACTER SET utf8mb4;

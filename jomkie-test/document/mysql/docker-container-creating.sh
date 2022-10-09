@@ -4,7 +4,7 @@
 containerName=mysql00
 baseDir=/opt/docker-container/mysql/${containerName}
 logDir=${baseDir}/logs
-dataDir=${baseDir}/data
+dataDir=${baseDir}/datas
 
 if [ ! -e ${baseDir} ];then
   mkdir -p ${baseDir}
