@@ -13,6 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * 获取所有的 URL
+ */
 @Component
 public class HandlerMappingAdpacher implements ApplicationContextAware {
 
