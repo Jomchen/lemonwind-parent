@@ -71,11 +71,11 @@ public class ChainApplication {
     }
 
     /**
-     * 检查环型链表结点
+     * 检查环型链表结点（循环链表）
      * @author Jomkie
      * @param <T>
      * @since 2021-07-04 20:34:47
-     * @param dataNode
+     * @param dataNode 起始结点
      * @return 环型点
      */
     public static <T> NodeChain<T> findRing(NodeChain<T> dataNode) {
