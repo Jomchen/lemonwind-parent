@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS `test`.jo_kong_fu;
 # ------------------------------------------------------------------------------------
 
 CREATE TABLE `jo_user` (
-  `id` int(20) NOT NULL COMMENT '主键ID',
+  `id` bigint(64) NOT NULL COMMENT '主键ID',
   `name` varchar(30) DEFAULT NULL COMMENT '姓名',
   `age` int(11) DEFAULT NULL COMMENT '年龄',
   `sex` tinyint(2) DEFAULT NULL COMMENT '性别：0：女 | 1：男',
@@ -27,10 +27,10 @@ CREATE TABLE `jo_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表';
 
 CREATE TABLE `jo_kong_fu` (
-  `id` int(20) NOT NULL COMMENT '主键',
+  `id` bigint(64) NOT NULL COMMENT '主键',
   `name` varchar(100) NOT NULL COMMENT '名字',
   `level` int(3) NOT NULL COMMENT '等级',
-  `invention_user_id` int(20) NOT NULL COMMENT '创始人',
+  `invention_user_id` bigint(64) NOT NULL COMMENT '创始人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
