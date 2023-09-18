@@ -9,10 +9,6 @@ CREATE DATABASE `test` DEFAULT CHARACTER SET utf8mb4;
 USE test;
 
 # ------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `test`.jo_user;
-DROP TABLE IF EXISTS `test`.jo_kong_fu;
-
-# ------------------------------------------------------------------------------------
 
 CREATE TABLE `jo_user` (
   `id` bigint(64) NOT NULL COMMENT '主键ID',
@@ -35,6 +31,33 @@ CREATE TABLE `jo_kong_fu` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='功夫表';
+
+CREATE TABLE `jo_kong_fu` (
+  `id` bigint(64) NOT NULL COMMENT '主键',
+  `name` varchar(100) NOT NULL COMMENT '名字',
+  `level` int(3) NOT NULL COMMENT '等级',
+  `invention_user_id` bigint(64) NOT NULL COMMENT '创始人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='功夫表';
+
+CREATE TABLE `jo_men_pai` (
+  `id` bigint(64) NOT NULL COMMENT '主键',
+  `name` varchar(50) NOT NULL COMMENT '名字',
+  `area` varchar(50) NOT NULL COMMENT '所属地',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='门派';
+
+
+# ------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `test`.jo_user;
+DROP TABLE IF EXISTS `test`.jo_kong_fu;
+
+
 
 # ------------------------------------------------------------------------------------
 DELETE FROM `test`.jo_user WHERE 1=1;
@@ -75,3 +98,6 @@ INSERT INTO `test`.jo_user (id, name, age, sex, email, real_name, create_time, u
 (29, 'Jomkie29', 29, 0, 'test29@baomidou.com', '未知', NOW(), NOW())
 
 ; 
+
+
+# ------------------------------------------------------------------------------------
