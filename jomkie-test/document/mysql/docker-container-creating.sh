@@ -10,10 +10,10 @@ if [ ! -e ${baseDir} ];then
   mkdir -p ${baseDir}
 fi
 if [ ! -e ${logDir} ];then
-  mkdir ${logDir}
+  mkdir -p ${logDir}
 fi
 if [ ! -e ${dataDir} ];then
-  mkdir ${dataDir}
+  mkdir -p ${dataDir}
 fi
 
 # 是映射 配置路径
@@ -30,4 +30,7 @@ docker run \
   -v ${dataDir}:/var/lib/mysql \
   -d mysql:5.7.27
 
-
+unset containerName
+unset baseDir
+unset logDir
+unset dataDir
