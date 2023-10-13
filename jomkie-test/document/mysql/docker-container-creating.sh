@@ -34,3 +34,6 @@ unset containerName
 unset baseDir
 unset logDir
 unset dataDir
+
+# Notice that you may be fail when you login the server with password "root". 
+# The password was initialed to EMPTY.
