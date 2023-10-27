@@ -4,13 +4,13 @@ GRANT ALL ON *.* TO 'root'@'%';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-# ------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------
 CREATE DATABASE `test` DEFAULT CHARACTER SET utf8mb4;
 USE test;
 
-# ------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------
 
-CREATE TABLE `jo_user` (
+CREATE TABLE `test`.`jo_user` (
   `id` bigint(64) NOT NULL COMMENT '主键ID',
   `name` varchar(30) DEFAULT NULL COMMENT '姓名',
   `age` int(11) DEFAULT NULL COMMENT '年龄',
@@ -22,7 +22,7 @@ CREATE TABLE `jo_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表';
 
-CREATE TABLE `jo_kong_fu` (
+CREATE TABLE `test`.`jo_kong_fu` (
   `id` bigint(64) NOT NULL COMMENT '主键',
   `name` varchar(100) NOT NULL COMMENT '名字',
   `level` int(3) NOT NULL COMMENT '等级',
@@ -32,7 +32,7 @@ CREATE TABLE `jo_kong_fu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='功夫表';
 
-CREATE TABLE `jo_men_pai` (
+CREATE TABLE `test`.`jo_men_pai` (
   `id` bigint(64) NOT NULL COMMENT '主键',
   `name` varchar(50) NOT NULL COMMENT '名字',
   `area` varchar(50) NOT NULL COMMENT '所属地',
@@ -42,18 +42,18 @@ CREATE TABLE `jo_men_pai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='门派';
 
 
-# ------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------
 
 DROP TABLE IF EXISTS `test`.jo_user;
 DROP TABLE IF EXISTS `test`.jo_kong_fu;
+DROP TABLE IF EXISTS `test`.men_pai;
 
 
-
-# ------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------
 DELETE FROM `test`.jo_user WHERE 1=1;
 DELETE FROM `test`.jo_kong_fu WHERE 1=1;
 
-# ------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------
 
 INSERT INTO `test`.jo_user (id, name, age, sex, email, real_name, create_time, update_time) VALUES
 (0, 'Jomkie0', 0, 0, 'test0@baomidou.com', '未知0', NOW(), NOW()),
