@@ -1,4 +1,4 @@
-package com.jomkie.typetest.jiekou;
+package com.jomkie.test.typetest.jiekou;
 
 public interface JoInterface<T> {
 

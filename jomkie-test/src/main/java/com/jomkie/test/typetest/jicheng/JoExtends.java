@@ -1,4 +1,4 @@
-package com.jomkie.typetest.jicheng;
+package com.jomkie.test.typetest.jicheng;
 
 public abstract class JoExtends<T> {
 

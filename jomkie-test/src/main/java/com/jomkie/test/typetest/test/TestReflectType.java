@@ -1,15 +1,15 @@
-package com.jomkie.typetest.test;
+package com.jomkie.test.typetest.test;
 
 
-import com.jomkie.typetest.entity.*;
-import com.jomkie.typetest.jicheng.JoExtends;
-import com.jomkie.typetest.jicheng.JoMulExtends;
-import com.jomkie.typetest.jicheng.impl.JoUserExtendsImpl;
-import com.jomkie.typetest.jicheng.impl.JoUserMulExtendsImpl;
-import com.jomkie.typetest.jiekou.JoInterface;
-import com.jomkie.typetest.jiekou.JoMulInterface;
-import com.jomkie.typetest.jiekou.impl.JoUserInterfaceImpl;
-import com.jomkie.typetest.jiekou.impl.JoUserMulInterfaceImpl;
+import com.jomkie.test.typetest.entity.*;
+import com.jomkie.test.typetest.jicheng.JoExtends;
+import com.jomkie.test.typetest.jicheng.JoMulExtends;
+import com.jomkie.test.typetest.jicheng.impl.JoUserExtendsImpl;
+import com.jomkie.test.typetest.jicheng.impl.JoUserMulExtendsImpl;
+import com.jomkie.test.typetest.jiekou.JoInterface;
+import com.jomkie.test.typetest.jiekou.JoMulInterface;
+import com.jomkie.test.typetest.jiekou.impl.JoUserInterfaceImpl;
+import com.jomkie.test.typetest.jiekou.impl.JoUserMulInterfaceImpl;
 
 import java.lang.reflect.*;
 import java.util.*;

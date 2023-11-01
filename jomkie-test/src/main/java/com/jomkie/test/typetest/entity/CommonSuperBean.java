@@ -1,4 +1,4 @@
-package com.jomkie.typetest.entity;
+package com.jomkie.test.typetest.entity;
 
 import java.util.List;
 
