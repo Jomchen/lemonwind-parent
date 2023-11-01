@@ -26,6 +26,9 @@ public class SerializeTest {
     }
     public Map<String, JoUser> getMap() { return null; }
 
+    /**
+     * 测试序列化 和 反序列化功能
+     */
     public static void test00() throws NoSuchMethodException {
         // TODO 这里测试用 jackson 的方式序列化为字符串，并将字符串反序列化为对象
         List<JoUser> userList = LongStream.range(0, 5).mapToObj(id ->
