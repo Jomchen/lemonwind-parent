@@ -6,11 +6,18 @@ GRANT ALL ON *.* TO 'root'@'%';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
--- ------------------------------------------------------------------------------------
+-- 创库，使用库 ------------------------------------------------------------------------------------
+
 CREATE DATABASE `test` DEFAULT CHARACTER SET utf8mb4;
 USE test;
 
--- ------------------------------------------------------------------------------------
+-- 删表 ------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `test`.jo_user;
+DROP TABLE IF EXISTS `test`.jo_kong_fu;
+DROP TABLE IF EXISTS `test`.jo_men_pai;
+
+-- 建表 ------------------------------------------------------------------------------------
 
 CREATE TABLE `test`.`jo_user` (
   `id` bigint(64) NOT NULL COMMENT '主键ID',
@@ -44,18 +51,7 @@ CREATE TABLE `test`.`jo_men_pai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='门派';
 
 
--- ------------------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `test`.jo_user;
-DROP TABLE IF EXISTS `test`.jo_kong_fu;
-DROP TABLE IF EXISTS `test`.men_pai;
-
-
--- ------------------------------------------------------------------------------------
-DELETE FROM `test`.jo_user WHERE 1=1;
-DELETE FROM `test`.jo_kong_fu WHERE 1=1;
-
--- ------------------------------------------------------------------------------------
+-- 插入数据 ------------------------------------------------------------------------------------
 
 INSERT INTO `test`.jo_user (id, name, age, sex, email, real_name, create_time, update_time) VALUES
 (0, 'Jomkie0', 0, 0, 'test0@baomidou.com', '未知0', NOW(), NOW()),
@@ -88,8 +84,5 @@ INSERT INTO `test`.jo_user (id, name, age, sex, email, real_name, create_time, u
 (27, 'Jomkie27', 27, 0, 'test27@baomidou.com', '未知27', NOW(), NOW()),
 (28, 'Jomkie28', 28, 0, 'test28@baomidou.com', '未知28', NOW(), NOW()),
 (29, 'Jomkie29', 29, 0, 'test29@baomidou.com', '未知29', NOW(), NOW())
-
 ; 
 
-
-# ------------------------------------------------------------------------------------
