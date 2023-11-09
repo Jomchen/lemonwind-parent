@@ -20,6 +20,7 @@ fi
   # 挂载配置 -v xxx:/etc/mysql \
   # 挂载日志 -v xxx:/var/log/mysql \
   # 挂载数据 -v xxx:/var/lib/mysql \
+  # mysql版本 -d mysql:5.7.27 \
 
 docker run \
   --privileged=true \
@@ -28,7 +29,7 @@ docker run \
   -e MYSQL_ROOT_PASSWORD=root \
   -v ${logDir}:/var/log/mysql \
   -v ${dataDir}:/var/lib/mysql \
-  -d mysql:5.7.27
+  -d mysql:8.0.34
 
 unset containerName
 unset baseDir
