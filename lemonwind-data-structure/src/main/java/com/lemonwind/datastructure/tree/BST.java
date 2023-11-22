@@ -1,0 +1,162 @@
+package com.lemonwind.datastructure.tree;
+
+
+import java.util.Comparator;
+
+/**
+ * 二叉搜索树（BST - Binary Search Tree）
+ * 二叉搜索树的时间复杂度为 O(h) = O(logn)
+ * @author Jomkie
+ * @since 2021-08-15 23:25:35
+ */
+public class BST<E> extends BinaryTree<E> {
+
+    private Comparator<E> comparator;
+
+    public BST() {
+        this(null);
+    }
+    public BST(Comparator<E> comparator) {
+        this.comparator = comparator;
+    }
+
+    public void add(E element) {
+        elementNotNullCheck(element);
+        if (null == root) {
+            root = createNode(element, null);
+            size ++;
+            
+            afterAdd(root);
+            return;
+        }
+
+        Node<E> parent = root;
+        Node<E> node = root;
+        int cmp = 0;
+        while (node != null) {
+            cmp = compare(element, node.element);
+            parent = node;
+            if (cmp > 0) {
+                node = node.right;
+            } else if (cmp < 0) {
+                node = node.left;
+            } else {
+                node.element = element;
+                return;
+            }
+        }
+
+        Node<E> newNode = createNode(element, parent);
+        if (cmp > 0) {
+            parent.right = newNode;
+        } else {
+             parent.left = newNode;
+        }
+
+        size ++;
+        afterAdd(newNode);
+    }
+
+    public void remove(E element) {
+        remove(node(element));
+    }
+    private void remove(Node<E> node) {
+        if (null == node) { return; }
+
+        size --;
+        if (node.hasTwoChildren()) {
+            Node<E> s = successor(node);
+            node.element = s.element;
+            node = s;
+        }
+
+        // 这里 node 的度必然是 0 或 1
+        Node<E> replacement = node.left != null ? node.left : node.right;
+        if (null != replacement) {
+            // node 是度为1的节点
+            replacement.parent = node.parent;
+            if (node.parent == null) {
+                root = replacement;
+            } else if (node.parent.left == node) {
+                node.parent.left = replacement;
+            } else {
+                node.parent.right = replacement;
+            }
+
+            // 删除节点之后的处理
+            afterRemove(replacement);
+        } else if (node.parent == null) {
+            // node 度为0 且是根节点
+            root = null;
+
+            // 删除节点之后的处理
+            afterRemove(node);
+        } else {
+            // node 度为0 但不是根节点
+            if (node.parent.left == node) {
+                node.parent.left = null;
+            } else {
+                node.parent.right = null;
+            }
+
+            // 删除节点之后的处理
+            afterRemove(node);
+        }
+    }
+
+    public boolean contains(E element) {
+        return node(element) != null;
+    }
+
+    private Node<E> node(E e) {
+        if (null == e || null == root) { return null; }
+
+        Node<E> node = root;
+        while (null != node) {
+            int cmp = compare(e, node.element);
+            if (cmp < 0) {
+                node = node.left;
+            } else if (cmp > 0) {
+                node = node.right;
+            } else {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 添加后的处理
+     * @param node
+     */
+    protected void afterAdd(Node<E> node) {}
+
+    /**
+     * 删除后处理
+     * @param node 被删除的节点 或者 用以被删除节点的子节点（当被删除节点的度为1）
+     */
+    protected void afterRemove(Node<E> node) {}
+
+    /**
+     * 返回值大于0表示 e1 > e2，
+     * 如果小于0表示 e1 < e2，
+     * 否则 e1 = e2
+     * */
+    private int compare(E e1, E e2) {
+        if (null == comparator) {
+            return ((Comparable<E>) e1).compareTo(e2);
+        } else {
+            return comparator.compare(e1, e2);
+        }
+    }
+
+    private void elementNotNullCheck(E element) {
+        if (null == element) {
+            throw new RuntimeException("element must be not null");
+        }
+    }
+
+
+
+}
