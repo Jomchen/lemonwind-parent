@@ -94,30 +94,41 @@ public class TreeToolTest {
         InjectChildrenConsumer<TreeJoUser> injectChildrenConsumer = (layer, obj, children) -> obj.setChildren(children);
         Function<TreeJoUser, TreeJoUser> parentObjFun = bean -> idMap.get(bean.getParentId());
 
-        TreeTool<TreeJoUser, String> treeTool = new TreeTool.TreeToolBuilder()
+        TreeTool<TreeJoUser, String> treeTool = new TreeTool.TreeToolBuilder<TreeJoUser, String>()
                 .idFun(idFun)
                 .acquireChildrenByParentIdFun(childrenByParentIdFun)
                 .injectChildrenCOnsumer(injectChildrenConsumer)
                 .parentObjFun(parentObjFun)
                 .build();
 
+
+        // 以下测试案例一次只能测试一次，因为测试过一次后已经建立完整树形关系，会影响后续测试
+
+
         // 获取一棵树
 //        System.out.println(JSONObject.toJSONString(treeTool.getTree(Integer.MAX_VALUE, rootList)));
+//        System.out.println("------------------------------------------------------------------------");
         
         // 获取两层的树
 //        System.out.println(JSONObject.toJSONString(treeTool.getTree(2, rootList)));
+//        System.out.println("------------------------------------------------------------------------");
 
         // 获取所有树节点
 //        System.out.println(JSONObject.toJSONString(treeTool.getAllObjForSpecificDepth(Integer.MAX_VALUE, rootList)));
+//        System.out.println("------------------------------------------------------------------------");
 
         // 获取前两层的所有树节点
 //        System.out.println(JSONObject.toJSONString(treeTool.getAllObjForSpecificDepth(2, rootList)));
+//        System.out.println("------------------------------------------------------------------------");
 
         // 获取第三层的节点集合
 //        System.out.println(JSONObject.toJSONString(treeTool.getObjListOfSpecificLayer(3, rootList)));;
+//        System.out.println("------------------------------------------------------------------------");
 
         // 获取当前节点到根的所有节点集合
-        System.out.println(JSONObject.toJSONString(treeTool.getForefatherChain2(node3_3_3)));
+//        System.out.println(JSONObject.toJSONString(treeTool.getForefatherChain2(node3_3_3)));
+//        System.out.println("------------------------------------------------------------------------");
+
     }
     
 }
