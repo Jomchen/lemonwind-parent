@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jomkie-test</artifactId>
+    <artifactId>lemonwind-test</artifactId>
     <packaging>jar</packaging>
     <description>个人测试</description>
 
@@ -22,7 +22,7 @@
     <dependencies>
     	<dependency>
     		<groupId>com.lemonwind</groupId>
-    		<artifactId>jomkie-common</artifactId>
+    		<artifactId>lemonwind-common</artifactId>
     		<version>1.0-SNAPSHOT</version>
     	</dependency>
     
