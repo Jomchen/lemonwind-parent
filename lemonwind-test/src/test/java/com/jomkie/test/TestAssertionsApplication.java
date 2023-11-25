@@ -1,8 +1,8 @@
 package com.lemonwind.run;
 
-import com.lemonwind.common.LemonException;
-import com.lemonwind.common.Responsecode;
-import com.lemonwind.datastructure.model.JoUser;
+import com.lemonwind.test.common.LemonException;
+import com.lemonwind.test.common.Responsecode;
+import com.lemonwind.test.model.JoUser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
