@@ -47,11 +47,10 @@
             <version>2.4.6</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <!--<version>${org.springframework.boot.spring-boot-starter-security}</version>-->
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -128,12 +127,12 @@
         </dependency>
 
         <!-- 快速重启 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
             <!-- 可选项设置为true可保证 devtools 被传递地应用于使用此项目的其它模块 -->
             <!--<optional>true</optional>-->
-        </dependency>
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.junit</groupId>
@@ -152,8 +151,9 @@
 
   </dependencyManagement>
 
+
   <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
+<!--    <sourceDirectory>src/main/java</sourceDirectory>-->
     <resources>
         <resource>
             <directory>src/main/resources</directory>
