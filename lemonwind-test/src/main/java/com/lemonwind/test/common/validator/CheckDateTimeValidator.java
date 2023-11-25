@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-04-26 10:21:14
  * 时间日期验证器
  */
@@ -78,7 +78,7 @@ public class CheckDateTimeValidator implements ConstraintValidator<DateTimeValid
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-04-26 11:0:35
      * @param formatType 日期时间枚举
      * @param value 传参

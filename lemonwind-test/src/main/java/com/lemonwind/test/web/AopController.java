@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-08 11:18:33
  * 测试 aop 拦截
  */
@@ -21,7 +21,7 @@ public class AopController {
     AopService aopService;
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-08 11:19:55
      * 测试一个接口多个实现的 aop 拦截
      */

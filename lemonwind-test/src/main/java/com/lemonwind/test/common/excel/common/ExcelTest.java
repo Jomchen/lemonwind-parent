@@ -19,7 +19,7 @@ public class ExcelTest {
 
     /**
      * 测试输出 excel
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-16 9:17:30
      */
     public static void exportTest() {
@@ -33,11 +33,11 @@ public class ExcelTest {
 
     /**
      * 测试输入 excel
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-16 9:54:39
      */
     public static void importTest() {
-        String FILE_PATH = "/home/jomkie/mydata/joUser-excel.xlsx";
+        String FILE_PATH = "/home/lemonwind/mydata/joUser-excel.xlsx";
         int index = FILE_PATH.lastIndexOf(".");
         String suffix = FILE_PATH.substring(index + 1);
         FileInputStream inputStream;

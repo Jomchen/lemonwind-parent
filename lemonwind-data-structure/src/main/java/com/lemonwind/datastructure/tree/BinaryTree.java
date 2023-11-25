@@ -306,7 +306,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     /**
      * 前驱节点
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-08-11 21:40:52
      * @param node
      * @return com.lemonwind.datastructure.tree.BinarySearchTree.Node<E>
@@ -332,7 +332,7 @@ public abstract class BinaryTree<E> implements BinaryTreeInfo {
 
     /**
      * 后继节点
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-08-11 21:40:52
      * @param node
      * @return com.lemonwind.datastructure.tree.BinarySearchTree.Node<E>

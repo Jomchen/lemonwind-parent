@@ -85,7 +85,7 @@ public class RemoteApi {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-22 11:40:38
      * @param statusCode 返回的状态码
      * @param statusList 状态码所属枚举
@@ -105,7 +105,7 @@ public class RemoteApi {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 20:42:21
      * @param statusCode 状态码
      * 获取状态对象

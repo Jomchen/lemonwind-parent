@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021/3/28 21:04:59
  * 用户接口
  */
@@ -40,7 +40,7 @@ public class JoUserController {
     }
     
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-04-07 10:26
      * 用户添加
      */
@@ -52,7 +52,7 @@ public class JoUserController {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-04-07 10:26
      * 删除用户
      */
@@ -67,7 +67,7 @@ public class JoUserController {
     }
     
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-04-7 10:26
      * 用户更新
      */
@@ -81,7 +81,7 @@ public class JoUserController {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021/3/29 12:28
      * 通过id查询用户
      */
@@ -97,7 +97,7 @@ public class JoUserController {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021/3/28 21:05:30
      * 查询所有用户
      */
@@ -109,7 +109,7 @@ public class JoUserController {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-04-29 16:1:31
      * 测试 aop 拦截进行构建参数自动执行
      */
@@ -120,7 +120,7 @@ public class JoUserController {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-18 20:39:51
      * 测试用户
      */

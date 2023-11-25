@@ -37,10 +37,10 @@ public class WeChatAuthentication {
     /** 商户证书文件路径 */
     public static final String CERTIFICATION_PATH = "/home/lemonwind/work/apiclient_cert.pem";
     /** 商户私钥文件路径 */
-    public static final String PRIVATEKEY_PATH = "/home/jomkie/work/apiclient_key.pem";
+    public static final String PRIVATEKEY_PATH = "/home/lemonwind/work/apiclient_key.pem";
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 22:58:17
      * @param currentDate 请求时间（会作为签名的条件）
      * @param requestData 请求体
@@ -67,7 +67,7 @@ public class WeChatAuthentication {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 23:11:19
      * @param nonceStr 随机字符串
      * @param date 请求时间（会作为签名的条件）
@@ -79,7 +79,7 @@ public class WeChatAuthentication {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        String userAgent = String.format("WeChatPay-Jomkie-%s", "Linux");
+        String userAgent = String.format("WeChatPay-lemonwind-%s", "Linux");
         headers.set("User-Agent", userAgent);
         headers.set("Authorization", authorization);
 
@@ -89,7 +89,7 @@ public class WeChatAuthentication {
 
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-22 23:45:48
      * @param nonceStr 随机字符串
      * @param currentDate 时间戳，会被处理成秒作为签名条件
@@ -201,7 +201,7 @@ public class WeChatAuthentication {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 2:11:43
      * 获取商户私钥
      */
@@ -223,7 +223,7 @@ public class WeChatAuthentication {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 2:11:14
      * 获取商户证书序列号
      */
@@ -232,7 +232,7 @@ public class WeChatAuthentication {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 2:11:32
      * 商户证书
      */

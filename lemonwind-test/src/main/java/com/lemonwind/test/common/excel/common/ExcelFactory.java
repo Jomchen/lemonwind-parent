@@ -17,7 +17,7 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-06-08 14:43:12
  * Excel 工厂
  */
@@ -99,7 +99,7 @@ public class ExcelFactory {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-18 09:17:44
      * @param inputStream
      * @return
@@ -140,7 +140,7 @@ public class ExcelFactory {
 
     /**
      * 将工作薄输出到流中
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-08 14:48:4
      * @param workbook 工作薄
      * @param outputStream 输出流

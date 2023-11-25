@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021/3/28 21:07:11
  * 用户模型层
  */

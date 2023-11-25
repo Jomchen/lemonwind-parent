@@ -3,7 +3,7 @@ package com.lemonwind.test.common.wechat;
 import lombok.Getter;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-20 12:59:47
  * 微信扫码支付结果码
  */

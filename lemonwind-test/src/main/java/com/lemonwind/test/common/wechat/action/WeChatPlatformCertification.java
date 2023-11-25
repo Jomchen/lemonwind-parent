@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-23 0:7:31
  * 微信平台证书类
  */
@@ -28,7 +28,7 @@ public class WeChatPlatformCertification {
     public static final String WECHAT_REQUEST_URL = "https://api.mch.weixin.qq.com/v3/certificates";
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 0:36:47
      * @param nonceStr 随机字符串
      * @param date 当前日期，作为时间戳作为签名

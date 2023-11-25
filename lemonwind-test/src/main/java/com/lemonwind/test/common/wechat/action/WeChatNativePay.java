@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-24 20:59:44
  * 微信扫码支付
  */

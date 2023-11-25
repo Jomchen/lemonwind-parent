@@ -33,7 +33,7 @@ public class MultiInstanceServiceAop {
     @Autowired
     ApplicationContext applicationContext;
 
-    @Pointcut("execution(public * com.lemonwind.service.impl.*.*(..))")
+    @Pointcut("execution(public * com.lemonwind.test.service.impl.*.*(..))")
     public void cutPoint() {}
 
     /**

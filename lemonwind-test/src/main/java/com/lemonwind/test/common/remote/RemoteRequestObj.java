@@ -29,7 +29,7 @@ public class RemoteRequestObj <T> {
     private T data;
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 12:50:8
      * @param obj 将对象输出为 json 字符串
      */

@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-22 15:30:43
  * 测试 api
  */
@@ -44,7 +44,7 @@ public class TestController {
 
     /**
      * 测试热交换
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-25 23:51:24
      * @param
      * @return com.lemonwind.common.ResultObj<java.lang.String>
@@ -61,7 +61,7 @@ public class TestController {
 
     /**
      * 测试生成二维码
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-22 15:17:38
      */
     @GetMapping(UrlContent.NET_GENERATE_QRCODE_IMAGE)
@@ -88,7 +88,7 @@ public class TestController {
 
     /**
      * 存储 redis 数据
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 10:9:6
      * @param body 包含要存储的key和value
      */
@@ -110,7 +110,7 @@ public class TestController {
 
     /**
      * 查询 redis 数据
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 10:8:52
      * @param redisKey 主键
      */
@@ -122,7 +122,7 @@ public class TestController {
 
     /**
      * 删除 redis 数据
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 21:30:37
      * @param redisKey 主键
      */
@@ -139,7 +139,7 @@ public class TestController {
 
     /**
      * 测试post远程回调请求
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 11:14:49
      */
     @ReqValidGroup()
@@ -161,7 +161,7 @@ public class TestController {
 
     /**
      * 测试get远程回调请求
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-21 22:11:52
      */
     @ReqValidGroup()
@@ -173,7 +173,7 @@ public class TestController {
 
     /**
      * 普通测试
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 15:19:59
      */
     @ReqValidGroup()
@@ -186,7 +186,7 @@ public class TestController {
 
     /**
      * 测试微信支付接口
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 15:39:36
      */
     @ReqValidGroup()
@@ -199,7 +199,7 @@ public class TestController {
 
     /**
      * 测试获取微信支付平台证书
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 22:22:55
      */
     @GetMapping(UrlContent.NET_TEST_GET_WECHAT_PLATFORM)
@@ -210,7 +210,7 @@ public class TestController {
 
     /**
      * 测试 redis 放入 list
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-07 20:49:30
      */
     @GetMapping(UrlContent.NET_TEST_PUT_LIST_FOR_REDIS)
@@ -221,7 +221,7 @@ public class TestController {
 
     /**
      * 测试 redis 获取 list
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-07 20:52:48
      */
     @GetMapping(UrlContent.NET_TEST_GET_LIST_FOR_REDIS)
@@ -232,7 +232,7 @@ public class TestController {
 
     /**
      * 循环拿 list 的数据
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-08 14:57:41
      * @param redisKey
      */
@@ -244,7 +244,7 @@ public class TestController {
 
     /**
      * 测试 trim 方法
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-08 15:40:44
      * @param redisKey
      */
@@ -256,7 +256,7 @@ public class TestController {
 
     /**
      * 任何测试
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-21 11:17:16
      * @param anyData 任何数据
      */

@@ -3,14 +3,14 @@ package com.lemonwind.test.common.wechat;
 import lombok.Getter;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-24 22:5:51
  * 微信缓存相关枚举
  */
 @Getter
 public enum WeChatCacheKeyEnum {
 
-    QRCODE_CONTENT("com:jomkie:wechat:native:qrcode:", "二维码的扫码链接"),
+    QRCODE_CONTENT("com:lemonwind:wechat:native:qrcode:", "二维码的扫码链接"),
 
     ;
 

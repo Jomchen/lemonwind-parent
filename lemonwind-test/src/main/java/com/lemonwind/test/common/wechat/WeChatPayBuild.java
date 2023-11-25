@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-20 12:23:49
  * 微信支付请求基础构建类
  * 引用于微信文档 https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_4_1.shtml
@@ -61,7 +61,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 15:43:38
      * @param appid 应用ID
      * @param mchid 直连商户的商户号
@@ -92,7 +92,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 13:56:52
      * @param appid 微信生成的应用 ID，公众号场景下，需使用应用属性为公众号的 APPID
      */
@@ -103,7 +103,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 13:57:43
      * @param mchid 直连商户的商户号
      */
@@ -114,7 +114,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 13:58:45
      * @param description 商品描述
      */
@@ -125,7 +125,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 13:59:20
      * @param outTradeNo 商户订单号
      */
@@ -136,7 +136,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:0:31
      * @param timeExpire 订单失效时间，格式为 yyyy-MM-ddTHH:mm:ss，例如 2020-01-01T10:24:00
      */
@@ -147,7 +147,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:2:26
      * @param attach 附加数据
      */
@@ -158,7 +158,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:3:13
      * @param notifyUrl 回调地址
      */
@@ -169,7 +169,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:3:53
      * @param goodsTag 订单优惠标记
      */
@@ -180,7 +180,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:5:1
      * @param total 订单总金额，单位为分
      * @param currency 人民币，境内商户号仅支持人民币（CNY）
@@ -204,7 +204,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:8:45
      * @param costPrice 见下列注释
      *    商户侧一张票订单可能被分多次支付，订单原价用于记录整张小票的交易金额
@@ -232,7 +232,7 @@ public class WeChatPayBuild {
 
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:29:28
      * @param merchantGoodsId 由半角大小写字母，数字，中划线，下划线中的一种或几种组成
      * @param wechatPayGoodsId 微信支付定义的统一商品编号（没有可不传）
@@ -262,7 +262,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:18:15
      * @param payerClientIp 用户的客户端IP，支持 IPv4 和 IPv6 两种格式，示例值 14.23.150.211
      * @param deviceId 商户端设备号（门店号或收银设备ID）
@@ -302,7 +302,7 @@ public class WeChatPayBuild {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-20 14:26:5
      * @param profitSharing 是否指定分账
      *

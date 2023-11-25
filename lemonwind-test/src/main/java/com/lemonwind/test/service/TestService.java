@@ -3,21 +3,21 @@ package com.lemonwind.test.service;
 public interface TestService {
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 23:30:21
      * 测试普通远程请求
      */
     String testNormal();
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 23:30:10
      * 测试微信支付
      */
     String testWechatPay();
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 23:29:58
      * 获取微信支付平台证书
      */
@@ -25,7 +25,7 @@ public interface TestService {
 
     /**
      * 测试 redis 放入 list
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-07 20:51:56
      * @param redisKey
      * @return void
@@ -34,7 +34,7 @@ public interface TestService {
 
     /**
      * 测试 redis 获取 list
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-07 20:52:29
      * @param redisKey
      */
@@ -42,7 +42,7 @@ public interface TestService {
 
     /**
      * 循环拿 list 的数据
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-08 14:57:28
      * @param redisKey
      * @return
@@ -51,7 +51,7 @@ public interface TestService {
 
     /**
      * 测试 trim 方法
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-08 15:36:51
      * @param redisKey
      * @return
@@ -60,7 +60,7 @@ public interface TestService {
 
     /**
      * 任何测试
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-21 11:15:54
      * @param anyData 任何数据
      */

@@ -1,14 +1,14 @@
 package com.lemonwind.test.common.wechat;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-24 22:4:21
  * 微信相关缓存类
  */
 public class WeChatCacheKeyGenerator {
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 22:3:59
      * @param cacheKeyEnum 枚举
      * @param seed 种子，注意此参数和相应枚举的组合需保持唯一，否则会覆盖其它缓存
