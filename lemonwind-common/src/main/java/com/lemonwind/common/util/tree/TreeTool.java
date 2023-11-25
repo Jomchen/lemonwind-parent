@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
@@ -27,23 +26,41 @@ public class TreeTool<Obj, ID> {
     /** 通过元素获取自己的唯一标识 */
     private Function<Obj, ID> idFun;
     /** 通过父级标识获取直接子级元素集合 */
-    private Function<ID, List<Obj>> childrenByParentIdFun;
+    private Function<ID, List<Obj>> acquireChildrenByParentIdFun;
     /** 将子级元素集合注入到父级元素中 */
-    private BiConsumer<Obj, List<Obj>> injectChildrenFun;
+    private InjectChildrenConsumer<Obj> injectChildrenConsumer;
     /** 通过一个对象获取父级对象 */
     private Function<Obj, Obj> parentObjFun;
     /** 对一个元素逻辑处理 */
     private Consumer<Obj> consumer;
 
-    public TreeTool(Function<Obj, ID> idFun,
-                    Function<ID, List<Obj>> childrenByParentIdFun,
-                    BiConsumer<Obj, List<Obj>> injectChildrenFun) {
-        this.idFun = idFun;
-        this.childrenByParentIdFun = childrenByParentIdFun;
-        this.injectChildrenFun = injectChildrenFun;
+    public static class TreeToolBuilder<Obj, ID> {
+        private TreeTool<Obj, ID> result = new TreeTool<>();
+
+        public TreeToolBuilder<Obj, ID> idFun(Function<Obj, ID> idFun) {
+            result.setIdFun(idFun);
+            return this;
+        }
+        public TreeToolBuilder<Obj, ID> acquireChildrenByParentIdFun(Function<ID, List<Obj>> acquireChildrenByParentIdFun) {
+            result.setAcquireChildrenByParentIdFun(acquireChildrenByParentIdFun);
+            return this;
+        }
+        public TreeToolBuilder<Obj, ID> injectChildrenCOnsumer(InjectChildrenConsumer<Obj> injectChildrenConsumer) {
+            result.setInjectChildrenConsumer(injectChildrenConsumer);
+            return this;
+        }
+        public TreeToolBuilder<Obj, ID> parentObjFun(Function<Obj, Obj> parentObjFun) {
+            result.setParentObjFun(parentObjFun);
+            return this;
+        }
+        public TreeToolBuilder<Obj, ID> consumer(Consumer<Obj> consumer) {
+            result.setConsumer(consumer);
+            return this;
+        }
+        public TreeTool<Obj, ID> build() {
+            return result;
+        }
     }
-    
-    // TODO 这些方法还缺一个层级数和对象作为参数的处理实现未解决
 
     /**
      * 获取拥有指定层数的完整树
@@ -65,13 +82,13 @@ public class TreeTool<Obj, ID> {
      */
     public List<Obj> getTree(int depth, List<Obj> originalRootList) {
         if (Objects.isNull(idFun)
-                || Objects.isNull(childrenByParentIdFun)
-                || Objects.isNull(injectChildrenFun)) {
+                || Objects.isNull(acquireChildrenByParentIdFun)
+                || Objects.isNull(injectChildrenConsumer)) {
             throw new RuntimeException("Building conditions are not complete");
         }
         if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
         if (isEmpty(originalRootList)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>(0);
         }
 
         List<Obj> rootList = new LinkedList<>();
@@ -95,10 +112,10 @@ public class TreeTool<Obj, ID> {
                 beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            List<Obj> children = acquireChildrenByParentIdFun.apply(idOfItSelf);
             if (isNotEmpty(children)) {
                 children.forEach(queue::add);
-                injectChildrenFun.accept(currentObj, children);
+                injectChildrenConsumer.inject(currentDepth, currentObj, children);
             }
 
             --numbersForCurrentLayer;
@@ -127,17 +144,15 @@ public class TreeTool<Obj, ID> {
      * @return 指定层的节点集合
      */
     public List<Obj> getObjListOfSpecificLayer(int depth, List<Obj> originalRootList) {
-        if (Objects.isNull(idFun) || Objects.isNull(childrenByParentIdFun)) {
+        if (Objects.isNull(idFun) || Objects.isNull(acquireChildrenByParentIdFun)) {
             throw new RuntimeException("Building conditions are not complete");
         }
         if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
         if (isEmpty(originalRootList)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>(0);
         }
 
-        Queue<Obj> queue = new LinkedList<>();
-        originalRootList.forEach(queue::add);
-
+        Queue<Obj> queue = new LinkedList<>(originalRootList);
         int currentDepth = 1;
         int numbersForCurrentLayer = queue.size();
         Set<ID> beingExistSet = new HashSet<>();
@@ -152,7 +167,7 @@ public class TreeTool<Obj, ID> {
                 beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            List<Obj> children = acquireChildrenByParentIdFun.apply(idOfItSelf);
             if (isNotEmpty(children)) {
                 children.forEach(queue::add);
             }
@@ -185,7 +200,7 @@ public class TreeTool<Obj, ID> {
             throw new RuntimeException("both <getParentObjFun> and <getIDOfItSelfFun> must be not null");
         }
         if (Objects.isNull(obj)) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>(0);
         }
 
         Obj temporary = obj;
@@ -221,9 +236,9 @@ public class TreeTool<Obj, ID> {
      * @param parentList 某层元素集合
      */
     public List<Obj> getAllObjForSpecificDepth(int depth, List<Obj> parentList) {
-        if (isEmpty(parentList)) { return Collections.EMPTY_LIST; }
+        if (isEmpty(parentList)) { return new ArrayList<>(0); }
         if (depth <= 0) { throw new RuntimeException("The depth of tree is at least 1"); }
-        if (Objects.isNull(childrenByParentIdFun)
+        if (Objects.isNull(acquireChildrenByParentIdFun)
                 || Objects.isNull(idFun)) {
             throw new RuntimeException("Building conditions are not complete");
         }
@@ -247,7 +262,7 @@ public class TreeTool<Obj, ID> {
                 beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            List<Obj> children = acquireChildrenByParentIdFun.apply(idOfItSelf);
             if (isNotEmpty(children)) {
                 resultList.addAll(children);
                 queue.addAll(children);
@@ -271,7 +286,7 @@ public class TreeTool<Obj, ID> {
      */
     public void consumeEachObj(List<Obj> originalList) {
         if (Objects.isNull(idFun)
-                || Objects.isNull(childrenByParentIdFun)
+                || Objects.isNull(acquireChildrenByParentIdFun)
                 || Objects.isNull(consumer)) {
             throw new RuntimeException("Building conditions are not complete");
         }
@@ -290,7 +305,7 @@ public class TreeTool<Obj, ID> {
                 beingExistSet.add(idOfItSelf);
             }
 
-            List<Obj> children = childrenByParentIdFun.apply(idOfItSelf);
+            List<Obj> children = acquireChildrenByParentIdFun.apply(idOfItSelf);
             if (isNotEmpty(children)) {
                 queue.addAll(children);
             }

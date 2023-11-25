@@ -1,6 +1,7 @@
 package com.lemonwind.common.util.tree.test;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lemonwind.common.util.tree.InjectChildrenConsumer;
 import com.lemonwind.common.util.tree.TreeTool;
 import java.util.List;
 import java.util.Map;
@@ -90,14 +91,16 @@ public class TreeToolTest {
         Map<String, TreeJoUser> idMap = dataList.stream().collect(toMap(TreeJoUser::getId, x -> x, (x, y) -> y));
         Function<TreeJoUser, String> idFun = TreeJoUser::getId;
         Function<String, List<TreeJoUser>> childrenByParentIdFun = parentIdMap::get;
-        BiConsumer<TreeJoUser, List<TreeJoUser>> injectChildrenFun = TreeJoUser::injectChildren;
+        InjectChildrenConsumer<TreeJoUser> injectChildrenConsumer = (layer, obj, children) -> obj.setChildren(children);
         Function<TreeJoUser, TreeJoUser> parentObjFun = bean -> idMap.get(bean.getParentId());
-        TreeTool<TreeJoUser, String> treeTool = new TreeTool<TreeJoUser, String>()
-            .setIdFun(idFun)
-            .setChildrenByParentIdFun(childrenByParentIdFun)
-            .setInjectChildrenFun(injectChildrenFun)
-            .setParentObjFun(parentObjFun);
-        
+
+        TreeTool<TreeJoUser, String> treeTool = new TreeTool.TreeToolBuilder()
+                .idFun(idFun)
+                .acquireChildrenByParentIdFun(childrenByParentIdFun)
+                .injectChildrenCOnsumer(injectChildrenConsumer)
+                .parentObjFun(parentObjFun)
+                .build();
+
         // 获取一棵树
 //        System.out.println(JSONObject.toJSONString(treeTool.getTree(Integer.MAX_VALUE, rootList)));
         

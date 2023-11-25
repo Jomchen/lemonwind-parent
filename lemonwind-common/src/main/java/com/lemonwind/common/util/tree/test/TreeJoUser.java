@@ -25,7 +25,15 @@ public class TreeJoUser {
     private String parentId;
     
     List<TreeJoUser> children;
-    
+
+    public void injectChildren(int layer, List<TreeJoUser> children) {
+        if (null == children || children.isEmpty()) { return; }
+
+        if (null == this.children) {
+            this.children = new ArrayList<>();
+            this.children.addAll(children);
+        }
+    }
     public void injectChildren(List<TreeJoUser> children) {
         if (null == children || children.isEmpty()) { return; }
         
