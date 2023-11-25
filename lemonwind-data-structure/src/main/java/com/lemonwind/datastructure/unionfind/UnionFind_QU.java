@@ -3,7 +3,7 @@ package com.lemonwind.datastructure.unionfind;
 /**
  * QuickUnion 合并快，查询慢
  * 是将一个集合的根节点直接挂在另一个根节点下，缺点是极端情况会退化为链表
- * @author jomkie
+ * @author lemonwind
  * @since 2021-10-08 23:05:04
  */
 public class UnionFind_QU extends UnionFind {

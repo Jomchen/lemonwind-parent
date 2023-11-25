@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-04-3 0:30
  * 数据验证拦截
  */
@@ -102,7 +102,7 @@ public class ValidatorAop {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-07 22:46:38
      * 反涉调度构建参数方法
      */

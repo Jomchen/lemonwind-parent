@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021/3/27 23:00:14
  * 请求结果封装
  */

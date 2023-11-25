@@ -12,7 +12,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-22 15:24:6
  * 二维码生成工具
  */

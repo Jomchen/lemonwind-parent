@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.Random;
 
 @Slf4j
-/*@DisplayName("Jomkie")*/
+/*@DisplayName("lemonwind")*/
 /*@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)*/
 @IndicativeSentencesGeneration(separator = "#", generator = DisplayNameGenerator.ReplaceUnderscores.class)
 public class TestAssertionsApplication {
@@ -45,7 +45,7 @@ public class TestAssertionsApplication {
 
     /** 自定义显示名字 */
     @Test
-    @DisplayName("the test00 for Jomkie")
+    @DisplayName("the test00 for lemonwind")
     void test00() {
         log.info("test00");
     }
@@ -63,13 +63,13 @@ public class TestAssertionsApplication {
         assertEquals(5, data);
     }
 
-    private final JoUser joUser = new JoUser(1L, "Jomkie", 20, (short)1, "xxxx@qq.com");
+    private final JoUser joUser = new JoUser(1L, "lemonwind", 20, (short)1, "xxxx@qq.com");
     /** 验证一个组，这个组的所有断言都会验证 */
     @Test
     void test03() {
         assertAll(
                 "userGroup",
-                () -> assertEquals("Jomkie", joUser.getName()),
+                () -> assertEquals("lemonwind", joUser.getName()),
                 () -> assertEquals(22, joUser.getAge())
         );
     }

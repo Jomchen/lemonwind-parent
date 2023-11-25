@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * 动态规划
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-11-23 21:37:44
  */
 public class DynamicProgramming {
@@ -24,7 +24,7 @@ public class DynamicProgramming {
      * 有一些固定面额，不限数量的的硬币
      * 有一个指定找零的价格
      * 问要找零指定的价格，最少需要多少枚硬币
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-11-23 21:38:20
      * @return void
      */

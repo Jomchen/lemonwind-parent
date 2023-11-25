@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * 基于 QuickUnion 的 rank 优化
  * 将高度低的根节点挂在高度高的根节点下
- * @author jomkie
+ * @author lemonwind
  * @since 2021-10-10 18:32:34
  */
 public class UnionFind_QU_R extends UnionFind_QU {

@@ -11,7 +11,7 @@ import java.util.List;
  * 空间复杂度为O(1)都可以认为蝇原地算法
  * 非原地算法也称为 Not-in-place 或者 Out-of-place
  * 冒泡算法属于 In-place
- * @author jomkie
+ * @author lemonwind
  *
  * 进度 P2
  */

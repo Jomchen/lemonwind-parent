@@ -2,7 +2,7 @@ package com.lemonwind.datastructure.unionfind;
 
 /**
  * 并查集抽象
- * @author jomkie
+ * @author lemonwind
  * @since 2021-10-08 22:52:47
  */
 public abstract class UnionFind {
@@ -22,7 +22,7 @@ public abstract class UnionFind {
 
 	/**
 	 * 查找v所属的集合（根节点）
-	 * @author jomkie
+	 * @author lemonwind
 	 * @since 2021-10-08 23:24:01
 	 * @param v
 	 * @return
@@ -31,7 +31,7 @@ public abstract class UnionFind {
 	
 	/**
 	 * 合并 v1 和 v2
-	 * @author jomkie
+	 * @author lemonwind
 	 * @since 2021-10-08 23:24:18
 	 * @param v1
 	 * @param v2
@@ -40,7 +40,7 @@ public abstract class UnionFind {
 	
 	/**
 	 * 查看 v1 和 v2 是否属于同一个集合
-	 * @author jomkie
+	 * @author lemonwind
 	 * @since 2021-10-08 23:24:28
 	 * @param v1
 	 * @param v2

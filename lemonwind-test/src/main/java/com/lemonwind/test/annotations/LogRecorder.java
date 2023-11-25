@@ -3,7 +3,7 @@ package com.lemonwind.test.annotations;
 import java.lang.annotation.*;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-08 11:45:29
  * 测试一个接口多实现拦截的专用注解
  */

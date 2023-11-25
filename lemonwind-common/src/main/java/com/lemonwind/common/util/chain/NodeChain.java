@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 /**
  * 链表节点
- * @author jomkie
+ * @author lemonwind
  */
 @Data
 @Accessors(chain = true)

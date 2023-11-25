@@ -7,7 +7,7 @@ import java.util.Stack;
 
 /**
  * 符号合法性
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-07-08 23:13:57
  * TODO 还应该看 括号的分数，前缀表达式，中缀表达式，逆波兰表达式（后缀表达式），基本计算器
  */
@@ -19,7 +19,7 @@ public class StackApplication {
 
     /**
      * 判断字符串中的版本号是否有效
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-08 22:20:54
      */
     public static void test() {
@@ -47,7 +47,7 @@ public class StackApplication {
 
     /**
      * 检验字符串符号合法性
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-08 22:26:0
      * @param str 字符串
      * @return boolean
@@ -66,7 +66,7 @@ public class StackApplication {
 
     /**
      * 检验字符串符号合法性
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-07-11 21:25:17
      * @param str 字符串
      * @return boolean

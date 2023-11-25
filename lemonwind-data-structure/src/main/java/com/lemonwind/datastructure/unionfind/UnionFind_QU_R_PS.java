@@ -3,7 +3,7 @@ package com.lemonwind.datastructure.unionfind;
 /**
  * 基于 UnionFind_QU_R 的路径分裂（Path Spliting）
  * 在 find(v) 时，让v以上直到根的所有每个节点都指向各自的祖父节点（即父亲的父亲）
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-10-10 18:49:38
  */
 public class UnionFind_QU_R_PS extends UnionFind_QU_R {

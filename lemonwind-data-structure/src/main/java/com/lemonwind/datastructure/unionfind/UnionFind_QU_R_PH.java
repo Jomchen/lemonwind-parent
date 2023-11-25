@@ -3,7 +3,7 @@ package com.lemonwind.datastructure.unionfind;
 /**
  * 基于 UnionFind_QU_R 的路径减半（Path Halving）
  * 使路径上每隔一个节点就指向其祖父节点（父亲的父亲）
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-10-10 19:2:56
  * @param
  * @return

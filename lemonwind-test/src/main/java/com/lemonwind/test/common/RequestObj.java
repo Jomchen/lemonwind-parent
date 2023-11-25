@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-04-15 22:32:29
  * 请求实体
  */

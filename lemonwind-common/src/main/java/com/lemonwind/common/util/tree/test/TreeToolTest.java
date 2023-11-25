@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toMap;
 import java.util.stream.Stream;
 
 /**
- * @author jomkie
+ * @author lemonwind
  */
 public class TreeToolTest {
 

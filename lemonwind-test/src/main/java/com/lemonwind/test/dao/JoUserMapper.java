@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lemonwind.test.model.JoUser;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021/3/28 21:06:43
  * 用户持久层
  */

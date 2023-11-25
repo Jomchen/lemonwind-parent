@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * 已处理环形的异常节点
  * @param <Obj> 组成树的元素
  * @param <ID> 元素自己的唯一标识
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-06-01 16:44:0
  */
 @Data
@@ -57,7 +57,7 @@ public class TreeTool<Obj, ID> {
      *       B     C
      *     / \    / \
      *  D   E  F  G
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-01 16:45:12
      * @param depth 树的深度，最少为 1
      * @param originalRootList 树的某层元素集合
@@ -120,7 +120,7 @@ public class TreeTool<Obj, ID> {
      *     / \    / \
      *  D   E  F  G
      *  如果 originalRootList  中只有A，那么 method(3, originalRootList) 执行结果为 [D,E,F,G]
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-02 11:50:56
      * @param depth 树的深度，至少为 1
      * @param originalRootList 树的某层元素集合
@@ -175,7 +175,7 @@ public class TreeTool<Obj, ID> {
      *   /
      *  D
      *  method(D)，那么执行结果为：[D,B,A]
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-06-09 11:47:59
      * @param obj 一个元素
      * @return 当前节点到顶级节点的节点集合
@@ -214,7 +214,7 @@ public class TreeTool<Obj, ID> {
      *     / \    / \
      *  D   E  F  G
      *  如果 parentList  中只有A，method(3, parentList) 那么执行结果为 [A,B,C,D,E,F,G]
-     * @author Jomkie
+     * @author lemonwind
      * @return 本节点作为根节点的整棵树的节点集合
      * @since 2021-08-04 09:38:02
      * @param depth 深度
@@ -265,7 +265,7 @@ public class TreeTool<Obj, ID> {
 
     /**
      * 遍历整棵树的每个元素，遍历的同时根据实现消费元素
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-08-04 11:34:21
      * @param originalList 某层元素集合
      */

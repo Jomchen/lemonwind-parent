@@ -8,7 +8,7 @@ import java.util.Arrays;
  * 如果 root1 所在集合的元素少，root2集合所在的元素多
  * 则 root1 挂在 root2 下
  * 即元素少的集合根节点 挂在 元素多的集合根节点下
- * @author jomkie
+ * @author lemonwind
  * @since 2021-10-10 10:52:52
  */
 public class UnionFind_QU_S extends UnionFind_QU {

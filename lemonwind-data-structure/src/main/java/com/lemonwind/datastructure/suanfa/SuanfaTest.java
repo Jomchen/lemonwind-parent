@@ -7,7 +7,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
 
 /**
- * @author jomkie
+ * @author lemonwind
  */
 public class SuanfaTest {
     

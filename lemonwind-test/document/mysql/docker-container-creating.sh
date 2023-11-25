@@ -1,5 +1,5 @@
 #!/bin/bash
-# Author: Jomkie
+# Author: lemonwind
 
 containerName=mysql00
 baseDir=/opt/docker-container/mysql/${containerName}

@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Documented;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-04-26 10:14:17
  * 用于验证日期或时间的注解
  */
@@ -124,7 +124,7 @@ public @interface DateTimeValid {
         }
 
         /**
-         * @author Jomkie
+         * @author lemonwind
          * @since 2021-04-26 16:15:53
          * @param value 预转化的字符串
          * 获取年
@@ -132,7 +132,7 @@ public @interface DateTimeValid {
         public abstract Integer getYear(String value);
 
         /**
-         * @author Jomkie
+         * @author lemonwind
          * @since 2021-04-26 16:16:26
          * @param value 预转化的字符串
          * 获取月
@@ -140,7 +140,7 @@ public @interface DateTimeValid {
         public abstract Integer getMonth(String value);
 
         /**
-         * @author Jomkie
+         * @author lemonwind
          * @since 2021-04-26 16:16:26
          * @param value 预转化的字符串
          * 获取天数

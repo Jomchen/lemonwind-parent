@@ -4,7 +4,7 @@ package com.lemonwind.datastructure.unionfind;
  * QuickFind 查询快，合并慢
  * 树的高度最多只有两级，相当于是一个集合的所有元素直接挂在另一个集合的根节点下
  * 查询快，但是在合并时比较耗性能
- * @author jomkie
+ * @author lemonwind
  * @since 2021-10-08 23:02:57
  */
 public class UnionFind_QF extends UnionFind {

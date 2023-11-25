@@ -32,7 +32,7 @@ public class RedisTool {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 21:2:19
      * @param key 对象的 key
      * @param typeReference 转换引用
@@ -47,7 +47,7 @@ public class RedisTool {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 21:3:55
      * @param key  存储的 key
      * @param data 存储的对象
@@ -59,7 +59,7 @@ public class RedisTool {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 21:3:55
      * @param key  存储的 key
      * @param data 存储的对象
@@ -72,7 +72,7 @@ public class RedisTool {
     }
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-24 23:44:54
      * @param key
      * 删除

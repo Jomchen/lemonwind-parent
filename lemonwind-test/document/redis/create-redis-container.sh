@@ -1,6 +1,6 @@
 #!/bin/bash
 # create a container for redis
-# Author: Jomkie
+# Author: lemonwind
 
 containerName=redis00
 baseDir=/opt/docker-container/redis

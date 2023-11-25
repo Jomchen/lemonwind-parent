@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-08 11:28:20
  * 拦截一个接口多实现的方法
  */
@@ -37,7 +37,7 @@ public class MultiInstanceServiceAop {
     public void cutPoint() {}
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-08 14:52:35
      * 拦截 com.lemonwind.service.impl 包及其所有子包的公共方法，并反射调用日志记录
      */

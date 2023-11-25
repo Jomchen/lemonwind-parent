@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author jomkie
+ * @author lemonwind
  * @param <T> 数据类型
  * @param <ID> 数据唯一标志
  */

@@ -22,7 +22,7 @@ public class BigDataMultiplication {
 	/**
 	 * 大数据乘法
 	 * TODO 目前尚不支付负数，小数的计算，仅支付正整数乘法
-	 * @author jomkie
+	 * @author lemonwind
 	 * @since 2022-01-08 20:45:01
 	 * @param data1 大数字1
 	 * @param data2 大数字2
@@ -74,7 +74,7 @@ public class BigDataMultiplication {
 	/**
 	 * 大数加法
 	 * TODO 目前尚不支付负数，小数
-	 * @author jomkie
+	 * @author lemonwind
 	 * @since 2022-01-08 22:40:04
 	 * @param s1
 	 * @param s2
@@ -120,7 +120,7 @@ public class BigDataMultiplication {
 
 	/**
 	 * 检查合法性
-	 * @author jomkie
+	 * @author lemonwind
 	 * @since 2022-01-08 22:21:37
 	 * @param data1
 	 * @param data2

@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 /**
  * 二叉树
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-08-15 23:20:48
  */
 public abstract class BinaryTree<E> implements BinaryTreeInfo {

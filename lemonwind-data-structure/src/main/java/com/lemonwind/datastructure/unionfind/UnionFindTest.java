@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * 并查集测试
- * @author jomkie
+ * @author lemonwind
  * @since 2021-10-08 22:51:27
  */
 @SuppressWarnings("unchecked")

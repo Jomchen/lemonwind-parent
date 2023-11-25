@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author Jomkie
+ * @author lemonwind
  * @since 2021-05-20 14:42:36
  * 远程请求工具
  */
@@ -31,7 +31,7 @@ public class RemoteApi {
     private RestTemplate restTemplate;
 
     /**
-     * @author Jomkie
+     * @author lemonwind
      * @since 2021-05-23 2:50:58
      * <T> 你请求的数据类型
      * <R> 你想返回的数据类型
