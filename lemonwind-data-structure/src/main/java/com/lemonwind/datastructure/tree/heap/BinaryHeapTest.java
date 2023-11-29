@@ -1,10 +1,9 @@
 package com.lemonwind.datastructure.tree.heap;
 
-import com.lemonwind.common.entity.bean.JoUser;
+import com.lemonwind.common.entity.bean.User;
 import com.lemonwind.common.util.treeprint.BinaryTrees;
 
 import java.util.Comparator;
-import java.util.stream.IntStream;
 
 public class BinaryHeapTest {
 
@@ -103,15 +102,15 @@ public class BinaryHeapTest {
 
     /** 测试优先级队列 */
     public static void test05() {
-        Comparator<JoUser> comparator = Comparator.comparingInt(JoUser::getAge);
+        Comparator<User> comparator = Comparator.comparingInt(User::getAge);
 //        comparator = comparator.reversed();
-        PriorityQueue<JoUser> priorityQueue = new PriorityQueue<>(comparator);
+        PriorityQueue<User> priorityQueue = new PriorityQueue<>(comparator);
 
 
-        priorityQueue.enQueue(new JoUser(2, "Jack", 2, "", null));
-        priorityQueue.enQueue(new JoUser(10, "Rose", 10, "", null));
-        priorityQueue.enQueue(new JoUser(5, "Jake", 5, "", null));
-        priorityQueue.enQueue(new JoUser(15, "Jame", 15, "", null));
+        priorityQueue.enQueue(new User(2L, "Jack", 2, "", null));
+        priorityQueue.enQueue(new User(10L, "Rose", 10, "", null));
+        priorityQueue.enQueue(new User(5L, "Jake", 5, "", null));
+        priorityQueue.enQueue(new User(15L, "Jame", 15, "", null));
 
         while ( !priorityQueue.isEmpty()) {
             System.out.println(priorityQueue.deQueue());

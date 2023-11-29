@@ -1,10 +1,11 @@
 package com.lemonwind.datastructure.suanfa;
 
-import com.lemonwind.common.entity.bean.JoUser;
+import com.lemonwind.common.entity.bean.User;
 import com.lemonwind.common.util.chain.NodeChain;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 /**
  * @author lemonwind
@@ -40,34 +41,34 @@ public class SuanfaTest {
      * 反转链表
      */
     public static void reverseChain() {
-        List<NodeChain<JoUser>> joUserList = IntStream.range(0, 10).boxed().map(e -> {
-            JoUser joUser = new JoUser();
-            joUser.setId(e);
-            joUser.setName("李寻欢" + e);
-            NodeChain<JoUser> node = new NodeChain<>();
-            node.setData(joUser);
+        List<NodeChain<User>> joUserList = LongStream.range(0, 10).boxed().map(e -> {
+            User user = new User();
+            user.setId(e);
+            user.setName("李寻欢" + e);
+            NodeChain<User> node = new NodeChain<>();
+            node.setData(user);
             return node;
         }).collect(toList());
         for (int i = 0; i < joUserList.size() - 1; i++) {
-            NodeChain<JoUser> node = joUserList.get(i);
+            NodeChain<User> node = joUserList.get(i);
             node.setNext(joUserList.get(i + 1));
         }
 
-        NodeChain<JoUser> firstNode = joUserList.get(0);
-        NodeChain<JoUser> lastNode = joUserList.get(joUserList.size() - 1);
+        NodeChain<User> firstNode = joUserList.get(0);
+        NodeChain<User> lastNode = joUserList.get(joUserList.size() - 1);
         printChain(firstNode);
-        NodeChain<JoUser> node = joUserList.get(0);
-        NodeChain<JoUser> left = node;
-        NodeChain<JoUser> right = null;
+        NodeChain<User> node = joUserList.get(0);
+        NodeChain<User> left = node;
+        NodeChain<User> right = null;
         while (left != null) {
-            NodeChain<JoUser> next = left.getNext();
+            NodeChain<User> next = left.getNext();
             left.setNext(right);
             right = left;
             left = next;
         }
         printChain(lastNode);
     }
-    private static void printChain(NodeChain<JoUser> node) {
+    private static void printChain(NodeChain<User> node) {
         while (node != null) {
             System.out.println(node);
             node = node.getNext();

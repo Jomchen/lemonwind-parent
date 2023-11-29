@@ -1,6 +1,6 @@
 package com.lemonwind.datastructure.unionfind;
 
-import com.lemonwind.common.entity.bean.JoUser;
+import com.lemonwind.common.entity.bean.User;
 
 import java.util.Date;
 
@@ -47,11 +47,11 @@ public class UnionFindTest {
 	}
 
 	public static void test01() {
-		GenericUnionFind<JoUser> uf = new GenericUnionFind<>();
-		JoUser user1 = new JoUser(1, "jack", 20, "长安", new Date());
-		JoUser user2 = new JoUser(2, "jane", 22, "Canada", new Date());
-		JoUser user3 = new JoUser(3, "jack", 22, "Canada", new Date());
-		JoUser user4 = new JoUser(4, "jane", 22, "Canada", new Date());
+		GenericUnionFind<User> uf = new GenericUnionFind<>();
+		User user1 = new User(1L, "jack", 20, "长安", new Date());
+		User user2 = new User(2L, "jane", 22, "Canada", new Date());
+		User user3 = new User(3L, "jack", 22, "Canada", new Date());
+		User user4 = new User(4L, "jane", 22, "Canada", new Date());
 		uf.makeSet(user1);
 		uf.makeSet(user2);
 		uf.makeSet(user3);

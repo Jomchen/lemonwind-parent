@@ -1,7 +1,6 @@
 package com.lemonwind.test.run.typetest.test;
 
 
-import com.lemonwind.run.typetest.entity.*;
 import com.lemonwind.test.run.typetest.entity.*;
 import com.lemonwind.test.run.typetest.jicheng.JoExtends;
 import com.lemonwind.test.run.typetest.jicheng.JoMulExtends;
