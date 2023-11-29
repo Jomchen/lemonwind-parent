@@ -28,4 +28,12 @@ public class User extends LemonwindEntity<User> {
         this.birthday = birthday;
     }
 
+    public User(Long id, String name, Integer age, String address, Date birthday, Date createTime, Date updateTime) {
+        super(id, createTime, updateTime);
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.birthday = birthday;
+    }
+
 }
